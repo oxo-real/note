@@ -1,0 +1,55 @@
+# copy paste scenarios
+
+install gvim to enable '+'-register in vim
+or compile a vim version that supports registers
+
+
+scenarios
+---------
+copy from / paste into
+
+
+from/into	vim	cli	gui
+vim		1	2	3
+command line	4	5	6
+gui application	7	8	9
+
+
+1 vim - vim
+-----------
+
+1 manual selection
+2 whole line
+3 v-block
+
+vim registers can have names a-z
+
+		1	2	3
+select		v  	V	c-v	(v-block)
+copy 		y	yy	"ay	('a' register)
+cut		d	dd	"ad	
+paste		p	p	"ap
+
+
+3 vim - gui
+-----------
+
+		1	2	3
+select		v	V	c-v		
+copy 			"+y		('+' register)
+cut			"+d
+paste			c-v	
+
+
+7 gui - vim
+-----------
+
+		1	2	3
+select	
+copy		c-c
+cut		c-x
+paste		"+p	c-a-v
+
+#[TODO]
+https://youtu.be/E_rbfQqrm7g
+check comments

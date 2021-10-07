@@ -1,0 +1,266 @@
+\# Most mom users rely on mom's document processing macros to
+\# format their work.  The doc processing macros take care of all
+\# things typographic and are simple, clear and easy to learn.
+\# The kind of "by hand" typesetting this file shows off is really
+\# geared toward professional typographers.  Bear in mind, though,
+\# that the full power of mom's typesetting capabilities can be
+\# brought to bear on document processing as well.
+\#
+\# Basic page setup
+\#
+.PAGE 8.5i 11i \" Printer sheet size
+.L_MARGIN 1i   \" Left margin 1 inch
+.R_MARGIN 1i   \" Right margin 1 inch (calculates the line length)
+\#
+\# Basic type parameters
+\#
+.FAMILY  A     \" Times Roman family
+.FT      B     \" Bold font
+.PT_SIZE 12    \" Point size
+.LS      14    \" Leading (line spacing)
+.LEFT          \" Set lines flush left, nofill mode
+\#
+\# Refinements
+\#
+.HY            \" Hyphenate
+.KERN          \" Automatic pairwise kerning
+.LIGATURES     \" Automatic ligature generation
+.SMARTQUOTES   \" Enable smartquotes
+.SS 0          \" No extra space between sentences
+\#
+.ALD 1i-1v     \" Advance 1 inch from top of paper to first baseline
+Example 1\*[BU 2]:
+.ALD .25v      \" Advance an extra 1/4 linespace
+.UNDERSCORE 3.75p "T\*[BU 4]asting notes using padding, string tabs \
+and multi-columns"
+\#
+.SP            \" Add an extra line space
+\#
+.FAM H         \" Helvetica family
+.PT_SIZE 10
+.LS  11        \" New leading
+\#
+\# The following uses a combination of padding, string tabs,
+\# and the FWD escape to set up five tabs with 1-pica gutters
+\# stretched over the full line length.
+\#
+.SILENT        \" Don't print the next line
+.PAD "\*[ST1]VIN#\*[ST1X]\*[FWD 1P]\*[ST2]ROBE#\*[ST2X]\*[FWD 1P]\*[ST3]NEZ#\*[ST3X]\*[FWD 1P]\*[ST4]BOUCHE#\*[ST4X]\*[FWD 1P]\*[ST5]COMMENTAIRES\*[ST5X]"
+.SILENT OFF    \" Resume normal printing of text
+\#
+\# Now that the string tabs have been marked off, we "set" them.
+\#
+.ST 1 L        \" First string tab flush left, nofill mode (no need for .BR's between input lines)
+.ST 2 L QUAD   \" Remaining tabs are flush left/rag right, fill mode
+.ST 3 L QUAD
+.ST 4 L QUAD
+.ST 5 L QUAD
+\#
+.TAB 1         \" Call first tab
+.UNDERSCORE "VIN"
+.TN            \" Move to next tab and stay on the same baseline
+.UNDERSCORE "ROBE"
+.TN            \" Ibid
+.UNDERSCORE "NEZ"
+.TN            \" Ibid
+.UNDERSCORE "BOUCHE"
+.TN            \" Ibid
+.UNDERSCORE "COMMENTAIRES"
+.TQ            \" Quit tabs
+\#
+.ALD 6p        \" Advance an extra 6 points
+.FT  R         \" Change font to roman (medium)
+.MCO           \" Turn multi-column mode on
+\#
+.TAB 1                 \" Notice that this tab gets set line-for-line
+\*[IT]Peelee Island    \" Set italic
+\*[PREV]Gewürztraminer \" Revert to former font (roman)
+2000
+(Canada)
+.MCR           \" Return to top of column
+.TAB 2         \" Call tab 2; in multi-column mode, don't use .TN
+Jaune pâle.
+.MCR
+.TB 3          \" Notice that from here on, we use the alias TB instead of TAB
+Frais, fruité, ci\%tronné, arômes fortes de lichee et de fruits
+tropicaux.
+.MCR
+.TB 4
+Doux, fruité, bien équilibré avec une bonne acidité.
+.MCR
+.TB 5
+Bon apéro.  Servir avec des plats
+.RW .1         \" Reduce Whitespace between letters to tighten this line
+indiens ou \%chinois.
+.RW 0          \" Back to normal spacing between letters
+.BR
+Excellent rapport qualité/prix.
+.MCX 8p        \" Multi-column mode off; advance an extra 8 points
+.MCO           \" Re-invoke multi-columns for next wine description
+.TB 1
+\*[IT]Carau Pujol
+\*[ROM]Tannat
+1995
+(Uraguay)
+.MCR
+.TB 2
+Rubis foncé, vio\%lacée, presque opaque.
+.MCR
+.TB 3
+Belles arômes de fruits foncés (prunes, cerises noires, cassis).
+Odeurs tertiares de cuir, cèdre, violets, eucalyptus, avec une
+trace exotique de Band-Aid*\*[BU 12].
+\#
+\# The \*[BU 12], above, pulls the period back so that it falls
+\# underneath the asterisk. \*[BP>n<] could have been used instead
+\# if you prefer to use points rather than kern units.
+\#
+.MCR
+.TB 4
+Très rond, tannins mûres et veloutés, avec un long finis
+fruité et doucement alcoolique.
+.MCR
+.TB 5
+Superbe\|!  Une aubaine à ne pas manquer.  Prt à boire
+maintenant.
+.MCX 1v  \" Multi-columns off; advance an extra linespace
+\#
+\# Now, an example of a hanging indent.  This is excessively fussy
+\# from a typographic standpoint in that it hangs the asterisk
+\# outside the current left margin so that the text following it
+\# lines up with with the text in the tasting notes.  Notice that
+\# in order to use a hanging indent, you must first set a left
+\# indent.
+\#
+.FT      I     \" Change font to italic
+.PT_SIZE -.5   \" Reduce point size by 1/2 point
+.LS      -.5   \" Reduce leading by 1/2 point
+.JUSTIFY       \" Set text justified
+\#
+\# Now, move the left margin back by the width of an asterisk plus 2 points...
+\#
+.L_MARGIN -(\w'*'+2p)
+\#
+\# ...and set a left indent equal to the width of an asterisk plus 2 points
+\#
+.IL \w'*'+2p
+\#
+\# Now, set the hanging indent equal to the left indent,
+\# effectively pulling the first line of the following text back
+\# to the new left margin.  Subsequent output lines will be
+\# indented by the .IL amount.  Notice that when using the \w
+\# inline escape, there's no need to append a unit of measure to
+\# it.
+\#
+.HI \w'*'+2p
+*\*[FWD 1p]"Band-Aid" means the slightly sweet, vaguely chemical
+smell associated with medical-grade plastics, often found in
+wines from terroirs in South America.  Provided a wine has
+sufficient concentration of fruit aromas and complex tertiary
+characteristics, Band-Aid is a Good Thing.  Otherwise, it smells
+like cheap lipstick.
+\#
+\# Notice, above, that although the values for IL and HI are the
+\# width of an asterisk plus 2 points, when setting the first line
+\# of text (the one with the asterisk at the beginning), we put
+\# only 1 point of space after the *. This is so the double-quotes
+\# also hang slightly outside the margin to align visually with
+\# the rest of the text.  As already noted, this is an extremely
+\# fussy example. :)
+\#
+.IQ CLEAR      \" Cancel and clear stored indent values
+.L_MARGIN 1i   \" Reset left margin to its original value.
+\#
+.SP      4v
+.DRH 1 7P \n[.ll]u-14P
+.SP      4v
+\#
+.FAM     T
+.FT      B
+.PT_SIZE 12
+.LS      14
+.LEFT
+\#
+Example 2:
+.ALD .25v
+.UNDERSCORE 3.75p "Cutaround using left\*[FU 2]/right indents, multi columns \
+and a dropcap"
+.SP
+\#
+.FT R
+.PT_SIZE 11
+.LS 12
+.BR_AT_LINE_KERN OFF    \" In justified text, it's best to have this OFF
+\#
+.TAB_SET 1  0      18.5P  J
+.TAB_SET 2  20.5P  18.5P  J
+.MCO
+.ALD 5P+9p
+\#
+\# The little picture of tux.
+\#
+.PSPIC penguin.ps
+.MCR
+.TAB 1
+.XCOLOR        red   \" Initialize the X11 color, red
+.DROPCAP_COLOR red
+.DROPCAP_FONT  B
+.DROPCAP L 3 COND 80 \" i.e. the letter L dropped 3 lines, condensed to 80% width.
+.EW .2
+orem ipsum dolor sit amet, consetetur sa\%dip\%scing elitr, sed
+diam nonumy eir\%mod tempor invidunt ut labore et dolore magna
+aliquyam erat, sed diam voluptua.
+.EW 0
+.TI 1P
+At vero eos et accusam et justo duo dolores et ea rebum.  Stet
+clita kasd gubergren, no sea taki-
+.SPREAD              \" Force justify preceding line before starting indent
+.IR 3.5P
+kimata sanctus est lorem ipsum dolor sit amet.  Lorem ipsum dolor
+sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+tempor.
+.EW .2
+.TI
+Invidunt ut labore et dolore magna ali\%qu\%yam erat, sed diam
+voluptua.  At
+.EW 0
+vero eos et accusam et justo duo dolores et ea rebum.
+.TI
+Stet clita kasd gubergren, no sea ta-
+.SPREAD             \" Force justify preceding line before quitting indent
+.IRQ
+kimata sanctus est lorem ipsum dolor sit amet.  Lorem ipsum dolor
+sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+tempor in\%vi\%dunt ut labore et dolore magna aliquyam erat.  Sed
+diam voluptua, at vero eos et accusam et justo duo
+.SPREAD
+.EW .3
+dolores et ea rebum.  Stet clita no kasd guber-
+.SPREAD
+.MCR
+.TB 2
+gren, no sea takimata sanctus est lorem ipsum
+.EW 0
+dolor sit amet.  Consetetur sadipscing elitr, sed diam nonumy
+eirmod tempor invidunt ut labore et dolore.
+.TI
+Magna aliquyam erat, sed diam voluptua, at vero eos et accusam.
+Et justo duo dolores et ea
+.SPREAD
+.IL 3.5P
+rebum, stet clita kasd gubergren.  No sea takimata sanctus est,
+lorem ipsum dolor sit amet.
+.TI
+Sit amet, consetetur sadipscing elitr, sed diam.  Nonumy eirmod
+tempor in\%vi-
+.EW .3
+dunt ut labore et dolore magna.  Ali-
+.EW 0
+quyam erat sed diam voluptua.
+At vero eos et accusam et justo duo dolores et ea rebum stet.
+.ILQ
+.TI
+Dolores et ea rebum stet clita kasd gubergren, no sea takimata
+sanctus.  Sadipscing elitr sed diam, nonumy eirmod tempor,
+invidunt ut labore et dolore magna aliquyam erat.  Sed diam
+voluptua, at vero eos et accusam et justo duo dolores et ea rebum.ê

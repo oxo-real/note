@@ -1,0 +1,17 @@
+lscpu
+
+lspci
+
+lsblk
+
+lsmem
+
+free
+
+df
+
+fdisk
+
+mount
+
+/proc

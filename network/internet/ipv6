@@ -1,0 +1,15 @@
+# ipv6 address
+
+## example
+2a02:a420:0021:3276:f2b1:8492:ab74:c1fa
+
+## size total 128 bits
+^= 16 groups of  8 bits;  2 hex digits
+^=	8 groups of 16 bits;  4 hex digits
+^=	4 groups of 32 bits;  8 hex digits
+^=	2 groups of 64 bits; 16 hex digits
+
+
+## network and node block
+network = top (left) 64 bits
+node = lower (right) 64 bits

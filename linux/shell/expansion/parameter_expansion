@@ -1,0 +1,23 @@
+https://stackoverflow.com/questions/4168371/how-can-i-remove-all-text-after-a-character-in-bash
+
+In Bash (and ksh, zsh, dash, etc.), you can use parameter expansion with % which will remove characters from the end of the string or # which will remove characters from the beginning of the string. If you use a single one of those characters, the smallest matching string will be removed. If you double the character, the longest will be removed.
+
+$ a='hello:world'
+
+$ b=${a%:*}
+$ echo "$b"
+hello
+
+$ a='hello:world:of:tomorrow'
+
+$ echo "${a%:*}"
+hello:world:of
+
+$ echo "${a%%:*}"
+hello
+
+$ echo "${a#*:}"
+world:of:tomorrow
+
+$ echo "${a##*:}"
+tomorrow

@@ -1,0 +1,301 @@
+< ${$(sh $XDG_DATA_HOME/git/code/tools/get_newest_file $XDG_LOGS_HOME/updater/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file
+amixer info  ## info about alsamixer device
+amixer scontrols  ## list of alsamixer controls
+amixer set Capture toggle	## alsamixer set
+amixer set Capture volume 0 nocap
+amixer set Internal Mic Capture volume 0 nocap
+amixer set Master playback volume 30 unmute
+awk '!($1="")' <file>  ## remove column 1
+basename <pathname>  ## print <pathname> without any leading directory components
+bindkey  ## zsh bound keys
+blkid /dev/sda128 | awk '{print $3}' | cut -d '"' -f 2  ## get uuid from /dev/sd
+bluetoothctl connect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth connect
+bluetoothctl connect $(bluetoothctl devices | fzf | awk {print }) && bluetoothctl info  ## bluetooth connect
+bluetoothctl disconnect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth disconnect
+bluetoothctl discoverable off	## bluetooth don't broadcast radio device
+bluetoothctl power off && sudo systemctl stop bluetooth.service && sudo rfkill block bluetooth  ## bluetooth radio off
+cal -m -w -3 `date +%y`  ## calendar showing last, current and next month
+cal -m -w `date +%y`	## year calendar of current year
+case $expr in pattern1) statements ;; ptrn2) stmnt ;; *) stmnt ;; esac
+cat <file_sort_freq> | cut -c 8- > <file_rm_freq>	##
+cat file | wl-copy	## copy file content to clipboard
+cat $XDG_DATA_HOME/keys/wl/mn.wifi | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8
+cat -n <file>
+cat /proc/sys/kernel/sysrq
+cat /var/log/pacman.log
+cd "$(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)"  ## cd with fzf from $HOME, spacebar for info box
+cd /usr/lib/modules/$(uname -r)
+cd /var/lib/pacman/local  ## pacman 'install' directory
+chown :group file	## set group ownership
+chown -R user:group directory	## recursive set user & group ownership
+chown user: file	## set user ownership
+<command> 2>&1 | tee -a logfile  ## <command> stderr to stdout, also append to logfile
+cp -p  ## copy and preserve mode, ownership and timestamps
+cryptsetup ---cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 key-file=/dev/sdZ open --type=plain /dev/sdX lvm
+cryptsetup ---cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 --verify-passphrase open --type=plain /dev/sdX lvm
+cryptsetup ---cipher=serpent-xts-plain -hash=sha512 --key-size=512 --iter-time=4096 --use-random --verify-passphrase luksFormat /dev/sdX
+cryptsetup luksAddKey --key-slot 7 file  ## add luks key to slot 7 for container file
+cryptsetup luksUUID <luks_container> | wl-copy -o -n  ## get luks container id
+cryptsetup open /dev/sdX cryptroot
+ctags -R ~/.
+curl -4 https://ident.me	## external ip address
+curl -O https://mirror.i3d.net/pub/archlinux/iso/2018.04.01/archlinux-2018.04.01-x86_64.iso | sudo dd of=/dev/sdX	## download arch linux iso and write to device
+date -d @1234567890 +%Y%m%d_%H%M%S_%N_%z_%Z_%V	## convert epoch to date time
+date +%s  ## epoch current date
+date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
+date -u  ## current zulu time
+dd if=/dev/sdX of=/dev/sdY bs=4M status=progress oflag=sync	## dd copy sdX to sdY
+< /dev/random tr -d -c "[:alnum:]" | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate password)
+< /dev/random tr -d -c "[:graph:]" | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate password)
+df -h	## file system information human-readable
+dhcpcd -k wlp58s0  ## dhcp remove interface ip
+dhcpcd wlp58s0	## dhcp request for interface
+diff -Naur <lf> <rf> > patch_file  ## recursive diff from lf to rf with 3 lines of context (unified)
+dig -x 89.39.107.195  ## reverse lookup own public ip
+dirname <pathname>  ## print <pathname> without last component
+du -sbh <directory>  ## total size of all content in directory
+echo 0  ## print exit code of the last executed command
+echo -n $string | base64  ## base64 encoding
+echo "obase=10; ibase=16; $(echo <HEX> | tr a-f A-F)" | bc  ## HEX to decimal
+echo "obase=16; ibase=10; $(echo <DEC>)" | bc | tr A-F a-f  ## decimal to HEX
+env  ## print current environment variables and their values
+faillock --user $USER --reset  ## remove sudo lockout for current user
+fc  ## edit last command in
+fc-list  ## list available fonts
+fc -l -n -1  ## last command entered, hide line number
+find /<directory> -name '<search-string>' 2>/dev/null
+find /<directory> -type f -exec shred -v -z -n 3 -u {} \;
+find . -exec <command> {} \;
+find / -iname file_case_insensitive
+find . -maxdepth 1 -name \*_ -type d -exec cp -r {} ~/test_/bu \;
+find ./ -maxdepth 1 -type f -mtime +1 -print
+find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks and copy without dereferencing
+findmnt
+find . -name filename_start__\*
+find . -print -exec cat {} \; -printf n
+find . -type f -exec mv {} <dest> \;  ## find all files and move them to destination directory
+find . -type f ! -newermt "2018-12-31" -delet3	## find and delete all files older (not newer) than date
+find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print
+find . -xtype l -print
+for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
+for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
+for i in {0..7}; do; printf "\033[0;3${i}mcolor$i\n"; done  ## print 8 colors
+free -m  ## free and used memory in system
+fuser -vmM <file(system)>	## display PIDs using file / file(system) (filesystem in mount)
+getent ahosts <url>  ## get ip address from name service switch library database ahost
+glances
+gpg --armor --export ID > ID.puk.gpg  ## export public key ascii armored id
+gpg --edit-key ID >  ## edit public key
+gpg --export ID > ID.puk.gpg  ## export public key binary
+gpg --gen-key  ## generate new keypair
+gpg --import ID >  ## import public key
+gpg --output file --decrypt file.gpg >  ## decrypt file.gpg asymmetricly using private key
+gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetricly using public key ID
+gpg --output file.gpg --symmetric file >  ## encrypt file symmetricly
+gpg --output ID.puk.asc --armor --export ID >  ## export public key ascii armored
+gpg --output revoke.asc --gen-revoke ID  ## generate revocation certificate
+gpg -vv public_key.asc
+grep -ril 'text' [directory]  ## find files containing text recursively in directory
+grep -rin 'text' [directory]  ## find files containing text recursively in directory with linenumbers
+grep "\sro[\s,]" /proc/mounts
+history -d <history_id>
+history -t +%Y%m%d_%H%M%S
+hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
+host -t A <ip_addr/domain>  # dns lookup A record
+host -v -t ANY <ip_addr/domain>  ## dns lookup any type verbose output
+iftop -i <interface> ## display bandwith usage of interface
+insmod <filename> [args]  ## for mods not in /usr/lib/modules/$(uname -r)
+ip a add 192.168.1.200/255.255.255.0 dev <interface>	## assign ip address to interface
+ip a add <ip>/<subnet_mask> broadcast <broadcast_ip> dev <interface>
+ip a del 192.168.1.200/24 dev <interface>	## remove ip address from interface
+ip a flush <interface>	## remove all ip addresses from interface
+ip a flush wlp58s0
+ip link set dev [interface] address [mac]  ## assign [mac] address to [interface]
+ip link set dev [interface] down  ## disconnect from the network by disable interface
+ip link set <interface> {down/up}	## change interface state
+ip n show	## show neighbour / arp cache
+ip route add default via <default_gateway>
+ip route flush dev <interface>
+ipset add blocklist [ipaddrs]  ## add [ipaddrs] to blocklist
+ipset create blocklist hash:ip  ## create ip blocklist
+journalctl -b, --boot[ID]
+journalctl -e
+journalctl -f, --follow
+journalctl -k
+journalctl --list-boots
+journalctl -o json-pretty
+journalctl -o verbose
+journalctl -p 3 -x
+journalctl _<tab>
+journalctl -u <unit>
+journalctl --vacuum-size=500M
+kill $(pidof <process_name>)
+ln -s <path> <name>  ## create symlink <name> to <path>
+ls $XDG_DATA_HOME/keys/wl | fzf | xargs -r cat | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## fzf select wifi key and show qr
+lsblk -i --tree -o name,uuid,fstype,label,size,fsuselsblk -i --tree -o name,uuid,fstype,label,size,fsuse%,fsused,path,mountpoint
+lsblk --tree -o path,fstype,size,label,uuid,name,fsuse%,fsused,mountpoint
+lsmod  ## list drivers currently added to kernel
+lsof +f -- [path/1 path/2]  ## list open files in paths opened by processes
+lsof -p [PID]  ## list open files for PID
+lspci -k -d #[<vendor>]:[<device>][:<class>]
+lspci -k -s <xx:xx.x> #[[[[<domain>]:]<bus>]:][<slot>][.[<func>]]
+lspci -kvvt
+lspci -vv  ## list pci devices, find kernel drivers
+man -k . | fzf | awk '{print $1}' | xargs -r man  ## fzf find and open manpage
+man zshall  ## view the entire zsh manual
+metar get
+metar set eham
+mkdir /dock/<1-4>
+modprobe <driver>  ## add driver to kernel
+modprobe -r <driver>  ## remove driver from kernel
+mount | grep ro,
+mount -o remount,rw /dev/sdY1 /boot
+mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
+mpv `echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\//'`  ## change yt url
+mpv --ytdl-format='best[filesize<300M]' --profile=cache_s --demuxer-cache-wait --msg-level=all=v $(wl-paste)  ## stream movie verbose with mpv.conf cache_s profile
+msgcat --color=test
+mv -t <target_dir> <source_dirs>  ## move source_dirs to target_dir
+#: '\nmultiline\ncodeblock\n# '  ## switchable multiline codeblock / comment (remove first #)
+openssl enc -base64 -aes-256-cbc -salt -pbkdf2 -d -in crypt.aes -out plain.txt  ## openssl base64 encoded aes 256 cbc decryption
+openssl enc -base64 -aes-256-cbc -salt -pbkdf2 -in plain.txt -out crypt.aes  ## openssl base64 encoded aes 256 cbc encryption
+openvpn --config openvpn/udp-ams1_udp.ovpn
+output=$(printf $input | openssl dgst -sha512 -hmac $hmac | sed 's/^.*= //') ## zz3
+pacman-key --delete <pub_key>
+pacman-key --finger <pub_key>
+pacman-key --lsign-key <pub_key>
+pactree <package>  ## show [package] dependency tree
+pactree -r [package]  ## show [package] dependant tree, reverse depedencies, packages that depend on [package]
+patch -p0 < patch_file ##  apply patch_file (see diff)
+pim=$(printf $input | xxd -p)  ## zz4_OLD
+pim2fa=$(printf $input | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //') ## zz4
+ping -D -i 10 -c 5 9.9.9.9
+pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0
+printf $(( [#n] x ))  ## print base 10 value of x in base n, with 2<=n<=36
+printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
+printf "%03d%s" "2"  ## print leading zeros
+printf "%3d%s" "2"  ## print leading spaces
+printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-Transfer-Encoding: 7bit; Subject: <subject>\n; <body>" | msmtp -v -C <msmtp_config> -a <profile_name> -- destination@mail.com
+printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -
+printf "space_every_4th_char" | sed 's/.\{4\}/& /g'
+printf text | openssl dgst -sha512 -hmac key | sed 's/^.*= //' | wl-copy
+ps -ajxf  ## print a process tree
+ps -eFly  ## list every process on the system
+ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list processes custom AIX format descriptors, sort low to high elapsed time since process was started
+ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom AIX format descriptors, sort high to low cpu usage
+pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
+qrencode -t UTF8 <string>
+qutebrowser -s content.webgl true -s content.canvas_reading true -s colors.webpage.darkmode.enabled false  ## qb for windy
+rankmirrors -n 10 /etc/pacman.d/mirrorlist | grep -w 'Server =' >> mirrorlist.ranked
+rcvboxdrv
+read input  ## zz1
+readlink <file>  ## print resolved symbolic links or canonical file names
+read string
+renice -19 $(pgrep <process_name>)  ## give <process_name> highest (-19) priority
+rfkill  ## check hard and soft block status wireless radios
+rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
+rfkill [un]block wlan  ## soft [un]block wifi radio
+rmmod btusb
+rm -rf -- '-r'
+rsync -aAXv --delete <destination> <source>
+rsync -aAXv --delete --exclude-from=<exclude_list> <source> <destination>
+rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exclude-from=/home/cytopyge/.config/settings/rsync/parvus_exclude_list / /dock/1/parvus
+rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exclude-from=/home/cytopyge/settings/rsync/parvus_exclude_list / /dock/1/parvus
+rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exclude-from=/home/cytopyge/settings_/rsync/parvus_exclude_list -e ssh / admin@192.168.3.199:/share/backup/devices/dellxps13
+sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
+sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove history last line
+sed -i '$d' <file>  ## remove last line from <file>
+sed -i '2,$d' <file>  ## remove all lines from line 2 from <file>
+sed -i '2,3 d' <file>  ## remove line 2 and 3 from <file>
+sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' <file>  ## remove last 2 lines from <file>
+sed -i 'ni insert this into line n of file' <file>
+sed -i '/pttrn/d' file  ## delete all lines in file that contain 'pttrn'
+sed -i 's/<find>/<replace>/g' <file>  ## replace <find> with <replace> in <file>
+setfont ter-v32n
+setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
+showkey  ## [-a(scii), -s(cancodes), -k(eycodes)] examine codes sent by the keyboard
+showkey -s
+shred -v -z -n 3 -u <file>
+sh -xv file.sh  ## extra verbose debug output
+sleep 3 && scrot -s
+slurm -i <device>
+sort $HISTFILE | uniq -c | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
+sort < <file> | sort -nr > <file_sort_freq>
+sort file | uniq -c | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort
+sort < <file> | uniq -u > <file_uniq>
+ssh-keygen -R 192.168.0.195  ## remove cached key for ip on the local machine
+ssh-keyscan -t ecdsa 192.168.x.y >> ~/.ssh/known_hosts  ## update ecdsa key for ip on local machine
+stat -c %A <file>  ## display file access rights in human readable format
+stat -c %a <file>  ## display file access rights in octal format
+stat <file>  ## display file or file system status
+stty -a  ## print all terminal line settings
+sudo ip link set up && sudo dhcpcd  && ping -c 1 9.9.9.9 && ip a
+sudo iptables -A INPUT -s [ipaddr] -j DROP  ## add [ipaddr] to chain INPUT and drop all traffic
+sudo -k
+sudo -l
+sudo rfkill unblock bluetooth && pulseaudio --start && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off ## bluetooth radio on
+sudo systemctl start sshd
+swaymsg -t get_outputs
+[SysRq] ([Alt]+[PrtScr]) reisub
+systemctl --failed
+systemctl isolate graphical.target
+systemctl isolate multi-user.target
+systemctl list-unit-files
+systemctl list-units
+systemctl start vboxdrv vboxpci vboxnetadp vboxnetflt
+systemd-analyze
+tail -f /var/log/{messages,kernel,dmesg,syslog}
+tar -cv[j/z]f <archive.tar> <files>  ## create tar archive [bzip2/gzip compression (optional)]
+tar -tvf <archive.tar>  ## print contents of tar archive
+tar -xv[j/z]f <archive.tar>  ## extract tar archive [bzip2/gzip compression (optional)]
+tmux attach-session -t 0
+tmux show-options -g
+tr -s " " < file_with_double_spaces > file_without_double_spaces  ## remove double spaces
+ts .local/share
+uptime
+usermod -a -G group_2_add user_2_add
+vlock -a
+watch -d -n 1 -t lsblk -i --tree -o name,fstype,size,fsuse%,fsused,uuid,path,label,mountpoint
+watch -n 1 'ls -ilatr'
+wev  ## show wayland events i.e. keypresses keynames
+wget -rv -l 0 -nd http://proxpn.com/locations
+which -a <command>  ## show path of all <command> (from $PATH)
+while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk {print $1})" ## which package from Qm is in /v/c/p/p
+while read line_in_file; do <command> $line_in_file; done < <file>  ## loop through lines in file
+whois -B 46.166.142.215  ## whois own public ip
+wpa_supplicant -B -i wlp58s0 -c ~/keys/wl/mn.wifi
+xargs -r command  ## run command with stdin as argument, no-run if empty
+xxd -b -p <infile <outfile>> ## plain bits dump
+xxd -p <infile <outfile>> ## plain hexdump
+xxd -r -p <infile <outfile>> ## reverse plain hexdump
+yay --gendb  ## generate developement package database
+yay -P  ## show (is a yay specific [no pacman] option)
+yay -Ps && yay --show -w && yay -Syu && yay -Rns $(yay -Qtdq) && yay -c && paccache -rv
+yay -Pw  ## show news
+yay -Qc <file>	## query package database; display changelog <file>
+yay -Qd  ## (--deps) query package database; display packages installed as dependencies
+yay -Qdt  ## query package database; display unrequired deps
+yay -Qe  ## (--explicit) query package database; display explicitly installed packages
+yay -Qent  ## query package database; display explicitly installed (no dependencies), not required packages that are in the package database
+yay -Qg <group>  ## query package database; display packages that are member of <group>
+yay -Qi <package>  ## query package database; display package infoos that are member of <group>cman
+yay -Qk <package>  ## query package database; display number of total and missing files, check that all files of the package are present on the system
+yay -Ql <package>  ## query package database; display package file list
+yay -Qm  ## (--foreign) query package database; display packages that are not in the sync database
+yay -Qmq  ## (--foreign) query package database; display packages that are not in the sync database no version
+yay -Qn  ## (--native) query package database; display packages that are in the sync database
+yay -Qnq | yay -S -  ## reinstall native packages
+yay -Qo <file>	## query package database; display which package owns <file>
+yay -Qql <package>  ## query package database; display package file list (raw)
+yay -Qq ## query package database; display installed packages (raw)
+yay -Q  ## query package database; display installed packages with version (Q=Qd+Qe=Qm+Qn)
+yay -Rns [package]  ## remove [package] including not required and not explicitly installed dependencies, no pacsave
+yay -R [package] OR [group]  ## remove [package] OR [group]
+yay -Scc [package]  ## remove all cached packages (far more agressive than paccache, will prevent downgrading or reinstalling without downloading)
+yay -Sc [package]  ## remove all cached packages that are currently not installed (more agressive than paccache)
+yay --show -w -w
+yay -S [package]  ## synchronize package; download and install
+yay -Syu --devel --timeupdate  ## update, also check AUR developement packages (git), timeupdate (instead of version number)
+yay -Tv  ## check dependencies; show file paths
+yay -U <package>  ## remove then upgrade or add package
+ykman opt static 2 -k US <string>  ## assign string to yk slot 2
+zsh -f  ## run zsh without .zshrc

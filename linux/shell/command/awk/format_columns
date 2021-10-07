@@ -1,0 +1,16 @@
+using the printf function (instead of the print command) in awk
+
+s string
+n number
+f float
+
+1st printed column has 15 chars width, right aligned, padded on left with spaces
+2nd printed column has 5 chars width, left aligned, padded on right with spaces
+
+awk ' { printf("%15s %-5s %05d %s\n",$1,$2,$3,$4) }' infile
+
+
+%d display integer numbers
+now you are able to use zero's for padding: %05d
+3nd printed column has 5 digits width, right aligned, padded on left with zeros
+

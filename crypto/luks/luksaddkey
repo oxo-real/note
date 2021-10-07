@@ -1,0 +1,3 @@
+close the container
+cryptsetup -y luksAddKey container
+cryptsetup luksRemoveKey container

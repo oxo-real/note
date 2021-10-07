@@ -1,0 +1,11 @@
+# 7
+awk '
+  BEGIN { FS=OFS="|" } 
+  (NR<3) || 
+  (toupper($3) != "TEXAS") &&
+  ($8==2012) &&
+  ($5 ~ /[Oo]il/) &&
+  ($5 !~ /except oil/) {
+    print toupper($3),$4,toupper($5),$12
+  }' ECN_2012_US_00CCOMP1.psv
+

@@ -1,0 +1,45 @@
+# install transmission
+yay -S transmission-cli
+
+# start daemon (! as $USER)
+transmission-daemon
+
+# stop daemon
+pkill -3 transmission-daemon
+
+OR
+
+transmission-remote --exit
+
+
+# -------------------------------------------------------
+
+
+# add user to transmission group
+sudo usermod -aG transmission $USER
+
+# change download folder ownership
+sudo chgrp transmission <download_folder_path>
+
+#give transmission group write access to download folder
+sudo chmod 770 <download_folder_path>
+
+# start service (! as user transmission-daemon)
+sudo systemctl start transmission.service
+
+# check service status
+sudo systemctl status transmission.service
+
+# add watch folder
+transmission-daemon -c <directory>
+
+# add torrent
+transmission-remote -a <url>
+
+# check remote status
+transmission-remote -l
+
+# web interface
+127.0.0.1:9091
+
+# blocklist

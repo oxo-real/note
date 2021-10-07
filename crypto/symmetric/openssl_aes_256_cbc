@@ -1,0 +1,18 @@
+# encrypt
+
+openssl enc -a -aes-256-cbc -pbkdf2 -in infile.cleartxt -out outfile.aes256cbc
+
+
+# decrypt
+
+openssl enc a- -aes-256-cbc -pbkdf2 -d -in infile.aes256cbc -out outfile.cleartxt
+
+
+# aes options
+-a	base64 encoding i.e. for email
+
+CBC
+CBC, or cipher-block chaining. An initialization vector must be used before the encryption can begin. Ths can be derived from the password. It is hashed to provide a 256-bit output, then AES encrypts the hash, plus the first block to provide a 512-bit output, 256-bits for the next vector, and 256-bits encrypted output. That vector is then used to encrypt the next 256-bits. This chaining algorithm continues to the end of the file.
+
+DON'T USE EBC!
+EBC, or electronic codeblock, is a block cipher that operates on individual blocks at a time. ECB does not use an initialization vector to kickstart the encryption. So, each block is encrypted with the same algorithm. If any underlying block is the same as another, then the encrypted output is exactly the same.

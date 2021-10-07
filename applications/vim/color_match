@@ -1,0 +1,27 @@
+matching terminal and vim (base16) theme
+
+
+cd ~/.vim/bundle
+git clone https://github.com/chriskempson/base16-vim.git
+
+git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+
+>> ~/.zshrc:
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+>> ~/.bashrc:
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+>> ~/.vimrc
+if filereadable(expand("~/.vimrc_background"))
+     let base16colorspace=256
+     source ~/.vimrc_background
+endif
+
+set base16 theme with:
+
+base16_<theme>
+
+base16 theme in terminal will change and vim accordingly!

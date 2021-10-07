@@ -1,0 +1,21 @@
+# hex is base16
+# decimal is base10
+# binary is base2
+
+
+#conversion
+https://www.rapidtables.com/convert/number/ascii-hex-bin-dec-converter.html
+
+# ascii to hex
+printf test | xxd -p
+
+# hex to decimal
+echo $(( 16# ff ))
+
+# ascii to decimal
+echo $(( 16# $(printf string | xxd -p) ))
+
+# zsh: number truncated after <n> digits
+# prevent integer overflow on too long input strings with bc
+# bc needs uppercase, therefore use tr
+read i && echo "obase=10; ibase=16; $(printf $i | xxd -p | tr a-z A-Z)" | bc

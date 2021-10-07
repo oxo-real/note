@@ -1,0 +1,9 @@
+enable usb fastboot
+
+yay -S fastboot
+
+sudo fastboot devices
+
+sudo fastboot flash recovery <recovery.img>
+
+

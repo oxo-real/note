@@ -1,0 +1,11 @@
+= up-to-date (local files in remote are identical)
+
+% untracked (local has untracked files) [git add]
+
+* missing (local has missing files) [git rm] 
+
++ staged (local has staged files) [git commit]
+
+> ahead (local has newer files) [git push]
+
+< behind (remote has newer files) [git pull]

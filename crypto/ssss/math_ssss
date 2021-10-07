@@ -1,0 +1,31 @@
+# first degree polynomial
+
+.EQ
+P(x) = ax + a sub 0
+.EN
+
+the secret_key is given by: a sub 0
+
+a sub 0 is known when we have two points
+each point is independently saved
+
+
+# n degree polynomial
+
+.EQ
+P(x) = a sub n x sup n +
+a sub {n−1} x sup {n−1} +
+a sub {n−2} x sup {n−2} +
+.... +
+a sub 0
+.EN
+
+the secret key is given by: a sub 0
+
+a sub 0 is known when we have n points
+each point is independently saved
+
+
+# introducing randomness
+
+with a finite field

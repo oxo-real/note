@@ -1,0 +1,3 @@
+# in ~/.tmux/resurrect create symlink 'last' to resurrect txt file:
+
+ln -s tmux_resurrect_yyyy_mm_ddThh:mm:ss.txt last

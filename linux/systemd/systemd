@@ -1,0 +1,5 @@
+systemd-analyze  ## analyze and debug system boot-up performance
+systemd-analyze blame  ## how long it took to start each unit (process)
+systemctl list-unit-files  ## view all available unit files
+systemctl list-units  ## list all running units
+systemctl --failed  ## list all failed units

@@ -1,0 +1,13 @@
+User scripts are programs which make on-the-fly changes to specific web pages, typically to change their appearance or to add or modify functionality.
+
+User scripts for Greasemonkey and Greasemonkey-compatible alternatives are written in JavaScript. If you would like to write user scripts yourself, see Greasemonkey Manual:Editing.
+
+See Also
+Augmented browsing at Wikipedia
+
+# user script hosting (sources)
+https://wiki.greasespot.net/User_Script_Hosting
+https://greasyfork.org
+https://openuserjs.org/
+https://gist.github.com/
+https://pastebin.com/

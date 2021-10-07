@@ -1,0 +1,14 @@
+dig myip.opendns.com @resolver1.opendns.com +dnssec +short  ## returns own public ip address
+
+dig @9.9.9.9 -x <ip_addr> +short  ## reverse lookup; search domain associated with ip address
+
+
+
+# reverse ip lookup subset
+
+#!/bin/bash
+NET=18.7.22
+for n in $(seq 1 254); do
+  ADDR=${NET}.${n}
+  echo -e "${ADDR}\t$(dig -x ${ADDR} +short)"
+done

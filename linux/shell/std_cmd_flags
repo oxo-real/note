@@ -1,0 +1,23 @@
+# standardized parameter flags for script invocation
+
+# !!Many UNIX and Linux utilities deviate from this "standard,"
+# 	so it is dangerous to assume that a given option will behave in a
+# 	standard way.
+# 	Always check the man page for the command in question when in doubt.
+
+-a      All: Return all information (including hidden file info)
+-b      Brief: Short version, usually for other scripts
+-c      Copy, concatenate, etc.
+-d      Daily: Use information from the whole day, and not merely
+        information for a specific instance/user
+-e      Extended/Elaborate: (often does not include hidden file info)
+-h      Help: Verbose usage w/descs, aux info, discussion, help
+        See also -V
+-l      Log output of script
+-m      Manual: Launch man-page for base command
+-n      Numbers: Numerical data only
+-r      Recursive: All files in a directory (and/or all sub-dirs)
+-s      Setup & File Maintenance: Config files for this script
+-u      Usage: List of invocation flags for the script
+-v      Verbose: Human readable output, more or less formatted
+-V      Version / License / Copy(right|left) / Contribs (email too)

@@ -1,0 +1,22 @@
+https://en.wikipedia.org/wiki/Regular_expression#Character_classes
+
+POSIX 	Non-standard 	Perl/Tcl 	Vim 	Java 	ASCII 	Description
+[:ascii:][30] 			\p{ASCII} 	[\x00-\x7F] 	ASCII characters
+[:alnum:] 				\p{Alnum} 	[A-Za-z0-9] 	Alphanumeric characters
+[:word:][30] 	\w 	\w 	\w 	[A-Za-z0-9_] 	Alphanumeric characters plus "_"
+				\W 	\W 	\W 	[^A-Za-z0-9_] 	Non-word characters
+[:alpha:] 			\a 	\p{Alpha} 	[A-Za-z] 	Alphabetic characters
+[:blank:] 			\s 	\p{Blank} 	[ \t] 	Space and tab
+			\b 	\< \> 	\b 	(?<=\W)(?=\w)|(?<=\w)(?=\W) 	Word boundaries
+				\B 	(?<=\W)(?=\W)|(?<=\w)(?=\w) 	Non-word boundaries
+[:cntrl:] 				\p{Cntrl} 	[\x00-\x1F\x7F] 	Control characters
+[:digit:] 		\d 	\d 	\p{Digit} or \d 	[0-9] 	Digits
+			\D 	\D 	\D 	[^0-9] 	Non-digits
+[:graph:] 				\p{Graph} 	[\x21-\x7E] 	Visible characters
+[:lower:] 			\l 	\p{Lower} 	[a-z] 	Lowercase letters
+[:print:] 			\p 	\p{Print} 	[\x20-\x7E] 	Visible characters and the space character
+[:punct:] 				\p{Punct} 	[][!"#$%&'()*+,./:;<=>?@\^_`{|}~-] 	Punctuation characters
+[:space:] 		\s 	\_s 	\p{Space} or \s 	[ \t\r\n\v\f] 	Whitespace characters
+			\S 	\S 	\S 	[^ \t\r\n\v\f] 	Non-whitespace characters
+[:upper:] 			\u 	\p{Upper} 	[A-Z] 	Uppercase letters
+[:xdigit:] 			\x 	\p{XDigit} 	[A-Fa-f0-9] 	Hexadecimal digits

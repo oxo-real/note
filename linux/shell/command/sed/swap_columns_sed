@@ -1,0 +1,21 @@
+# source
+yeksi
+
+
+#
+swap columns in a list of two columns separated by ',':
+
+
+# command
+sed -E 's/(.+),(.+)/\2,\1/' infile > outfile
+
+
+# explanation
+this command grabs
+any one or more characters before the comma (the first (.+) in the search field) as group1 and
+any one or more characters after the comma (the second (.+) in the search field) as group2,
+and outputs them in the order group2,group1 (the \2,\1 in the output field.
+
+
+#practical example
+in a dictionary file change nl,sw to sw,nl

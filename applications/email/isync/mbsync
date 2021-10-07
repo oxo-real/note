@@ -1,0 +1,7 @@
+isync project (https://wiki.archlinux.org/index.php/Isync)
+
+mbsync is the name of the executable
+
+mbsyncrc is in ~/_settings/private/.dot/symlinks/isync/mbsync/
+
+

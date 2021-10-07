@@ -1,0 +1,34 @@
+systemctl start bluetooth.service
+bluetoothctl
+select <mac>
+power on
+scan on
+agent on
+devices
+pair <mac>
+trust <mac>
+connect <mac>
+
+
+rfkill list
+rfkill block
+rfkill unblock
+
+
+bluetooth-sendto --device=<mac> filename
+
+
+error:
+Failed to connect: org.bluez.Error.Failed
+
+cause:
+possible: the bluetooth radio has to be switched from hci to hid
+hci host controller interface
+hid host input device
+after connecting the hid proxying makes input devices as mice and keyboards
+visible as regular usb hid devices
+
+solution:
+yay -S bluez-hid2hci
+
+after installing again pair and connect the input device with the bluetooth adapter

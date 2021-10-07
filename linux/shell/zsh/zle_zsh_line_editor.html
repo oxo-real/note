@@ -1,0 +1,1254 @@
+<HTML>
+<HEAD>
+<!-- This HTML file has been created by texi2html 1.51
+     from ../../zsh-3.0.4/Doc/zsh.texi on 26 September 1997
+	 source: https://web.cs.elte.hu/zsh-manual/zsh_14.html -->
+
+<TITLE>zsh - Zsh Line Editor</TITLE>
+</HEAD>
+<BODY>
+Go to the <A HREF="zsh_1.html">first</A>, <A HREF="zsh_13.html">previous</A>, <A HREF="zsh_15.html">next</A>, <A HREF="zsh_24.html">last</A> section, <A HREF="zsh_toc.html">table of contents</A>.
+<P><HR><P>
+
+
+<H1><A NAME="SEC45" HREF="zsh_toc.html#TOC45">Zsh Line Editor</A></H1>
+<P>
+<A NAME="IDX168"></A>
+<A NAME="IDX169"></A>
+
+</P>
+<P>
+If the <CODE>ZLE</CODE> option is set (it is by default) and the shell input is
+<A NAME="IDX170"></A>
+attached to the terminal, the user is allowed to edit command lines.
+
+</P>
+<P>
+There are two display modes.  The first, multi-line mode, is the default.
+It only works if the <CODE>TERM</CODE> parameter is set to a valid terminal
+<A NAME="IDX171"></A>
+type that can move the cursor up.  The second, single line mode, is used
+if <CODE>TERM</CODE> is invalid or incapable of moving the cursor up, or if
+the <CODE>SINGLE_LINE_ZLE</CODE> option is set.  This mode is similar to ksh,
+<A NAME="IDX172"></A>
+<A NAME="IDX173"></A>
+<A NAME="IDX174"></A>
+and uses no termcap sequences.  If <CODE>TERM</CODE> is <SAMP>`emacs'</SAMP>, the
+<CODE>ZLE</CODE> option will be unset by the shell.
+
+</P>
+
+
+<H2><A NAME="SEC46" HREF="zsh_toc.html#TOC46">Bindings</A></H2>
+<P>
+Command bindings may be set using the <CODE>bindkey</CODE> builtin.  There are
+<A NAME="IDX175"></A>
+<A NAME="IDX176"></A>
+two keymaps; the main keymap and the alternate keymap.  The alternate
+keymap is bound to vi command mode.  The main keymap is bound to emacs
+mode by default.  To bind the main keymap to vi insert mode, use
+<CODE>bindkey -v</CODE>.  However, if either of
+<A NAME="IDX177"></A>
+the <CODE>VISUAL</CODE> or <CODE>EDITOR</CODE> environment variables contains the
+<A NAME="IDX178"></A>
+<A NAME="IDX179"></A>
+string <SAMP>`vi'</SAMP> when the shell starts up the main keymap will be bound
+to vi insert mode by default.
+
+</P>
+<P>
+The following is a list of all the key commands and their default
+bindings in emacs mode, vi command mode and vi insert mode.
+
+</P>
+
+
+
+<H2><A NAME="SEC47" HREF="zsh_toc.html#TOC47">Movement</A></H2>
+
+<DL COMPACT>
+
+<DT><CODE>vi-backward-blank-word (unbound) (<KBD>B</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX180"></A>
+Move backward one word, where a word is defined as a series of non-blank
+characters.
+<A NAME="IDX181"></A>
+
+<DT><CODE>backward-char (<KBD>^B</KBD> <KBD>ESC-[D</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX182"></A>
+<A NAME="IDX183"></A>
+<A NAME="IDX184"></A>
+Move backward one character.
+
+<DT><CODE>vi-backward-char (unbound) (<KBD>^H</KBD> <KBD>h</KBD> <KBD>^?</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX185"></A>
+<A NAME="IDX186"></A>
+<A NAME="IDX187"></A>
+<A NAME="IDX188"></A>
+Move backward one character, without changing lines.
+
+<DT><CODE>backward-word (<KBD>ESC-B</KBD> <KBD>ESC-b</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX189"></A>
+<A NAME="IDX190"></A>
+<A NAME="IDX191"></A>
+Move to the beginning of the previous word.
+
+<DT><CODE>emacs-backward-word</CODE>
+<DD>
+<A NAME="IDX192"></A>
+Move to the beginning of the previous word.
+
+<DT><CODE>vi-backward-word (unbound) (<KBD>b</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX193"></A>
+<A NAME="IDX194"></A>
+Move to the beginning of the previous word, vi-style.
+
+<DT><CODE>beginning-of-line (<KBD>^A</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX195"></A>
+<A NAME="IDX196"></A>
+Move to the beginning of the line.  If already at the beginning of the
+line, move to the beginning of the previous line, if any.
+
+<DT><CODE>vi-beginning-of-line</CODE>
+<DD>
+<A NAME="IDX197"></A>
+Move to the beginning of the line, without changing lines.
+
+<DT><CODE>end-of-line (<KBD>^E</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX198"></A>
+<A NAME="IDX199"></A>
+Move to the end of the line.  If already at the end of the line, move to
+the end of the next line, if any.
+
+<DT><CODE>vi-end-of-line (unbound) (<KBD>$</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX200"></A>
+<A NAME="IDX201"></A>
+Move to the end of the line.  If an argument is given to this command,
+the cursor will be moved to the end of the line (argument - 1) lines down.
+
+<DT><CODE>vi-forward-blank-word (unbound) (<KBD>W</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX202"></A>
+<A NAME="IDX203"></A>
+Move forward one word, where a word is defined as a series of non-blank
+characters.
+
+<DT><CODE>vi-forward-blank-word-end (unbound) (<KBD>E</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX204"></A>
+<A NAME="IDX205"></A>
+Move to the end of the current word, or, if at the end of the current
+word, to the end of the next word, where a word is defined as a series
+of non-blank characters.
+
+<DT><CODE>forward-char (<KBD>^F</KBD> <KBD>ESC-[C</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX206"></A>
+<A NAME="IDX207"></A>
+<A NAME="IDX208"></A>
+Move forward one character.
+
+<DT><CODE>vi-forward-char (unbound) (<KBD>SPACE</KBD> <KBD>l</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX209"></A>
+<A NAME="IDX210"></A>
+<A NAME="IDX211"></A>
+Move forward one character.
+
+<DT><CODE>vi-find-next-char (<KBD>^X^F</KBD>) (<KBD>f</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX212"></A>
+<A NAME="IDX213"></A>
+<A NAME="IDX214"></A>
+Read a character from the keyboard, and move to the next occurrence of
+it in the line.
+
+<DT><CODE>vi-find-next-char-skip (unbound) (<KBD>t</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX215"></A>
+<A NAME="IDX216"></A>
+Read a character from the keyboard, and move to the position just before
+the next occurrence of it in the line.
+
+<DT><CODE>vi-find-prev-char (unbound) (<KBD>F</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX217"></A>
+<A NAME="IDX218"></A>
+Read a character from the keyboard, and move to the previous occurrence
+of it in the line.
+
+<DT><CODE>vi-find-prev-char-skip (unbound) (<KBD>T</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX219"></A>
+<A NAME="IDX220"></A>
+Read a character from the keyboard, and move to the position just after
+the previous occurrence of it in the line.
+
+<DT><CODE>vi-first-non-blank (unbound) (<KBD>^</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX221"></A>
+<A NAME="IDX222"></A>
+Move to the first non-blank character in the line.
+
+<DT><CODE>vi-forward-word (unbound) (<KBD>w</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX223"></A>
+<A NAME="IDX224"></A>
+Move forward one word, vi-style.
+
+<DT><CODE>forward-word (<KBD>ESC-F</KBD> <KBD>ESC-f</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX225"></A>
+<A NAME="IDX226"></A>
+<A NAME="IDX227"></A>
+Move to the beginning of the next word.  The editor's idea of a word is
+specified with the <CODE>WORDCHARS</CODE> parameter.
+
+<DT><CODE>emacs-forward-word</CODE>
+<DD>
+<A NAME="IDX228"></A>
+Move to the end of the next word.
+
+<DT><CODE>vi-forward-word-end (unbound) (<KBD>e</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX229"></A>
+<A NAME="IDX230"></A>
+Move to the end of the next word.
+
+<DT><CODE>vi-goto-column (<KBD>ESC-|</KBD>) (<KBD>|</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX231"></A>
+<A NAME="IDX232"></A>
+<A NAME="IDX233"></A>
+Move to the column specified by the numeric argument.
+
+<DT><CODE>vi-goto-mark (unbound) (<KBD>`</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX234"></A>
+<A NAME="IDX235"></A>
+Move to the specified mark.
+
+<DT><CODE>vi-goto-mark-line (unbound) (<KBD>'</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX236"></A>
+<A NAME="IDX237"></A>
+Move to the beginning of the line containing the specified mark.
+
+<DT><CODE>vi-repeat-find (unbound) (<KBD>;</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX238"></A>
+<A NAME="IDX239"></A>
+Repeat the last <CODE>vi-find</CODE> command.
+
+<DT><CODE>vi-rev-repeat-find (unbound) (<KBD>,</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX240"></A>
+<A NAME="IDX241"></A>
+Repeat the last <CODE>vi-find</CODE> command in the opposite direction.
+</DL>
+
+
+
+<H2><A NAME="SEC48" HREF="zsh_toc.html#TOC48">History Control</A></H2>
+
+<DL COMPACT>
+
+<DT><CODE>beginning-of-buffer-or-history (<KBD>ESC-&#60;</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX242"></A>
+<A NAME="IDX243"></A>
+Move to the beginning of the buffer, or if already there, move to the
+first event in the history list.
+
+<DT><CODE>beginning-of-line-hist</CODE>
+<DD>
+<A NAME="IDX244"></A>
+Move to the beginning of the line.  If already at the beginning of the
+buffer, move to the previous history line.
+
+<DT><CODE>beginning-of-history</CODE>
+<DD>
+<A NAME="IDX245"></A>
+Move to the first event in the history list.
+
+<DT><CODE>down-line-or-history (<KBD>^N</KBD> <KBD>ESC-[B</KBD>) (<KBD>j</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX246"></A>
+<A NAME="IDX247"></A>
+<A NAME="IDX248"></A>
+<A NAME="IDX249"></A>
+Move down a line in the buffer, or if already at the bottom line, move
+to the next event in the history list.
+
+<DT><CODE>vi-down-line-or-history (unbound) (<KBD>+</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX250"></A>
+<A NAME="IDX251"></A>
+Move down a line in the buffer, or if already at the bottom line, move to
+the next event in the history list.  Then move to the first non-blank
+character on the line.
+
+<DT><CODE>down-line-or-search</CODE>
+<DD>
+<A NAME="IDX252"></A>
+Move down a line in the buffer, or if already at the bottom line,
+search forward in the history for a line beginning with the first
+word in the buffer.
+
+<DT><CODE>down-history (unbound) (<KBD>^N</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX253"></A>
+<A NAME="IDX254"></A>
+Move to the next event in the history list.
+
+<DT><CODE>history-beginning-search-backward</CODE>
+<DD>
+<A NAME="IDX255"></A>
+Search backward in the history for a line beginning with the current
+line up to the cursor.  This leaves the cursor in its original position.
+
+<DT><CODE>end-of-buffer-or-history (<KBD>ESC-&#62;</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX256"></A>
+<A NAME="IDX257"></A>
+Move to the end of the buffer, or if already there, move to the last
+event in the history list.
+
+<DT><CODE>end-of-line-hist</CODE>
+<DD>
+<A NAME="IDX258"></A>
+Move to the end of the line.  If already at the end of the buffer, move
+to the next history line.
+
+<DT><CODE>end-of-history</CODE>
+<DD>
+<A NAME="IDX259"></A>
+Move to the last event in the history list.
+
+<DT><CODE>vi-fetch-history (unbound) (<KBD>G</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX260"></A>
+Fetch the history line specified by the numeric argument.
+This defaults to the current history line (i.e. the one that isn't history
+yet).
+<A NAME="IDX261"></A>
+
+<DT><CODE>history-incremental-search-backward (<KBD>^R</KBD> <KBD>^Xr</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX262"></A>
+<A NAME="IDX263"></A>
+<A NAME="IDX264"></A>
+Search backward incrementally for a specified string.  The string may
+begin with <CODE>^</CODE> to anchor the search to the beginning of the line.
+A restricted set of editing functions is available in the mini-buffer.
+An interrupt signal, as defined by the stty setting, will stop the
+search and go back to the original line.  An undefined key will have the
+same effect.  The supported functions are: <CODE>backward-delete-char</CODE>,
+<CODE>vi-backward-delete-character</CODE>, <CODE>clearscreen</CODE>, <CODE>redisplay</CODE>,
+<CODE>quoted-insert</CODE>, <CODE>vi-quoted-insert</CODE>, <CODE>accept-and-hold</CODE>,
+<CODE>accept-and-infer-next-history</CODE>, <CODE>accept-line</CODE> and
+<CODE>accept-line-and-down-history</CODE>; <CODE>magic-space</CODE> just inserts a
+space.  <CODE>vi-cmd-mode</CODE> toggles between the main and alternate key
+bindings; the main key bindings (insert mode) will be selected initially.
+Any string that is bound to an out-string (via <CODE>bindkey -s</CODE>)
+will behave as if out-string were typed directly.  Typing the
+binding of <CODE>history-incremental-search-backward</CODE> will get the next
+occurrence of the contents of the mini-buffer.  Typing the binding of
+<CODE>history-incremental-search-forward</CODE> inverts the sense of the
+search.  The direction of the search is indicated in the mini-buffer.
+Any single character that is not bound to one of the above functions,
+or <CODE>self-insert</CODE> or <CODE>self-insert-unmeta</CODE> will have the same
+effect but the function will be executed.
+
+<DT><CODE>history-incremental-search-forward (<KBD>^S</KBD> <KBD>^Xs</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX265"></A>
+<A NAME="IDX266"></A>
+<A NAME="IDX267"></A>
+Search forward incrementally for a specified string.  The string may
+begin with <CODE>^</CODE> to anchor the search to the beginning of the line.
+The functions available in the mini-buffer are the same as for
+<CODE>history-incremental-search-backward</CODE>.
+
+<DT><CODE>history-search-backward (<KBD>ESC-P</KBD> <KBD>ESC-p</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX268"></A>
+<A NAME="IDX269"></A>
+<A NAME="IDX270"></A>
+Search backward in the history for a line beginning with the first word
+in the buffer.
+
+<DT><CODE>vi-history-search-backward (unbound) (<KBD>/</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX271"></A>
+<A NAME="IDX272"></A>
+Search backward in the history for a specified string.  The string may
+begin with <CODE>^</CODE> to anchor the search to the beginning of the line.
+A restricted set of editing functions is available in the mini-buffer.
+An interrupt signal, as defined by the stty setting, will stop the
+search.  The functions available in the mini-buffer are: <CODE>accept-line</CODE>,
+<CODE>vi-cmd-mode</CODE> (treated the same as <CODE>acceptline</CODE>),
+<CODE>backward-delete-char</CODE>, <CODE>vi-backward-delete-char</CODE>,
+<CODE>backward-kill-word</CODE>, <CODE>vi-backward-kill-word</CODE>, <CODE>clear-screen</CODE>,
+<CODE>redisplay</CODE>, <CODE>magic-space</CODE> (treated as a space),
+<CODE>quoted-insert</CODE> and <CODE>vi-quoted-insert</CODE>.  Any string that is not
+bound to an out-string (via <CODE>bindkey -s</CODE>) will behave as if out-string
+were typed directly. Any other character that is not bound to
+<CODE>self-insert</CODE> or <CODE>self-insert-unmeta</CODE> will beep and be ignored.  If
+the function is called from vi command mode, the bindings of the current
+insert mode will be used.
+
+<DT><CODE>history-search-forward (<KBD>ESC-N</KBD> <KBD>ESC-n</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX273"></A>
+<A NAME="IDX274"></A>
+<A NAME="IDX275"></A>
+Search forward in the history for a line beginning with the first word
+in the buffer.
+
+<DT><CODE>vi-history-search-forward (unbound) (<KBD>?</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX276"></A>
+<A NAME="IDX277"></A>
+Search forward in the history for a specified string.  The string may
+begin with <CODE>^</CODE> to anchor the search to the beginning of the line.
+The functions available in the mini-buffer are the same as for
+<CODE>vi-history-search-backward</CODE>.
+
+<DT><CODE>infer-next-history (<KBD>^X^N</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX278"></A>
+<A NAME="IDX279"></A>
+Search in the history for a line matching the current one and fetch the
+event following it.
+
+<DT><CODE>insert-last-word (<KBD>ESC-_</KBD> <KBD>ESC-.</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX280"></A>
+<A NAME="IDX281"></A>
+<A NAME="IDX282"></A>
+Insert the last word from the previous history event at the cursor
+position.  If a positive numeric argument is given, insert that word
+from the end of the previous history event.  If the argument is zero
+or negative insert that word from the left (zero inserts the previous
+command word).
+
+<DT><CODE>vi-repeat-search (unbound) (<KBD>n</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX283"></A>
+<A NAME="IDX284"></A>
+Repeat the last vi history search.
+
+<DT><CODE>vi-rev-repeat-search (unbound) (<KBD>N</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX285"></A>
+<A NAME="IDX286"></A>
+Repeat the last vi history search, but in reverse.
+
+<DT><CODE>up-line-or-history (<KBD>^P</KBD> <KBD>ESC-[A</KBD>) (<KBD>k</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX287"></A>
+<A NAME="IDX288"></A>
+<A NAME="IDX289"></A>
+<A NAME="IDX290"></A>
+Move up a line in the buffer, or if already at the top line, move to the
+previous event in the history list.
+
+<DT><CODE>up-line-or-search</CODE>
+<DD>
+<A NAME="IDX291"></A>
+Move up a line in the buffer, or if already at the top line, search
+backward in the history for a line beginning with the first word in the
+buffer.
+
+<DT><CODE>up-history (unbound) (<KBD>^P</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX292"></A>
+<A NAME="IDX293"></A>
+Move to the previous event in the history list.
+
+<DT><CODE>history-beginning-search-forward</CODE>
+<DD>
+<A NAME="IDX294"></A>
+Search forward in the history for a line beginning with the current line
+up to the cursor.  This leaves the cursor at its original position.
+</DL>
+
+
+
+<H2><A NAME="SEC49" HREF="zsh_toc.html#TOC49">Modifying Text</A></H2>
+
+<DL COMPACT>
+
+<DT><CODE>vi-add-eol (unbound) (<KBD>A</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX295"></A>
+<A NAME="IDX296"></A>
+Move to the end of the line and enter insert mode.
+
+<DT><CODE>vi-add-next (unbound) (<KBD>a</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX297"></A>
+<A NAME="IDX298"></A>
+Enter insert mode after the current cursor position, without changing lines.
+
+<DT><CODE>backward-delete-char (<KBD>^H</KBD> <KBD>^?</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX299"></A>
+<A NAME="IDX300"></A>
+<A NAME="IDX301"></A>
+Delete the character behind the cursor.
+
+<DT><CODE>vi-backward-delete-char (unbound) (<KBD>X</KBD>) (<KBD>^H</KBD>)</CODE>
+<DD>
+<A NAME="IDX302"></A>
+<A NAME="IDX303"></A>
+Delete the character behind the cursor, without changing lines.  If in
+insert mode this won't delete past the point where insert mode was last
+entered.
+
+<DT><CODE>backward-delete-word</CODE>
+<DD>
+<A NAME="IDX304"></A>
+Delete the word behind the cursor.
+
+<DT><CODE>backward-kill-line</CODE>
+<DD>
+<A NAME="IDX305"></A>
+Kill from the beginning of the line to the cursor position.
+
+<DT><CODE>backward-kill-word (<KBD>^W</KBD> <KBD>ESC-^H</KBD> <KBD>ESC-^?</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX306"></A>
+<A NAME="IDX307"></A>
+<A NAME="IDX308"></A>
+<A NAME="IDX309"></A>
+Kill the word behind the cursor.
+
+<DT><CODE>vi-backward-kill-word (unbound) (unbound) (<KBD>^W</KBD>)</CODE>
+<DD>
+<A NAME="IDX310"></A>
+<A NAME="IDX311"></A>
+Kill the word behind the cursor, without going past the point where insert
+mode was last entered.
+
+<DT><CODE>capitalize-word (<KBD>ESC-C</KBD> <KBD>ESC-c</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX312"></A>
+<A NAME="IDX313"></A>
+<A NAME="IDX314"></A>
+Capitalize the current word and move past it.
+
+<DT><CODE>vi-change (unbound) (<KBD>c</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX315"></A>
+<A NAME="IDX316"></A>
+Read a movement command from the keyboard, and kill from the cursor
+position to the endpoint of the movement.  Then enter insert mode.  If
+the command is <CODE>vi-change</CODE>, kill the current line.
+
+<DT><CODE>vi-change-eol (unbound) (<KBD>C</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX317"></A>
+<A NAME="IDX318"></A>
+Kill to the end of the line and enter insert mode.
+
+<DT><CODE>vi-change-whole-line (unbound) (<KBD>S</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX319"></A>
+<A NAME="IDX320"></A>
+Kill the current line and enter insert mode.
+
+<DT><CODE>copy-region-as-kill (<KBD>ESC-W</KBD> <KBD>ESC-w</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX321"></A>
+<A NAME="IDX322"></A>
+<A NAME="IDX323"></A>
+Copy the area from the cursor to the mark to the kill buffer.
+
+<DT><CODE>copy-prev-word (<KBD>ESC-^_</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX324"></A>
+<A NAME="IDX325"></A>
+Duplicate the word behind the cursor.
+
+<DT><CODE>vi-delete (unbound) (<KBD>d</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX326"></A>
+<A NAME="IDX327"></A>
+Read a movement command from the keyboard, and kill from the cursor
+position to the endpoint of the movement.  If the command is
+<CODE>vi-delete</CODE>, kill the current line.
+
+<DT><CODE>delete-char</CODE>
+<DD>
+<A NAME="IDX328"></A>
+Delete the character under the cursor.
+
+<DT><CODE>vi-delete-char (unbound) (<KBD>x</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX329"></A>
+Delete the character under the cursor, without going past the end of the
+line.
+
+<DT><CODE>delete-word</CODE>
+<DD>
+<A NAME="IDX330"></A>
+Delete the current word.
+
+<DT><CODE>down-case-word (<KBD>ESC-L</KBD> <KBD>ESC-l</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX331"></A>
+<A NAME="IDX332"></A>
+<A NAME="IDX333"></A>
+Convert the current word to all lowercase and move past it.
+
+<DT><CODE>kill-word (<KBD>ESC-D</KBD> <KBD>ESC-d</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX334"></A>
+<A NAME="IDX335"></A>
+<A NAME="IDX336"></A>
+Kill the current word.
+
+<DT><CODE>gosmacs-transpose-chars</CODE>
+<DD>
+<A NAME="IDX337"></A>
+Exchange the two characters behind the cursor.
+
+<DT><CODE>vi-indent (unbound) (<KBD>&#62;</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX338"></A>
+<A NAME="IDX339"></A>
+Indent a number of lines.
+
+<DT><CODE>vi-insert (unbound) (<KBD>i</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX340"></A>
+<A NAME="IDX341"></A>
+Enter insert mode.
+
+<DT><CODE>vi-insert-bol (unbound) (<KBD>I</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX342"></A>
+<A NAME="IDX343"></A>
+Move to the beginning of the line and enter insert mode.
+
+<DT><CODE>vi-join (<KBD>^X^J</KBD>) (<KBD>J</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX344"></A>
+<A NAME="IDX345"></A>
+<A NAME="IDX346"></A>
+Join the current line with the next one.
+
+<DT><CODE>kill-line (<KBD>^K</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX347"></A>
+<A NAME="IDX348"></A>
+Kill from the cursor to the end of the line.
+
+<DT><CODE>vi-kill-line (unbound) (unbound) (<KBD>^U</KBD>)</CODE>
+<DD>
+<A NAME="IDX349"></A>
+<A NAME="IDX350"></A>
+Kill from the cursor back to wherever insert mode was last entered.
+
+<DT><CODE>vi-kill-eol (unbound) (<KBD>D</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX351"></A>
+<A NAME="IDX352"></A>
+Kill from the cursor to the end of the line.
+
+<DT><CODE>kill-region</CODE>
+<DD>
+<A NAME="IDX353"></A>
+Kill from the cursor to the mark.
+
+<DT><CODE>kill-buffer (<KBD>^X^K</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX354"></A>
+<A NAME="IDX355"></A>
+Kill the entire buffer.
+
+<DT><CODE>kill-whole-line (<KBD>^U</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX356"></A>
+<A NAME="IDX357"></A>
+Kill the current line.
+
+<DT><CODE>vi-match-bracket (<KBD>^X^B</KBD>) (<KBD>%</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX358"></A>
+<A NAME="IDX359"></A>
+<A NAME="IDX360"></A>
+Move to the bracket character (one of <CODE>{}</CODE>, <CODE>()</CODE>, or
+<CODE>[]</CODE>) that matches the one under the cursor.  If the cursor is not on a
+bracket character, move forward without going past the end of the line to
+find one, and then go to the matching bracket.
+
+<DT><CODE>vi-open-line-above (unbound) (<KBD>O</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX361"></A>
+<A NAME="IDX362"></A>
+Open a line above the cursor and enter insert mode.
+
+<DT><CODE>vi-open-line-below (unbound) (<KBD>o</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX363"></A>
+<A NAME="IDX364"></A>
+Open a line below the cursor and enter insert mode.
+
+<DT><CODE>vi-oper-swap-case</CODE>
+<DD>
+<A NAME="IDX365"></A>
+Read a movement command from the keyboard, and swap the case of all
+characters from the cursor position to the endpoint of the movement.  If
+the movement command is <CODE>vi-oper-swap-case</CODE>, swap the case of all
+characters on the current line.
+
+<DT><CODE>overwrite-mode (<KBD>^X^O</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX366"></A>
+<A NAME="IDX367"></A>
+Toggle between overwrite mode and insert mode.
+
+<DT><CODE>vi-put-before (unbound) (<KBD>P</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX368"></A>
+<A NAME="IDX369"></A>
+Insert the contents of the kill buffer before the cursor.  If the kill
+buffer contains a sequence of lines (as opposed to characters), paste it
+above the current line.
+
+<DT><CODE>vi-put-after (unbound) (<KBD>p</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX370"></A>
+<A NAME="IDX371"></A>
+Insert the contents of the kill buffer after the cursor.  If the kill
+buffer contains a sequence of lines (as opposed to characters), paste it
+below the current line.
+
+<DT><CODE>quoted-insert (<KBD>^V</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX372"></A>
+<A NAME="IDX373"></A>
+Insert the next character typed into the buffer literally.  An interrupt
+character will not be inserted.
+
+<DT><CODE>vi-quoted-insert (unbound) (unbound) (<KBD>^Q</KBD> <KBD>^V</KBD>)</CODE>
+<DD>
+<A NAME="IDX374"></A>
+<A NAME="IDX375"></A>
+Display a <CODE>^</CODE> at the current position, and insert the next character
+typed into the buffer literally.  An interrupt character will not be inserted.
+
+<DT><CODE>quote-line (<KBD>ESC-'</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX376"></A>
+<A NAME="IDX377"></A>
+Quote the current line; that is, put a <CODE>'</CODE> character at the
+beginning and the end, and convert all <CODE>'</CODE> characters to
+<CODE>\'</CODE>.
+
+<DT><CODE>quote-region (<KBD>ESC-"</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX378"></A>
+<A NAME="IDX379"></A>
+Quote the region from the cursor to the mark.
+
+<DT><CODE>vi-replace (unbound) (<KBD>R</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX380"></A>
+<A NAME="IDX381"></A>
+Enter overwrite mode.
+
+<DT><CODE>vi-repeat-change (unbound) (<KBD>.</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX382"></A>
+<A NAME="IDX383"></A>
+Repeat the last vi mode text modification.  If a count was used with the
+modification, it is remembered.  If a count is given to this command, it
+overrides the remembered count, and is remembered for future uses of this
+command.  The cut buffer specification is similarly remembered.
+
+<DT><CODE>vi-replace-chars (unbound) (<KBD>r</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX384"></A>
+<A NAME="IDX385"></A>
+Replace the character under the cursor with a character read from the
+keyboard.
+
+<DT><CODE>self-insert (printable characters) (unbound) (printable characters and some control characters)</CODE>
+<DD>
+<A NAME="IDX386"></A>
+Put a character in the buffer at the cursor position.
+
+<DT><CODE>self-insert-unmeta (<KBD>ESC-^I</KBD> <KBD>ESC-^J</KBD> <KBD>ESC-^M</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX387"></A>
+<A NAME="IDX388"></A>
+<A NAME="IDX389"></A>
+<A NAME="IDX390"></A>
+Put a character in the buffer after stripping the meta bit and
+converting <CODE>^M</CODE> to <CODE>^J</CODE>.
+
+<DT><CODE>vi-substitute (unbound) (<KBD>s</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX391"></A>
+<A NAME="IDX392"></A>
+Substitute the next character(s).
+
+<DT><CODE>vi-swap-case (unbound) (<KBD>~</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX393"></A>
+<A NAME="IDX394"></A>
+Swap the case of the character under the cursor and move past it.
+
+<DT><CODE>transpose-chars (<KBD>^T</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX395"></A>
+<A NAME="IDX396"></A>
+Exchange the two characters to the left of the cursor if at end of line,
+else exchange the character under the cursor with the character to the
+left.
+
+<DT><CODE>transpose-words (<KBD>ESC-T</KBD> <KBD>ESC-t</KBD>)  (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX397"></A>
+<A NAME="IDX398"></A>
+<A NAME="IDX399"></A>
+Exchange the current word with the one before it.
+
+<DT><CODE>vi-unindent (unbound) (<KBD>&#60;</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX400"></A>
+<A NAME="IDX401"></A>
+Unindent a number of lines.
+
+<DT><CODE>up-case-word (<KBD>ESC-U</KBD> <KBD>ESC-u</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX402"></A>
+<A NAME="IDX403"></A>
+<A NAME="IDX404"></A>
+Convert the current word to all caps and move past it.
+
+<DT><CODE>yank (<KBD>^Y</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX405"></A>
+<A NAME="IDX406"></A>
+Insert the contents of the kill buffer at the cursor position.
+
+<DT><CODE>yank-pop (<KBD>ESC-y</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX407"></A>
+<A NAME="IDX408"></A>
+Remove the text just yanked, rotate the kill-ring, and yank the new top.
+Only works following <CODE>yank</CODE> or <CODE>yank-pop</CODE>.
+
+<DT><CODE>vi-yank (unbound) (<KBD>y</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX409"></A>
+<A NAME="IDX410"></A>
+Read a movement command from the keyboard, and copy the region from the
+cursor position to the endpoint of the movement into the kill buffer.
+If the command is <CODE>vi-yank</CODE>, copy the current line.
+
+<DT><CODE>vi-yank-whole-line (unbound) (<KBD>Y</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX411"></A>
+<A NAME="IDX412"></A>
+Copy the current line into the kill buffer.
+
+<DT><CODE>vi-yank-eol</CODE>
+<DD>
+<A NAME="IDX413"></A>
+Copy the region from the cursor position to the end of the line into the
+kill buffer.  Arguably, this is what <KBD>Y</KBD> should do in vi, but it isn't
+what it actually does.
+</DL>
+
+
+
+<H2><A NAME="SEC50" HREF="zsh_toc.html#TOC50">Arguments</A></H2>
+
+<DL COMPACT>
+
+<DT><CODE>digit-argument (<KBD>ESC-0</KBD>...<KBD>ESC-9</KBD>) (1-9) (unbound)</CODE>
+<DD>
+<A NAME="IDX414"></A>
+<A NAME="IDX415"></A>
+<A NAME="IDX416"></A>
+<A NAME="IDX417"></A>
+<A NAME="IDX418"></A>
+Start a new numeric argument, or add to the current one.  See also
+<CODE>vi-digit-or-beginning-of-line</CODE>.
+
+<DT><CODE>neg-argument (<KBD>ESC--</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX419"></A>
+<A NAME="IDX420"></A>
+Changes the sign of the following argument.
+
+<DT><CODE>universal-argument</CODE>
+<DD>
+<A NAME="IDX421"></A>
+Multiply the argument of the next command by 4.
+</DL>
+
+
+
+<H2><A NAME="SEC51" HREF="zsh_toc.html#TOC51">Completion</A></H2>
+
+<DL COMPACT>
+
+<DT><CODE>accept-and-menu-complete</CODE>
+<DD>
+<A NAME="IDX422"></A>
+In a menu completion, insert the current completion into the buffer, and
+advance to the next possible completion.
+
+<DT><CODE>complete-word</CODE>
+<DD>
+<A NAME="IDX423"></A>
+Attempt completion on the current word.
+
+<DT><CODE>delete-char-or-list (<KBD>^D</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX424"></A>
+<A NAME="IDX425"></A>
+Delete the character under the cursor.  If the cursor is at the end of
+the line, list possible completions for the current word.
+
+<DT><CODE>expand-cmd-path</CODE>
+<DD>
+<A NAME="IDX426"></A>
+Expand the current command to its full pathname.
+
+<DT><CODE>expand-or-complete (<KBD>TAB</KBD>) (unbound) (<KBD>TAB</KBD>)</CODE>
+<DD>
+<A NAME="IDX427"></A>
+<A NAME="IDX428"></A>
+Attempt shell expansion on the current word.  If that fails, attempt
+completion.
+
+<DT><CODE>expand-or-complete-prefix</CODE>
+<DD>
+<A NAME="IDX429"></A>
+Attempt shell expansion on the current word up to cursor.
+
+<DT><CODE>expand-history (<KBD>ESC-SPACE</KBD> <KBD>ESC-!</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX430"></A>
+<A NAME="IDX431"></A>
+<A NAME="IDX432"></A>
+Perform history expansion on the edit buffer.
+
+<DT><CODE>expand-word (<KBD>^X*</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX433"></A>
+<A NAME="IDX434"></A>
+Attempt shell expansion on the current word.
+
+<DT><CODE>list-choices (<KBD>ESC-^D</KBD>) (<KBD>^D=</KBD>) (<KBD>^D</KBD>)</CODE>
+<DD>
+<A NAME="IDX435"></A>
+<A NAME="IDX436"></A>
+<A NAME="IDX437"></A>
+<A NAME="IDX438"></A>
+List possible completions for the current word.
+
+<DT><CODE>list-expand (<KBD>^Xg</KBD> <KBD>^XG</KBD>) (<KBD>^G</KBD>) (<KBD>^G</KBD>)</CODE>
+<DD>
+<A NAME="IDX439"></A>
+<A NAME="IDX440"></A>
+<A NAME="IDX441"></A>
+<A NAME="IDX442"></A>
+List the expansion of the current word.
+
+<DT><CODE>magic-space</CODE>
+<DD>
+<A NAME="IDX443"></A>
+Perform history expansion and insert a space into the buffer.  This is
+intended to be bound to <KBD>SPACE</KBD>.
+
+<DT><CODE>menu-complete</CODE>
+<DD>
+<A NAME="IDX444"></A>
+<A NAME="IDX445"></A>
+Like <CODE>complete-word</CODE>, except that menu completion is used.
+See section <A HREF="zsh_16.html#SEC58">Options</A>, for the <CODE>MENU_COMPLETE</CODE> option.
+
+<DT><CODE>menu-expand-or-complete</CODE>
+<DD>
+<A NAME="IDX446"></A>
+Like <CODE>expand-or-complete</CODE>, except that menu completion is used.
+
+<DT><CODE>reverse-menu-complete</CODE>
+<DD>
+<A NAME="IDX447"></A>
+See section <A HREF="zsh_16.html#SEC58">Options</A>, for the <CODE>MENU_COMPLETE</CODE> option.
+</DL>
+
+
+
+<H2><A NAME="SEC52" HREF="zsh_toc.html#TOC52">Miscellaneous</A></H2>
+
+<DL COMPACT>
+
+<DT><CODE>accept-and-hold (<KBD>ESC-A</KBD> <KBD>ESC-a</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX448"></A>
+<A NAME="IDX449"></A>
+<A NAME="IDX450"></A>
+Push the contents of the buffer on the buffer stack and execute it.
+
+<DT><CODE>accept-and-infer-next-history</CODE>
+<DD>
+<A NAME="IDX451"></A>
+Execute the contents of the buffer.  Then search the history list for a
+line matching the current one and push the event following onto the
+buffer stack.
+
+<DT><CODE>accept-line (<KBD>^J</KBD> <KBD>^M</KBD>) (<KBD>^J</KBD> <KBD>^M</KBD>) (<KBD>^J</KBD> <KBD>^M</KBD>)</CODE>
+<DD>
+<A NAME="IDX452"></A>
+<A NAME="IDX453"></A>
+<A NAME="IDX454"></A>
+Execute the contents of the buffer.
+
+<DT><CODE>accept-line-and-down-history (<KBD>^O</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX455"></A>
+<A NAME="IDX456"></A>
+Execute the current line, and push the next history event on the the
+buffer stack.
+
+<DT><CODE>vi-cmd-mode (<KBD>^X^V</KBD>) (unbound) (<KBD>^[</KBD>)</CODE>
+<DD>
+<A NAME="IDX457"></A>
+<A NAME="IDX458"></A>
+<A NAME="IDX459"></A>
+Enter command mode; that is, use the alternate keymap.  Yes, this is
+bound by default in emacs mode.
+
+<DT><CODE>vi-caps-lock-panic</CODE>
+<DD>
+<A NAME="IDX460"></A>
+Hang until any lowercase key is pressed.  This is for vi users without
+the mental capacity to keep track of their caps lock key (like the
+author).
+
+<DT><CODE>clear-screen (<KBD>^L</KBD> <KBD>ESC-^L</KBD>) (<KBD>^L</KBD>) (<KBD>^L</KBD>)</CODE>
+<DD>
+<A NAME="IDX461"></A>
+<A NAME="IDX462"></A>
+<A NAME="IDX463"></A>
+Clear the screen and redraw the prompt.
+
+<DT><CODE>describe-key-briefly</CODE>
+<DD>
+<A NAME="IDX464"></A>
+Waits for keypress, then prints the function bound to the pressed key.
+
+<DT><CODE>exchange-point-and-mark (<KBD>^X^X</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX465"></A>
+<A NAME="IDX466"></A>
+Exchange the cursor position with the position of the mark.
+
+<DT><CODE>execute-named-cmd (<KBD>ESC-x</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX467"></A>
+<A NAME="IDX468"></A>
+Read the name of a editor command and execute it.  A restricted set of
+editing functions is available in the mini-buffer.  An interrupt signal,
+as defined by the stty setting, will abort the function.  The allowed
+functions are: <CODE>backward-delete-char</CODE>,
+<CODE>vi-backward-delete-char</CODE>, <CODE>clear-screen</CODE>,
+<CODE>redisplay</CODE>, <CODE>quoted-insert</CODE>, <CODE>vi-quoted-insert</CODE>,
+<CODE>kill-region</CODE> (kills the last word), <CODE>backward-kill-word</CODE>,
+<CODE>vi-backward-kill-word</CODE>, <CODE>kill-whole-line</CODE>, <CODE>vi-kill-line</CODE>,
+<CODE>backward-kill-line</CODE>, <CODE>list-choices</CODE>, <CODE>delete-char-or-list</CODE>,
+<CODE>complete-word</CODE>, <CODE>expand-or-complete</CODE>,
+<CODE>expand-or-complete-prefix</CODE>, <CODE>accept-line</CODE>, and <CODE>vi-cmd-mode</CODE>
+(treated the same as accept line).  The <KBD>SPC</KBD> and <KBD>TAB</KBD> characters,
+if not bound to one of these functions, will complete the name and then list
+the possibilities if the <CODE>AUTO_LIST</CODE> option is set.  Any string that is
+bound to an out-string (via <CODE>bindkey -s</CODE>) will behave as if out-string
+were typed directly.  Any other character that is not bound to
+<CODE>self-insert</CODE> or <CODE>self-insert-unmeta</CODE> will beep and be
+ignored.  If the function is called from vi command mode, the bindings of
+the current insert mode will be used.
+
+<DT><CODE>execute-last-named-cmd (<KBD>ESC-z</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX469"></A>
+<A NAME="IDX470"></A>
+Redo the last function executed with <CODE>execute-named-cmd</CODE>.
+
+<DT><CODE>get-line (<KBD>ESC-G</KBD> <KBD>ESC-g</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX471"></A>
+<A NAME="IDX472"></A>
+<A NAME="IDX473"></A>
+Pop the top line off the buffer stack and insert it at the cursor
+position.
+
+<DT><CODE>pound-insert (unbound) (<KBD>#</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX474"></A>
+<A NAME="IDX475"></A>
+<A NAME="IDX476"></A>
+If there is no <CODE>#</CODE> character at the beginning of the buffer,
+add one to the beginning of each line.  If there is one, remove a <CODE>#</CODE>
+from each line that has one.  In either case, accept the
+current line.  The <CODE>INTERACTIVE_COMMENTS</CODE> option must be set for
+this to have any usefulness.
+
+<DT><CODE>vi-pound-insert</CODE>
+<DD>
+<A NAME="IDX477"></A>
+<A NAME="IDX478"></A>
+If there is no <CODE>#</CODE> character at the beginning of the current line, add
+one.  If there is one, remove it.  The <CODE>INTERACTIVE_COMMENTS</CODE> option
+must be set for this to have any usefulness.
+
+<DT><CODE>push-input</CODE>
+<DD>
+<A NAME="IDX479"></A>
+Push the entire current multi-line construct onto the buffer stack and
+return to the top-level (<CODE>PS1</CODE>) prompt.  If the current parser
+construct is only a single line, this is exactly like <CODE>push-line</CODE>.
+Next time the editor starts up or is popped with <CODE>get-line</CODE>, the
+construct will be popped off the top of the buffer stack and loaded into
+the editing buffer.
+
+<DT><CODE>push-line (<KBD>^Q</KBD> <KBD>ESC-Q</KBD> <KBD>ESC-q</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX480"></A>
+<A NAME="IDX481"></A>
+<A NAME="IDX482"></A>
+<A NAME="IDX483"></A>
+Push the current buffer onto the buffer stack and clear the buffer.
+Next time the editor starts up, the buffer will be popped off the top of
+the buffer stack and loaded into the editing buffer.
+
+<DT><CODE>push-line-or-edit</CODE>
+<DD>
+<A NAME="IDX484"></A>
+At the top-level (<CODE>PS1</CODE>) prompt, equivalent to <CODE>push-line</CODE>.
+At a secondary (<CODE>PS2</CODE>) prompt, move the entire current multi-line
+construct into the editor buffer.  The latter is equivalent to
+<CODE>push-line</CODE> followed by <CODE>get-line</CODE>.
+
+<DT><CODE>redisplay (unbound) (<KBD>^R</KBD>) (<KBD>^R</KBD>)</CODE>
+<DD>
+<A NAME="IDX485"></A>
+<A NAME="IDX486"></A>
+Redisplays the edit buffer.
+
+<DT><CODE>send-break (<KBD>^G</KBD> <KBD>ESC-^G</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX487"></A>
+<A NAME="IDX488"></A>
+<A NAME="IDX489"></A>
+Abort the current editor function, e.g. <CODE>execute-named-command</CODE>, or
+the editor itself, e.g. if you are in <CODE>vared</CODE>.  Otherwise abort the
+parsing of the current line.
+
+<DT><CODE>run-help (<KBD>ESC-H</KBD> <KBD>ESC-h</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX490"></A>
+<A NAME="IDX491"></A>
+<A NAME="IDX492"></A>
+Push the buffer onto the buffer stack, and execute the command
+<CODE>run-help <VAR>cmd</VAR></CODE>, where <VAR>cmd</VAR> is the current command.
+<CODE>run-help</CODE> is normally aliased to <CODE>man</CODE>.
+
+<DT><CODE>vi-set-buffer (unbound) (<KBD>"</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX493"></A>
+<A NAME="IDX494"></A>
+Specify a buffer to be used in the following command.
+There are 35 buffers that can be  specified: the  26  <STRONG>named</STRONG> buffers
+<CODE>"a</CODE>  to  <CODE>"z</CODE>  and the nine <STRONG>queued</STRONG> buffers "1 to "9.  The
+named buffers can also be specified as <CODE>"A</CODE> to <CODE>"Z</CODE>.  When a buffer
+is specified for a cut command, the text being cut replaces the previous
+contents of the specified buffer.  If a named buffer is specified using a
+capital, the newly cut text is appended to the buffer instead of overwriting
+it.  If no buffer is specified for a cut command, <CODE>"1</CODE> is used, and the
+contents of <CODE>"1</CODE> to <CODE>"8</CODE> are each shifted along one buffer; the
+contents of <CODE>"9</CODE> is lost.
+
+<DT><CODE>vi-set-mark (unbound) (<KBD>m</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX495"></A>
+<A NAME="IDX496"></A>
+Set the specified mark at the cursor position.
+
+<DT><CODE>set-mark-command (<KBD>^@</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX497"></A>
+<A NAME="IDX498"></A>
+Set the mark at the cursor position.
+
+<DT><CODE>spell-word (<KBD>ESC-$</KBD> <KBD>ESC-S</KBD> <KBD>ESC-s</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX499"></A>
+<A NAME="IDX500"></A>
+<A NAME="IDX501"></A>
+<A NAME="IDX502"></A>
+Attempt spelling correction on the current word.
+
+<DT><CODE>undefined-key (lots o' keys) (lots o' keys) (unbound)</CODE>
+<DD>
+<A NAME="IDX503"></A>
+Beep.
+
+<DT><CODE>undo (<KBD>^_</KBD> <KBD>^Xu</KBD> <KBD>^X^U</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX504"></A>
+<A NAME="IDX505"></A>
+<A NAME="IDX506"></A>
+<A NAME="IDX507"></A>
+Incrementally undo the last text modification.
+
+<DT><CODE>vi-undo-change (unbound) (<KBD>u</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX508"></A>
+<A NAME="IDX509"></A>
+Undo the last text modification.  If repeated, redo the modification.
+
+<DT><CODE>where-is</CODE>
+<DD>
+<A NAME="IDX510"></A>
+Read the name of an editor command and and print the listing of key sequences
+that invoke the specified command.
+
+<DT><CODE>which-command (<KBD>ESC-?</KBD>) (unbound) (unbound)</CODE>
+<DD>
+<A NAME="IDX511"></A>
+<A NAME="IDX512"></A>
+Push the buffer onto the buffer stack, and execute the command
+<CODE>which-command <VAR>cmd</VAR></CODE>, where <VAR>cmd</VAR> is the current command.
+<CODE>which-command</CODE> is normally aliased to <CODE>whence</CODE>.
+
+<DT><CODE>vi-digit-or-beginning-of-line(unbound) (<KBD>0</KBD>) (unbound)</CODE>
+<DD>
+<A NAME="IDX513"></A>
+<A NAME="IDX514"></A>
+If the last command executed was a digit as part of an argument, continue
+the argument.  Otherwise, execute <CODE>vi-beginning-of-line</CODE>.
+</DL>
+
+<P><HR><P>
+Go to the <A HREF="zsh_1.html">first</A>, <A HREF="zsh_13.html">previous</A>, <A HREF="zsh_15.html">next</A>, <A HREF="zsh_24.html">last</A> section, <A HREF="zsh_toc.html">table of contents</A>.
+</BODY>
+</HTML>

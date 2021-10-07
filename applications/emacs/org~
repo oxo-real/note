@@ -1,0 +1,4 @@
+C-c '		toggle edit-mode
+C-c c		execute code block
+#+BEGIN_SRC	begin code block
+#+END_SRC	end code block

@@ -1,0 +1,14 @@
+
+open a console window or terminal...
+to find out the current encoding
+file -bi /path/to/file.csv
+
+the result should look something like
+
+"text/plain; charset=us-ascii"
+now for the conversion:
+iconv -f inputEncoding -t outputEncoding /path/to/input/file.txt path/to/output/file.txt
+
+for example:
+
+iconv -f iso-8859-1 -t utf8 ~/Documents/bigger_not_filtered.csv /tmp/utf8_bigger_not_filtered.csv

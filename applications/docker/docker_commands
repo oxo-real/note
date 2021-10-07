@@ -1,0 +1,122 @@
+Docker commands
+docker daemon info
+docker info
+
+
+* docker daemon
+
+** check if docker deamon is running
+docker ps
+
+** add user to docker group (console reboot required)
+usermod -a -G docker <user>
+
+** start deamon
+systemctl start docker.service
+
+** stop deamon
+systemctl stop docker.service
+
+** deamon status
+systemctl status docker.service
+
+
+* images
+An image is a filesystem and parameters to use at runtime. It doesn’t have state and never changes.
+
+** image repository
+https://hub.docker.com
+
+** search images:
+docker search <image>
+
+** list of local images
+docker images
+
+** pull images:
+docker pull image <image>
+
+** list images:
+docker image ls
+
+** remove images:
+docker image rm <image(ID)>
+-f forced
+
+** run image:
+docker run <image>
+
+
+* containers
+A container is a running instance of an image.
+
+** list containers
+docker container ls -a
+docker ps
+
+** remove container
+docker container rm <containerID>
+
+** remove all containers
+docker rm $(docker ps -aq)
+
+** forcefully remove all containers
+docker rm -f $(docker ps -aq)
+
+** start container
+docker container start
+
+** run detached
+docker run -d <image>
+
+** run port redirecting
+docker run -d -p <hostport#>:<imageport#> <image>
+
+example map localhost port 8080 to port 80 on the container:
+docker run -d -p 8080:80 <image>
+
+
+* tags
+synopsis:	image:tag
+tags:		latest
+
+
+* container names
+
+** adding a name when running a container
+docker run --name <my_name>
+
+
+* docker volumes
+
+** share data
+volumes allow us to share data between host and container and between containers
+
+** synopsis
+-v source:destination:type(ro,rw)
+
+** volume host -> container
+contents of the host folder will be shared inside the container
+
+example:
+host folder: ~/docker_volume/website
+container folder: /usr/share/nginx/html
+
+docker run --name website -v ~/docker_volume/website/folder:/usr/share/nginx/html:ro -d -p 8080:80 nginx
+localhost:8080
+
+parse container in interactive mode
+docker exec -it <container> bash
+
+
+* inspect
+
+** json output of container details
+docker inspect <container>
+
+
+* container logs
+
+** view container log
+docker logs <containerID>
+

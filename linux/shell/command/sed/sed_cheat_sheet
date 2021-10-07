@@ -1,0 +1,20 @@
+## remove first 1 and last 2 characters of each line
+sed -i 's/^.\{1\}//' | sed 's/.\{2\}$//'
+
+## find whole_line_matching in file and place a hashtag at the beginning of matching line
+sed -i '/^whole_line_matching$/s/^/#/' file
+
+## find whole_line_matching in file and delete line
+sed -i '/^whole_line_matching$/s/^/d' file
+
+## extract digits from string
+echo 'abc123def456' | sed 's/[a-z]//g'
+
+## remove spaces from string
+echo 'abc def' | sed 's/' '//g'
+
+## remove leading zeros
+sed 's/^0*//g'
+
+## remove all before first slash
+sed 's/[^\/]*//'

@@ -1,0 +1,144 @@
+# git cheat sheet
+
+
+# setup
+
+git config --global user.name "cytopyge"
+git config --global user.email "cytopyge@example.com"
+git config --global color.ui auto
+git config --global alias.hist "git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+
+# ignore files
+# add .gitignore to root of the repository
+
+.gitignore
+
+# !! add '.gitignore' itself to .gitignore
+
+
+.git/config
+
+url = https://username@repository-url.com
+
+
+-------------------------------------------------------------------------------------------
+
+
+# initialisation
+
+git clone -v https://cytopyge@gitlab.com/cytopyge/notes
+OR
+git clone ssh://user@domain.com/repo.git
+OR
+git init
+git remote add origin https://gitlab.com/cytopyge/repo.git
+git remote add origin git@gitlab.com:cytopyge/repo.git
+
+
+# add to staging
+## one file
+git add <file>
+## all files
+git add .
+
+
+# remove from staging
+## one file
+git rm --cached <file>
+
+
+# commit
+## always include a commit message
+git commit -m 'commit message'
+git commit -a -m `date +%Y%m%d_%H%M%S` && git push
+
+
+# push
+
+git push --set-upstream origin master
+
+git reset --soft HEAD^
+git reset --hard HEAD^
+
+
+# copy file from branchA to branchB
+git checkout branchB
+git checkout branchA file
+git commit -m 'add file to branchB'
+
+
+# get <date> certain version of <file>
+git show HEAD@{2019-02-21}:./<file>
+
+-------------------------------------------------------------------------------------------
+
+* comparing file in different branches
+git diff branch1 branch2 file
+**   branch1 is compared to branch2;
+***   '+' are additions in branch2 (in comparison to branch 1)
+***   '-' are removals in branch2 (in comparison to branch 1)
+
+-------------------------------------------------------------------------------------------
+
+* Testing from branch and merge to master
+** create testing branch
+git branch testing
+
+** test new code in branch testing
+git checkout testing
+[test code]
+
+** merge branch testing to master
+git checkout master
+git merge testing
+--OR--
+** merge branch testing to master for only one file
+https://jasonrudolph.com/blog/2009/02/25/git-tip-how-to-merge-specific-files-from-another-branch/
+git checkout master
+git checkout testing file
+
+** delete branch testing
+git branch -d testing
+
+** commit changes in branch testing
+git checkout testing
+[test code complete]
+git commit -a -m 'commit-message'
+
+** push master
+git checkout master
+git push
+
+-------------------------------------------------------------------------------------------
+
+
+# move branchA to commitB
+# branches can be seen as labels to one or more commits (RR)
+# aowopi: move existing label 'branchA' to commitB
+# or (re)name the branch of commitB to branchA
+git checkout branchA
+git reset --hard commitB
+
+# error: cannot do a partial commit during a merge
+## stage additional files before commit
+git commit -i file_to_commit
+
+
+--------------------------------
+cleaning repo
+https://stackoverflow.com/questions/359424/detach-move-subdirectory-into-separate-git-repository/1591174#1591174
+
+for i in $(git branch -r | sed "s/.*origin\///"); do git branch -t $i origin/$i; done
+git remote rm origin
+
+git filter-branch --tag-name-filter cat --prune-empty --subdirectory-filter ABC -- --all
+OR
+git filter-branch --tag-name-filter cat --prune-empty --subdirectory-filter ABC HEAD
+
+git reset --hard
+git for-each-ref --format="%(refname)" refs/original/ | xargs -n 1 git update-ref -d
+# i did: git update-ref -d HEAD
+git reflog expire --expire=now --all
+git gc --aggressive --prune=now
+

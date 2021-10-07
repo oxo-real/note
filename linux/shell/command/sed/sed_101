@@ -1,0 +1,324 @@
+sed stream editor; transforms text input line by line
+## youtube: understanding how sed works (4 parts)
+
+syntax:		sed -options 'commands' input_file
+
+
+input  ==>  	pattern space (command processing) ==>  	output
+
+			/\
+			||
+			\/
+
+			hold space
+
+
+# general behaviour for every input line:
+1. copy current line to pattern space
+2. process commands in pattern space
+3. move result to output (automatic printing)
+4. goto next input line
+
+sed always runs for every line the general steps 1, 2, 3 and 4
+within step 2 specific commands can be executed
+
+the explanation below actually only zoom in at commands executed in step 2
+always take all the general behaviour steps of sed into consideration
+while writing or executing scripts
+
+
+sample file:
+1. The quick brown fox jumps over the lazy dog. (first line)
+2. The quick brown fox jumps over the lazy dog. (second line)
+3. The quick brown fox jumps over the lazy dog. (third line)
+4. The quick brown fox jumps over the lazy dog. (fourth line)
+
+
+# summary
+
+## options
+-n	no automatic printing (disable general step 3)
+
+## commands
+p	print current pattern space to output
+n	print current pattern space to output and goto next input line
+d	delete current pattern space, start next cycle
+=	print current line number
+N	read next input line into the pattern space
+P	print the first line of the current pattern space
+h/H	copy / append pattern space to hold space
+g/G	copy / append hold space to pattern space
+x	exchange the contents of hold space and pattern space
+s	substitute
+g	globally (work on all occurences)
+I	ignore case
+
+
+#examples of sed command and results
+
+sed ''
+
+for every line:
+1. 	copy current line to pattern space
+2. 	process commands in pattern space
+	no command
+3. 	move result to output
+4.	goto next input line
+
+1. The quick brown fox jumps over the lazy dog. (first line)
+2. The quick brown fox jumps over the lazy dog. (second line)
+3. The quick brown fox jumps over the lazy dog. (third line)
+4. The quick brown fox jumps over the lazy dog. (fourth line)
+
+
+sed 'p'		## print current pattern space to output; output = 2x input
+
+for every line:
+1. 	copy current line to pattern space
+2. 	process commands in pattern space
+p	print current pattern space to output
+3. 	move result to output
+4.	goto next input line
+
+1. The quick brown fox jumps over the lazy dog. (first line)
+1. The quick brown fox jumps over the lazy dog. (first line)
+2. The quick brown fox jumps over the lazy dog. (second line)
+2. The quick brown fox jumps over the lazy dog. (second line)
+3. The quick brown fox jumps over the lazy dog. (third line)
+3. The quick brown fox jumps over the lazy dog. (third line)
+4. The quick brown fox jumps over the lazy dog. (fourth line)
+4. The quick brown fox jumps over the lazy dog. (fourth line)
+
+
+sed -n 'p'	## same, but no automatic printing (disable step 3); output = input
+
+for every line:
+-n	no automatic printing (disable general step 3)
+1. 	copy current line to pattern space
+2. 	process commands in pattern space
+p	print current pattern space to output
+3. 	-n option disables: move result to output
+4.	goto next input line
+
+1. The quick brown fox jumps over the lazy dog. (first line)
+2. The quick brown fox jumps over the lazy dog. (second line)
+3. The quick brown fox jumps over the lazy dog. (third line)
+4. The quick brown fox jumps over the lazy dog. (fourth line)
+
+
+sed 'd'		## delete pattern space and goto next input line; no output
+
+for every line:
+1. 	copy current line to pattern space
+2. 	process commands in pattern space
+d	delete current pattern space, start next cycle
+3. 	d command disables: move result to output
+4.	d command disables: goto next input line
+
+
+sed 'd; p'	## no output
+
+for every line:
+1. 	copy current line to pattern space
+2. 	process commands in pattern space
+d	delete current pattern space, start next cycle
+p	d command disables: print current pattern space to output
+3. 	d command disables: move result to output
+4.	d command disables: goto next input line
+
+
+sed -e 'd' -e 'p' 	## same as "sed 'd; p'"; no output
+
+
+
+sed 'p; d'	## 1x output
+
+for every line:
+1. 	copy current line to pattern space
+2. 	process commands in pattern space
+p	print current pattern space to output
+d	delete current pattern space, start next cycle
+3. 	d command disables: move result to output
+4.	d command disables: goto next input line
+
+1. The quick brown fox jumps over the lazy dog. (first line)
+2. The quick brown fox jumps over the lazy dog. (second line)
+3. The quick brown fox jumps over the lazy dog. (third line)
+4. The quick brown fox jumps over the lazy dog. (fourth line)
+
+
+#substitution
+
+
+sed 's/a/b/'	## substitute a for b (first occurence in line)
+
+1. The quick brown fox jumps over the lbzy dog. (first line)
+2. The quick brown fox jumps over the lbzy dog. (second line)
+3. The quick brown fox jumps over the lbzy dog. (third line)
+4. The quick brown fox jumps over the lbzy dog. (fourth line)
+
+
+sed 's/o/x/g'	## substitute o for x globally (every occurrence in line)
+
+1. The quick brxwn fxx jumps xver the lazy dxg. (first line)
+2. The quick brxwn fxx jumps xver the lazy dxg. (secxnd line)
+3. The quick brxwn fxx jumps xver the lazy dxg. (third line)
+4. The quick brxwn fxx jumps xver the lazy dxg. (fxurth line)
+
+
+sed '2,3s/a/b/'	## substitute a for b in lines 2 to 3
+
+1. The quick brown fox jumps over the lazy dog. (first line)
+2. The quick brown fox jumps over the lbzy dog. (second line)
+3. The quick brown fox jumps over the lbzy dog. (third line)
+4. The quick brown fox jumps over the lazy dog. (fourth line)
+
+
+#search pattern
+sed '/first/,/third/s/a/b/'	## substitute a for b from (search pattern) first 'first' to last 'third'
+
+1. The quick brown fox jumps over the lbzy dog. (first line)
+2. The quick brown fox jumps over the lbzy dog. (second line)
+3. The quick brown fox jumps over the lbzy dog. (third line)
+4. The quick brown fox jumps over the lazy dog. (fourth line)
+
+
+#search pattern
+
+sed '/third/,/$/s/a/b/'
+
+## substitute a for b from (search pattern) first 'third' to end of file
+
+1. The quick brown fox jumps over the lazy dog. (first line)
+2. The quick brown fox jumps over the lazy dog. (second line)
+3. The quick brown fox jumps over the lbzy dog. (third line)
+4. The quick brown fox jumps over the lbzy dog. (fourth line)
+
+
+# multiple commands on a range with brace expansion
+# only show affected lines
+# p command: print current pattern space to output
+
+sed -n '2,3{s/a/b/; p}'
+
+## no automatic printing (-n), for lines 2 to 3, substitute a for b and print current pattern space to output (p).
+## ranges act like if statements in sed; if line is between 2 and 3 then execute s command and p command
+
+2. The quick brown fox jumps over the lbzy dog. (second line)
+3. The quick brown fox jumps over the lbzy dog. (third line)
+
+
+# this can als be done with an p flag to the s command:
+sed -n '2,3s/a/b/p'
+
+2. The quick brown fox jumps over the lbzy dog. (second line)
+3. The quick brown fox jumps over the lbzy dog. (third line)
+
+
+#######
+
+# line numbers
+# = command: print current line number
+sed '='		## print currnt line number, automatic print pattern space, next line
+
+1
+1. The quick brown fox jumps over the lazy dog. (first line)
+2
+2. The quick brown fox jumps over the lazy dog. (second line)
+3
+3. The quick brown fox jumps over the lazy dog. (third line)
+4
+4. The quick brown fox jumps over the lazy dog. (fourth line)
+
+
+# amount of lines in file (wc -l)
+sed -n '$=' 	## no automatic printing (-n), end of file ($), line number (=)
+
+4
+
+
+# n command
+## print to output and goto next input line
+sed '=; n'	## print line number (=), print to output and go to next input line (n)
+		## only linenumbers 1 and 3 are printed by sed
+
+1
+1. The quick brown fox jumps over the lazy dog. (first line)
+2. The quick brown fox jumps over the lazy dog. (second line)
+3
+3. The quick brown fox jumps over the lazy dog. (third line)
+4. The quick brown fox jumps over the lazy dog. (fourth line)
+
+
+# with -n sed does not print to output when it goes to the next line
+sed -n '=; n'	## no automatic printing (-n), print line number (=),
+			print to output and goto next input line (n)
+
+1
+3
+
+# adding p command gives
+sed -n '=; n; p'
+## 1. copy current line to pattern space
+## 2. process commands in pattern space
+## -n	no automatic printing
+## =	print current line number
+## n	print to output and goto next line
+## p	explicitly print to output
+## 3.	move result to output and goto next input line
+
+1
+2. The quick brown fox jumps over the lazy dog. (second line)
+3
+4. The quick brown fox jumps over the lazy dog. (fourth line)
+
+
+# commands with capital letters
+
+# N pull next line into the pattern space
+sed '=; N'
+## 1.	copy current line to pattern space
+## 2.	process commands in pattern space
+## =	print current line number
+## N 	pull next line into the pattern space
+## 3.	move result to output and goto next input line
+
+1
+1. The quick brown fox jumps over the lazy dog. (first line)
+2. The quick brown fox jumps over the lazy dog. (second line)
+3
+3. The quick brown fox jumps over the lazy dog. (third line)
+4. The quick brown fox jumps over the lazy dog. (fourth line)
+
+
+# P command
+# print the first line of the pattern sapce
+sed 'n; N; P'
+## 1.	copy current line to pattern space
+## 2. 	process commands in pattern space
+## n	print to output and goto next input line
+## N	pull next line into the pattern space
+## P	print the first line of the pattern space
+## 3.	move result to output and goto next input line
+
+1. The quick brown fox jumps over the lazy dog. (first line)
+2. The quick brown fox jumps over the lazy dog. (second line)
+2. The quick brown fox jumps over the lazy dog. (second line)
+3. The quick brown fox jumps over the lazy dog. (third line)
+4. The quick brown fox jumps over the lazy dog. (fourth line)
+
+
+sed 'n; N; p'
+## 1.	copy current line to pattern space
+## 2. 	process commands in pattern space
+## n	print to output and goto next input line
+## N	pull next line into the pattern space
+## p	print current pattern space to output
+## 3.	move result to output and goto next input line
+
+1. The quick brown fox jumps over the lazy dog. (first line)
+2. The quick brown fox jumps over the lazy dog. (second line)
+3. The quick brown fox jumps over the lazy dog. (third line)
+2. The quick brown fox jumps over the lazy dog. (second line)
+3. The quick brown fox jumps over the lazy dog. (third line)
+4. The quick brown fox jumps over the lazy dog. (fourth line)

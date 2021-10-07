@@ -1,0 +1,70 @@
+squelch		noise reduction level
+
+Q codes applicable for use in amateur radio
+Code	Question	Answer or Statement
+QRA	What is the name (or call sign) of your station?	The name (or call sign) of my station is ...
+QRG	Will you tell me my exact frequency (or that of ...)?	Your exact frequency (or that of ... ) is ... kHz (or MHz).
+QRH	Does my frequency vary?	Your frequency varies.
+QRI	How is the tone of my transmission?	The tone of your transmission is (1. Good; 2. Variable; 3. Bad)
+QRJ	How many voice contacts do you want to make?	I want to make ... voice contacts.
+QRK	What is the readability of my signals (or those of ...)?	The readability of your signals (or those of ...) is ... (1 to 5).
+QRL	Are you busy?	I am busy. (or I am busy with ... ) Please do not interfere.
+QRM	Do you have interference?	I have interference.
+QRN	Are you troubled by static?	I am troubled by static.
+QRO	Shall I increase power?	Increase power.
+QRP	Shall I decrease power?	Decrease power.
+QRQ	Shall I send faster?	Send faster (... wpm)
+QRS	Shall I send more slowly?	Send more slowly (... wpm)
+QRT	Shall I cease or suspend operation?/ shutoff the radio	I am suspending operation. /shutting off the radio
+QRU	Have you anything for me?	I have nothing for you.
+QRV	Are you ready?	I am ready.
+QRW	Shall I inform ... that you are calling him on ... kHz (or MHz)?	Please inform ... that I am calling him on ... kHz (or MHz).
+QRX	When will you call me again?	I will call you again at ... (hours) on ... kHz (or MHz)
+QRZ	Who is calling me?	You are being called by ... on ... kHz (or MHz)
+QSA	What is the strength of my signals (or those of ... )?	The strength of your signals (or those of ...) is ... (1 to 5).
+QSB	Are my signals fading?	Your signals are fading.
+QSD	Is my keying defective?	Your keying is defective.
+QSG	Shall I send ... telegrams (messages) at a time?	Send ... telegrams (messages) at a time.
+QSK	Can you hear me between your signals?	I can hear you between my signals.
+QSL	Can you acknowledge receipt?	I am acknowledging receipt.
+QSM	Shall I repeat the last telegram (message) which I sent you, or some previous telegram (message)?	Repeat the last telegram (message) which you sent me (or telegram(s) (message(s)) numbers(s) ...).
+QSN	Did you hear me (or ... (call sign)) on .. kHz (or MHz)?	I did hear you (or ... (call sign)) on ... kHz (or MHz).
+QSO	Can you communicate with ... direct or by relay?	I can communicate with ... direct (or by relay through ...).
+QSP	Will you relay a message to ...?	I will relay a message to ... .
+QSR	Do you want me to repeat my call?	Please repeat your call; I did not hear you.
+QSS	What working frequency will you use?	I will use the working frequency ... kHz (or MHz).
+QST	-	Here is a broadcast message to all amateurs.
+QSU	Shall I send or reply on this frequency (or on ... kHz (or MHz))?	Send or reply on this frequency (or on ... kHz (or MHz)).
+QSW	Will you send on this frequency (or on ... kHz (or MHz))?	I am going to send on this frequency (or on ... kHz (or MHz)).
+QSX	Will you listen to ... (call sign(s) on ... kHz (or MHz))?	I am listening to ... (call sign(s) on ... kHz (or MHz))
+QSY	Shall I change to transmission on another frequency?	Change to transmission on another frequency (or on ... kHz (or MHz)).
+QSZ	Shall I send each word or group more than once?	Send each word or group twice (or ... times).
+QTA	Shall I cancel telegram (message) No. ... as if it had not been sent?	Cancel telegram (message) No. ... as if it had not been sent.
+QTC	How many telegrams (messages) have you to send?	I have ... telegrams (messages) for you (or for ...).
+QTH	What is your position in latitude and longitude (or according to any other indication)?	My position is ... latitude...longitude
+QTR	What is the correct time?	The correct time is ... hours
+QTU	At what times are you operating?	I am operating from ... to ... hours.
+QTX	Will you keep your station open for further communication with me until further notice (or until ... hours)?	I will keep my station open for further communication with you until further notice (or until ... hours).
+QUA	Have you news of ... (call sign)?	Here is news of ... (call sign).
+QUC	What is the number (or other indication) of the last message you received from me (or from ... (call sign))?	The number (or other indication) of the last message I received from you (or from ... (call sign)) is ...
+QUD	Have you received the urgency signal sent by ... (call sign of mobile station)?	I have received the urgency signal sent by ... (call sign of mobile station) at ... hours.
+QUE	Can you speak in ... (language), - with interpreter if necessary; if so, on what frequencies?	I can speak in ... (language) on ... kHz (or MHz).
+QUF	Have you received the distress signal sent by ... (call sign of mobile station)?	I have received the distress signal sent by ... (call sign of mobile station) at ... hours.
+
+Chart of the Morse code letters and numerals.
+
+Some of the common usages vary somewhat from their formal, official sense. QRL? is the accepted form of the question, "Is this frequency in use (or busy)?", the reply to which is typically the letters "C" (dah di dah dit), "R" (di dah dit) or "Y" (dah di dah dah) which, in the Amateur radio tradition, are the Morse code shorthand for "Confirm", "Roger" or "Yes." There are also a few unofficial and humorous codes in use, such as QLF ("try sending with your LEFT foot") and QSC ("send cigarettes", not the official meaning of "this is a cargo vessel"). In the question form, QNB?, is supposed to mean "How many buttons does your radio have?" A reply of the form QNB 45/15 means "45, and I know what 15 of them do." QSJ is sometimes used to refer to the cost of something - "I would like an FT9000 but it is too much QSJ". (QSJ actually means "What is the charge to be collected to ... including your internal charge?").
+
+QSK - "I can hear you during my transmission" - refers to a particular mode of Morse code operating in which the receiver is quickly enabled during the spaces between the dits and dahs, which allows another operator to interrupt transmissions. Many modern transceivers incorporate this function, sometimes referred to as full break-in as against semi-break-in in which there is a short delay before the transceiver goes to receive.
+
+A conversation or contact via amateur radio is often referred to as a QSO, while QSL cards are collected by both radioamateurs and shortwave listeners as confirmation of having received the signal of a particular station.
+
+Regarding the speed of the Morse code being sent, if the speed is too fast and the receiving operator cannot copy the code at said speed, that operator may send "QRS", the request to "please slow down." A courteous sender will slow down to match the speed of the slower operator.
+
+QTHR - "at the registered address for my callsign", this is used mainly in the United Kingdom and former colonies. Since business may not be discussed on amateur radio, a ham who has personal equipment to sell might say something like "I have a spare Morse key old chap, please contact me QTHR".
+
+Note: The ARRL codes QNA-QNZ overlap with International Civil Aviation Organization (ICAO) codes but have different meanings.
+
+websites:
+repeaterbook
+radioreference

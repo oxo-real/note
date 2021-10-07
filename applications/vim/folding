@@ -1,0 +1,28 @@
+# define folds
+# {{{
+## create fold
+zf
+## delete fold
+zd
+#	}}}
+
+# open and close folds	{{{
+## open
+zo
+## close
+zc
+## toggle
+za
+## open all
+zO
+## close all
+zC
+## toggle al
+zA
+## reduce fold level
+zr
+## more folding
+zm
+## close all
+zM
+#	}}}

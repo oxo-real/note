@@ -1,0 +1,22 @@
+# make white (background) transparent
+
+## solution1
+convert white_bg.png -transparent white transparent_bg.png
+
+## solution2
+color=$( convert filename.png -format "%[pixel:p{0,0}]" info:- )
+convert filename.png -alpha off -bordercolor $color -border 1 \
+    \( +clone -fuzz 30% -fill none -floodfill +0+0 $color \
+       -alpha extract -geometry 200% -blur 0x0.5 \
+       -morphology erode square:1 -geometry 50% \) \
+    -compose CopyOpacity -composite -shave 1 outputfilename.png
+Explanation
+This is rather a bit longer than the simple answers previously given, but it gives much better results: (1) The quality is superior due to antialiased alpha, and (2) only the background is removed as opposed to a single color. ("Background" is defined as approximately the same color as the top left pixel, using a floodfill from the picture edges.)
+Additionally, the alpha channel is also eroded by half a pixel to avoid halos. Of course, ImageMagick's morphological operations don't (yet?) work at the subpixel level, so you can see I am blowing up the alpha channel to 200% before eroding.
+
+# make all grayscales bluetones
+convert input_grayscales.png +level-colors blue, output_bluetones.png
+
+## original document has colours; desaturate first
+convert input.pdf -modulate 100,0 +level-colors blue, blueResult.pdf
+

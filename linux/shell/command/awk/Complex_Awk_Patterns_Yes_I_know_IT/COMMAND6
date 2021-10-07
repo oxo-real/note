@@ -1,0 +1,13 @@
+# 6
+awk '
+  BEGIN { FS="|"; OFS="|" }
+  NR<3 || !(toupper($3) == "TEXAS") {
+    print $3,$4,$5,$12
+  }' ECN_2012_US_00CCOMP1.psv | less
+
+awk '
+  BEGIN { FS="|"; OFS="|" }
+  NR<3 || (toupper($3) != "TEXAS") {
+    print $3,$4,$5,$12
+  }' ECN_2012_US_00CCOMP1.psv | less
+

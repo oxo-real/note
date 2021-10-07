@@ -1,0 +1,59 @@
+# tpope vim surround
+# edit surroundings in pairs
+
+vim [NORMAL] mode
+
+# add surrounding (ys)
+{{{
+
+## to a line (sentence)
+{{{
+### double quotes (")
+yss"
+### ex:		Sen ten ce.		yss"		"Sen ten ce."
+
+### tag <q>
+ysst<q>
+### ex:		Sen ten ce.		ysst<q>		<q>Sen ten ce.</q>
+}}}
+
+## to a word
+{{{
+
+### double quotes (")
+ysiw"
+### ex:		hello			ysiw"		"hello"
+
+### tag <q>
+ysiw<q>
+### ex:		hello			ysiwt<q>	<q>hello</q>
+}}}
+}}}
+
+# change surrouding (cs)
+{{{
+
+## double quotes (") to single quotes (')
+cs"'
+### ex:		"hello"			cs"'		'hello'
+
+## single quotes (') to tag	<q>
+cs'<q>
+### ex:		'hello'			cs"<q>		<q>hello</q>
+
+## tag to double quotes (")
+cst"
+### ex:		<q>hello</q>	cst"		"hello"
+}}}
+
+# delete surrouding (ds)
+{{{
+
+## double quotes (")
+ds"
+### ex:		"hello"			ds"			hello
+
+##	tags
+dst
+### ex:		<q>hello</q>	dst			hello
+}}}

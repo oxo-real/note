@@ -1,0 +1,67 @@
+```
+sudo systemctl start systemd-resolved.service
+```
+
+systemd-resolved has four modes for handling the Domain name resolution
+(the four modes are described in systemd-resolved(8)).
+
+one of them is using the systemd DNS stub file:
+
+/run/systemd/resolve/stub-resolv.conf
+
+this file contains:
+- the local stub 127.0.0.53 as the only DNS server and
+- a list of search domains.
+
+This is the recommended mode of operation.
+The service users are advised to redirect the /etc/resolv.conf file to the local
+stub DNS resolver file /run/systemd/resolve/stub-resolv.conf managed by
+systemd-resolved.
+This propagates the systemd managed configuration to all the clients.
+This can be done by replacing /etc/resolv.conf with a symbolic link to the
+systemd stub:
+
+```
+# ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+```
+
+check if dns is used by systemd-resolved:
+
+```
+resolvectl status
+```
+
+## set dns server automatically
+systemd-resolved will work out of the box with a network manager using /etc/resolv.conf.
+No particular configuration is required since systemd-resolved will be detected
+by following the /etc/resolv.conf symlink. This is going to be the case with
+systemd-networkd or NetworkManager.
+
+if the DHCP and VPN clients use the resolvconf program to set name servers and
+search domains (see openresolv#Users for a list of software that use resolvconf),
+the additional package systemd-resolvconf is needed to provide the /usr/bin/resolvconf symlink.
+## set dns server manually
+In local DNS stub mode, custom DNS server(s) can be set in the resolved.conf(5) file:
+
+/etc/systemd/resolved.conf.d/dns_servers.conf
+```
+[Resolve]
+DNS=192.168.3.1
+Domains=~.
+```
+
+DNS over TLS is disabled by default. To enable it change the DNSOverTLS= setting
+in the [Resolve] section in resolved.conf(5). To enable validation of your DNS
+provider's server certificate, include their hostname in the DNS= setting in
+the format ip_address#hostname. For example:
+
+/etc/systemd/resolved.conf.d/dns_over_tls.conf
+```
+[Resolve]
+DNS=9.9.9.9#dns.quad9.net
+DNSOverTLS=yes
+```
+Note: The DNS server used must support DNS over TLS. Otherwise all DNS requests will fail.
+
+
+source: https://wiki.archlinux.org/index.php/Systemd-resolved#DNS_over_TLS

@@ -1,0 +1,7 @@
+yay -S protonmail-bridge-nogui
+
+protonmail-bridge --cli
+
+login
+
+info

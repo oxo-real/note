@@ -1,0 +1,5 @@
+# xml_prettify
+
+## yay -S libxml
+curl "https://website_with_xml" | xmllint --format -
+cat file.xml | xmllint --format -

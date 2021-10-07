@@ -1,0 +1,24 @@
+# troubleshooting <service>
+
+## find systemd services that failed to start at boot time
+```
+systemctl --state=failed
+```
+```
+journalctl -fp err
+```
+
+## get status about <service>
+```
+systemctl status <service>
+```
+
+## restart failed service
+```
+systemctl restart <service>
+```
+
+## with the PID of the service get all the associated log items
+```
+journalctl _PID=PID
+```

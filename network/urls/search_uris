@@ -1,0 +1,24 @@
+# duckduckgo.com
+
+## settings cloud save
+https://duckduckgo.com/settings
+
+## Bookmarklet URL:
+https://duckduckgo.com/?kae=-1&kk=-1&kao=-1&kg=p&kc=-1&kaj=m&kam=osm&k1=-1&kz=-1&kv=-1&kaq=-1&kap=-1&kau=-1&kak=-1&kax=-1&kp=-2&kac=-1&kf=-1
+
+## Cloud Save Bookmarklet URL:
+https://duckduckgo.com/?key=e3b79889338a925876dbb4b397ecd80a78f9fefe0e0be0c7920e7cb5414cffff9f3d83338c168a3687307340403f9b42998ec507fe7fb726939d3d749f06657b
+
+## Settings in JSON:
+{"kae":"-1","kk":"-1","kao":"-1","kg":"p","kc":"-1","kaj":"m","kam":"osm","k1":"-1","kz":"-1","kv":"-1","kaq":"-1","kap":"-1","kau":"-1","kak":"-1","kax":"-1","kp":"-2","kac":"-1","kf":"-1"}
+
+## Cookie Data:
+ae=-1; z=-1; ak=-1; au=-1; ap=-1; aq=-1; v=-1; p=-2; ax=-1; k=-1; g=p; c=-1; ao=-1; am=osm; aj=m; 1=-1; f=-1; ac=-1
+
+# startpage.com
+
+## Plaintext URL:
+https://www.startpage.com/do/mypage.pl?prfh=enable_stay_controlEEE0N1NsuggestionsEEE0N1Ngeo_mapEEE1N1Nwikipedia_iaEEE0N1Nother_iaEEE0N1Ndisable_open_in_new_windowEEE1N1Ndisable_video_family_filterEEE1N1Nenable_post_methodEEE1N1Nenable_proxy_safety_suggestEEE1N1Ndisable_family_filterEEE1N1Nconnect_to_serverEEEeuN1NsslEEE1N1Nlanguage_uiEEEenglishN1NlanguageEEEenglishN1Nwt_unitEEEcelsiusN1Nnum_of_resultsEEE20N1Nlang_homepageEEEs/blak/en/
+
+## Obfuscated URL:
+https://www.startpage.com/do/mypage.pl?prfe=36c84513558a2d34bf0d89ea505333ad18ff0609e44ee782d60988da7c155e47818f1bb4bea737977698d9dd8c1f5e42d598b949d91446c9

@@ -1,0 +1,5 @@
+# convert vcard to abook
+abook --convert --informat vcard --infile *.vcf --outformat abook --outfile <out_file>
+
+# vcard format
+https://tools.ietf.org/html/rfc6350

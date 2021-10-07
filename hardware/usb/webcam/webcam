@@ -1,0 +1,11 @@
+if device is usb video class (UVC) compliant
+it is supported by the generic uvcvideo kernel driver module
+and the device should work out of the box
+
+image streams via: /dev/videoN
+
+show image:
+mpv /dev/video0
+
+or use:
+guvcview

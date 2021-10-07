@@ -1,0 +1,90 @@
+# interface list
+tshark -D
+tcpdump -D
+###if you not see your network card, add yourself to the 'wireshark' user group
+groups				## see all groups
+groups <user>			## see <user> memberships
+gpasswd -a <user> <group>	## add <user> to <group>
+
+
+# capture to stdout
+## tshark captures on first interface it encounters
+tshark
+## -i any; capture all interfaces to stdout
+### linux cooked capture / no ethernet packets visible
+tshark -i any
+## -i interface; capture specific interface to stdout
+tshark -i tun0
+## capture only icmp to stdout
+tshark -i tun0 icmp
+
+# capture to file
+## -w file; capture to file
+tshark -i tun0 -w file.pcap
+## -c n; capture n packets
+tshark -i tun0 -w file.pcap -c n
+
+# read filters
+## -r read filter
+## -c capture packet count
+tshark -r file.pcap -c 5
+## -Y display filter
+tshark -r file.pcap -Y http
+## -V detailed packet frame info
+tshark -r file.pcap -V -c 1 ## not exclude protocols
+tshark -r file.pcap not https
+
+# pcap metadata
+capinfos file.pcap
+capinfos important field is 'Filter string'
+
+# show pcap statistics options (-z):
+tshark -r file.pcap -qz help
+# statistics on hosts
+tshark -r file.pcap -qz hosts
+tshark -r file.pcapng -qz http,tree
+tshark -r file.pcapng -qz io,phs
+protocol hierarchy statistics
+io statistics
+tshark -r file.pcapng -z io,stat,1 -q
+tshark -r 0913.pcapng -q -z conv,eth | head
+biggest ethernet conversations
+biggest ip conversations
+tshark -r 0913.pcapng -q -z conv,ip | head
+gui: statistics > endpoints
+ip resolving via -H option and hosts file
+tshark -r 0913.pcapng -q -z conv,ip -H hosts_file | head
+capture file integrity
+
+# top ten urls
+#tshark -r sample1.cap -R http.request -T fields -e http.host -e http.request.uri | sed -e ‘s/?.*$//’ | sed -e ‘s#^(.*)t(.*)$#http://12#’ | sort | uniq -c | sort -rn | head
+#>>> -R is deprecated, use -Y for single-pass filtering
+tshark -r sample1.cap -Y http.request -T fields -e http.host -e http.request.uri | sed -e ‘s/?.*$//’ | sed -e ‘s#^(.*)t(.*)$#http://12#’ | sort | uniq -c | sort -rn | head
+
+#user agents
+tshark -i tun0 -Y http.request -T fields -e http.host -e http.user_agent
+
+# user agent and frequencies
+tshark -r example.pcap -Y http.request -T fields -e http.host -e http.user_agent | sort | uniq -c | sort -n
+tshark -r test.pcap -q -T fields -e http.host -e http.user_agent -Y http.request | sed '/^$/d' | sort | uniq -c | sort -k1,1nr -k2
+
+# dns analysis
+## live filter
+tshark -i wlan0 -f "src port 53" -n -T fields -e dns.qry.name -e dns.resp.addr
+## with time and source / destination ip
+tshark -i wlan0 -f "src port 53" -n -T fields -e frame.time -e ip.src -e ip.dst -e dns.qry.name -e dns.resp.addr
+## dns packets
+tshark -nr example.pcap -T fields -e ip.src -e ip.dst -e dns.qry.name
+
+# passwords from plain http
+tshark -i wlan0 -Y 'http.request.method == POST and tcp contains "password"' | grep password
+
+# extract files
+## from smb stream
+tshark -nr test.pcap --export-objects smb,tmpfolder
+
+## from http
+tshark -nr test.pcap --export-objects http,tmpfolder
+
+## packets in detail
+tshark -r file.pcap -V

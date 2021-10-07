@@ -1,0 +1,32 @@
+.Xdefaults is deprecated
+all the settings should be in .Xresources
+and are called with: xrdb ~/.dot/.Xresources
+
+URxvt options via: urxvt --help
+
+check dpi settings of Xserver:
+xdpyinfo | grep resolution
+or:
+xrdb -query | grep dpi
+or:
+grep DPI ~/.local/share/xorg/
+
+File locations:
+Xorg logging:	~/.local/share/xorg/
+Config: 	/etc/X11/xorg.conf.d/
+System config:	/usr/share/X11/
+
+troubleshooting:
+http://wiki.x.org
+
+# dell xps 13 9350 specifications
+Dimensions: 846x476 mm
+Resolution:
+QHD+: 3200x1800 pixels (96 dpi) (3200/846*2,54*10)
+Full HD: 1920x1080 pixels
+96 dpi
+
+# set screen resolution:
+1. set xft.dpi in Xresources (200 for dell xps 13)
+2. adjust font size in .Xresources for URxvt if necessary (12 recommended)
+3. adjust font size in .i3rc for statusbar

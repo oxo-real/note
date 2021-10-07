@@ -1,0 +1,6 @@
+yay -Sy r pandoc_citeproc
+sudo R
+install.packages("rmarkdown")
+
+vim <F5> to compile, add to .vimrc:
+autocmd Filetype rmd map <F5> :!echo<space>"require(rmarkdown);<space>render('<c-r>%')"<space>\|<space>R<space>--vanilla<enter>

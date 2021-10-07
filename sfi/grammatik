@@ -1,0 +1,2488 @@
+ORDKLASSER
+{{{
+
+*.	mening
+{{{
+	en vanlig mening är en sats med mindestens en verb och en subject
+	en mening borjar med en stor bokstav och slutar med en punkt.
+}}}
+
+1.	verb
+{{{
+vrb	1		verb grupp 1
+vrb	2		verb grupp 2
+vrb	3		verb grupp 3
+vrb	4		verb grupp 4
+}}}
+
+2.	substantiv
+{{{
+sub	n		substantiv utrum	n-genus (en-ord)	(non-neuter, zijdig)
+sub	n*		substantiv grupp *
+sub	n1		substantiv grupp 1
+sub	n2a		substantiv grupp 2a
+sub	n2b		substantiv grupp 2b
+sub	n3a		substantiv grupp 3a
+sub	n3b		substantiv grupp 3b
+
+sub t		substantiv neutrum	t-genus (ett-ord)	(neuter, onzijdig)
+sub	t4		substantiv grupp 4
+sub	t5		substantiv grupp 5
+}}}
+
+3.	adjectiv
+{{{
+adj			adjectiv
+adj kom		adjectiv i komparativ
+adj sup		adjectiv i superlativ
+}}}
+
+4.	pronomen
+{{{
+prn sub		pronomen subjekt
+prn	obj		pronomen objekt
+prn	ref		pronomen reflexiva
+prn pos		pronomen posessiva
+prn dem		pronomen demonstrativa
+}}}
+
+5.	prepositioner
+{{{
+pps			prepositioner
+}}}
+
+6.	adverb
+{{{
+adv			adverb					(beskriver en handling eller ett tillstånd)
+									(bestämmer verb, adjektiv eller andra adverb)
+adv	kom		adverb komplement		tillägg
+adv adj		adverb adjunctiv		(can be omitted)
+adv con		adverb konjunctiv		bindeord
+adv dis		adverb disjunctiv		(comments rest of sentence)
+
+adv	rum		adverb rum, (plats-)
+}}}
+
+7.	räkneord
+{{{
+räk			räkneord				hur många, i vilken ordning (tex: ett, första)
+}}}
+
+8.	konjunktioner
+{{{
+kon			och
+kon			men
+kon			utan
+kon			att
+kon			om
+}}}
+
+9.	interjektioner
+{{{
+int			interjektioner			utrop (tex: hej, aj)
+}}}
+
+}}}
+
+
+verb
+{{{
+
+# grammatik
+vilken tid?
+
+# particip
+## perfekt particip
+en tvättad bil
+
+## presens particip
+en dansande flicka
+
+
+verb regler
+{{{
+
+# tempus och verbformerna
+{{{
+
+tempus						verbform							tiden är
+
+perfekt						presens		+ supinum				nuets dåtid
+presens						presens								nu (-ens nu)
+futurum						presens		+ infinitiv				framtid (nuets-)
+
+pluskvamperfekt				preteritum	+ supinum				dåtidens dåtid
+preteritum					preteritum							dåtid (-ens nu)
+futurum preteriti			preteritum	+ infinitiv				dåtidens framtid
+
+
+# verbformerna exempel
+
+verbform					exempel								tempus
+
+presens		+ supinum		Jag har ätit.						perfekt
+presens						Jag äter. Det regnar.				presens
+presens		+ infinitiv		Jag vill äta.						futurum
+
+preteritum	+ supinum		Jag hade ätit.						pluskvamperfekt
+preteritum					Jag åt.	Det regnade.				preteritum
+preteritum	+ infinitiv		Igår när jag skulle äta.			futurum preteriti
+
+
+verbform					exempel								tiden är
+
+presens						Jag hämtar barnen efter jobbet.		framtid (nuets-)
+presens						Jag spelar fotboll på torsdagar.	alltid (generell)
+
+
+# när händer tempus?
+
+tempus						   händer i
+					dådå	dåtid	nutid	framtid
+preteritum					*
+presens								*
+futurum										*
+
+pluskvaperfekt		*------->
+perfekt						*------->
+futurum preteriti	*
+
+presens										*				framtid
+presens				*------->------->------->------->		alltid
+
+perfekt			är relevant för nu, eller fortsätter till nu
+presens			nu
+futurum			i framtid
+preteritum		i dåtid
+
+}}}
+
+# verb grupper
+{{{
+vrb	1		presens	-ar
+vrb	2		presens	-er
+vrb	3		presens -{voc} och ett stavelse
+vrb	4		oregelbundna och starka verben
+}}}
+
+# classification algorithm
+{{{
+									böjdform
+									som grupp:
+
+oregelbundna och stärka verb	>	vrb	4
+
+ |
+\ /
+ `
+
+imperativ slutar på:
+
+	-{voc}
+
+		verb ha 1 stavelse		>	vrb 3
+
+ |
+\ /
+ `
+
+presens slutar på:
+
+	-er, -r
+
+		imperativ -{kptsx}		>	vrb 2b
+
+		imperativ -{con}		>	vrb 2a
+
+		special grupp			>	vrb 2c
+
+	-ar							>	vrb 1
+}}}
+
+# böjdform
+{{{
+grunden är imperativ
+
+vrb	g	imperativ	infinitiv	presens		preteritum	supinum
+		(stam)		(att)		(nutid)		(dåtid)		(perfekt)
+
+vrb 1	-a		=	-a			-r			-de			-t
+
+vrb 2a				-a			-er			-de			-t
+vrb 2b				-a			-er			-te			-t
+vrb 2c				-a			-r			-de			-t
+
+vrb 3			=				-r			-dde		-tt
+
+vrb 4	            -a			-r
+}}}
+
+# imperativ
+{{{
+direkt,kommando
+}}}
+
+# infinitiv
+{{{
+nästan alla verb i infinitiv slutar på -a
+böjdformen är alla från imperativ (stam)
+}}}
+
+# presens
+{{{
+nutid
+handlingen är nu
+
+när man beskriver en vana
+
+framtid
+	presens + tidsord
+	t ex: jag slutar kl 17.
+}}}
+
+# preteritum
+{{{
+handlingen är slut
+tiden är viktigt
+tiden är bestämd
+tiden är slut
+
+grupp 2b		+te		för imperativ -(kptsx)
+}}}
+
+# supinum
+{{{
+perfekt = har + supinum
+handlingen är slut
+tiden är ointeressnt
+tiden är inte slut
+}}}
+
+# futurum
+{{{
+futurum visar framtid
+ska + infinitiv
+}}}
+
+# perfekt
+{{{
+tiden är inte slut
+tiden är inte bestämd
+tiden är inte viktigt
+det finns tids-ord som visar nu-tid
+  }}}
+
+# grupp 4
+{{{
+infinitiv	=	imperativ +a
+presens		=	imperativ +er
+preteritum	=	imperativ med vokalbyte
+supinum		=	imperativ ibland med vokalbyte
+}}}
+
+# exempel
+{{{
+vrb	g	imperativ	infinitiv	presens		preteritum	supinum
+		(stam)		(att)		(nutid)		(dåtid)		(perfekt)
+
+vrb 1	titta		titta		tittar		tittade		tittat
+
+vrb 2a	ring		ringa		ringer		ringde		ringt
+vrb 2b	köp			köpa		köper		köpte		köpt
+vrb 2c	kör			köra		kör			körde		har kört
+
+vrb 3	klä			klä			klär		klädde		har klätt
+
+vrb 4	drick		dricka		dricker		drack		har druckit
+}}}
+
+# verb tempus
+{{{
+
+perfekt	är inte avslutad dåtid
+
+
+[nu]
+		perfekt					presens					futurum
+		[dåtid]					[nu]					[framtid]
+
+		har		lyssnat			lysnar					ska		lyssna
+
+
+[dåtid]
+		pluskvamperfekt			preteritum				futurum preteriti
+		[dåtidens dåtid]		[dåtidens nu]			[dåtidens framtid]
+
+		hade	lyssnat			lyssnade				skulla	lysna
+
+
+[futurum]?
+
+		[futurums dåtid]?		[futurums nu]?			[futurums framtid]?
+
+
+}}}
+
+# två verb
+{{{
+
+## första verb är position och andra verbet är activitet
+Hon sår och diskar.
+
+## många positionen; 'håller på att (inf)'
+Han håller på att laga bilen.
+Vi hållar på att stada huset.
+
+## rörelse sen activitet
+Jag åker och handlar.		\	syftar till framtid
+Vi går och hämta barnen.	/
+
+  }}}
+
+# bindeverb
+{{{
+	"Bindeverb" är namn på de verb som visar att någon eller något befinner sig i ett tillstånd.
+	Exempel:
+
+    Hon är söt.
+    Sture blev glad på festen.
+    Berit verkar trött.
+    Nils kallas "Tomten".
+    De heter Persson i efternamn.
+  }}}
+
+# hjälpverb
+{{{
+
+hjälpverb visar tid: presens eller preteritum
+
+hjälpverb	v1		har ingen innehåll, därför behover v1 en huvudverb
+huvudverb	v2	 	verb med innehåll (alla vänliga verb)
+
+## inte modala hjälpverb
+inte ändrar huvudverbets betydelse
+
+### framtid, bestämd
+
+hjälpverb
+		form				modus			förklaring
+presens		preteritum
+
+ska			komma						måste
+
+## modala hjälpverb
+ändrar huvudverbets betydelse
+
+### framtid, inte bestämd
+
+hjälpverb
+		form				modus			förklaring
+presens		preteritum
+
+försöker	försökte						fråga
+vill		ville			optativ;		önskan
+kan			kunnde			potentialis;	möjlikhet, tid, förmåga
+får			fick			permitiv;		tillstånd, tilllåtelse, lov, ok
+inte får	inte fick		prohibitativ;
+bör			borde							råd (nästan måste)
+måste		måste (var tvungen)	debitiv;	tvång, mer viktigt, kraft
+behöver		behövte							mindre viktigt, nötvändighed, kan inte tvinga
+hinner		hann							har tid
+brukar		brukade							vana
+har			hade							äga
+ska			skulle							vill eller tvång (will / shall)
+
+#[TODO] indelning: oftas <> sällan och tvungen <> frivilligt ?
+
+    kunna - potentialis
+    vilja - optativ (i vissa språk konjunktiv)
+    få - permitiv
+    inte få - prohibitativ
+    måsta (måste) - debitiv
+    behöva - ?
+    lyckas - ?
+    böra, borde - ?
+    lära (lär), torde, tör - ?
+    våga, töras - ?
+    skola (ska), ämna, tänka -  ?
+    tyckas, förefalla, verka, synas - ?
+    hinna - ?
+    orka, palla, idas, gitta, mäkta, tya - ?
+    förmå
+    nännas - ?
+    bruka - ?
+    börja - ?
+    fortsätta - ?
+    sluta - ?
+
+i infinitiv vi användar hjälpverb
+då i meningen ha vi två verb: v1 och v2
+
+ska (vrb)			>	bestämd framtid
+						(subjectivt)
+						en person bestämmer, säger eller tror någonting
+						shall be
+kommer att (vrb)	>	saker som hander, utan att någon bestämmer
+						(objektivt)
+						will be
+
+lär			troligen (statsadvl), lite mer säker än kanske, ganska säker.
+			tex: De lär vara hemma nu.
+
+slipper		behover inte
+			tex: Du slipper laga mat idag.
+
+orkar		ha styrka, ha energi (ids i norra sverige)
+			tex: Jag orkar lyfta stolen. (~ bättre är: kann)
+			oftas vi anvanda orkar med inte:
+			tex: Jag orkar inte läser boken nu.
+
+			tex: Orkar du fraga nig?
+
+}}}
+
+# passiva verb
+{{{
+# använder vi när subjektet är:
+-	okänt
+-	inte viktikt
+-	alla människor (t ex: man)
+
+# exempel
+
+	activ mening							passiv mening
+1.	Någon måste måla huset.				->	Huset måste målas
+
+	object 'huset' blir subject i passiv mening
+	subjektet 'någon' är borta i passiv mening
+	innehålls verbet (som har betudelse) 'måla' får en s
+
+	activ mening							passiv mening
+2.	Man får inte lämna skräp i skogen.	->	Skräp får inte lämnas i skogen.
+
+	objectet 'skräp' blir subject i passiv mening
+	subjektet 'man' är borta i passiv mening
+	innehålls verbet (som har betudelse) 'lämna' får en s
+
+}}}
+
+
+}}}
+
+verb orden
+{{{
+
+								(nutid)		(dåtid)		(perfekt)
+vrb	g	imperativ	infinitiv	presens		preteritum	supinum
+		(stam)		(att)								(har)
+
+vrb 1	{{{
+vrb	1	imperativ =	infinitiv
+vrb	1	bruka		bruka		brukar		brukade		brukat			ha som vana att
+vrb	1	börja		börja		börjar		började		börjat			start
+vrb	1	fiska		fiska		fiskar		fiskade		fiskat			fish
+vrb	1	flytta		flytta		flyttar		flyttade	flyttat			move
+vrb	1	halka		halka		halkar		halkade		halkat			slip
+vrb	1	hitta		hitta		hittar		hittade		hittat			finna, find
+vrb	1	hämta		hämta		hämtar		hämtade		hämtat			pick up
+vrb	1	hända		handa		händer		hände		hänt			ske, tilldra sig, drabba, happen
+vrb	1	hänga		hänga		hänger		hängde		hängt			hang
+vrb 1	jobba		jobba		jobbar		jobbade		jobbat			work
+vrb	1	klia		klia		kliar		kliade		kliat			irritera (huden), itch, riva, scratch
+vrb 1	krama		krama		kramar		kramade		kramat			hugg
+vrb	1	laga		laga		lagar		lagade		lagat			reparera, tillreda, make
+vrb	1	leta		leta		letar		letade		letat			söka
+vrb	1	orka		orka		orkar		okarde		orkat			har krafter (att), kan
+vrb	1	planera		planera		planerar	planerade	planerat		planning
+vbr	1	plocka		plocka		plockar		plockade	plockat			pick
+vrb	1	ramla		ramla		ramlar		ramlade		ramlat			falla
+vrb	1	regna		regna		regnar		regnade		regnat			rain
+vrb	1	rösta		rösta		röstar		röstade		röstat			välja, säga sin mening
+vrb	1	sakna		sakna		saknar		saknade		saknat			missing
+vrb	1	satsa		satsa		satsar		satsade		sastat			göra insats, sätta in
+vrb	1	stanna		stanna		stannar		stannade	stannat			stay
+vrb	1	städa		städa		städar		städade		städat			clean
+vrb	1	studera		studera		studerar	studerade	studerat		studying
+vrb	1	tappa		tappa		tappar		tappade		tappat			drop, lose
+vrb	1	tröst		trösta		trösta		tröstade	tröstat			console
+vrb	1	träffa		träffa		träffar		träffade	träffat			meet
+vrb	1	trilla		trilla		trilla		trillade	trillat			drop, lose
+vrb	1	trivs		trivas		triv		trivdes		trivts			tillfredställt, do well
+vrb 1	vänta		vänta		väntar		väntade		väntat			wait
+}}}
+
+vrb	2	{{{
+
+								(nutid)		(dåtid)		(perfekt)
+vrb	g	imperativ	infinitiv	presens		preteritum	supinum
+		(stam)		(att)								(har)
+
+vrb	2a?	betyd		betyda		betyder		betydde		betytt			innebära, mean
+vrb	2a	föd			föda		föder		födde		fött			ge liv åt, be born
+vrb	2a	häng		hänga		hänger		hängde		hängt			hang
+vrb	2a	skilj		skilja		skiljer		skilde		skilt			separate
+vrb	2a	stäng		stänga		stänger		stängde		stängt			close
+vrb 2a	känna		känna		känner		kände		känt			feel
+vrb	2a	ring		ringa		ringer		ringde		ringt			call
+vrb 2a	vända		vända s. om vänder		vände		vänt			turn around
+
+vrb	2a	sälj		sälja		säljer		sålde		sålt			sell
+
+vrb	2b	hjälp		hjälpa		hjälper		hjälpte		hjälpt			help
+vrb	2b	lek			leka		leker		lekte		lekt			play
+vrb	2b	lås			låsa		låser		låste		låst			lock
+vrb	2b	läs			läsa		läser		läste		läst			read
+vrb	2b	lös			lösa		löser		löste		löst			solve
+vrb	2b	res			resa		reser		reste		rest			travel
+vrb 2b	tänk		tänka		tänker		tänkte		tänkt			fundera, think
+vrb	2b	tyck		tycka		tycker		tyckte		tyckt			think, imagine
+vrb	2b	sök			söka		söker		sökte		sökt			letar efter, seek
+vrb	2b	väx			växa		växer		växte		växt			grow
+vrb 2b	åka			åka			åker		åkte		åkt				go, ride
+
+vrb	2c	hyr			hyra		hyr			hyrde		hyrt			rent
+vrb	2c	hör			höra		hör			hörde		hört			hear
+vrb	2c	kör			köra		kör			körde		kört			drive
+vrb	2c	lär			lära		lär			lärde		lärt			learn
+}}}
+
+vrb	3	{{{
+
+								(nutid)		(dåtid)		(perfekt)
+vrb	g	imperativ	infinitiv	presens		preteritum	supinum
+		(stam)		(att)								(har)
+
+vrb	3	bo			bo			bor			bodde		bott			live
+vrb	3	ro			ro			ror			rodde		rott			row
+vrb	3	fly			fly			flyr		flydde		flytt			flee
+vrb 3	tro			tro			tror		trodde		trott			think
+vrb 3	må			må			mår			mådde		mått			feel
+vrb 3	klä			klä			klär		klädde		klätt			dress
+vrb	3	sy			sy			syr			sydde		sytt			sew
+
+vrb 3?				heta		heter		hette		hetat			named
+
+}}}
+
+vrb	4	{{{
+# grupp 4 är två grupper: oregelbundna och starka verben
+# starka verben har regler; de byten vokalerna efter olika mönster
+# bytmönster är: iei, iau, uöu och yöu
+
+								(nutid)		(dåtid)		(perfekt)
+vrb	g	imperativ	infinitiv	presens		preteritum	supinum
+		(stam)		(att)								(har)
+
+vrb	4	vara					är			var			varit			am/are/is
+
+bytmönster iei					i			e			i
+{{{
+vrb	4	bli			bli			blir		blev		blivit			become
+vrb	4	glid		glida		glider		gled		glidit			glide
+vrb	4	grip		gripa		griper		grep		gripit			grab
+
+vrb	4	lid			lida		lider		led			lidit			lead
+vrb	4	rid			rida		rider		red			ridit			ride
+vrb	4	riv			riva		river		rev			rivit			tear
+
+vrb	4	skin		skina		skiner		sken		skinit			shine
+vrb	4	skrik		skrika		skriker		skrek		skrikit			yell
+vrb	4	skriv		skriva		skriver		skrev		skrivit			write
+
+vrb	4	stig		stiga		stiger		steg		stigit			rise, step
+vrb	4	strid		strida		strider		stred		sridit			conflict, fight
+vrb	4	svid		svida		svider		sved		svidit			ont, sting, smart i brännande sätt
+
+vrb	4	svik		svika		sviker		svek		svikit			fail
+vrb	4	tig			tiga		tiger		teg			tigit			keep silent
+vrb	4	vik			vika		viker		veg			vikit			fold
+}}}
+bytmönster iau					i			a			u
+{{{
+vrb	4	brinn		brinna		brinner		brann		brunnit			burn
+vrb	4	finn		finna		finner		fann		funnit			hittar, find
+vrb	4	-			finnas		finns		fanns		funnits			am, is, are, exist
+
+vrb	4	hinn		hinna		hinner		hann		hunnit			have time, reach
+vrb	4	rinn		rinna		rinner		rann		runnit			flow, run
+
+vrb	4	spring		springa		springer	sprang		sprungit		run
+vrb	4	vinn		vinna		vinner		vann		vunnit			won
+vrb	4	försvin		försvinna	försvinner	försvann	försvunnit		disappear
+
+vrb	4	drick		dricka		dricker		drack		druckit			drink
+vrb	4	sprick		spricka		spricker	sprack		spruckit		crack, fracture
+
+vrb	4	bind		binda		binder		band		bunnit			tie, bind
+vrb	4	slipp		slippa		slipper		slapp		sluppit			avoid, escape, inte behöva
+vrb 4	sit			sitta		sitter		satt		suttit			sit
+}}}
+bytmönster uöu					u			ö			u
+{{{
+vrb	4	bjud		bjuda		bjuder		bjöd		bjudit			invite
+vrb	4	ljug		ljuga		ljuger		ljög		ljugit			lie
+vrb	4	njut		njuta		njuter		njöt		njutit			enjoy
+
+vrb	4	sjung		sjunga		sjunger		sjöng		sjungit			sing
+vrb	4	sjunk		sjunka		sjunker		sjönk		sjunkit			sink
+vrb	4	skjut		skuta		skjuter		sköt		skjutit			shoot, move
+
+vrb	4	smyg		smyga		smyger		smög		smugit			steal
+vrb	4	stryk		stryka		stryker		strök		strukit			iron, strike off, stroke
+vrb	4	sup			supa		super		söp			supit			drycka sprit
+}}}
+bytmönster yöu					y			ö			u
+{{{
+vrb	4	bryt		bryta		bryter		bröt		brutit			break
+
+vrb	4	flyg		flygga		flyger		flög		flugit			fly
+vrb	4	flyt		flyta		flyter		flöt		flutit			flow, float
+vrb	4	frys		frysa		fryser		frös		frusit			freeze
+
+vrb	4	knyt		knyta		knyter		knöt		knutit			tie
+vrb	4	kryp		krypa		kryper		kröp		krupit			creep, crawl
+}}}
+
+andra bytmönster
+
+bytmönster						a/u/å		ö			a/u/å
+{{{
+vrb	4	fall		falla		faller		föll		fallit			fall
+vrb	4	hugg		hugga		hugger		högg		huggit			chop, cut, bite
+vrb	4	håll		hålla		håller		höll		hållit			hold, keep
+}}}
+bytmönster						ä			a			u
+{{{
+vrb	4	skär		skära		skär		skar		skurit			cut
+vrb	4	stjäl		stjäla		stjäl		stal		stulit			ta andras egendom, steal
+vrb	4	bär			bära		bär			bar			burit			ha på sig, carry, wear
+}}}
+bytmönster						ä			o			u
+{{{
+vrb	4	svär		svära		svär		svor		svurit			swear (!specialt bojdform)
+}}}
+bytmönster						a/å			o			a
+{{{
+vrb	4	dra			dra			drar		drog		dragit			draw, pull
+vrb	4							far			for			farit			förflytta dig, go
+vrb	4	ta			taga		tar			tog			tagit			take
+
+vrb	4	slå			slå			slår		slog		slagit			ge slag, hit, beat, strike
+vrb	4	slåss		slåss		slåss		slogs		slagits			slå varandra
+}}}
+bytmönster						e			a			e
+{{{
+vrb	4	be			be			ber			bad			bett			ask
+vrb 4	ge			ge			ger			gav			gett (givit)	give (givit är formellt)
+vrb	4	le			le			ler			log			lett			smile
+}}}
+---
+
+vrb	4	bestå		bestå		består		bestod		bestått			att finnas, exist
+
+vrb 4	se			se			ser			såg			sett			see
+vrb 4	dö			dö			dör			dog			dött			die
+vrb	4	stå			stå			står		stod		stått			stand
+
+vrb	4	-			få			får			fick		fått			get
+vrb	4	gå			gå			går			gick		gått			go
+
+vrb	4	sätt		sätta		sätter		satte		satt			place
+vrb	4	ha			ha			har			hade		haft			have
+
+vrb	4	gör			göra		gör			gjorde		gjort			doing
+vrb	4	bo			bo			bör			borde		bort			should, ought to
+
+vrb	4	sov			sova		sover		sov			sovit			sleep
+vrb 4	kom			komma		kommer		kom			kommit			come
+
+vrb	4	ät			äta			äter		åt			ätit			eat
+vrb	4	låt			låta		låter		lät			låtit			tillåta, gå med på, allow
+vrb	4	gråt		gråta		gråter		grät		gråtit			cry
+
+vrb	4	ligg		ligga		ligger		låg			legat			lie
+vrb	4	-			vilja		vill		ville		velat			want
+vrb	4	vet			veta		vet			visste		vetat			know
+vrb	4							heter		hette		hetat
+
+vrb	4	-			skola		ska			skulle		(skolat)		have to, shall, will, must
+vrb	4	-			kunna		kan			kunde		kunnat			förmåga, möjlighed, ha kunskap i
+
+vrb 4	skilj		skilja		skiljer		skiljde		skilt			separate, differentiate
+vrb	4	väx			växa		växer		växte		växt/vuxit		grow
+
+vrb	4	dölj		dölja		döljer		dolde		dolt			conceal, hide
+
+vrb	4	välj		välja		väljer		valde		valt			choose
+vrb	4	svälj		svälja		sväljer		svalde		svalt			swallow
+vrb	4	säg			säga		säger		sa(de)		sagt			say	(sade är formellt)
+vrb	4	lägg		lägga		lägger		la(de)		lagt			put	(lade är formellt)
+
+
+vrb	4	snyt		snyta		snyter		snöt		snutit			blow one's nose
+vrb	4	förstå		förstå		förstår		förstod		förstått		understand
+}}}
+
+vrb		tuggar		chewing
+vrb 	finns
+vrb		lova					lovar					lovat
+
+vrb					krympt		krymper		krympte		krympt
+
+vrb								liknar
+vrb		byt			byta		byter		bytte		bytt			förändra
+vrb					delar
+vrb					bråkar
+vrb
+
+}}}
+
+}}}
+
+
+substantiv
+{{{
+
+ordklass som betecknar personer, djur, saker, känslor, egennamn, företeelser och ämnen
+	(något som finns, händelse eller fenomen)
+
+# grammatik
+genus?
+bestämd form eller obestämd form?
+singular eller plural?
+
+substantiv regler {{{
+
+80% av alla substantiv följa den här regler!
+
+# bokstaver
+vokaler		{vok}	a e i o u y å ä ö
+konsonanter	{kon}	b c d f g h j k l m n p q r s t v w x z
+
+# genus
+
+sub	n		substantiv slutar på:	-ka, -la, -na	(med säkerhet)
+sub	n		substantiv slutar på:	 -a				(med största sannolikhet)
+
+
+# substantiv grupper
+
+(sub)
+grupp		genus	identifikation
+
+grupp *		sub	n	singulär obestämd form	slutar på	-are
+grupp *		sub	n	singulär obestämd form	slutar på	-er
+grupp 1		sub n	singulär obestämd form	slutar på	-a
+grupp 2a	sub n	singulär obestämd form	slutar på	-e
+grupp 2b	sub n	singulär obestämd form	slutar på	konsonant
+grupp 3a	sub	n	internationel ord
+grupp 3b	sub	n	singulär obestämd form	i mitten	-sk-
+
+grupp 4		sub	t	singulär obestämd form	slutar på	vokal
+grupp 5		sub	t	singulär obestämd form	slutar på	konsonant
+
+
+# tabell
+
+(sub)				singular				plural
+grupp	genus		obestämd	bestämd		obestämd	bestämd
+
+*		sub n		-are		-n			-are		-na
+*		sub n		-er			-n			-er			-na
+1		sub n		-a			-n			-or			-orna
+2a		sub n		-e			-n			-ar			-arna
+2b		sub n		-{kon}		-en			-ar			-arna
+3a		sub n		-sk-		-en			-er			-erna
+3b		sub n		int			-en			-er			-erna
+
+4		sub t		-{vok}		-t			-n			-na
+5		sub t		-{kon}		-et			-{kon}		-en
+
+
+# tabell med exempel
+
+(sub)				singular				plural
+grupp	genus		obestämd	bestämd		obestämd	bestämd
+
+*		sub n		lärare		läraren		lärare		lärarna
+*		sub n		musiker		musikern	musiker		musikerna
+1		sub n		kvinna		kvinnan		kvinnor		kvinnorna
+2a		sub n		bil			bilen		bilar		bilarna
+2b		sub n		pojke		pojken		pojkar		pojkarna
+3a		sub n		toalett		toaletten	toaletter	toaletterna
+3b		sub n		katt		katten		katter		katterna
+
+4		sub t		äpple		äpplet		äpplen		äpplena
+5		sub t		hus			huset		hus			husen
+
+
+# algorythm
+
+## substantiv singular --> plural
+
+### obestämd form
+					singular				plural
+					obestämd				obestämd
+
+1.					-are				\
+										 }	=
+2.		sub	t		-{con}				/
+
+					-{voc}					+en
+
+3.		sub	n		internatioal		\
+					-sk-ord				/	+er
+
+					-{con}				\
+					-e					/	+ar
+
+
+					-a						+or
+
+### bestämd form
+1.		sub t		-{con}					+en
+
+
+2.											+na
+
+
+# substantiv med oregelbunden plural formen
+
+böjdform	a	->	ä
+
+			o	->	ö
+
+
+# använda substantiv i
+
+## OBESTÄMD form efter
+
+	1.	artikel (en/ett)
+			ex.	Ett HUS.
+
+	2.	ny information / introduktion
+			ex. Jag har en ny BIL.
+				Jag ska köpa ett PARAPLY.
+
+	efter ägande (3 och 4):
+
+	3.	possessiva pronom
+			ex.	Min BIL är ny.
+				Vår HUND är sjuk.
+
+	4.	genitiv form
+			ex.	Hons BIL är ny.
+				Saras KATT heter Misse.
+
+## BESTÄMD form efter
+
+	1.	känd information / man vet vilken man menar
+			ex.	Jag har en ny bil. BILEN är vit.
+
+	2.	bara en exemplar
+			ex.	SOLEN skiner.
+				Jag har ont i HUVUDET.
+
+	3.	den, det eller de
+			ex.	Jag vill ha den BILEN, det ÄPPLET och de PENNORNA.
+
+# adjectiv ->	substantiv
+adjectiv + 'het'
+
+t ex:	säker		säkerhet
+
+
+# olika saker om substantiv
+
+grupp 2 är ofta korta ord med en vokal (https://youtu.be/dkizwO0gId4?t=543)
+
+}}}
+
+
+substantiv orden {{{
+
+			singulär		singular		plural		plural
+			obestämd		bestämd			obestämd	bestämd
+
+sub	n		ägare			ägaren			ägare		ägarna		owner
+sub	-		-				flätor						flätorna	braids		staartjes
+sub	t		bröllop													wedding
+sub	t		hästsvans												ponytail
+sub t		hem														home
+sub	n		hund													dog
+sub	t		huset													house
+sub	t		kalas													party (för barn)
+sub	n		keps													cap
+sub	n		klocka													clock
+sub n		kubbe													pillow
+sub	n		kväll													evening
+sub	n		den här morgon											this morning
+sub	n		morgon													morning
+sub	n		förmiddag												morning
+sub	n		eftermiddag												afternoon
+sub	n		kväll													evening
+sub	n		natt													night
+sub	n		förväxlas												confused
+sub	n		mat														food
+sub	n		mössa													hat
+sub n		mustasch												moustach
+sub	t		örhänge													earring
+sub	t		palats													palace
+sub	t		par glasögon											pair of glasses
+sub	n		perrong													platform
+sub	t		skägg													beard
+sub	t		spår													track
+sub	-		fräknar													freckles
+sub	n		tågstation												trainstation
+sub	t		tåg														train
+sub	t		tak														roof
+sub	n		tavla													painting
+sub	n		tofs													staart
+sub	n		trygg													secure
+sub	n		vägg													wall
+sub	n		spegel													mirror
+sub	n		paus													pause
+sub	n		bensträckara											streching the legs
+sub	n		stavelse												syllable
+sub	n		pulka													liten släde för barn
+sub n		snögubbe		snögubbar								snowman
+sub	n		kund			kunder									person som gör in­köp el. ut­nyttjar viss tjänst
+sub	n		säljare			säljarna								person som yrkesmässigt sysslar med försäljning
+sub	t		provrum			provrummen
+sub n		galge			klädhängare
+sub t		par torsor
+sub	t		par kalsonger
+sub	t		par strumpor
+sub	tq		par strumpbyxor
+sub	n		skjorta
+sub	n		slutsats		slutsatsen		slutsatser	slutsatserna		deduktion, conclusion
+sun	n		frånvaro												det att vara frånvarande, absence
+sub	n		närvaro													det att vara närvarande, presence
+
+
+1
+sub	n		klänning		klänningen		klänningar	klänningarna
+sub	n		kofta			koftan			koftor		koftorna			stickad (dam)tröja med knäppning framtil
+sub	n		en tröja		tröjan			tröjor		tröjorna
+sub	n		en kappa		kappan			kappor		kapporna
+sub n		en jacka		jackan			jackor		jackorna
+sub n		en skjorta		skjortan		skjortor	skjortorna
+sub n		en ficka		fickan			fickor		fickorna
+sub n		en mössa		mössan			mössor		mössorna
+sub n		en trosa		trosan			trosor		torsorna
+sub	n		en byxa			byxan			byxor		byxorna
+
+2a
+sub	n		en väst			västen			västar		västarna
+sub n		en blus			blusen			blusar		blusarna
+sub	n		en kjol			kjolen			kjolar		kjolarna
+sub n		en halsduk		halsduken		halsdukar	halsdukarna
+sub n		en sjal			sjalen			sjalar		sjalarna
+sub n		en klänning		klänningen		klänningar	klänningarna
+sub	n		en storlek		storleken		storlekar	storlekarna
+sub	n		en slips		slipsen			slipsar		slipsarna
+
+2b
+sub	n		en galge		galgen			galgar		galgarna
+
+3
+sub n		en kavaj		kavajen			kavajer		kavajerna
+sub	n		en kund			kunden			kunder		kunderna
+
+4
+sub	t		ett linne		linnet			linnen		linnena
+
+
+5
+sub t		ett sjärp		sjärpet			sjärp		sjärpen
+sub t		ett träd		tradet			trad		traden
+
+6
+sub	n		en säljare		säljaren		säljare		säljarna
+
+sub	t		ett	framsteg	framsteget		framstege					utveckling i rätt riktning
+
+
+}}}
+
+}}}
+
+
+adjektiv
+{{{
+
+ordklass som anger egenskap på och beskriver substantiven
+
+# grammatik:
+adjectivet berör på substantivets:
+-	genus
+-	form: (ental / flertal, singular / plural)
+-	form: bestämd / obestämd
+
+adjektiv regler
+{{{
+
+adjectiv beskriver saker (substantiv eller pronomen)
+
+här jag har gjört två tabeller:
+1. adjectiv positiv till genus och 2. komparerande
+anders werd de tabel te groot, het zijn geen uitsluitende groepen
+er zit dus overlap in de tabellen
+alla adjectiv formen är:
+
+  positiv			komparativ		superlativ		superlativ bestamd form
+  /	 |  \
+en	ett	plural
+
+## positiv till genus
+{{{
+			positiv		positiv		positiv
+			en			ett			plural
+
+regelbunda:	grundform	-t			-a
+
+### t ex
+			lång		långt		långa
+
+en  lång  man
+ett långt tåg
+två långa tåg
+
+genus av substantiv är också i artikel och adjektiv
+
+
+### !i bestämd form använda vi plural
+den långa mannen
+det långa tåget
+
+}}}
+
+## komparerande
+{{{															superlativ
+			positiv			komparativ		superlativ		bestämd form
+
+adj gr1						-are			-ast			-aste
+adj	gr2		(u>y å>ä o>ö)	- re			- st			- sta
+adj gr3		(oregelbunda)									- sta
+
+}}}
+
+}}}
+
+adjektiv orden
+{{{
+
+positiv till genus
+{{{
+
+## regelbunda
+
+			positiv			positiv			positiv
+			en				ett				plural
+
+adj			snygg			snyggt			snygga
+adj			ful				fult			fula
+adj			arg				argt			arga
+adj			stor			stort			stora
+adj			lik				likt			lika			inte exact samma (är)
+adj			likadan			likadant		likadana		exact samma
+adj			ljus			ljust			ljusa
+adj			mörk			mörkt			mörka
+adj			rolig			roligt			roliga
+adj			trevlig			trevligt		trevliga
+adj			lockig			lockigt			lockiga
+adj			nervös			nervöst			nervösa
+adj			svensk			svenskt			svenska
+
+## oregelbunda
+
+			en				ett				plural
+
+adj			dum				dumt			dumma
+adj			ensam			ensamt			ensamma
+adj			gemensam		gemensamt		gemensamma
+adj			god				gott			goda
+adj			liknande		liknande		liknande		inte exact samma
+adj			liten			litet			små
+adj			ny				nytt			nya
+adj			rosa			rosa			rosa
+adj			röd				rött			röda
+adj			söt				sött			söta			cute, sweet
+adj			vacker			vackert			vackra
+adj			vit				vitt			vita
+
+## till motsats
+
+adj			långsam											slow
+
+adj			tom												empty
+adj			full											full
+
+adj			pigg											alert
+adj			trött											tired
+
+adj			tråkig											boring
+
+adj			städad											tidy
+adj			stökig											messy
+
+adj			stor											big
+
+adj			mjuk											soft
+adj			hård											hard
+
+adj			fin												elegant
+adj			ful												ugly
+
+adj			lätt											easy
+adj			svår											difficult
+
+adj			hungrig											hungry
+adj			mätt											satisfied
+
+adj			frisk											healthy
+adj			sjuk											sick
+
+adj			svag											weak
+adj			stark											strong
+
+adj			öppen											open
+adj			stangt											closed
+
+adj			tjock											thick
+adj			smal											slim
+
+adj			bred											broad
+adj			smal											narrow
+
+adj			ren												clean
+adj			smutsig											dirty
+
+adj			hel												whole
+adj			halv											half
+
+adj			glad											happy
+adj			ledsen											sad
+
+adj			mörk											dark
+adj			ljus											light
+
+adj			lätt											light
+adj			tung											heavy
+
+adj			varm											hot
+adj			kall											cold
+
+adj			låg												low
+adj			hög												high
+
+adj			rolig											anxious
+adj			lugn											calm
+
+adj			tidig											on time
+adj			sen												late
+
+adj			lockigt hår										curly hair
+adj			räkt hår										straight hair
+
+adj			långt hår										long hair
+adj			kort hår										short hair
+
+adj			ljust hår										light hair
+adj			mörkt hår										dark hair
+
+adj			ont												smärta, värk
+adj			duktig											good, capable
+adj			blöt											fuktig, våt
+adj			tyst											inte ger ljud ifrån sig
+adj			blyg											osäker i sällskap, generad, modest, timid
+
+adj			torr											inte våt eller fuktig
+adj			fuktig											lätt våt, lite blöt
+
+}}}
+
+komparerande
+{{{
+
+															superlativ
+			positiv			komparativ		superlativ		bestämd form
+
+adj	gr1		billig			billigare		billigast		billigaste		cheap
+adj	gr1		dyr				dyrare			dyrast			dyraste			expensive
+adj	gr1		intressant		intressantare	intressantast	intressantaste	interesting
+adj	gr1		kall			kallare			kallast			kallaste		cold
+adj	gr1		kort			kortare			kortast			kortaste		short
+adj gr1		ny				nyare			nyast			nyaste			new
+adj gr1		rolig			roligare		roligast		roligaste		funny
+adj	gr1		snabb			snabbare		snabbast		snabbaste		fast
+adj	gr1		trevlig			trevligare		trevligast		trevligaste		nice
+
+adj	gr2		hög				högre			högst			högsta			high
+adj	gr2		lång			längre			längst			längsta			long
+adj	gr2		stor			störa			störst			största			big
+adj	gr2		ung				yngre			yngst			yngsta			young
+
+adj gr3		bra				bättre			bäst			bästa			good
+adj gr3		dålig			sämre			sämst			sämsta			bad
+adj gr3		gammal			äldre			äldst			äldsta			old
+adj gr3		liten			mindre			minst			minsta			small
+adj	gr3		mycket			mer				mest			mesta			a lot (inte räkna)
+adj	gr3		många			flera			flest			flesta			several (räkna)
+
+}}}
+
+}}}
+
+attributiv
+{{{
+
+attributiv position är tillsammans med substantiv
+
+https://www.youtube.com/watch?v=FwfLjQegA-w
+artikel +	adjectiv +	substantiv
+
+				en					ett					plural
+obestämd form	en snygg bil		ett stort hus		flera snygga bilar
+bestämd form	den snygga bilen	det stora huset		flera snygga bilarna
+possesiv		min snygga bil		mitt stort hus		mina snygga bilar
+
+  }}}
+
+predikativ
+{{{
+
+predikativ position är efter en verbform av 'är'
+
+https://www.youtube.com/watch?v=FwfLjQegA-w
+en björn är stark
+huset är fint
+mina vänner är snälla
+(mannen är arg)
+
+  }}}
+
+}}}
+
+
+pronomen
+{{{
+
+ord som ersätter ett substantiv
+
+# personliga pronomen
+{{{
+			subjekt			objekt			reflexiv		possesiva
+
+singulär
+
+prn	per		jag				mig				mig				min				I
+prn	per		du				dig				dig				din     	    you
+prn	per		han (♂)			honom			sig				hans    	    he
+prn	per		hon	(♀)			henne			sig				hennes  	    she
+prn	per		hen (○)			hen				sig				hens    	    (s)he
+prn	per		den/det			den/det			sig				dess    	    it
+
+plural
+
+prn	per		vi				oss				oss				vår     	    we
+prn	per		ni				er				er				er      	    you
+prn	per		de				dem				sig				deras   	    they
+}}}
+
+# posessiva pronomen
+{{{
+			subject			en				ett				plural
+
+singular
+
+prn	pos		jag				min	 			mitt			mina			I
+prn	pos		du				din				ditt			dina			you
+prn	pos		han	(♂)			hans			hans			hans			he
+prn	pos		hon	(♀)			hennes			hennes			hennes			she
+prn pos		hen	(○)			sin				sitt			sina			(s)he	!possreflprn
+prn	pos		den/det			dess			dess			dess			it
+
+plural
+
+prn	pos		vi				vår				vårt			våra			we
+prn	pos		ni				er				ert				era				you
+prn	pos		de				deras			deras			deras			they
+
+
+possessiva pronomen använder man istället för ett substantiv
+efter alla posessiva pronomen har substantivet obestämd form
+
+}}}
+
+# possesiv reflexiva pronomen
+{{{
+			subject			en				ett				plural
+
+singular
+
+prn	psrfl	jag				min	 			mitt			mina			I
+prn	psrfl	du				din				ditt			dina			you
+prn	psrfl	han	(♂)			sin				sitt			sina			he
+prn	psrfl	hon	(♀)			sin				sitt			sina			she
+prn psrfl	hen	(○)			sin				sitt			sina			(s)he
+prn	psrfl	den/det			sin				sitt			sina			it
+
+plural
+
+prn	psrfl	vi				vår				vårt			våra			we
+prn	psrfl	ni				er				ert				era				you
+prn	psrfl	de				sin				sitt			sina			they
+
+
+
+## posessiv reflexiv pronomen
+https://www.youtube.com/watch?v=YnoMjR9OJeY
+meningen 'boken är sin' är fell (boken = subjekt, är = verb)
+för att: sin kan inte vara predikativ.
+regel är att 'boken' måste vara objekt eller adverbial.
+meningen 'boken är hans' är rätt
+för att: hans kann vara predikativ.
+
+Hon kramar sin man. Vi vet vems man.
+Hon kramar hennes man. Vi vet inte vems man!
+}}}
+
+# indefinita (obestämda) pronomen
+{{{
+							en				ett				plural
+
+prn	ind						någon			något			några
+prn	ind						ingen			inget			inga
+prn	ind						annan			annat			andra
+prn	ind						all				allt			alla
+prn	ind						varje
+}}}
+
+# relativt pronomen
+{{{
+prn rel		vars															whose, wiens
+
+vars är genitiv av som
+genitiv är -s, t ex hundens mat
+
+
+}}}
+
+# demonstrativa pronomen
+skrivs med substantiv (eller underförstått)
+
+							en				ett				plural
+
+## bestämd form
+
+prn	dem						den				det				de (dom)	\
+prn	dem						den där			det där			de där		/
+
+prn	dem						den här			det här			de här	< = +
+																		|
+## obestämd form														|
+																		|
+prn	dem						denna			detta			dessa	< = +
+
+prn	dem						sådan [sån]		sådant [sånt]	sådana [såna]		zo'n / zulke
+}}}
+
+
+prepositioner
+{{{
+
+- är oftast före substantivet det beskriver tid eller plats
+- ger information om var eller när
+
+prepos vid känslor
+över/för	(allmänt)
+i			(positivt)
+på			(negativt)
+för			(rädsla)
+med			(nöjd, misnöjd)
+mot			(attityd)
+
+prepositioner orden
+{{{
+
+prepos		på						on
+prepos		i						in
+prepos		ur						out
+prepos		över					above
+prepos		under					under
+prepos		av						anger upphov, of, by
+prepos		bland					mellan, among
+prepos		enligt					på grund av, according to
+prepos		bakom					på baksidan av, ingen rörelse
+prepos		efter					med rörelse
+prepos		framför					ingen rörelse
+prepos		före					med rörelse
+prepos		än						mer än
+prepos		genom					through
+prepos		för						for
+prepos		hos						en plats som tillhör en person
+prepos		inom					innan tid eller på en plats
+prepos		längs					langs (nl)
+prepos		med						with
+prepos		mellan					between
+prepos		mot						bara riktningen
+prepos		till					hela väggen
+prepos		om						omkring, på, angående, i förhållande till
+prepos		utan					ingen, inte med, witout
+prepos		utom					utanför, (alla) men inte
+prepos		vid						nära
+prepos		åt						mot, till, om
+
+}}}
+
+prepos exempel
+{{{
+
+ur
+			# i
+			Jag tar telefonen ur fickan.
+			Dricker ur koppen.
+
+under
+			# över
+			under sommaren
+			under tio minuter
+
+av
+			perfekt particip? -> använda 'av'!
+			Bordet är gjort av trä.	t-genus: gjort
+			Den är gjord av mig.	n-genus: gjord
+			interesserad av			interested in
+			#[TODO] gjort gjord? https://youtu.be/d5Rs4qwH0xs
+			passiv form
+			greps av				tag med fingerna, grasped by
+
+än
+			mer än					använda vän vi jamför
+
+för
+			jag fick ledigt för chefen
+
+hos
+			hemma hos mig
+			hos tandläkeren
+
+inom
+			inom en timme
+			inom skolans område
+
+mot
+			*-->   *, titta mot väster, hon ler mot mig
+
+till
+			*----->*, går till skolan, han hälsar till dig
+
+om
+			till vänster om mig
+			Sverige ligger norr om Tyskland
+			jag fryser om handerna
+			boken handlar om
+			jag drömmer om
+			!tänker på och inte tänker om!
+
+åt
+			åt vilken riktning
+			sväng åt höger
+			en present åt dig
+}}}
+
+}}}
+
+
+adverb
+{{{
+
+adverb (ordklass) blir adverbial (satsdel) i en mening
+
+rumsadverb, platsadverb
+{{{
+
+ord som betyder: plats, på en plats eller till en plats
+
+			på			riktning		riktning		riktning
+			platsen		från plats		till plats		utan plats
+adv rum		där			därifrån		.. dit			ditåt
+adv rum		här			härifrån		.. hit			hitåt
+adv rum		uppe		uppifrån		.. upp			uppåt
+adv rum		nere		nerifrån		.. ner			neråt / nedåt	underifrån
+adv rum		inne		inifrån			.. in			inåt
+adv rum		ute			utifrån			.. ut			utåt
+adv rum		framme		framifrån		.. fram			framåt
+adv rum		bakom		bakifrån		.. bak			bakåt
+adv rum		hemma		hemifrån		.. hem			hemåt			till sin hem(ord), home
+adv rum		borta		bortifrån		.. bort			bortåt			iväg, un dan, away
+
+# riktning till en plats
+## vi behover en 'rorelse' verb
+## till exempel: kommer, går, åker, kör, promenerar, reser
+
+# riktining utan en plats
+## men veta inte säker om plats ligger i rikning
+## mot hemmet
+
+exempel:	jag är ute / jag går ut	/ .. utåt
+
+}}}
+
+tidsadverb
+{{{
+
+ord som betyder: tid, de ger information om tid
+
+adv tid		nu
+adv tid		idag
+adv tid		igår
+adv tid		ikväll
+adv tid		ibland
+adv tid		då
+!!			förra året är inte tidsadverb
+			förra (tidspreposition) året (substantiv)
+
+}}}
+
+sättsadverb
+{{{
+
+ord som betyder: hur man gör någonting
+
+adv sät		högt
+adv sät		lågt
+adv sät		mjukt
+adv sät		våldsamt
+adv sät		snabbt
+adv sät		långsamt
+
+  }}}
+
+frågande adverb
+{{{
+
+adv frg		när
+adv frg		var			(plats)
+adv frg		vart		(riktning)
+adv frg		varifrån
+adv frg		hur
+adv frg		hur ofta
+adv frg		hur långt
+adv frg		hur länge
+adv frg		varför
+
+}}}
+
+gradadverb
+{{{
+
+adv grd		mycket
+adv	grd		lite
+adv grd		ganska
+adv grd		väldigt
+adv grd		otroligt
+adv	grd		ungefär
+adv grd		cirka
+
+}}}
+
+satsadverb
+{{{
+
+satsadverb är orden som kann ändra betudelse på hela meningen.
+
+adv sat			inte			icke, ej, not
+
+adv sat			knappt			inte helt
+
+adv sat			verkligen
+
+adv sat			knappast		10%
+
+adv sat			kanske			50%
+adv sat			möjligen
+adv sat			eventuellt
+
+adv sat			troligen		90%
+adv sat			förmodligen
+adv sat			antagligen
+
+adv sat			väl				fråga, jag vill	(wel)
+
+adv sat			bara			begränsning
+adv sat			enbart
+adv sat			endast
+
+adv sat			tyvärr			dåliga nyheter
+
+adv sat			faktiskt		riktig information
+
+adv sat			ju				förklaring som båda vet (immers)
+
+adv sat			nämligen		förklaring som jag vet och du inte
+
+adv sat			naturligvis		ja, ingen förklaring		of course
+adv sat			givetvis		ja, ingen förklaring		of course
+adv sat			självklart		ja, ingen förklaring		of course
+adv sat			förstås			ja, ingen förklaring		of course
+				|_ använda bara i meningen, inte separat 'ja'
+
+adv sat			gärna	<	hellre .. än	<	helst
+
+adv sat			nog				jag tror (lite mer son kanske)
+
+adv sat			också
+adv sat			även
+adv sat			dessutom
+
+adv sat			inte ... heller
+
+adv sat			förresten
+
+adv sat			fortfarande
+
+adv sat			dock			tvärtom, nevertheless, still, however, doch?
+adv sat			däremot			tvärtom, on the other hand, however, daarentegen
+
+adv sat			ändå			motsats till det normala
+adv sat			i alla fall
+
+adv sat			egentligen		det riktiga
+
+adv sat			åtminstone		det minsta man kan göra
+
+adv sat			alltså			egen slutsats (resultat), then
+
+adv sat			darför			tydlig slutsats
+
+adv sat			tydligen		möjlig slutsats eller ny information, obviously, duidelijk
+
+adv sat			alltid			always
+adv sat			aldrig			never
+
+adv sat			ofta			often
+adv sat			sällan			seldom
+
+}}}
+
+adverb nog inte classificerad
+{{{
+adv			inte			not
+adv			alltid			always
+adv			aldrig			never
+adv			kanske			maybe
+adv			ofta			often
+adv			sällan			seldom, rarely
+adv			ibland			sometimes
+adv			tyvärr			unfortunately
+adv			bara			only, just
+adv			faktiskt		in fact
+adv			äntligen		finally, at last
+adv			nog				enough
+adv			verkligen		really
+adv			troligen		likely
+adv			antagligen		probably, presumably
+adv			ingen			without
+adv			ändå			still, yet
+adv			ensam			allone
+adv			ihop			together
+adv			förut			before
+}}}
+
+}}}
+
+
+räkneord
+{{{
+
+# grundtal
+hur många
+
+räk			ett / en
+räk			två
+räk			tre
+
+# ordningstal
+i vilken ordning
+
+räk			första
+räk			andra
+räk			tredje
+räk			fjärde
+räk			femte
+räk			sjätte
+räk			sjunde
+räk			åttonde
+räk			nionde
+räk			tionde
+
+räk			elfte
+räk			tolfte
+räk			trettonde
+räk			fjortonde
+räk			femtonde
+räk			sextonde
+räk			sjuttonde
+räk			artonde
+räk			nittonde
+räk			tjugonde
+
+räk			trettionde
+räk			fyrtionde
+räk			femtionde
+räk			sextionde
+räk			sjuttionde
+räk			åttionde
+räk			nittionde
+räk			hundrade
+räk			tusende
+
+# aritmetik
+-14		=> minus fjorton
++52		=> plus femtiotvå
+2*3		=> två gånger tre
+3/4		=> tre delat med fyra
+5*3=15	=> fem gånger tre är lika med femton
+2+6-3=5 => två plus sex minus tre är fem
+25%		=> tjugofem procent
+5,4%	=> fem komma fyra procent
+3,50	=> tre komma femtio
+3.50	=> tre punkt femtio
+
+}}}
+
+
+konjunktioner
+{{{
+
+Konjunktioner binder ihop två huvudsatser.
+och, för, men, så, eller, inte .. utan
+
+bisatsinledare är kallas subjunctioner
+
+[#TODO]
+	Samordnande konjunktioner
+	Nedanstående är de vanligaste "samordnande konjunktionerna" i svenskan.
+
+	I satsläran kallas dessa ord för "bindeord". Bindeorden binder samman likadana satsdelar och satser. Se vårt arbete om satslära.
+
+	för		förklara orsak, varför
+	så		konsekwens, resultat, och därför
+	satsdel1 för satsdel2	=>	satsdel2 så satsdel1
+
+	utan	men, istället, but, maar
+
+	Exempel på hur de används:
+	och
+	Per och Stina åkte till Malmö.
+	eller
+	Greta eller Sture får laga middag.
+	utan
+	Per var inte sjuk utan trött.
+	men
+	Han gick ut men glömde att låsa dörren.
+	för
+	Nils sprang hem, för han ville möta henne.
+	ty
+	Olle var trött, ty han hade gått långt.
+	samt
+	Jag skall bada samt spela tennis.
+	fast
+	De kom till festen, fast det var sent.
+	både – och
+	Både Nils och Stina städade.
+	varken – eller
+	Berit kunde varken måla eller snickra.
+	antingen – eller
+	Antingen får du läsa eller sova.
+	dels – dels
+	Dels sprang han, dels gick han längs stranden.
+	såväl – som
+	Såväl Ylva som Ulla skulle till Sälen.
+
+	Övningsuppgift
+	Skriv ner meningar med varje konjunktion ovan.
+
+	Underordnande konjunktioner
+	De kallas ibland också för subjunktioner.
+
+	Nedanstående är de vanligaste "underordnande konjunktionerna" i svenskan.
+
+	I satsläran kallas dessa ord för "fogeord". Fogeorden inleder en bisats och binder samman den med huvudsatsen. Se vårt arbete om satslära.
+
+	Exempel på hur de används:
+	så
+	Olle skämtade, så alla skrattade.
+	att
+	Han ville gärna, att vi skulle hälsa på.
+	så att
+	Hon frös så att hon skakade.
+	för att
+	Stina gick till stranden för att bada.
+	medan
+	Medan Karl skalade potatis, dukade jag.
+	Sture åkte till Göteborg, medan Berit väntade i Stockholm.
+	då
+	Jag kom hem, då programmet började.
+	Nils gav mig en fin present, då jag fyllde år.
+	fastän
+	Bilen startade, fastän det var så kallt.
+	därför att
+	Vi gick hem, därför att festen var tråkig.
+	om
+	Jag kommer, om du lovar att vara snäll.
+	ifall
+	Ifall du ger mig pengar, kan jag handla.
+	under det att
+	Anna var flitig, under det att Lisa var lat.
+	när
+	När han kom hem, var det kallt i huset.
+	innan
+	Berit anlände från Stockholm, innan det blev mörkt.
+	eftersom
+	Eftersom Sture var i Spanien, höll vi festen själva.
+	emedan
+	Jag tog bussen till jobbet, emedan det regnade.
+	sedan
+	Sedan Berit hade åkt, körde jag in till stan för att handla.
+	Ivar tvättade bilen, sedan barnen hade gått till skolan.
+	som
+	Sven kör som en galning.
+	Hon är dubbelt så gammal som lillan.
+	Karl jobbar som lärare.
+	såsom
+	Sven kör såsom en galning.
+	Karl jobbar såsom lärare.
+	som (tillsammans med ordet "just")
+	Just som Bertil gick in i affären, ropade Ulla högt.
+
+}}}
+
+
+interjektioner
+{{{
+
+utrop
+
+inj			hej!
+inj			aj!
+
+}}}
+
+
+- artiklar
+{{{
+en, ett
+bestämd artikel: den, det, de
+den bilen
+det huset
+de bilar (talar ut som 'de' och inte 'dom' i det fall)
+  }}}
+
+- infinitivmärke
+{{{
+att
+  }}}
+
+- verbpartiklar
+{{{
+användas tillsammans med verb
+t ex: tycker om
+om
+upp
+till
+på
+  }}}
+
+
+
+SATSDELAR
+{{{
+
+1.	verb				vad händer?
+2.	subjekt				vem elller vad gör verb?
+3.	objekt				vad?
+4.	adverbial tid		när?
+5.	adverbial plats		var?
+6.	adverbial sätt		hur? (på vilken sätt?)
+7.	satsadverbial		bestämmer hela satsen (tex: inte, alltid)
+
+}}}
+
+
+subjekt
+{{{
+
+vem eller vad gör verb?
+
+sub			jag		I
+sub			du		you
+sub			han		he
+sub			hon		she
+sub			vi		we
+sub			ni		you all
+sub			den		that
+sub			det		that
+sub			de		they
+
+}}}
+
+
+object
+{{{
+
+	...
+
+}}}
+
+
+verb
+{{{
+
+	se: ordklass, verb
+
+}}}
+
+
+adverbial
+{{{
+
+en satsdel som ger information om tid, plats, sätt eller omständighet
+
+t ex 1 (adverbial = adverb):
+
+Han är ute.
+
+adverbial:	satsdel 'ute' är adverbial (plats)
+adverb:		ordet 'ute' är adverb om plats
+
+t ex 2 (adverbial != adverb):
+
+Jag går till skolan.
+
+adverbial:	'till skolan' (plats)
+adverb:		men: 'till skolan' är inte adverb!
+				'till' är en preposition och
+				'skolan' är ett substantiv
+
+t ex 3 (adverbial = dels adverb):
+
+Jag är hemma nästa vecka eftersom jag har semester.
+
+adverbial1: 'hemma' (plats)
+adverb1:	'hemma'
+adverbial2:	'nästa vecka' (tid)
+adverb2:	'nästa' (tid)
+			men: 'vecka' är substantiv
+adverbial3: 'eftersom jag har semester' (omständigheten)
+			hela bisatsen är adverbial
+
+
+adverbial regler
+{{{
+
+huvudsats:	adverbial kommer efter första verbet;	subject verb adverbial
+bisats:		adverbial kommer efter subjektet;		subject adverbial verb
+
+}}}
+
+
+}}}
+
+
+satsschema
+{{{
+
+# huvudsatsschema
+{{{
+[https://www.youtube.com/watch?v=rcEo82AUXvE]
+
+subject			finit					infinit	vad?	när?
+adverbial								reflex	vem?	var?
+(obj)									partik			hur?
+
+
+1				2		3		4		5		6		7			8
+								sats								prep
+fundament		verb1	subjekt	advl	verb2	objekt	adverbial	obj
+
+
+## huvudsatsschema explanation
+{{{
+
+2.	finit verb (verb1) är alltid presens eller preteritum
+
+3.	subjektet om det inte är först, t ex om tiden eller plats är först
+
+5.	infinit verb (verb2) är alltid infinitiv eller supinum
+	reflexiva verb: jag .. mig, du .. dig; mig och dig är refl.verb
+	verb partikel: tycker om; om är verb partikel (partikelverb)
+	partikelverb hör till verbet och ändrar verbets betydelse
+
+7.	tid, plats och sats
+
+8.	prepositions objekt
+
+'och': konjunktion kopplas två huvudsatsen ihop i en mening
+
+}}}
+
+}}}
+
+
+# bisatsschema
+{{{
+[https://www.youtube.com/watch?v=Jyguc4l6bRw]
+
+
+1				2		3		4		5		6		7
+						sats
+bisatsinledare	subject	advl	verb1	verb2	objekt	adverbial
+
+
+bisatsen ger mer information om huvudsatsen.
+
+oftast bisatsen är huvudsats adverbial, men kan också blir subjekt och objekt
+
+## identifiera en bisats:
+1.	stå inte själv
+2.	bisatsinledare
+3.	rak ordfjöld
+4.	BIFF-regel gäller
+
+    1.	En bisats kan inte stå för sig själv (behöver huvudsats).
+    2. 	En bisats inleds med ett subjunktion (bisatsinledare).
+    3. 	En bisats har alltid rak ordföljd (därför att alldrig omvänd ordfjöld).
+    4. 	I en bisats kommer satsadverbialet före det forsta verbet.
+		BIFF-regel: 'Bisats: Inte Före Första verbet', eller:
+		när du har en bisats då kommer inte före första verbet.
+		Satsadverbial mellan subject och verb1.
+
+}}}
+
+}}}
+
+
+bisatsinlädare
+{{{
+
+bisatsinledare = subjunktion
+
+bisats ger information om huvudsats
+alla frågeord kan vara bisatsinledare
+inte alla fr
+
+[https://www.youtube.com/watch?v=2c1FuopNCSs]
+
+## tid
+när					tidpunkt								when
+medan				samma tid, två saker händer samtidigt	(mean)while
+innan				huvudsatsen händer före					before
+förrän				före en tidpunkt						before
+tills				vad jag gör fram till en tidpunkt		until
+efter att													after
+
+## varför			(bisatsen förklara huvudsatsen)
+eftersom			på grund av (kan börjar en mening)		because
+därför att			medan		(kan inte börjar en mening)	because
+### plan
+för att							(oftas ska)					because
+
+om					försåvid								if
+
+## motsätsning
+trots att													even though
+fastän														even though
+även om														even though
+
+## vad?				(bistats blir object i meningen)
+att															that
+
+## vad?				(indirect fragor, villkor, bistats blir object i meningen)
+
+##
+ifall				huruvida								if
+
+## visar resultatet eller konsekvensen av någonting (huvudsatsen innebär bisatsen)
+så [..] att													so [..] that
+
+som															as
+hur															how
+genom att													via
+varför														why
+vem															vilken person
+att
+vars														whose, wiens
+
+## inte bisatsinledare, for att de är inte frageorden
+och
+men
+
+}}}
+
+
+konjunktiv
+{{{
+
+kjt			vore		någonting som kan hända
+						gamla spåk; idag: skulla vara
+						t ex:	det vore tråkigt
+								det skulle vara tråkigt
+
+}}}
+
+
+uttal
+{{{
+
+# vokaler
+{{{
+
+## långa
+mund	fram		bak
+stängt	+------------+
+		\iy	    u	o|
+		 \			å|
+		  \e		 |
+		   \	ö	 |
+			\ä		 |
+			 \		a|
+öppen		  +------+
+
+## korta
+mund	fram		bak
+stängt	+------------+
+		\iy		u	o|
+		 \			å|
+		  \e		 |
+		   \	ö	 |
+			\ä		 |
+			 \	a	 |
+öppen		  +------+
+
+## hårda vokaler
+å	o	a	u
+
+mund	fram		bak
+stängt	+------------+
+		\	    u	o|
+		 \			å|
+		  \ 		 |
+		   \		 |
+			\		 |
+			 \		a|
+öppen		  +------+
+
+### konsonanten blir 'vänlig' i [uttal]
+
+#### k
+
+kål			[kål]
+kompis		[kompis]
+katt		[katt]
+kund		[kund]
+
+#### g
+
+går			[går]
+god			[god]
+gammal		[gammal]
+gul			 [gul]
+
+#### sk
+
+skål		[skål]
+skola		[skola]
+ska			[ska]
+skuta		[skuta]
+
+## mjuka vokaler
+e	i	y	ä	ö
+
+mund	fram		bak
+stängt	+------------+
+		\iy			 |
+		 \			 |
+		  \e		 |
+		   \   ö	 |
+			\ä		 |
+			 \		 |
+öppen		  +------+
+
+### konsonanter ändra [uttal]
+
+#### k blir 'ch'
+
+kemi		[chemie]
+kind		[chind]
+kyrka		[churka]
+kämpa		[chämpa]
+kök			[chök]
+
+#### 'g' blir 'sj'
+
+genom		[sjenom]
+gissa       [sjissa]
+gymnasium   [sjymnasium]
+gäst        [sjäst]
+göra        [sjöra]
+
+#### 'sk' blir 'ch'
+
+sked		[ched]
+skidor		[chidor]
+skynda		[chynda]
+skära		[chära]
+sköta		[chöta]
+
+#### samma ljud
+#### som 'k' + 'mjuk vokal'
+
+tjej		[chej]
+tjock		[chock]
+
+dusch		[duch]
+sjö			[chö]
+fors		[foch]
+
+}}}
+
+# konsonanter
+{{{
+
+## klusil
+p	t		b	d
+
+k	rt		g	rd
+
+## frikativ
+f	s
+
+h	tj
+
+rs	sj
+
+## tonande
+v	j		l	r		m	n
+						ng	rn
+
+# -g	g sist i ordet uttala men som 'j'
+
+Göteborg	[Göteborj]
+berg		[berj]
+sorg		[sorj]
+
+# sk
+
+}}}
+
+andra uttal och reduceringar
+{{{
+
+de		[dom]
+något	[not]
+sedan	[sen]
+
+}}}
+
+}}}
+
+
+
+
+satsen och meningar
+{{{
+
+sats		mindestens subject + verb
+			svenska behöver subject om verbet inte böjer med olika subjecten
+
+mening		måsta vara mindestens en sats
+			borjar med stor bokstav och slutar med punkt. (.!?)
+
+			påstående	-	slutar med punkt				(.)
+			frågande	-	slutar med frågetecken			(?)
+			utropande	-	slutar med utroptecken			(!)
+
+huvudsats	kan stännar på sig själv
+
+bisats		bisatsregler
+
+hs + hs		konjuktioner binder ihop
+
+hs + bs		bisatsinledare starta bisats (bs + hs)
+
+  }}}
+
+
+förkortningar
+{{{
+
+fr.o.m			från och med
+t.o.m			till och med
+p.g.a			på grund av
+bl.a			bland annat (onder meer)
+t.ex			till exempel
+OBS!			observera
+ca	 			cirka
+V.				vecka
+m.v.h			med vänliga hälsningar
+rok				rum och kök
+kvm				kvadratmeter (m²)
+ua				utan anmärkning
+sov				sommar och vinterdäck
+
+}}}
+
+
+slängord
+{{{
+
+haka på		följa med
+skor		dojjor
+byxor		brallor
+mat			krubb
+äta			käka
+fundera		spåna
+åka			glida
+hus			kåk
+barn		knodd
+funkar		fungerar
+
+  }}}
+
+
+to_be_categorized
+{{{
+
+nöjd			satisfied
+våg				wave
+ett mål			the goal
+
+hur				how
+varför			why
+vilka			which
+hur länge		how long
+var				where
+var				verb preteritum av är
+varje			alla, varenda
+vareviga		alla (tid); negativt form
+varannan		en av två, every other
+vartredje		en av tre, every third
+varandra		boda personerna
+varken x eller y	inte den eller den (varken verb1 eller verb2)
+varsin	(var sin)	(n-genus)	varje person har en agen
+varsit	(var sitt)	(t-genus)	varje perspn har en egen
+varsin	(var sina)	(plural)	varje person har en egen
+
+inte alls		not at all
+inte			not
+alls			at all, över huvud taget
+taget
+ordförråd		alla ord som behärskas
+beror			hänger på
+framgång		gott resultat
+framsteg		förbättring
+förbättring		att göra något bättre
+tjena			hej
+nästan			så gott som
+för klart		of course
+faktiskt		verkligen
+
+
+
+var och en			everybody
+vid					wide
+bredvid				besides
+genom				through
+
+båda .. och	..		both .. and .. (likadana saker)
+både .. och	..		both .. and .. (olika saker)
+varken .. eller ..	neither .. nor ..
+antigen .. eller ..	either .. or ..
+
+moln			cloud
+troligen		probably
+konstlig		strange
+åt alla håll och kanter		överallt, all over the place
+
+hej
+ha det so bra		farewell
+har det so bra		take care
+på återseende då	we'll see again
+
+en hemsk upplevelse	an awful experience
+ett skåp			cupboard
+
+bittida				arla, tidig, early
+i morgon bitti		tidigt i morgon
+om en stund			in en kort tid, ögenblick, in a while
+
+ur					out of
+tävling				match
+undrar				vilja veta, wonder
+villkor				condition
+framme				arrived
+kliar				irritera huden
+ovan				högre upp, above
+nedan				längre ner, below
+hal					som man lätt glider på, slippery
+aldrig ge upp		never give up
+drabbar				träffa, hit, affect
+försteg				advantage
+nackdel				disadvantage
+kvar				left
+vattenpöl			vattensammling, puddle
+barnvagn			pram
+dockvagn			pram for puppet
+dock				puppet
+någonstans			somewhere
+vansinnig			tokig, stollig, helgalen, vrickad
+lerigt				?
+
+då					när, when
+[suftar]			[siftar]	points
+ort					plats var de bor
+mår illa			oprispingen
+kräks				spyr, overgeven
+spyr				kräks, overgeven
+tur					lycka, luck, turn
+tur in oturen		a blessing in disguise
+förvånad			häpen, överraskad, surprised, astonished
+på andra våningen	on the second floor
+
+olycka				accident, incident
+mening				sentence
+mening				intention, purpose
+flit				intention, purpose
+könstig				inte normall
+skillnaden mellan	difference between (a and b)
+varannan			every other
+skild				separerat
+
+leta				se
+
+inför				förberedar en aktivitet
+händelse			aktivitet
+
+jag har ont i magen			(vanliga språk)
+jag känner smärta i magen	(hos doktorn)
+jag är öm i armen			(ont när man rör, when you touch it)
+jag mår illa				(magen har problemet, man måste kräkas)
+
+hur låter djur?
+hunden	skäller	voff		dog
+katten	jamar	mjau		cat
+kon		råmar	mu			cow
+grisen	grymtar	nöff		pig
+hästen	gnäggar				horse
+fåret	bräker	bä			sheep
+tuppen	gal		kuckeliku	cock
+hönan	kacklar				chicken
+
+skälla				säga någonthing argt
+gal					skricka hogt
+kackla				pratar mycket
+
+}}}

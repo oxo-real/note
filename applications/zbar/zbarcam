@@ -1,0 +1,18 @@
+# to stdout
+
+## barcode
+zbarcam /dev/video0
+
+## qrcode
+zbarcam -Sqrcode.enable
+
+
+# exit after succesful scan
+
+## !! this is a non-documented option in zbarcam
+zbarcam --oneshot
+
+# tips
+
+## you can pipe the stdout to wl-copy:
+zbarcam --oneshot | wl-copy

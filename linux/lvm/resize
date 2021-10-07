@@ -1,0 +1,75 @@
+# resize LVM-on-LUKS partition
+
+## https://wiki.archlinux.org/index.php/Resizing_LVM-on-LUKS
+
+
+# boot into live archiso
+
+## to prevent system dataloss
+
+
+# open luks device
+
+cryptsetup open /dev/sdXn crypto_LUKS
+
+
+# close luks device
+
+## list active volumes
+lvs -a
+
+## deactivate all volume groups
+lvchange -an /dev/mapper/vg0-lv*
+
+## close luks device
+cryptsetup close crypto_LUKS
+
+
+# shrink
+## inner- to outermost partition
+
+## open luks device
+cryptsetup open /dev/sdXn crypto_LUKS
+
+## resize2fs needs ext{2,3,4} filesystem to new_size
+resize2fs -p /dev/mapper/vg0-lv_usr 10G
+### on closed luks device
+resize2fs /dev/sda1/ mapper/vg0-lv_usr 10G
+
+## check filesystem
+e2fsck -f /dev/mapper/vg0-lv_usr
+
+## resize lvm logical volume
+lvreduce -L -10G /dev/mapper/vg0-lv_usr
+
+## resize lvm physical volume
+pvresize --setpysicalvolumesize 102G /dev/mapper/crypto_LUKS
+
+## resize luks volume
+cryptsetup status cryto_LUKS
+cryptsetup -b $new_sector_count resize crypto_LUKS
+
+##
+
+
+# enlarge
+## outer- to innermost partition
+## primary partition(LUKS device{volume group[(logical partition1)(logical partition2-->)]})
+
+
+# add partition to current lvm device
+## option: n
+gdisk /dev/sda
+
+
+# copy luks container to new partition
+dd if=/dev/sda1 of=/dev/sda2 bs=4M
+
+
+## open new luks device
+cryptsetup open /dev/sda2 crypto_LUKS
+
+# info about physical volume
+pvdisplay -m
+
+# physical volume = physical extents * PE size

@@ -1,0 +1,31 @@
+mssfix = MTU - 40
+MTU(0) = 1500
+ping -M do -s MTU -c 1 9.9.9.9
+MTU(n) -= 10
+use max MTU with ping != error for mssfix
+
+
+# Options error: --up script fails with '/etc/openvpn/update-resolv-conf': Permission denied (errno=13)
+
+chmod +x /etc/openvpn/update-resolv-conf
+
+
+# error: update-resolv-conf does not exist
+
+yay -S openvpn-update-systemd-resolved
+
+## add to ovpn config file:
+script-security 2
+setenv PATH /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+up /etc/openvpn/scripts/update-systemd-resolved
+up-restart
+down /etc/openvpn/scripts/update-systemd-resolved
+down-pre
+
+## (re)start the service
+sudo systemctl start systemd-resolved.service
+
+## check the service status
+systemctl status systemd-resolved.service
+
+## run openvpn with updated config file

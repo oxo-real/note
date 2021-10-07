@@ -1,0 +1,52 @@
+# case statement
+
+simplifies complex conditionals with multiple different choices
+more readable and easier to maintain than if statements
+
+## syntax
+
+case expression in
+
+	#clause1
+	pattern_1)
+		statements
+		;;
+
+	#clause2
+	pattern_2)
+	    statements
+	    ;;
+
+	#clause3
+	pattern_n)
+	    statements
+		;;
+
+	#clause4
+	*)
+		statements
+	    ;;
+esac
+
+## syntax explanation
+Each case statement starts with the 'case' keyword,
+followed by the case expression and the 'in' keyword.
+The statement ends with the 'esac' keyword.
+
+You can use multiple patterns separated by the '|' operator.
+The ')' operator terminates a pattern list.
+A pattern can have special characters.
+
+## clause
+A pattern and its associated commands are known as a clause.
+Each clause must be terminated with ;;.
+
+## matching
+The commands corresponding to the first pattern that matches the expression are
+executed.
+It is a common practice to use the wildcard asterisk symbol (*) as a final
+pattern to define the default case. This pattern will always match.
+
+## exit codes
+If no pattern is matched, the return status is zero.
+Otherwise, the return status is the exit status of the executed commands.

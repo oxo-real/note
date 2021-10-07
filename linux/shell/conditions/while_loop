@@ -1,0 +1,25 @@
+# loop through lines in
+
+## file
+```
+while read line_in_file
+do
+	printf $line_in_file
+done < <file>
+```
+
+with different IFS
+```
+while IFS= read -r line_in_file
+do
+	<command> $line_in_file
+done < <file>
+```
+
+## variable
+```
+while IFS= read -r line_in_variable;
+do
+	<command> $line_in_variable
+done <<< "$variable"
+```

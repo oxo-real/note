@@ -1,0 +1,59 @@
+''	preserves all literal values, without expansion
+
+""	preserves all literal values, expands the characters '$', '`', '\'
+	and '!' if history expansion is enabled.
+
+
+'Single Quotes'
+
+Enclosing characters in single quotes (') preserves the literal value of each character within the quotes.
+
+A single quote may not occur between single quotes, even when preceded by a backslash.
+
+
+"Double Quotes"
+
+Enclosing characters in double quotes (") preserves the literal value of all characters within the quotes, with the exception of $, `, \, and, when history expansion is enabled, !.
+
+The characters $ and ` retain their special meaning within double quotes (see Shell Expansions).
+The backslash retains its special meaning only when followed by one of the following characters: $, `, ", \, or newline.
+Within double quotes, backslashes that are followed by one of these characters are removed.
+Backslashes preceding characters without a special meaning are left unmodified.
+A double quote may be quoted within double quotes by preceding it with a backslash.
+If enabled, history expansion will be performed unless an ! appearing in double quotes is escaped using a backslash. The backslash preceding the ! is not removed.
+
+The special parameters * and @ have special meaning when in double quotes (see Shell Parameter Expansion).
+
+
+-------------------
+Use of double quote
+It's always good to double quote variable "$variable"
+If not, multiple lines will be added as a long single line.
+
+Example:
+
+var="Line one
+This is line two"
+
+echo $var
+Line one This is line two
+
+echo "$var"
+Line one
+This is line two
+Other errors you can get without double quote:
+
+variable="line one\nline two"
+awk -v var=$variable 'BEGIN {print var}'
+awk: cmd. line:1: one\nline
+awk: cmd. line:1:    ^ backslash not last character on line
+awk: cmd. line:1: one\nline
+awk: cmd. line:1:    ^ syntax error
+And with single quote, it does not expand the value of the variable:
+
+awk -v var='$variable' 'BEGIN {print var}'
+$variable
+
+source:
+https://stackoverflow.com/questions/19075671/how-do-i-use-shell-variables-in-an-awk-script
+==========

@@ -1,0 +1,266 @@
+#!/bin/bash
+
+
+# read_flags
+
+while getopts ":i:o:h" opt; do
+	case $opt in
+		i)
+			## -i <input_dir>
+			source_dir=${OPTARG}
+			#exit 0
+			;;
+		o)
+			## -o <output_dir>
+			target_dir=${OPTARG}
+			#exit 0
+			;;
+		h)
+			## -h display help text
+			printf "$script_name usage: $script_usage"
+			exit 0
+			;;
+		\?)
+			printf "$script_name ${RED}invalid option: -${OPTARG}${NOC}"
+			exit 1
+			;;
+		:)
+			## display help
+			printf "$script_name: ${RED}option -${OPTARG} requires an argument${NOC}"
+			exit 1
+			;;
+	esac
+done
+
+
+# case_dir can be modified here if necesarry
+
+case_dir=$target_dir
+
+[ ! -d $case_dir ] && mkdir -p $case_dir
+
+[ ! -d $case_dir ] && printf "unable to create directory: $case_dir\n" && printf "exiting now\n" && exit
+
+## sub_folder_names
+#
+#uri_list_dir="$case_dir/uri_list"
+#capinfos_dir="$case_dir/capinfos"
+#http_dir="$case_dir/http"
+#user_agents_dir="$case_dir/user_agents"
+# sub_folder_names (for every pcap)
+## more logical for down drilling
+
+
+# create text files from pcap's
+
+run_uri_list() {
+
+    echo
+    echo "$pcap_file"
+    echo "-> writing uri list..."
+    tshark -r $pcap_file > $case_dir_curr/uri_$pcap_file.txt
+
+}
+
+
+# capinfos
+
+run_capinfos() {
+
+    echo "-> writing capinfos... "
+    capinfos "$pcap_file" > $case_dir_curr/capinfos_$pcap_file.txt
+
+}
+
+
+# user_agents
+
+run_user_agents() {
+
+    echo "-> writing user agents... "
+    tshark -r "$pcap_file" -q -T fields -e http.user_agent -Y http.request | \
+	sed '/^$/d' > $case_dir_curr/user_agents_$pcap_file.txt
+
+}
+
+
+# extract_http
+
+run_extract_http() {
+
+    echo "-> writing http lines... "
+    tshark -r "$pcap_file" -q -T fields -e _ws.col.Time -e _ws.col.Info -Y http.request \
+	> $case_dir_curr/http_$pcap_file.txt
+
+}
+
+
+# passwords_from_http
+
+run_passwords_from_http() {
+    
+    tshark -r "$pcap_file" -Y 'http.request.method == POST and tcp contains "password"' \
+	| grep password \
+       >> $case_dir_curr/pass_$pcap_file.txt
+    
+}
+
+
+# make directory
+
+run_make_directory() {
+
+    [ ! -d $dir_to_make ] && mkdir -p $dir_to_make
+    printf "dir to make: $dir_to_make\n"
+
+}
+
+
+# creating data files from pcaps
+
+cd $source_dir
+
+for pcap_file in *.pcap; do
+
+    ## create directory for current pcap file
+    dir_to_make=$case_dir/$pcap_file
+    run_make_directory
+    case_dir_curr=$dir_to_make
+
+    ## run analysis
+    run_uri_list
+    run_capinfos
+    run_user_agents
+    run_extract_http
+    run_passwords_from_http
+
+done
+
+
+# creating analysis files from data files
+
+## meta data from capinfos
+
+
+
+#[TODO] <<<>>> write 'reports' / 'analysis' to separate folder
+
+
+
+# script 01 user_agents_freq_per_file
+
+run_script_01 () {
+    
+    echo "`date +%Y%m%d_%H%M%S`" \
+	 > user_agents_freq_per_file.txt
+    echo "frequency of reported user_agents per pcap-file" \
+	 >> user_agents_freq_per_file.txt
+    
+    #for ua_file in *; do
+	
+	### count user_agent lines in files
+#	wc -l $ua_file >> user_agents_freq_per_file.txt
+	
+ #   done
+
+    for file in $(find . -name user_agents_0*) ; do
+	
+	wc -l $file >> $case_dir/user_agents_freq_per_file.txt
+
+    done
+    
+}
+
+
+# frequency analysis from uri_list
+
+run_script_02 () {
+    
+    dir_to_make=$uri_list_dir/frequencies
+    run_make_directory
+    cd $dir_to_make
+    
+    ## ip analysis
+    echo "`date +%Y%m%d_%H%M%S`" \
+	 > ip_freq_per_file.txt
+    echo "frequency of reported ip addresses per pcap-file" \
+	 >> ip_freq_per_file.txt
+    for uri_file in uri_0*; do
+	grep -rin "$regex_ip" $uri_file >> ip_freq_per_file.txt
+    done
+    ## uri analysis
+    echo "`date +%Y%m%d_%H%M%S`" \
+	 > uri_freq_per_file.txt
+    echo "frequency of reported ip addresses per pcap-file" \
+	 >> uri_freq_per_file.txt
+    for uri_file in uri_0*; do
+	grep -rin "$regex_ip" $uri_file >> uri_freq_per_file.txt
+    done
+    
+}
+
+
+# frequency analysis from user_agents
+
+cd $case_dir
+
+## make list for loop
+#directories=$(find . -maxdepth 1 -type d -name *.pcap)
+
+## in every pcap directory 
+for directory in *.pcap/ ; do
+
+    printf "$case_dir/$directory"
+    
+    cd $case_dir
+
+    run_script_01
+    run_script_02
+    
+done
+
+
+## concatenate all reported user_agents into one file 
+echo "`date +%Y%m%d_%H%M%S`" \
+     > user_agents_freq_merged.txt
+echo "frequency of reported user_agents over all pcap-files" \
+     >> user_agents_freq_merged.txt
+cat user_agents_0* | sort | uniq -c | sort -k1,1nr -k2 \
+	>> user_agents_freq_merged.txt
+
+
+# regular expressions
+
+regex_ip="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
+regex_uri="^((http[s]?|ftp):\/)?\/?([^:\/\s]+)((\/\w+)*\/)([\w\-\.]+[^#?\s]+)(.*)?(#[\w\-]+)?$"
+regex_loc="@[-?\d\.]*)"
+
+
+# time window over all pcaps from capinfos
+
+cpin_time_dir=$capinfos_dir/time_wdw
+[ ! -d $cpin_time_dir ] || mkdir -p $cpin_time_dir
+cd $cpin_time_dir
+
+cd $capinfos_dir
+## from first capinfos file print line containing the word 'first'
+grep -i first $(ls $capinfos_dir/capinfos_0* | sed -n '1p') >> $cpin_time_dir/capinfos_time_window
+## from last capinfos file print line containing the word 'last'
+grep -i last $(ls $capinfos_dir/capinfos_0* | sed -n '$p') >> $cpin_time_dir/capinfos_time_window
+
+
+# latlon strings locations from text files
+
+dir_to_make=$uri_list_dir/latlon
+run_make_directory
+cd $dir_to_make
+
+cd $uri_list_dir
+#regex_loc="@[-?\d\.]*\,([-?\d\.]*)"
+for uri_file in *; do
+    grep -rin "$regex_loc" $uri_file >> $lat_lon_dir/locs_from_uri_files.txt 
+done
+
+
+# move to target_dir
+cd $target_dir

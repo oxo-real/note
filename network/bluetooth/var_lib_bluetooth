@@ -1,0 +1,12 @@
+/var/lib/bluetooth
+contains devices' bluetooth radio mac address
+
+cd /var/lib/bluetooth/<mac_address>
+contains devices' bluetooth
+	clients' mac address directories (paired devices?)
+	chace directory
+	settings file
+
+settings file:
+[General]
+Discoverale=false

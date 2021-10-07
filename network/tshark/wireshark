@@ -1,0 +1,38 @@
+wireshark filters
+
+by ip address
+ip.addr == <ipaddress>
+
+by protocol
+arp
+dns or tcp
+
+by port number
+tcp.port == 443
+
+by flags (for packetloss or retransmissions)
+tcp.analysis.flags
+
+hide filter
+!(arp or icmp or dns)
+
+follow tcp stream
+select packet and right click 'follow tcp stream'
+
+filter by packet content
+tcp contains facebook
+
+udp contains facebook <-- lists any dns queries that contain facebook
+
+http.request
+all the GET's 
+
+http.response.code == 200
+https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+
+syn attacks
+tcp.flags.syn == 1
+tcp.flags.reset == 1
+
+voice over ip
+sip && rtp

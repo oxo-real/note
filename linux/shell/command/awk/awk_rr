@@ -1,0 +1,2 @@
+## target_file is comma separated csv with quoted values; print line when third column equals "string"
+awk -F , '$3 == "\"string\"" {print;}' target_file

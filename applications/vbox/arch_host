@@ -1,0 +1,2 @@
+yay -Sy virtualbox virtualbox-host-modules-arch
+modprobe vboxdrv

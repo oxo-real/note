@@ -1,0 +1,42 @@
+# hardware
+
+## PCI device list
+lspci
+
+## detailed list
+lspci -vv
+
+## details specific device_id
+### device_id is value of first field (i.e. 02:00.0)
+lspci -vv -s $device_id
+OR
+sh $HOME/_git/code/tools/get_device_info
+
+### device driver in use
+driver_iu=$(lspci -vv -s $device_id | grep 'Kernel driver in use:' | awk '{print $2}')
+
+
+# device driver
+
+## drivers added to kernel
+lsmod
+
+## check if driver is added to kernel
+lsmod | grep $driver_iu
+
+## remove driver from kernel
+modprobe -r $driver_iu
+
+## add driver to kernel
+modprobe $driver
+
+# NOTICE!
+# this works only for loadable kernel modules drivers.
+# this works NOT for drivers built into the kernel
+
+## check if driver is build into kernel:
+
+modprobe -D $driver_iu
+
+# devices are in
+/sys

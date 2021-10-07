@@ -1,0 +1,47 @@
+#!/usr/bin/ash
+
+
+## find devices with: ls -ltr /dev/disk/by-id
+## after edit usbdrive and hardrive designations
+## save and copy to:
+## /etc/initcpio/hooks/customencrypthook
+
+
+usbdrive="/dev/disk/by-id/USB"
+harddrive="/dev/disk/by-id/HDD_SSD"
+
+
+modprobe -a -q dm-crypt >/dev/null 2>&1
+
+modprobe loop
+
+[ "${quiet}" = "y" ] && CSQUIET=">/dev/null"
+
+
+while [ ! -L "$usbdrive"-part2 ]; do
+
+ echo 'waiting for USB device ...'
+
+ sleep 1
+
+done
+
+
+cryptsetup open "$usbdrive"-part2 cryptboot
+
+mkdir -p /mnt
+
+mount /dev/mapper/cryptboot /mnt
+
+cryptsetup open /mnt/key.img lukskey
+
+cryptsetup \
+--header /mnt/header.img \
+--key-file=/dev/mapper/lukskey \
+--keyfile-offset=''offset'' \
+--keyfile-size=''size'' \
+open "$harddrive" enc
+
+cryptsetup close lukskey
+
+umount /mnt

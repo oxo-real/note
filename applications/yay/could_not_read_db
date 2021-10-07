@@ -1,0 +1,11 @@
+Error:
+On update yay gives the error:
+"error: could not read db 'community' (gzip decompression failed)"
+
+Cause:
+Local package database is corrupt.
+
+Solution:
+Force a package database refresh from the server with the command:
+
+yay -Syyu

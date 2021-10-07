@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# generate general pcap analysis report
+## based on: https://401trg.com/triaging-large-packet-captures-4-key-tshark-commands-to-start-your-investigation/
+
+# pcap general file statistics
+capinfos file.pcap
+
+# protocols
+
+## protocol hierarchy statistics
+tshark -r file.pcap -q -z io,phs
+
+# infrastructure
+
+## hostnames & ip adresses
+tshark -r file.pcap -q -z hosts
+
+## ip adresses (by packet count)
+tshark -r file.pcap -q -z endpoints,ip
+
+# IPv4 conversations
+tshark -r file.pcap -q -z conv,ip
+
+# extraction from DNS queries (by domain count)
+tshark -r test.pcap -q -T fields -e dns.qry.name -Y "dns.flags.response eq 0" | sed '/^$/d' | sort | uniq -c | sort -k1,1nr -k2                                                                                                                                                                                            0 68323  11:22:10
+
+# user-agent extraction
+tshark -r test.pcap -q -T fields -e http.host -e http.user_agent -Y http.request | sed '/^$/d' | sort | uniq -c | sort -k1,1nr -k2
+

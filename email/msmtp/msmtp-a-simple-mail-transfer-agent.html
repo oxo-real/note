@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Msmtp: A simple mail transfer agent</title>
+	<meta name="author" content=Steve George />
+				<title>Futurile</title>
+        	<meta charset="utf-8" />
+			<link rel="stylesheet" href="http://www.futurile.net/theme/css/main.css" type="text/css" />
+            <link rel="stylesheet" href="http://www.futurile.net/theme/css/pygments-monokai.css" type="text/css" />
+			<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+
+ 
+
+</head>
+
+<body id="Home">
+	<div id="site"> <!-- this one is important -->
+
+		<div id="header" style="cursor: pointer;">
+			<h1> <a href="http://www.futurile.net">Futurile</a> </h1>
+			<ul class="nav">
+            	<li><a href="/work/index.html">Work</a></li>
+            	<li><a href="/adventure/index.html">Play</a></li>
+            	<li><a href="/resources/index.html">Resources</a></li>
+            	<li><a href="/about/index.html">About</a></li>
+            	<li><a href="/archives.html">Archive</a></li>
+            	<li><a href="/search.html">Search</a></li>
+			</ul>
+		</div>
+
+
+<div id="page">
+	<h1 class="emphtext">Msmtp: A simple mail transfer agent</h1>
+
+    <!-- These are used by Pelican during publishing
+
+:author: Steve George
+:category: resources
+:slug: msmtp-info
+:url: resources/msmtp
+:saveas: resources/msmtp/index.html
+:date: 2016-08-12 21:27 -->
+<!-- NOTE: diverged from internal notes 12th August 2016, do not over-write. -->
+<div class="section" id="introduction">
+<h2><a class="toc-backref" href="#id3">Introduction</a></h2>
+<p><a class="reference external" href="http://msmtp.sourceforge.net/">Msmtp</a> is a small mail delivery agent <a class="footnote-reference" href="#muttmailconcept" id="id1">[1]</a> that command line email applications use to send email via the users smarthost. Email clients (MUA's) such as Mutt, Alpine or Sup send email through it as if it were a standard Sendmail interface. It uses far fewer resources than running a full MTA, with the caveat that it can only hand-off email to an internet provider for delivery.</p>
+<div class="figure align-right">
+<img alt="Email envelope icon" src="http://www.futurile.net/images/20160812-msmtp-envelope-icon.jpg" style="width: 352.0px; height: 297.0px;" />
+<p class="caption">Email by <a class="reference external" href="https://www.flickr.com/photos/jurgenappelo/7749073942/">Jurgen Appelo</a>, <a class="reference external" href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a></p>
+</div>
+<p>I'm using Mutt which has basic support for sending email but it's recommended configuration is to use a separate agent, particularly if mail is being sent out through multiple accounts. Some people will use the full capability of an MTA such as <a class="reference external" href="http://paul.frields.org/2009/07/12/best-in-show/">Postfix</a>, but I wanted something less resource intensive.</p>
+<p>There are a variety of <a class="reference external" href="https://dev.mutt.org/trac/wiki/SendmailAgents">light-weight mail transfer agents</a>. Msmtp is very popular with Mutt users and there didn't seem to be an obviously better option. Having used it for a few days I'm pretty satisfied.</p>
+<div class="section" id="use-cases">
+<h3><a class="toc-backref" href="#id4">Use-cases</a></h3>
+<p>Msmtp is a good solution when using a command line email programme that doesn't know how to send email. It's particularly useful if the user's not online all the time so outgoing email must be queued temporarily. It also has features to guarantee that sent email is securely tunnelled using SSL/TLS and that the remote server is genuine.</p>
+<p>I receive and send email through multiple accounts, using different email addresses which means Msmtp's ability to send email out through each accounts specific smarthost is critical for me.</p>
+</div>
+<div class="section" id="strengths">
+<h3><a class="toc-backref" href="#id5">Strengths</a></h3>
+<ul class="simple">
+<li><strong>Light weight email sending</strong></li>
+</ul>
+<p>Msmtp has all the main features that are required for a local email client to send email through it (ie it looks like sendmail to it), but doesn't take up the resources that a full MTA (e.g Postfix) would need.</p>
+<ul class="simple">
+<li><strong>Authenticated and secured email sending with SSL/TLS</strong></li>
+</ul>
+<p>To send email through a service providers smarthost we have to authenticate to it. To secure the authentication and to keep the contents of email secret that's done over an SSL/TLS tunnel. There are a couple of different standards and providers use different set-ups: Msmtp is configurable to handle a range of set-ups.</p>
+<ul class="simple">
+<li><strong>Protects against Man-in-the-middle (MITM) attacks</strong></li>
+</ul>
+<p>If an attacker can masquerade as the authentic smarthost server then encrypted communication is pointless! Msmtp helps us to defend against this attack by retaining the SSL/TLS signature of the smarthost and checking it hasn't changed before sending email.</p>
+<ul class="simple">
+<li><strong>Stores passwords securely through the system keychain or GPG</strong></li>
+</ul>
+<p>Authentication to send email at a smarthost is done with a userid and password. Msmtp supports storing these credentials securely in the system keychain or using GPG: the user is then queried for a password to unlock the agent.</p>
+<ul class="simple">
+<li><strong>Supports sending email through multiple accounts</strong></li>
+</ul>
+<p>Often users have more than one email account that they want to send email from: I use different email addresses for mailing list subscriptions to try and reduce (or at least identify) spam. When Msmtp is handed an email it examines the from address on the SMTP envelope and then transfers it to the correct smarthost.</p>
+<ul class="simple">
+<li><strong>Queues email when offline (using scripts distributed with it)</strong></li>
+</ul>
+<p>Although Msmtp is not a full MTA it can queue email for sending later. This is done through the user contributed msmtpq scripts.</p>
+<ul class="simple">
+<li><strong>Automatically send email when coming online</strong></li>
+</ul>
+<p>Using some additional scripting Msmtp can automatically send emails whenever the system comes on-line. This is really useful for laptops where you're travelling around.</p>
+</div>
+<div class="section" id="weaknesses">
+<h3><a class="toc-backref" href="#id6">Weaknesses</a></h3>
+<ul class="simple">
+<li><strong>Complicated to set-up</strong></li>
+</ul>
+<p>It's a command line application dealing with a fairly complex set of protocols, so the opposite side of configurable is that it's complex. Be prepared to set aside a couple of hours for a set-up that sings!</p>
+<ul class="simple">
+<li><strong>Can fail if there's a lock file</strong></li>
+</ul>
+<p>The downside of not being part of the email client (MUA) is there's a point when email is handed off from the client to Msmtp. The one bug I see reported in multiple places is that users are told to set Mutt to return immediately without checking the status of the send from Msmtp - most of the time this will be fine, but if Msmtp has a problem with start-up then it may not fail gracefully (most commonly this is due to it having problems with it's lock files). This means email would go missing!</p>
+<ul class="simple">
+<li><strong>Queueing extension and automated sending are shell scripts</strong></li>
+</ul>
+<p>Msmtp is designed to be just enough to act as a sendmail interface, the question is how much is 'just enough'. Queueing isn't part of the core and the ability to automate sending when the system goes online is another set of shell scripts. This could be brittle and I just don't like shell scripts much!</p>
+<div class="figure align-right">
+<img alt="Graffiti asking Banksy to respond to emails" src="http://www.futurile.net/images/20160812-msmtp-banksy-email.jpg" style="width: 384.0px; height: 255.6px;" />
+<p class="caption">You got mail, image by <a class="reference external" href="https://www.flickr.com/photos/brunogirin/2484786902/">Bruno Girin</a>, <a class="reference external" href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="table-of-contents">
+<h2><a class="toc-backref" href="#id7">Table of contents</a></h2>
+<div class="contents topic" id="the-main-structure-of-these-notes-is">
+<p class="topic-title first">The main structure of these notes is:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#introduction" id="id3">Introduction</a><ul>
+<li><a class="reference internal" href="#use-cases" id="id4">Use-cases</a></li>
+<li><a class="reference internal" href="#strengths" id="id5">Strengths</a></li>
+<li><a class="reference internal" href="#weaknesses" id="id6">Weaknesses</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#table-of-contents" id="id7">Table of contents</a></li>
+<li><a class="reference internal" href="#email-security" id="id8">Email security</a><ul>
+<li><a class="reference internal" href="#email-security-resources" id="id9">Email security resources</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installing-msmtp" id="id10">Installing MSMTP</a></li>
+<li><a class="reference internal" href="#smarthost-fingerprinting" id="id11">Smarthost fingerprinting</a></li>
+<li><a class="reference internal" href="#password-storage" id="id12">Password storage</a></li>
+<li><a class="reference internal" href="#configure-mutt-to-use-msmtp" id="id13">Configure Mutt to use Msmtp</a></li>
+<li><a class="reference internal" href="#queuing-outgoing-email" id="id14">Queuing outgoing email</a></li>
+<li><a class="reference internal" href="#running-email-when-the-network-is-active" id="id15">Running email when the network is active</a><ul>
+<li><a class="reference internal" href="#network-manager-dispatcher" id="id16">Network manager dispatcher</a></li>
+<li><a class="reference internal" href="#network-manager-scripting-resources" id="id17">Network manager scripting resources</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#multiple-accounts" id="id18">Multiple accounts</a></li>
+<li><a class="reference internal" href="#msmtp-log-rotation" id="id19">Msmtp log rotation</a></li>
+<li><a class="reference internal" href="#system-aliases" id="id20">System aliases</a></li>
+<li><a class="reference internal" href="#msmtp-example-configuration" id="id21">Msmtp example configuration</a></li>
+<li><a class="reference internal" href="#msmtp-resources-and-footnotes" id="id22">MSMTP resources and footnotes</a></li>
+<li><a class="reference internal" href="#comments" id="id23">Comments</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="email-security">
+<h2><a class="toc-backref" href="#id8">Email security</a></h2>
+<p>It was quite confusing trying to figure out why tutorials had such different settings for securely sending SMTP over SSL/TLS. The reason is that encryption is always complex and the way it interacts with email has been through a few iterations. This results in variations between email providers set-ups.</p>
+<p>It's worth noting that in 2016 email transmission remains insecure! Although, it's now standard to secure the communication from the client to their smarthost, the transmission between host providers is commonly not over a TLS tunnel. There is more to do!</p>
+<p>The terms SSL and TLS are often used interchangeably, TLS is the successor to SSL. Transport Layer Security (TLS) provides two ways for using it to secure a protocol:</p>
+<ul class="simple">
+<li>The protocol session is initiated in the clear then the STARTLS command begins encryption</li>
+<li>The protocol session immediately initialises TLS and only then does the normal protocol begin</li>
+</ul>
+<p>To add transport security to the existing email protocols new ports were assigned:</p>
+<ul class="simple">
+<li>IMAP SSL/TLS on 993</li>
+<li>POP SSL/TLS on 995</li>
+<li>SMTP SSL/TLS on 465</li>
+</ul>
+<p>IMAPS and POPS are pretty standard, everyone uses the correct ports and the only variability is the strength of the encryption. The situation with sending email is more complicated.</p>
+<p>The Internet standards bodies have favoured using the standard port and using STARTTLS to upgrade the conversation. Consequently, port 465 is not an official port (it was reassigned to a different protocol)! The problem is that some client software wouldn't upgrade the connection properly and that some attackers would purposefully 'downgrade' the communication (responding that they didn't support STARTTLS) to do man-in-the-middle attacks. As the whole conversation isn't wrapped there's at least some leaking of meta data such as what the hostname is and how often it send email.</p>
+<p>A slight kink is that port 587 was defined for authenticated submission of mail for onward transmission (being a smarthost), rather than transfer of a fully complete message (with all headers and FQDN). So port 587 is supposed to be used by an email client (an MUA) to talk to its smarthost for sending email. It was done around the time that using SSL/TLS was becoming popular so it became a defacto standard that communication on port 587 requires SSL/TLS with STARTTLS upgrading and (generally) authentication. This leaves us with:</p>
+<ul class="simple">
+<li>Encrypted SSL/TLS wrapped session on port 465</li>
+<li>Clear session initiation with required STARTLS upgrade on port 587</li>
+</ul>
+<p>Where it's a completely wrapped session it's often called SMTPS. Due to the risks of STARTLS, it's best to use a completely encrypted session (SMTPS). For most providers this will mean using port 465 which is unfortunate as it's not an official port.</p>
+<div class="section" id="email-security-resources">
+<h3><a class="toc-backref" href="#id9">Email security resources</a></h3>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://www.fastmail.com/help/technical/ssltlsstarttls.html">SSL vs TLS vs STARTLS</a></dt>
+<dd>Really good explanation of the issues around TLS and which options are more secure.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://www.agwa.name/blog/post/starttls_considered_harmful">STARTTLS Considered Harmful</a></dt>
+<dd>Knowledgable blog post by Andrew Ayer about the problems with STARTTLS.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://help.runbox.com/connection-encryption-ssl-tls-starttls/">Connection Encryption – SSL, TLS and STARTTLS</a></dt>
+<dd>Covers all the detail, but has to be read closely for the nuance to come across. It's recommending SMTPS on port 465 if possible and telling you to check your email configuration carefully in case it attempts to use STARTLS on 587.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://en.wikipedia.org/wiki/SMTPS">SMTPS on Wikipedia</a></dt>
+<dd>Quick overview of the port assigned service.</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="installing-msmtp">
+<h2><a class="toc-backref" href="#id10">Installing MSMTP</a></h2>
+<p>Msmtp is part of a lot of distributions, on Ubuntu install it with:</p>
+<pre class="code bash literal-block">
+$ sudo apt install msmtp
+</pre>
+<p>Create some core files, <cite>~/.msmtprc</cite> is for configuration and has to have 0600 permissions. The log file location is optional, I'm creating an <cite>~/.msmtp/</cite> directory and then storing everything under this:</p>
+<pre class="code bash literal-block">
+$ touch ~/.msmtprc
+$ mkdir ~/.msmtp/log/msmtp.log
+$ chmod <span class="m">0600</span> <span class="nv">$HOME</span>/.msmtprc
+</pre>
+<p>A short example configuration for <tt class="docutils literal"><span class="pre">~/.msmtprc</span></tt>:</p>
+<pre class="literal-block">
+# From this line to the first 'account X' line are settings for all accounts
+defaults
+tls on
+
+# This is where the TLS CERTs reside
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+
+# With tls_starttls on it will be a clear session and then upgrade to TLS
+# using the STARTTLS command. If set to 'off' then the whole session is
+# encrypted inside a TLS session (SMTPS)
+tls_starttls on
+
+# This is the log file - comment it out to stop it collecting
+logfile ~/.msmtp/log/msmtp.log
+
+# Authentication must be used for sending
+# Each account will use a different method
+auth on
+
+## Account ##
+account account-name
+host mail.runbox.com
+port 465
+
+user username&#64;domain
+password somepassword
+</pre>
+<p>The Account section provides configuration for each specific email provider. To check the configuration is working do:</p>
+<pre class="code bash literal-block">
+$ msmtp -Sd
+</pre>
+<p>This displays information on the configuration and on certificates that the remote host is using. If you have more than one account add <tt class="docutils literal"><span class="pre">--account=&lt;accountname&gt;</span></tt>. To send a test email, create a file with the recipient email address:</p>
+<pre class="literal-block">
+To: username&#64;mydomain.com
+From: username&#64;mydomain.com
+Subject: A test to see if MSMTP is delivering
+
+Hello there.
+</pre>
+<p>Then from the commandline do the following:</p>
+<pre class="code bash literal-block">
+cat email.txt <span class="p">|</span> msmtp --account<span class="o">=</span>default &lt;recipient&#64;somedomain.com&gt;
+</pre>
+<p>Note that the &lt;<a class="reference external" href="mailto:recipient&#64;somedomain.com">recipient&#64;somedomain.com</a>&gt; is where the email will be sent using SMTP - logically the <cite>To</cite> in the email and the one for Msmtp to use on the SMTP conversation will be the same. For testing it's useful to send to your email address at your email provider as this checks that the smarthost is receiving and that it's processing it correctly within your providers email system. A second check is to send email to an external address (e.g. a free account like Gmail or Yahoo) as this checks that everything is fine for relaying outside your providers email system.</p>
+<div class="figure align-right">
+<img alt="Email - it's stressful!" src="http://www.futurile.net/images/20160812-msmtp-email-stress.jpg" style="width: 384.0px; height: 288.0px;" />
+<p class="caption">Less stressed, but less employed! Image by <a class="reference external" href="https://www.flickr.com/photos/planeta/15927900026/">Ron Madder</a>, <a class="reference external" href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a></p>
+</div>
+<p>As discussed above I want to use a completely wrapped TLS session which means using port 465 in the account section of the file. I tell Msmtp to wrap the session with this setting:</p>
+<pre class="code bash literal-block">
+tls_starttls off
+</pre>
+</div>
+<div class="section" id="smarthost-fingerprinting">
+<h2><a class="toc-backref" href="#id11">Smarthost fingerprinting</a></h2>
+<p>As part of TLS process we want Msmtp to check the validity of the TLS certificate. The general default is to use a system CA certificates file, on Ubuntu this is part of the <strong>ca-certificates</strong> package which places them at <tt class="docutils literal"><span class="pre">/etc/ssl/certs/ca-certificates.crt</span></tt>, so often in the <strong>defaults</strong> section we have:</p>
+<pre class="code bash literal-block">
+tls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+</pre>
+<p>The problem is that the system provided CA certificates could be out of date or revoked, there's no way to check that they're still valid. If we know the details for the specific smarthost that we're using then we can tell Msmtp the fingerprint it should use. The first step is to get the smarthosts certificate signature:</p>
+<pre class="code bash literal-block">
+<span class="c1"># Either run this to show all the details of the default account or
+# use --account=XX to choose a specific one
+</span>$ msmtp -dS
+
+<span class="c1"># Alternatively
+</span>$ msmtp --serverinfo --tls --tls-certcheck<span class="o">=</span>off --host<span class="o">=</span>mail.someserver.com --port<span class="o">=</span><span class="m">587</span>
+</pre>
+<p>In my case I'm using a completely wrapped TLS session, so the first command option works, but the second one didn't. Anyway, this returns an MD5 and SHA1 fingerprint, either works in the configuration file:</p>
+<pre class="code bash literal-block">
+tls on
+tls_fingerprint 4A:2B:DD:BE:B5:98:6B:C1:37:51:89:B0:83:27:FC:40:FF:B8:F3:46
+</pre>
+</div>
+<div class="section" id="password-storage">
+<h2><a class="toc-backref" href="#id12">Password storage</a></h2>
+<p>In the example above we stored the accounts password in the configuration file. A more secure configuration is to either store the password in the system keyring (gnome-keyring on Linux or Mac OSX's keychain), or to store it with a system such as GnuPG.</p>
+<p>To store the configuration in gnome-keyring (Linux) or Mac OSX keychain, we need the following command:</p>
+<pre class="code bash literal-block">
+$ secret-tool store --label<span class="o">=</span>msmtp host smtp.your.domain service smtp user yourusername
+</pre>
+<p>The 'host' argument should match the host in the account section and 'user' is the username that it will use. As long as there's no password set in the configuration file it will automatically try and access the users keyring.</p>
+<p>It's slightly easier for me to use GnuPG as it means I don't have to run the GNOME libraries. To store the password in gpg agent we first have to create a file for the secret password to be stored in, then gpg encrypt it:</p>
+<pre class="code bash literal-block">
+$ touch ~/.msmtp/msmtp-myaccount-pass.gpg
+$ gpg --encrypt --output ~/.msmtp/msmtp-myaccount-pass.gpg --recipient my&#64;gpg-email -
+</pre>
+<p>In the Msmtp configuration file we tell it to use the output of the <tt class="docutils literal">passwordeval</tt> command:</p>
+<pre class="code bash literal-block">
+passwordeval <span class="s2">&quot;gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/.msmtp/msmtp-myaccount-pass.gpg&quot;</span>
+</pre>
+<p>If you don't have <tt class="docutils literal"><span class="pre">gpg-agent</span></tt> running as part of your session you'll have to unlock it:</p>
+<pre class="code bash literal-block">
+<span class="nb">eval</span> <span class="k">$(</span>gpg-agent --daemon<span class="k">)</span>
+gpg-agent
+</pre>
+<p>To make sure it's available for future sessions, I added this to my .xinitrc:</p>
+<pre class="code bash literal-block">
+<span class="c1"># Start gpg-agent for X session
+</span><span class="nb">eval</span> <span class="k">$(</span>gpg-agent --daemon<span class="k">)</span>
+</pre>
+<div class="figure align-right">
+<img alt="Email at (&#64;) symbol sign" src="http://www.futurile.net/images/20160812-msmtp-at-sign.jpg" style="width: 384.0px; height: 286.8px;" />
+<p class="caption">At sign by <a class="reference external" href="https://www.flickr.com/photos/howardlake/5095844271/">Howard Lake</a>, <a class="reference external" href="https://creativecommons.org/licenses/by-sa/2.0/">CC BY-SA 2.0</a></p>
+</div>
+</div>
+<div class="section" id="configure-mutt-to-use-msmtp">
+<h2><a class="toc-backref" href="#id13">Configure Mutt to use Msmtp</a></h2>
+<p>Having tested the configuration we can now configure Mutt to send through Msmtp. In our .muttrc we add the following:</p>
+<pre class="code bash literal-block">
+<span class="nb">set</span> <span class="nv">sendmail</span><span class="o">=</span><span class="s2">&quot;/path/to/msmtp&quot;</span>
+<span class="nb">set</span> <span class="nv">use_from</span><span class="o">=</span>yes
+<span class="nb">set</span> <span class="nv">realname</span><span class="o">=</span><span class="s2">&quot;Your Name&quot;</span>
+<span class="nb">set</span> <span class="nv">from</span><span class="o">=</span>you&#64;example.com
+<span class="nb">set</span> <span class="nv">envelope_from</span><span class="o">=</span>yes
+</pre>
+<p>The setting <tt class="docutils literal">envelope_from=yes</tt> lets Msmtp check the envelope from address that Mutt supplies and matches this against the <strong>from</strong> setting in Msmtp (it's equivalent to using Msmtp's -f option). If you have multiple accounts this will match each accounts email address.</p>
+<p>At this point we can send email when we're on-line, but I also want to write and queue email when my laptops not on the network.</p>
+</div>
+<div class="section" id="queuing-outgoing-email">
+<h2><a class="toc-backref" href="#id14">Queuing outgoing email</a></h2>
+<p>Msmtp ships with two sets of user contributed scripts which will queue outgoing email. I'm using the <strong>msmtpq</strong> ones created by Chris Gianniotis which are easy to get running. There are other options such as <a class="reference external" href="https://github.com/venkytv/msmtp-offline">msmtp-offline</a> but msmtpq is popular so I've stuck with it. The scripts are shipped with Ubuntu under <tt class="docutils literal">/usr/share/doc/msmtp</tt>. To install them copy them to a location in your path:</p>
+<pre class="code bash literal-block">
+$ cp /usr/share/doc/msmtp/examples/msmtpq/msmtpq.gz ~/bin/
+$ cp /usr/share/doc/msmtp/examples/msmtpq/msmtp-queue ~/bin/
+$ gunzip ~/bin/msmtpq.gz
+$ chmod u+x ~/bin/msmtpq
+$ chmod u+x ~/bin/msmtp-queue
+</pre>
+<p>To configure the msmtpq script we have to configure two variables. The first one is the directory that mail will will be queued in before it's sent out. As Msmtp is running as a user application this should be somewhere under the users home directory. The default is <tt class="docutils literal"><span class="pre">~/.msmtp.queue</span></tt>, I'm using <tt class="docutils literal">.msmtp/</tt> and created a <tt class="docutils literal">mailqueue/</tt> directory underneath. Edit the msmtpq file:</p>
+<pre class="code bash literal-block">
+<span class="nv">Q</span><span class="o">=</span>~/.msmtp/mailqueue
+<span class="nv">LOG</span><span class="o">=</span>~/.msmtp/log/msmtp.queue.log
+</pre>
+<p>Create the directory:</p>
+<pre class="code bash literal-block">
+$ mkdir ~/.msmtp/mailqueue
+$ chmod <span class="m">0700</span> ~/.msmtp/mailqueue
+$ mkdir ~/.msmtp/log/
+</pre>
+<p>Note that the mailqueue directorys permissions have to be 0700. If it's a system install of Msmtp the MSMTP variable shouldn't need to be edited to directly find the binary as it's in the system path. I had to change it later to point to the binary as I had some problems with where I defined my paths.</p>
+<p>Mutt should call the msmtpq script so alter muttrc:</p>
+<pre class="code bash literal-block">
+<span class="nb">set</span> <span class="nv">sendmail</span> <span class="o">=</span> /path/to/msmtpq<span class="err">'</span>
+<span class="nb">set</span> <span class="nv">sendmail_wait</span> <span class="o">=</span> -1
+</pre>
+<p>To test it's working we switch off the Internet and write an email with Mutt - Mutt should say the email has been sent, it's just being queued.</p>
+<p>To see the queue in action we can do:</p>
+<pre class="code bash literal-block">
+<span class="c1"># Display the current queue
+</span>$ msmtp-queue
+
+<span class="c1"># Run the queue
+</span>$ msmtp-queue -r
+
+<span class="c1"># Send selected mails in the queue
+</span>$  msmtp-queue -R
+
+<span class="c1"># Delete selected emails from the queue
+</span>$ msmtp-queue -p
+</pre>
+<p>The script supports doing connection tests and some other functionality but I didn't need any of this - it all worked first time!</p>
+</div>
+<div class="section" id="running-email-when-the-network-is-active">
+<h2><a class="toc-backref" href="#id15">Running email when the network is active</a></h2>
+<div class="figure align-right">
+<img alt="Piles of postal mail stamps" src="http://www.futurile.net/images/20160812-msmtp-postal-mail-stamps.jpg" style="width: 384.0px; height: 255.0px;" />
+<p class="caption">Postal mail stamps by <a class="reference external" href="https://www.flickr.com/photos/nossreh/7282149408/">Hersson Piratoba</a>, <a class="reference external" href="https://creativecommons.org/licenses/by-nc-nd/2.0/">CC BY-NC-ND 2.0</a></p>
+</div>
+<p>Most posts I read about Msmtp queuing suggested using Cron to send email every five minutes - that's fine but my laptop isn't online all the time so it's a bit wasteful. Then I ran into a post by <a class="reference external" href="https://reza.jelveh.me/2011/08/26/mutt-mu-networkmanager">Reza Jelveh</a> whose created automation to check email when his system is online and when it's offline email is queued as normal. It's a fantastic solution and worth the effort!</p>
+<p>Reza's solution uses Network Managers built in capability to run a script when the network status changes. When the network status changes to <strong>online</strong> Network Manager runs a dispatch script which kicks of an Msmtp script, this flushes the Msmtp queue and re-flushes it every five minutes. Later, when the network status changes to <strong>offline</strong> Network Manager re-runs the dispatch script and this time it stops the Msmtp queue flushing script so that email queues.</p>
+<p>There are two components (scripts), the first is the Network Manager dispatch script, and the second is a script to make msmtpq into a daemon that flushes the msmtp queue every five minutes. There are lots of ways to write daemons, but if you want to run a normal program as a daemon you need something that will wrap it and provide various bits of support (e.g. handle PID's). I did a lot of research on how people create daemons:</p>
+<ul class="simple">
+<li>There are general recommendations to use the shell scripting support libraries associated with init.d (on Debian it's start-stop-daemon) to create daemons. This didn't feel right to me as the context for this script is being run as part of Network Manager under my userid rather than as part of init.</li>
+<li>Libslacks <a class="reference external" href="http://www.libslack.org/daemon/">Daemon</a> was an obvious options as it's in Ubuntu already, has been around a long time and appeared to be very stable. I spent a few hours trying to get it working but it wouldn't manage the process properly.</li>
+<li>Reza used <a class="reference external" href="http://software.clapper.org/daemonize/">Daemonize</a> which is in OSX but isn't in my version of Ubuntu. It turned out it was easy to install and now I wish I hadn't wasted so many hours on Daemon!</li>
+</ul>
+<p>The first thing is to create a script to run the mailqueue as a daemon, mine is called msmtp-queue-daemon.sh:</p>
+<pre class="code bash literal-block">
+<span class="ch">#!/bin/sh
+</span><span class="c1"># For use with the daemon command to run msmtp-queue every 5 minutes
+</span>
+<span class="c1"># Check msmtp-queue is fine
+</span><span class="k">if</span> <span class="o">[</span> -x /home/yourusername/bin/msmtp-queue <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="k">while</span> true<span class="p">;</span> <span class="k">do</span>
+        /home/yourusername/bin/msmtp-queue -r <span class="p">&amp;</span>
+        date -n <span class="sb">`</span>date +%c<span class="sb">`</span>
+        <span class="nb">echo</span> <span class="s2">&quot;: Running msmtp-queue&quot;</span>
+        sleep <span class="m">300</span>
+    <span class="k">done</span>
+<span class="k">fi</span>
+
+<span class="c1"># Not totally sure on the syntax here - signal handling
+</span><span class="nb">trap</span> <span class="s2">&quot;echo -n exiting... ;kill </span><span class="nv">$!</span><span class="s2">;exit&quot;</span> INT TERM
+</pre>
+<p>Its function is to run the standard <tt class="docutils literal"><span class="pre">msmtp-queue</span></tt> script flushing the msmtp queue, it then sleeps for 5 minutes and does it again. Our next step is to convert this script into a Daemon so that it can run continuously.</p>
+<p>As Daemonize isn't in 14.04 LTS the best option was to install one from a later version of Ubuntu:</p>
+<ul class="simple">
+<li>Find <a class="reference external" href="https://launchpad.net/ubuntu/+source/daemonize/1.7.7-1">Daemonize on Launchpad</a></li>
+<li>Download the right <a class="reference external" href="https://launchpad.net/ubuntu/yakkety/+package/daemonize">package</a></li>
+<li>Install it with <tt class="docutils literal">dpkg <span class="pre">--install</span> <span class="pre">daemonize_1.7.7-1_amd64.deb</span></tt></li>
+</ul>
+<p>At the most basic level to test out daemonize we run it from the commandline with something such as this:</p>
+<pre class="code bash literal-block">
+daemonize -v -a -p /home/yourusername/.msmtp/msmtp-queue-daemonize.pid -l /home/yourusername/.msmtp/msmtp-queue-daemonize.pid <span class="se">\
+</span>-e /home/steve/.msmtp/log/msmtp-queue-daemonize-stderr.log -o /home/yourusername/.msmtp/log/msmtp-queue-daemonize-output.log <span class="se">\
+</span>/home/yourusername/bin/msmtp-queue-daemon.sh
+</pre>
+<p>Where <tt class="docutils literal"><span class="pre">-v</span></tt> puts it into verbose mode so that it sends some output to stdout; <tt class="docutils literal"><span class="pre">-a</span></tt> appends log files rather than over-writing them; <tt class="docutils literal"><span class="pre">-p</span></tt> this is the file location to store the process PID; <tt class="docutils literal"><span class="pre">-l</span></tt> is the lock file, if this file exists daemonize will not start a second service, note that I'm using the same file as the PID file; <tt class="docutils literal"><span class="pre">-e</span></tt> this is the stderr log, I didn't get any output from this so removed it later; <tt class="docutils literal"><span class="pre">-o</span></tt> this is the output of the command; and the final parameter is the msmtp queue daemon script that we created earlier. A successful run will create the PID file that you can use to check the process, and in the output file it shows msmtp-queue running every five minutes.</p>
+<p>If that all works, then the next step is to test the command as root (sudo bash):</p>
+<pre class="code bash literal-block">
+daemonize -v -a -u &lt;yourusername&gt; -p /home/yourusername/.msmtp/msmtp-queue-daemonize.pid -l /home/yourusername/.msmtp/msmtp-queue-daemonize.pid <span class="se">\
+</span>-e /home/yourusername/.msmtp/log/msmtp-queue-daemonize.log -o /home/yourusername/.msmtp/log/msmtp-queue-daemonize-output.log <span class="se">\
+</span>/home/yourusername/bin/msmtp-queue-daemon.sh
+</pre>
+<p>The only difference is the use of <tt class="docutils literal"><span class="pre">-u</span> &lt;yourusername&gt;</tt> which tells daemonize to switch to the specified username to run the rest of the command. We're now ready to integrate the daemonized msmtp-queue-daemon.sh into Network Manager.</p>
+<div class="section" id="network-manager-dispatcher">
+<h3><a class="toc-backref" href="#id16">Network manager dispatcher</a></h3>
+<p>Network Manager will automatically run any script in <tt class="docutils literal">/etc/NetworkManager/dispatcher.d</tt> when the network status changes, it has some pretty interesting capabilities but we'll keep it simple. It runs the script with two arguments, the name of the interface and the status of the interface (up or down). You may need to check that the <a class="reference external" href="http://unix.stackexchange.com/questions/79230/dispatcher-script-of-network-manager-no-longer-works">dispatcher is running</a> but it was fine for me on 14.04 LTS.</p>
+<p>Create a file in <tt class="docutils literal"><span class="pre">/etc/NetworkManager/dispatcher.d/99smtp-queue-run.sh</span></tt>, change ownership and group to root, and set the execute bit:</p>
+<pre class="code bash literal-block">
+$ sudo touch /etc/NetworkManager/dispatcher.d/99smtp-queue-run.sh
+$ sudo chown root:root /etc/NetworkManager/dispatcher.d/99smtp-queue-run.sh
+$ sudo chmod u+x /etc/NetworkManager/dispatcher.d/99smtp-queue-run.sh
+</pre>
+<p>The final step is to add the contents:</p>
+<pre class="code bash literal-block">
+<span class="ch">#!/bin/sh
+</span>
+<span class="nv">INTERFACE</span><span class="o">=</span><span class="nv">$1</span>    <span class="c1"># The interface that's being brought up or down
+</span><span class="nv">STATUS</span><span class="o">=</span><span class="nv">$2</span>       <span class="c1"># Interface status - up or down
+</span>
+<span class="nv">USER</span><span class="o">=</span>myuser
+<span class="nv">HOME</span><span class="o">=</span>/home/<span class="nv">$USER</span>
+<span class="nv">PIDFILE</span><span class="o">=</span><span class="nv">$HOME</span>/.msmtp/msmtp-queue-daemonize.pid
+<span class="nv">LOCKFILE</span><span class="o">=</span><span class="nv">$HOME</span>/.msmtp/msmtp-queue-daemonize.pid
+<span class="nv">STDOUTFILE</span><span class="o">=</span><span class="nv">$HOME</span>/.msmtp/log/msmtp-queue-daemonize-output.log
+<span class="nv">DAEMONIZE</span><span class="o">=</span>/usr/sbin/daemonize
+<span class="nv">NOTIFY</span><span class="o">=</span>/usr/bin/notify-send
+
+<span class="c1"># If the display variable is unset, find the correct display number
+# and set the variable so we can send messages
+#if [ -z &quot;$DISPLAY&quot; ]; then
+#    console=`fgconsole`
+#    dispnum=`ps t tty$console | sed -n -re 's,.*/X(org)? .*:([0-9]+).*,\2,p'`
+#    export DISPLAY=&quot;:$dispnum&quot;
+#fi
+</span><span class="nb">export</span> <span class="nv">DISPLAY</span><span class="o">=</span><span class="s2">&quot;:0&quot;</span>
+
+logger -p daemon.err <span class="s2">&quot;MSMTP queue: dispatcher running&quot;</span>
+
+<span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$STATUS</span><span class="s2">&quot;</span> in
+    <span class="s1">'up'</span><span class="o">)</span>
+        <span class="c1"># Network interfaces are active, so run daemonize
+</span>        daemonize -a -u <span class="nv">$USER</span> -p <span class="nv">$PIDFILE</span> -l <span class="nv">$LOCKFILE</span> -o <span class="nv">$STDOUTFILE</span> /home/steve/bin/msmtp-queue-daemon.sh
+        <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+            su - <span class="nv">$USER</span> -c <span class="s2">&quot;</span><span class="nv">$NOTIFY</span><span class="s2"> -i info --expire-time 180 'Network up' 'Running mail'&quot;</span>
+        <span class="k">else</span>
+            <span class="c1"># Could be that the PID file is acting as a lock file, this doesn't show on the stderr log
+</span>            su - <span class="nv">$USER</span> -c <span class="s2">&quot;</span><span class="nv">$NOTIFY</span><span class="s2"> -i error 'MSMTP queue: Error daemonising email - intervention required'&quot;</span>
+            logger -s -p daemon.err <span class="s2">&quot;MSMTP queue: Unable to daemonize&quot;</span>
+        <span class="k">fi</span>
+        <span class="p">;;</span>
+    <span class="s1">'down'</span><span class="o">)</span>
+        <span class="c1"># Network interfaces are down
+</span>        <span class="nv">NETWORKSTATUS</span><span class="o">=</span><span class="sb">`</span>nm-tool<span class="p">|</span>grep State<span class="p">|</span>cut -f2 -d<span class="s1">' '</span><span class="sb">`</span>
+        <span class="c1"># Note that you have to have quote marks around the variable
+</span>        <span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$NETWORKSTATUS</span><span class="s2">&quot;</span> !<span class="o">=</span> <span class="s2">&quot;connected&quot;</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+            <span class="c1"># Remove the PIDFILE or we can't run again
+</span>            <span class="nb">kill</span> -TERM <span class="sb">`</span>cat <span class="nv">$PIDFILE</span><span class="sb">`</span>
+            <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span><span class="k">then</span>
+                su - <span class="nv">$USER</span> -c <span class="s2">&quot;</span><span class="nv">$NOTIFY</span><span class="s2"> -i info --expire-time 180 'Network down' 'Stopping mail'&quot;</span>
+                rm <span class="nv">$PIDFILE</span> <span class="o">||</span> su - <span class="nv">$USER</span> -c <span class="s2">&quot;</span><span class="nv">$NOTIFY</span><span class="s2"> -i error 'MSMTP queue: Error removing the lock - intervention required'&quot;</span>
+                <span class="c1"># No ideal why this doesn't work
+</span>                <span class="c1">#if [ $? -eq 0 ];then
+</span>                <span class="c1">#    #$NOTIFY -i info 'MSMTP queue: Error removing the lock file - intervention required'
+</span>                <span class="c1">#    logger -s -p daemon.err &quot;MSMTP queue: Unable to remove lock file - may not be able to run again&quot;
+</span>                <span class="c1">#fi
+</span>            <span class="k">else</span>
+                su - <span class="nv">$USER</span> -c <span class="s2">&quot;</span><span class="nv">$NOTIFY</span><span class="s2"> -i info 'MSMTP queue: Unable to kill the PID - intervention required'&quot;</span>
+                logger -s -p daemon.err <span class="s2">&quot;MSMTP queue: Unable to kill the PID - may not be able to run again&quot;</span>
+            <span class="k">fi</span>
+        <span class="k">fi</span>
+            <span class="p">;;</span>
+<span class="k">esac</span>
+</pre>
+<p>At heart when the $STATUS is 'up' the script runs the daemonize command that we created above to start msmtp-queue running and then it reruns every 5 minutes. When the $STATUS is 'down' it checks the network status is not 'connected' and then kills msmtp-queue by using the PID file. It does some defensive steps to check that it's able to shutdown the daemon properly and remove the PID file, failure to perform these steps would stop it running correctly when we next go onto the network. In order to run the notify command it has to be able to connect to the X screen, the original did some steps to do this but I couldn't figure out how to make them work for me so just input it manually!</p>
+</div>
+<div class="section" id="network-manager-scripting-resources">
+<h3><a class="toc-backref" href="#id17">Network manager scripting resources</a></h3>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://wiki.archlinux.org/index.php/NetworkManager#Command_line">Network Manager command line</a></dt>
+<dd>Arch Linuxs' page on Network Manager, the command line capabilities are interesting.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="http://sysadminsjourney.com/content/2008/12/18/use-networkmanager-launch-scripts-based-network-location/">Use NetworkManager to Launch Scripts Based on Network Location</a></dt>
+<dd>Nice short post on how to automate services using Network Manager.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://www.linux.com/learn/performing-custom-actions-when-networkmanager-goes-onoffline">Performing Custom Actions when NetworkManager Goes On/Offline</a></dt>
+<dd>Similar tutorial on using Network Manager scripts.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-NetworkManager_and_the_Network_Scripts.html">Redhat Networking Guide</a></dt>
+<dd>Everything you wanted to know about Network Manager but were too afraid to ask!</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://bostonenginerd.com/posts/notmuch-of-a-mail-setup-part-1-mbsync-msmtp-and-systemd/">Notmuch of a mail setup Part 1 - MBSync, msmtp and systemd</a></dt>
+<dd>An alternative approach creating a systemd service to check for email regularly.</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="multiple-accounts">
+<h2><a class="toc-backref" href="#id18">Multiple accounts</a></h2>
+<div class="figure align-right">
+<img alt="Lone postbox in a countryside landscape" src="http://www.futurile.net/images/20160812-msmtp-postbox-landscape.jpg" style="width: 416.0px; height: 297.7px;" />
+<p class="caption">A lone mail box, by <a class="reference external" href="https://www.flickr.com/photos/nigelfinn/16742910594/">Finntasia</a></p>
+</div>
+<p>I have more than one email account, which means msmtp needs to select the correct SMTP email server depending on the email address. The msmtp queue script we set-up earlier supports multiple email accounts.</p>
+<p>First, tell Mutt to provide an SMTP from address:</p>
+<pre class="code bash literal-block">
+<span class="nb">set</span> <span class="nv">envelope_from</span><span class="o">=</span>yes
+</pre>
+<p>Then in the .msmtprc set-up the accounts. Make sure that the from address for each account in Mutt is the same as the one in each Account is Msmtp. For example, lets say the from address we use in Mutt for this account is <strong>exampleuser&#64;gmail.com</strong>, we would have settings such as:</p>
+<pre class="literal-block">
+## GMail Account ##
+account gmail
+host smtp.googlemail.com
+port 465
+from exampleuser&#64;gmail.com
+user exampleuser&#64;gmail.com
+password somelongpassword
+</pre>
+<p>To temporarily set a from line in Mutt, start it and do:</p>
+<pre class="code bash literal-block">
+:set <span class="nv">from</span><span class="o">=</span>exampleuser&#64;gmail.com
+</pre>
+<p>Then write an email as that user, it's best to turn off the Internet connection for testing first, then run the queue:</p>
+<pre class="code bash literal-block">
+$ msmtp-queue -r
+</pre>
+<p>This should show that it's trying to deliver to the smarthost depending on the SMTP envelope that is set in Mutt. When you turn on the Internet the log file should show something like this:</p>
+<pre class="literal-block">
+Aug 11 23:50:40 host=smtp.googlemail.com tls=on auth=on user=exampleuser&#64;gmail.com from=exampleuser&#64;gmail.com recipients=exampleuser&#64;funnydomain.net mailsize=391 smtpstatus=250 smtpmsg='250 2.0.0 OK 1470952239 t188sm1633646wme.19 - gsmtp' exitcode=EX_OK
+Aug 11 23:50:42 host=mail.runbox.com tls=on auth=on user=example%runbox.net from=exampleuser&#64;runbox.net recipients=example&#64;runbox.net mailsize=383 smtpstatus=250 smtpmsg='250 OK id=1bXxsA-0000o6-8N' exitcode=EX_OK
+</pre>
+<p>To regularly use this in Mutt we can set-up a macro:</p>
+<pre class="code bash literal-block">
+macro generic <span class="s2">&quot;&lt;esc&gt;1&quot;</span> <span class="s2">&quot;:set from=you&#64;example.com&quot;</span>
+macro generic <span class="s2">&quot;&lt;esc&gt;2&quot;</span> <span class="s2">&quot;:set from=you&#64;your-employer.example&quot;</span>
+macro generic <span class="s2">&quot;&lt;esc&gt;3&quot;</span> <span class="s2">&quot;:set from=you&#64;some-other-provider.example&quot;</span>
+</pre>
+<p>For those using Emacs there's a write-up on the <a class="reference external" href="https://www.emacswiki.org/emacs/GnusMSMTP">Gnus MSMTP</a> page.</p>
+</div>
+<div class="section" id="msmtp-log-rotation">
+<h2><a class="toc-backref" href="#id19">Msmtp log rotation</a></h2>
+<p>We're logging email delivery and how our daemon is running so it's useful to rotate the logs. Create a file in /etc/logrotate.d name it msmtp to set-up log rotation:</p>
+<pre class="code bash literal-block">
+/home/myuser/.msmtp/log/msmtp.log /home/myuser/.msmtp/log/msmtp.queue.log  <span class="se">\
+</span>/home/myuser/.msmtp/log/msmtp-queue-daemonize-output.log <span class="o">{</span>
+rotate <span class="m">12</span>
+weekly
+compress
+notifempty
+missingok
+<span class="o">}</span>
+</pre>
+<p>For readability the files are spread over two lines in the listing above, but in reality should be on one line.</p>
+</div>
+<div class="section" id="system-aliases">
+<h2><a class="toc-backref" href="#id20">System aliases</a></h2>
+<p>If you're running Msmtp at a system level then the configuration with the benefit of use system wide aliases. Msmtp supports system wide aliases (/etc/aliases) if you run it in a system wide configuration. The core issue is that you have to put SMTP authentication somewhere unless there's a local Smarthost on the network. There's a good write-up of this in <a class="reference external" href="https://xand.es/2016/05/09/configuring-msmtp/">Configuring msmtp on Ubuntu</a>. As the process is running as root it can also log to the /var/log/ directory.</p>
+</div>
+<div class="section" id="msmtp-example-configuration">
+<h2><a class="toc-backref" href="#id21">Msmtp example configuration</a></h2>
+<p>The final example Msmtp configuration file:</p>
+<pre class="literal-block">
+# Set default values for all following accounts.
+## MSMTP Configuration ##
+# From this line to the first 'account X' line are settings for all accounts
+defaults
+# Always use TLS
+tls on
+# This is where the TLS CERTs reside
+# Either this or tls_fingerprint can be used
+#tls_trust_file /etc/ssl/certs/ca-certificates.crt
+
+# With tls_starttls on it will be a clear session and then upgrade to TLS
+# using the STARTTLS command. If set to 'off' then the whole session is
+# encrypted inside a TLS session (SMTPS)
+# For Runbox you can't have this and be in port 587
+tls_starttls off
+# This is the log file - comment it out to stop it collecting
+logfile ~/.msmtp/log/msmtp.log
+
+# Authentication must be used for sending
+# Each account will use a different method
+auth on
+
+## Runbox Account ##
+account runbox
+#tls_starttls off
+tls_fingerprint 4A:2B:DD:BE:B5:98:6B:C1:37:51:89:B0:83:27:FC:40:FF:B8:F3:46
+host mail.runbox.com
+port 465
+domain myserver.mydomain.com
+
+# Specifies the 'FROM' in the SMTP envelope
+# Either this is set, or use auto_from
+from myemail&#64;mydomain.com
+
+# Authentication for this account
+user myemail%mydomain.com
+passwordeval &quot;gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/.msmtp-runbox.gpg&quot;
+
+## GMail Account ##
+account gmail
+tls_fingerprint 19:41:05:2D:AB:F1:73:7D:5F:18:7D:6E:F4:20:20:41:FF:FF:01:D3
+host smtp.gmail.com
+port 465
+domain myserverhostname.mydomain.com
+from exampleuser&#64;gmail.com
+user exampleuser&#64;gmail.com
+password somefunnylongpassword
+
+# A second mail address at Runbox
+# The colon tells it to inherit the settings from the previous account
+account runbox2: runbox
+from different-email&#64;mydomain.com
+
+# Set a default account
+account default: runbox
+</pre>
+</div>
+<div class="section" id="msmtp-resources-and-footnotes">
+<h2><a class="toc-backref" href="#id22">MSMTP resources and footnotes</a></h2>
+<div class="figure align-right">
+<img alt="Email at (&#64;) symbol illuminated sign" src="http://www.futurile.net/images/20160812-msmtp-at-sign-illuminated.jpg" style="width: 416.0px; height: 263.90000000000003px;" />
+<p class="caption">Email in lights by <a class="reference external" href="https://www.flickr.com/photos/chrisgold/6561961963/">Chris Goldberg</a>, <a class="reference external" href="https://creativecommons.org/licenses/by-nc/2.0/">CC BY-NC 2.0</a></p>
+</div>
+<table class="docutils footnote" frame="void" id="muttmailconcept" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>See <a class="reference external" href="https://dev.mutt.org/trac/wiki/MailConcept">A short introduction to the notorious MxA bunch</a> for some of the concepts behind the aconyms. While I love the open standards of email, it has to be admitted that it's a ball of complexity!</td></tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://wiki.archlinux.org/index.php/Msmtp">ArchWiki - Msmtp</a></dt>
+<dd>Very good page on the ArchWiki covering all aspects of configuring Msmtp.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://vigasdeep.com/2014/05/06/installing-and-configuring-msmtp/">Installing and configuring mSMTP</a></dt>
+<dd>Well written and easy to follow short guide.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://foobacca.co.uk/blog/2013/03/offlineimap-and-msmtp/">Offlineimap and Msmtp</a></dt>
+<dd>Using Msmtp on a remote server with some clever tricks like caching the passwords in environmental variables.</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="comments">
+<h2><a class="toc-backref" href="#id23">Comments</a></h2>
+<p>If you have any comments or experiences with Msmtp please leave your thoughts below.</p>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'futurile'; // Required - Replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a></div>
+
+
+	<address class="signature">
+		<hr />
+ 
+	</address>
+
+</div> <!-- end of page div -->
+
+		<div id="footer">
+			<address>
+				<span class="copyright">
+				Content by <a href="/about/">Steve George</a>
+				<br/>
+				(<a rel="licence" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Some rights reserved</a>)	
+			    </span>
+
+                <span class="subscribe">
+                    Subscribe with <a href="http://www.futurile.net/feeds/all.atom.xml">RSS</a> 
+                </span>
+
+				<span class="engine">
+					Powered by 
+					<a href="http://getpelican.com/" title="Python powered static blog Pelican">Pelican</a>
+				</span>
+			</address>
+		</div> <!-- end of footer div -->
+
+	</div> <!-- end of site -->
+
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  	ga('create', 'UA-153170-2', 'auto');
+  	ga('send', 'pageview');
+
+	</script>
+
+
+</body>
+</html>
+
+
+
+

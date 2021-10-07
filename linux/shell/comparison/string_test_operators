@@ -1,0 +1,13 @@
+# Linux BASH - Comparison Operators
+
+## String Comparison Operators
+Operator	Description			Example
+
+= or ==		Is Equal To			if [ "$1" == "$2" ]
+!=		Is Not Equal To			if [ "$1" != "$2" ]
+>		Is Greater Than (ASCII comp.)	if [ "$1" > "$2" ]
+>=		Is Greater Than Or Equal To	if [ "$1" >= "$2" ]
+<		Is Less Than			if [ "$1" < "$2" ]
+<=		Is Less Than Or Equal To	if [ "$1" <= "$2" ]
+-n		Is Not Null			if [ -n "$1" ]
+-z		Is Null (Zero Length String)	if [ -z "$1"]

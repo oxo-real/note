@@ -1,0 +1,25 @@
+# file transfer between android devide and arch linux
+
+## with simple-mtpfs
+## Simple Media Transfer Protocol FileSystem
+
+### installation
+yay -S simple-mtpfs
+
+### make user writable directory
+mkdir -p ~/_dock/android
+
+### physically connect android device
+make sure:
+1. you have an usb cable with data transfer capabilities
+2. mtphost on the android device is allowing data connections
+3. phone is connected and screen is unlocked
+
+# list devices
+simple-mtpfs -l
+
+### mount with mtpfs
+simple-mtpfs --device <#> ~/_dock/android
+
+### umount
+fusermount -u ~/_dock/android

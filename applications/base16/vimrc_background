@@ -1,0 +1,14 @@
+after manual colorchange via execution of a base16 symlink i.e.
+
+base16_irblack
+
+base16 writes .vimrc_background
+
+to keep vim current
+
+it does that by executing the underlying shell script
+because base16_irblack is an alias:
+
+base16_irblack='_base16 "/home/cytopyge/.config/base16-shell/scripts/base16-irblack.sh" irblack'
+
+? where does base16 has the location of the .vimrc_background? I want to change it

@@ -1,0 +1,103 @@
+##~~~~~~~~~~~~~~~~~~~~~~#
+##~~~~~~~~~~~~~~~~~~~~~~#
+##
+## copy paste scenarios
+## (c) 2018 by cytopyge
+#
+
+	to:	zsh	tmux	vim	gui
+
+from:
+zsh		 1	 2	 3	10
+	
+tmux		 4	 5	 6	11
+
+vim		 7	 8	 9	12
+
+gui		13	14	15	16
+
+
+from zsh
+--------
+
+1 zsh to zsh (terminal window)
+tbd
+
+2 zsh to tmux
+tbd
+
+3 zsh to vim
+tbd
+
+10 zsh to gui
+tbd
+
+from tmux
+---------
+
+4 tmux to zsh
+tbd
+
+5 tmux to tmux (session, window or pane)
+copy			paste
+mouse selection		prefix + p
+mouse selection		prefix + P (paste select)
+
+6 tmux to vim
+tbd
+
+11 tmux to gui
+tbd
+
+from vim
+--------
+
+7 vim to zsh
+copy
+via selection:
+mouse
+visual		v
+visual line	shift+v
+visual block	ctrl+v
+
+paste
+shift + insert
+
+via buffer:
+copy	y / yy
+cut	d / dd
+
+paste tbd
+
+8 vim to tmux
+tbd
+
+9 vim to vim (buffer)
+copy	y
+cut	d
+paste	p
+
+12 vim to gui
+copy	"+y (+ register)
+paste	ctrl+v
+
+from gui
+--------
+
+13 gui to zsh
+copy 	ctrl+c
+cut	ctrl+x
+paste	ctrl+alt+v OR shift+insert
+
+14 gui to tmux
+tbd
+
+15 gui to vim
+copy 	ctrl+c
+cut	ctrl+x
+paste	ctrl+alt+v OR shift+insert
+
+16 gui to gui
+copy	ctrl+c
+cut	ctrl+x
+paste	ctrl+v

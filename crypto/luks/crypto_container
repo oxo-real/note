@@ -1,0 +1,152 @@
+# create a 128M container file
+```
+dd if=/dev/random of=container bs=1M count=128 iflag=fullblock status=progress
+```
+128+0 records in
+128+0 records out
+134217728 bytes (134 MB, 128 MiB) copied, 0.920823 s, 146 MB/s
+
+
+# luks format file
+## container can also be an entire device or partition
+```
+cryptsetup -y luksFormat container
+```
+
+WARNING!
+========
+This will overwrite data on container irrevocably.
+
+Are you sure? (Type 'yes' in capital letters): YES
+Enter passphrase for container:
+Verify passphrase:
+
+
+# verify container integrity
+```
+file container
+```
+
+container: LUKS encrypted file, ver 2 [, , sha256] UUID: 1b0aa2a0-3ee8-4a86-b373-705f520d7cec
+
+
+# open luks container
+```
+sudo cryptsetup luksOpen container mapping_name
+```
+[sudo] password for cytopyge:
+Enter passphrase for container:
+
+
+# verifying correct loopback mount
+```
+lsblk -paf
+```
+NAME                        FSTYPE      FSVER    LABEL UUID                                   FSAVAIL FSUSE% MOUNTPOINT
+/dev/loop0                  crypto_LUKS 2              1b0aa2a0-3ee8-4a86-b373-705f520d7cec
+`-/dev/mapper/open_vault
+...
+
+
+# creating filesystem on loopback mounted luks device
+```
+sudo mkfs.ext4 -L VAULT -j /dev/mapper/open_vault
+```
+[sudo] password for cytopyge:
+mke2fs 1.45.6 (20-Mar-2020)
+Creating filesystem with 114688 1k blocks and 28672 inodes
+Filesystem UUID: eb39bd2b-8df6-4b52-9904-efdd3284946b
+Superblock backups stored on blocks:
+	8193, 24577, 40961, 57345, 73729
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (4096 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+
+# mount the device to a mountpath
+```
+sudo mount /dev/mapper/open_vault /dock/4
+```
+
+
+# check proper mount
+```
+lsblk -paf
+```
+NAME                        FSTYPE      FSVER    LABEL UUID                                   FSAVAIL FSUSE% MOUNTPOINT
+/dev/loop0                  crypto_LUKS 2              1b0aa2a0-3ee8-4a86-b373-705f520d7cec
+`-/dev/mapper/open_vault    ext4        1.0      VAULT eb39bd2b-8df6-4b52-9904-efdd3284946b     95.1M     1% /dock/4
+...
+
+or with
+```
+df -h
+```
+Filesystem               Size  Used Avail Use% Mounted on
+/dev/mapper/open_vault   105M  1.6M   96M   2% /dock/4
+...
+
+
+With our current settings we have 96M space available out of the original 128M.
+
+
+# get write permissions
+```
+sudo chown -R cytopyge:wheel /dock/4
+```
+
+We can now write data to the mountpoint.
+
+
+# unmount the device
+```
+sudo umount /dock/4
+```
+
+
+# close luks container
+```
+cryptsetup close open_vault
+```
+
+
+# clear caches
+```
+sudo sysctl --write vm/drop_caches=3
+```
+[sudo] password for cytopyge:
+vm.drop_caches = 3
+
+The device is now unmounted, the crypto luks container is closed and the memory
+cache is cleared.
+All data is completely encrypted and secured behind our password.
+
+
+# creating keyfile
+storing a keyfile on 8MB partition /dev/sda128 at the boot device
+gdisk /dev/sda (n 128 +8 w)
+
+mkfs.ext4 -L O--, /dev/sda128
+
+## disable journaling
+tune2fs -O "^has_journal" /dev/sda128
+
+## mount
+mount /dev/sda128 /dock/key
+
+## write 4096 byte keyfile
+dd if=/dev/random of=/dock/key/<keyfile> bs=512 count=8 iflag=fullblock
+
+## set root access only
+chmod 0600 /dock/key/<keyfile>
+
+
+# adding keyfile to luks header
+cryptsetup luksAddKey /dev/luks /dock/key/<keyfile>
+
+
+# open luks device with keyfile
+sudo cryptsetup open container mapping_name --key-file /dock/key/<keyfile>
+

@@ -1,0 +1,15 @@
+ignore .gitignore
+
+echo '.gitignore' >> .git/info/exclude
+
+https://stackoverflow.com/questions/767147/how-can-i-stop-gitignore-from-appearing-in-the-list-of-untracked-files
+
+"
+The .gitignore file should be in your repository, so it should indeed be added and committed in, as git status suggests. It has to be a part of the repository tree, so that changes to it can be merged and so on.
+
+So, add it to your repository, it should not be gitignored.
+
+If you really want you can add .gitignore to the .gitignore file if you don't want it to be committed. However, in that case it's probably better to add the ignores to .git/info/exclude, a special checkout-local file that works just like .gitignore but does not show up in "git status" since it's in the .git folder.
+
+See also https://help.github.com/articles/ignoring-files
+"

@@ -1,0 +1,5 @@
+% resolvectl query archlinux.org
+archlinux.org: 138.201.81.199                  -- link: wlp58s0
+
+-- Information acquired via protocol DNS in 50.2ms.
+-- Data is authenticated: no

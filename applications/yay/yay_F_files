@@ -1,0 +1,23 @@
+  -b, --dbpath <path>  set an alternate database location
+  -l, --list           list the files owned by the queried package
+  -q, --quiet          show less information for query and search
+  -r, --root <path>    set an alternate installation root
+  -v, --verbose        be verbose
+  -x, --regex          enable searching using regular expressions
+  -y, --refresh        download fresh package databases from the server
+                       (-yy to force a refresh even if up to date)
+      --arch <arch>    set an alternate architecture
+      --cachedir <dir> set an alternate package cache location
+      --color <when>   colorize the output
+      --config <path>  set an alternate configuration file
+      --confirm        always ask for confirmation
+      --debug          display debug messages
+      --disable-download-timeout
+                       use relaxed timeouts for download
+      --gpgdir <path>  set an alternate home directory for GnuPG
+      --hookdir <dir>  set an alternate hook location
+      --logfile <path> set an alternate log file
+      --machinereadable
+                       produce machine-readable output
+      --noconfirm      do not ask for any confirmation
+      --sysroot        operate on a mounted guest system (root-only)

@@ -1,0 +1,13 @@
+# 2
+sed -En '
+  /(Texas|TEXAS).*[Oo]il.*extraction/ {
+    y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/
+    p
+  }' ECN_2012_US_00CCOMP1.psv
+
+awk '
+  /(Texas|TEXAS).*[Oo]il.*extraction/ {
+    print toupper($0)
+  }' ECN_2012_US_00CCOMP1.psv
+
+

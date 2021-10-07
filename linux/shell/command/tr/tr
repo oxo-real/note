@@ -1,0 +1,2 @@
+## remove spaces from string
+tr -d ' '

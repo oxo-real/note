@@ -1,0 +1,68 @@
+# standard options
+
+## synching files to an archive
+rsync -aAXv --info=ALL
+
+## synching files to a backup
+rsync -aAXv --info=ALL --delete
+
+## aliasing rsync
+alias cp='rsync -aAXv --info=ALL --human-readable --whole-file'
+alias mv='rsync -aAXv --info=ALL --human-readable --whole-file --remove-source-files'
+
+
+# securely sync from local device to remote location
+
+sudo rsync -aAXv --info=ALL --files-from=<files_from_list> -e ssh \
+<source:local_device_mountpoint_dir> \
+<destination:{remote_user}@{remote_ip}:/{remote_target_dir}>
+
+## --files-from-list files are relative to source directory
+
+# important notices
+SRC  = sending side
+DEST = receiving side
+
+Usages with just one SRC arg and no DEST arg will list the source files
+instead of copying.
+
+use identical file systems on SRC and DEST
+different fs types on SRC and DEST devices seems to rsync get idle
+
+## get help on info flags
+rsync --info=help
+
+## mentionable options
+-u, --update
+skip files that are newer on the receiver
+do not copy SRC files that are older then DEST files
+
+--delete
+delete extraneous files from dest dirs
+delete DEST files that are not in SRC
+
+--remove-source-files
+non-directories
+delete files in SRC after copying
+
+-W, --whole-file
+This option disables rsync’s delta-transfer algorithm, which causes  all  trans‐
+ferred  files  to  be  sent whole.  The transfer may be faster if this option is
+used when the bandwidth between the source and destination  machines  is  higher
+than  the  bandwidth to disk (especially when the "disk" is actually a networked
+filesystem).  This is the default when both the source and destination are spec‐
+ified as local paths, but only if no batch-writing option is in effect.
+
+--partial
+keep partially transferred files
+
+--partial-dir=DIR
+put a partially transferred file into DIR
+RSYNC_PARTIAL_DIR environment variable.
+Setting  this  in the environment does not force --partial to be enabled,
+but rather it affects where partial files go when --partial is specified.
+recommended partial directory= $XDG_CACHE_HOME/rsync/partial
+
+--log-file=FILE
+send logs to FILE
+recommended log file= $XDG_LOGS_HOME/rsync/$(date +%Y%m%d_%H%M%S)

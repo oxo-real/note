@@ -1,0 +1,17 @@
+# sources
+https://www.userchrome.org/what-is-userchrome-css.html#movetabbar
+
+
+# custom stylesheet
+
+## location 
+/home/cytopyge/.mozilla/firefox/1tuv81ye.default/chrome
+
+## used
+#userChrome-tabs_on_bottom_Fx72_WindowsLinux.css
+https://github.com/Aris-t2/CustomCSSforFx/
+
+
+# altered settings
+
+## toolkit.legacyUserProfileCustomizations.stylesheets	true

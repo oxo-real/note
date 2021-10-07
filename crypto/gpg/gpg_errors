@@ -1,0 +1,35 @@
+# error:
+while installing (building packages):
+
+:: Importing keys with gpg...
+gpg: keyserver receive failed: General error
+problem importing keys
+
+
+# solution:
+use different keyserver
+most common keyservers are:
+
+https://sks-keyservers.net/
+SKS Keyserver Pool: federated, no verification, keys cannot be deleted.
+https://keys.mailvelope.com/
+Mailvelope Keyserver: central, verification of email IDs, keys can be deleted.
+https://keys.openpgp.org/
+keys.openpgp.org: central, verification of email IDs, keys can be deleted, no third-party signatures (i.e. no Web of Trust support).
+More are listed at Wikipedia:Key server (cryptographic)#Keyserver examples.
+(https://wiki.archlinux.org/index.php/GnuPG#Use_a_keyserver)
+
+
+## permanent solution
+An alternative key server can be specified with the keyserver option in one of the #Configuration files, for instance:
+
+vim ~/.gnupg/dirmngr.conf
+keyserver pool.sks-keyservers.net
+
+
+## temporary solution
+A temporary use of another server is handy when the regular one does not work as it should.
+It can be achieved by;
+gpg --keyserver keys.openpgp.org/ --search-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
+or, receive directly:
+gpg --recv-keys 7DCB12A7

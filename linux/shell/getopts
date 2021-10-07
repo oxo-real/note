@@ -1,0 +1,59 @@
+# example
+
+optstring=":s:th"
+
+while getopts $optstring arg; do
+
+	case $arg in
+
+		s)
+		    ## compulsory argument
+		    ## station ID
+		    ## -ids <IDs>
+		    ids=${OPTARG}
+		    #exit 0
+		    ;;
+		t)
+		    ## optional argument
+		    ## -t
+		    ## include TAF
+		    #t=${OPTARG}
+		    taf=1
+		    #exit 0
+		    ;;
+		h)
+		    ## -h display help text
+		    printf "$script_name usage: $script_usage"
+		    exit 0
+		    ;;
+		\?)
+		    printf "$script_name ${RED}invalid option: -${OPTARG}${NOC}"
+		    exit 1
+		    ;;
+		:)
+		    ## display help
+		    printf "$script_name: ${RED}option -${OPTARG} requires an argument${NOC}"
+		    exit 1
+		    ;;
+
+	esac
+
+done
+
+
+# explanation
+first line defines the 'optstring'
+this is a list of arguments expected in the input
+
+if optstring starts with a colon
+	the shell variable OPTARG is set to the option character found, but no output is written to standard error; otherwise, the shell variable OPTARG is unset and a diagnostic message is written to standard error
+If a letter is followed by a colon, the option is expected to have an argument, or group of arguments, which must be separated from it by white space.
+a leading colon in optstring to specify that you check for and handle errors in your code; when getopts finds an invalid option, it sets varname (from our syntax) to ? and OPTARG to the option letter. When it finds an option that is missing an argument, getopts sets varname to : and OPTARG to the option lacking an argument.
+
+: (the first colon) means that 'the shell variable specified by name shall be
+set to the <colon> character and the shell variable OPTARG shall be set to the
+option character found' (see manpage)
+
+s: means that the s flags has to be followed by a value
+
+t and h (without :) means this is a flag without value

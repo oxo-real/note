@@ -1,0 +1,192 @@
+Encrypted system using a detached LUKS header
+This example follows the same setup as in dm-crypt/Encrypting an entire system#Plain dm-crypt, which should be read first before following this guide.
+
+By using a detached header the encrypted blockdevice itself only carries encrypted data, which gives deniable encryption as long as the existence of a header is unknown to the attackers. It is similar to using plain dm-crypt, but with the LUKS advantages such as multiple passphrases for the masterkey and key derivation. Further, using a detached header offers a form of two factor authentication with an easier setup than using GPG or OpenSSL encrypted keyfiles, while still having a built-in password prompt for multiple retries. See Disk encryption#Cryptographic metadata for more information.
+
+See dm-crypt/Device encryption#Encryption options for LUKS mode for encryption options before performing the first step to setup the encrypted system partition and creating a header file to use with cryptsetup:
+
+# dd if=/dev/zero of=header.img bs=16M count=1
+# cryptsetup luksFormat /dev/sdX --offset 32768 --header header.img
+Tip: The --offset option allows specifying the start of encrypted data on a device. By reserving a space at the beginning of device you have the option of later reattaching the LUKS header. The value is specified in 512-byte sectors, see cryptsetup(8) for more details.
+Open the container:
+
+# cryptsetup open --header header.img /dev/sdX enc
+Now follow the LVM on LUKS setup to your requirements. The same applies for preparing the boot partition on the removable device (because if not, there is no point in having a separate header file for unlocking the encrypted disk). Next move the header.img onto it:
+
+# mv header.img /mnt/boot
+Follow the installation procedure up to the mkinitcpio step (you should now be arch-chrooted inside the encrypted system).
+
+Tip: You will notice that since the system partition only has "random" data, it does not have a partition table and by that an UUID or a LABEL. But you can still have a consistent mapping using the Persistent block device naming#by-id and by-path. E.g. using disk id from /dev/disk/by-id/.
+There are two options for initramfs to support a detached LUKS header.
+
+Using systemd hook
+First create /etc/crypttab.initramfs and add the encrypted device to it. The syntax is defined in crypttab(5)
+
+/etc/crypttab.initramfs
+enc	/dev/disk/by-id/your-disk_id	none	header=/boot/header.img
+Modify /etc/mkinitcpio.conf to use systemd and add the header to FILES.
+
+/etc/mkinitcpio.conf
+...
+FILES=(/boot/header.img)
+...
+HOOKS=(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt sd-lvm2 filesystems fsck)
+...
+Regenerate the initramfs and you are done.
+
+Note: No cryptsetup parameters need to be passed to the kernel command line, since/etc/crypttab.initramfs will be added as /etc/crypttab in the initramfs. If you wish to specify them in the kernel command line see dm-crypt/System configuration#Using sd-encrypt hook for the supported options.
+Modifying encrypt hook
+This method shows how to modify the encrypt hook in order to use a detached LUKS header. Now the encrypt hook has to be modified to let cryptsetup use the separate header (FS#42851; base source and idea for these changes published on the BBS). Make a copy so it is not overwritten on a mkinitcpio update:
+
+# cp /usr/lib/initcpio/hooks/encrypt /etc/initcpio/hooks/encrypt2
+# cp /usr/lib/initcpio/install/encrypt /etc/initcpio/install/encrypt2
+/etc/initcpio/hooks/encrypt2 (around line 52)
+warn_deprecated() {
+    echo "The syntax 'root=${root}' where '${root}' is an encrypted volume is deprecated"
+    echo "Use 'cryptdevice=${root}:root root=/dev/mapper/root' instead."
+}
+
+local headerFlag=false
+for cryptopt in ${cryptoptions//,/ }; do
+    case ${cryptopt} in
+        allow-discards)
+            cryptargs="${cryptargs} --allow-discards"
+            ;;
+        header)
+            cryptargs="${cryptargs} --header /boot/header.img"
+            headerFlag=true
+            ;;
+        *)
+            echo "Encryption option '${cryptopt}' not known, ignoring." >&2
+            ;;
+    esac
+done
+
+if resolved=$(resolve_device "${cryptdev}" ${rootdelay}); then
+    if $headerFlag || cryptsetup isLuks ${resolved} >/dev/null 2>&1; then
+        [ ${DEPRECATED_CRYPT} -eq 1 ] && warn_deprecated
+        dopassphrase=1
+Now edit the mkinitcpio.conf to add the encrypt2 and lvm2 hooks, the header.img to FILES and the loop to MODULES, apart from other configuration the system requires:
+
+/etc/mkinitcpio.conf
+...
+MODULES=(loop)
+...
+FILES=(/boot/header.img)
+...
+HOOKS=(base udev autodetect keyboard keymap consolefont modconf block encrypt2 lvm2 filesystems fsck)
+...
+This is required so the LUKS header is available on boot allowing the decryption of the system, exempting us from a more complicated setup to mount another separate USB device in order to access the header. After this set up the initramfs is created.
+
+Next the boot loader is configured to specify the cryptdevice= also passing the new header option for this setup:
+
+cryptdevice=/dev/disk/by-id/your-disk_id:enc:header
+To finish, following dm-crypt/Encrypting an entire system#Post-installation is particularly useful with a /boot partition on an USB storage medium.
+
+Encrypted /boot and a detached LUKS header on USB
+Tango-view-refresh-red.pngThis article or section is out of date.Tango-view-refresh-red.png
+
+Reason: This scenario was based on [5], whose structure was then changed with [6]. (Discuss in Talk:Dm-crypt/Specialties#Encrypted /boot and a detached LUKS header on USB)
+Rather than embedding the header.img and keyfile into the initramfs image, this setup will make your system depend entirely on the usb key rather than just the image to boot, and on the encrypted keyfile inside of the encrypted boot partition. Since the header and keyfile are not included in the initramfs image and the custom encrypt hook is specifically for the usb's by-id, you will literally need the usb key to boot.
+
+For the usb drive, since you are encrypting the drive and the keyfile inside, it is preferred to cascade the ciphers as to not use the same one twice. Whether a meet-in-the-middle attack would actually be feasible is debatable. You can do twofish-serpent or serpent-twofish.
+
+Preparing the disk devices
+sdb will be assumed to be the USB drive, sda will be assumed to be the main hard drive.
+
+Prepare the devices according to dm-crypt/Drive preparation.
+
+Preparing the USB key
+Use gdisk to partition the disk according to the layout shown here, with the exception that it should only include the first two partitions. So as follows:
+
+# gdisk /dev/sdb
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048         1050623   512.0 MiB   EF00  EFI System
+   2         1050624         1460223   200.0 MiB   8300  Linux filesystem
+Before running cryptsetup, look at the Encryption options for LUKS mode and Ciphers and modes of operation first to select your desired settings.
+
+Prepare the boot partition[broken link: invalid section] but do not mount any partition yet and Format the EFI system partition.
+
+# mount /dev/mapper/cryptboot /mnt
+# dd if=/dev/urandom of=/mnt/key.img bs=filesize count=1
+# cryptsetup luksFormat /mnt/key.img
+# cryptsetup open /mnt/key.img lukskey
+filesize is in bytes but can be followed by a suffix such as M. Having too small of a file will get you a nasty Requested offset is beyond real size of device /dev/loop0 error. As a rough reference, creating a 4M file will encrypt it successfully. You should make the file larger than the space needed since the encrypted loop device will be a little smaller than the file's size.
+
+With a big file, you can use --keyfile-offset=offset and --keyfile-size=size to navigate to the correct position. [7]
+
+Now you should have lukskey opened in a loop device (underneath /dev/loop1), mapped as /dev/mapper/lukskey.
+
+The main drive
+# truncate -s 16M /mnt/header.img
+# cryptsetup --key-file=/dev/mapper/lukskey --keyfile-offset=offset --keyfile-size=size luksFormat /dev/sda --offset 32768 --header /mnt/header.img
+Pick an offset and size in bytes (8192 bytes is the maximum keyfile size for cryptsetup).
+
+# cryptsetup open --header /mnt/header.img --key-file=/dev/mapper/lukskey --keyfile-offset=offset --keyfile-size=size /dev/sda enc
+# cryptsetup close lukskey
+# umount /mnt
+Follow Preparing the logical volumes to set up LVM on LUKS.
+
+See Partitioning#Discrete partitions for recommendations on the size of your partitions.
+
+Once your root partition is mounted, mount your encrypted boot partition as /mnt/boot and your EFI system partition as /mnt/efi.
+
+Installation procedure and custom encrypt hook
+Follow the installation guide up to the mkinitcpio step but do not do it yet, and skip the partitioning, formatting, and mounting steps as they have already been done.
+
+In order to get the encrypted setup to work, you need to build your own hook, which is thankfully easy to do and here is the code you need. You will have to follow Persistent block device naming#by-id and by-path to figure out your own by-id values for the usb and main hard drive (they are linked -> to sda or sdb).
+
+You should be using the by-id instead of just sda or sdb because sdX can change and this ensures it is the correct device.
+
+You can name customencrypthook anything you want, and custom build hooks can be placed in the hooks and install folders of /etc/initcpio. Keep a backup of both files (cp them over to the /home partition or your user's /home directory after you make one). /usr/bin/ash is not a typo.
+
+/etc/initcpio/hooks/customencrypthook
+#!/usr/bin/ash
+
+run_hook() {
+    modprobe -a -q dm-crypt >/dev/null 2>&1
+    modprobe loop
+    [ "${quiet}" = "y" ] && CSQUIET=">/dev/null"
+
+    while [ ! -L '/dev/disk/by-id/usbdrive-part2' ]; do
+     echo 'Waiting for USB'
+     sleep 1
+    done
+
+    cryptsetup open /dev/disk/by-id/usbdrive-part2 cryptboot
+    mkdir -p /mnt
+    mount /dev/mapper/cryptboot /mnt
+    cryptsetup open /mnt/key.img lukskey
+    cryptsetup --header /mnt/header.img --key-file=/dev/mapper/lukskey --keyfile-offset=''offset'' --keyfile-size=''size'' open /dev/disk/by-id/harddrive enc
+    cryptsetup close lukskey
+    umount /mnt
+}
+usbdrive is your USB drive by-id, and harddrive is your main hard drive by-id.
+
+Tip: You could also close cryptboot using cryptsetup close, but having it open makes it easier to mount for system updates using Pacman and regenerating the initramfs with mkinitcpio. The /boot partition must be mounted for updates that affect the kernel or Initramfs, and the initramfs will be automatically regenerated after these updates.
+# cp /usr/lib/initcpio/install/encrypt /etc/initcpio/install/customencrypthook
+Now edit the copied file and remove the help() section as it is not necessary.
+
+/etc/mkinitcpio.conf (edit this only do not replace it, these are just excerpts of the necessary parts)
+MODULES=(loop)
+...
+HOOKS=(base udev autodetect modconf block customencrypthook lvm2 filesystems keyboard fsck)
+The files=() and binaries=() arrays are empty, and you should not have to replace HOOKS=(...) array entirely just edit in customencrypthook lvm2 after block and before filesystems, and make sure systemd, sd-lvm2, and encrypt are removed.
+
+Boot Loader
+Finish the Installation Guide from the mkinitcpio step. To boot you would need either GRUB or efibootmgr. Note you can use GRUB to support the encrypted disks by Configuring the boot loader[broken link: invalid section] but editing the GRUB_CMDLINE_LINUX is not necessary for this set up.
+
+Or use Direct UEFI Secure boot by generating keys with cryptbootAUR then signing the initramfs and kernel and creating a bootable .efi file for your EFI system partition with sbupdate-gitAUR. Before using cryptboot or sbupdate note this excerpt from Secure Boot#Using your own keys:
+
+Tip: Note that cryptbootAUR requires the encrypted boot partition to be specified in /etc/crypttab before it runs, and if you are using it in combination with sbupdate-gitAUR, sbupdate expects the /boot/efikeys/db.* files created by cryptboot to be capitalized like DB.* unless otherwise configured in /etc/default/sbupdate. Users who do not use systemd to handle encryption may not have anything in their /etc/crypttab file and would need to create an entry.
+# efibootmgr -c -d /dev/device -p partition_number -L "Arch Linux Signed" -l "EFI\Arch\linux-signed.efi"
+See efibootmgr(8) for an explanation of the options.
+
+Make sure the boot order puts Arch Linux Signed first. If not change it with efibootmgr -o XXXX,YYYY,ZZZZ.
+
+Changing the LUKS keyfile
+Merge-arrows-2.pngThis article or section is a candidate for merging with dm-crypt/Device encryption#Keyfiles.Merge-arrows-2.png
+
+Notes: Changing the keyfile is not a required action in this setup. (Discuss in Talk:Dm-crypt/Specialties#)
+# cryptsetup --header /boot/header.img --key-file=/dev/mapper/lukskey --keyfile-offset=offset --keyfile-size=size luksChangeKey /dev/mapper/enc /dev/mapper/lukskey2 --new-keyfile-size=newsize --new-keyfile-offset=newoffset
+Afterwards, cryptsetup close lukskey and shred or dd the old keyfile with random data before deleting it, then make sure that the new keyfile is renamed to the same name of the old one: key.img or other name.

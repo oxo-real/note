@@ -1,0 +1,5 @@
+# regex meta characters are:
+
+. [ { ( ) \ ^ $ | ? * +
+
+## literal use needs escapement

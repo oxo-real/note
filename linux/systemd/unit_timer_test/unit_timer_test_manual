@@ -1,0 +1,23 @@
+# copy unit_timer_test.sh to:
+$HOME/_test
+
+
+# make file executable
+chmod +x $HOME/_test/unit_timer_test.sh
+
+
+# copy both the service and timer file to:
+/etc/systemd/system
+
+
+# reload systemd
+
+```
+systemctl daemon-reload
+```
+
+
+# start timer
+
+```
+systemctl start unit_timer_test.timer

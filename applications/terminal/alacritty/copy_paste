@@ -1,0 +1,30 @@
+# Alacritty's vi mode
+(default) Ctrl+Shift+Space
+
+## copy_paste
+
+The vi mode allows moving around Alacritty's viewport and scrollback using the keyboard.
+By default you can toggle it using Ctrl+Shift+Space.
+To copy, you can either use a mouse to select and press Ctrl+Shift+c,
+or enter Vi mode, start a selection using v,
+move around with hjkl like in vim, and copy the selection with y.
+To paste, press Ctrl+Shift+v.
+https://wiki.archlinux.org/index.php/Alacritty#Vi_mode_and_Copy/Paste
+
+
+#Troubleshooting
+
+Problem
+Alacritty icm pwgn seems to add an ^@ character after pasting
+
+Cause
+Don't know yet what to cause of this behaviour is.
+
+Solution
+As a mitigation press backspace after using the paste command or keystroke (C-S-c)
+
+Investigation
+"Wayland is used by default on systems that support it. Using XWayland may circumvent Wayland specific issues and can be enabled through:
+
+env WINIT_UNIX_BACKEND=x11 alacritty"
+https://github.com/alacritty/alacritty/tree/master/alacritty

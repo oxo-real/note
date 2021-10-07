@@ -1,0 +1,36 @@
+# ovpn files
+
+get ovpn config files from: https://account.protonvpn.com/login
+
+copy ovpn files to $HOME/_keys/vpn/protonvpn
+
+
+# update resolv
+
+sudo wget "https://raw.githubusercontent.com/ProtonVPN/scripts/master/update-resolv-conf.sh" -O "/etc/openvpn/update-resolv-conf"
+sudo chmod +x "/etc/openvpn/update-resolv-conf"
+
+
+# config file with credentials
+
+## auth.pass
+create login credentials file "auth.pass" in: $HOME/_keys/vpn/protonvpn/auth
+
+auth.pass must contain only the ""username"\n"password"" from the protonvpn account (two lines)
+
+## ovpn file
+inside the downloaded ovpn file refer auth-user-pass a valid credentials file
+
+diff nl-free-01.protonvpn.com.udp.ovpn auth/nl-free-01.protonvpn.com.udp.ovpn 
+
+53c53
+< auth-user-pass
+---
+> auth-user-pass $HOME/_keys/vpn/protonvpn/auth/auth.pass
+
+!note: if auth-user-pass gives errors, expand $HOME
+
+
+# connect
+
+openvpn --config <config_with_auth.ovpn>

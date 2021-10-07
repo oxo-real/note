@@ -1,0 +1,11 @@
+BZIP2 – lossless,old,slow,high compression rate,more CPU bound
+
+GZIP – lossless,present,fast,low compression rate,less CPU bound
+
+BZIP2 compression algorithm:
+
+It is slow old compression algorithm which is a lossless type where data is not lost during compression and decompression. It has the highest compression rate compared to other algorithms. But this is not always true. This statement of compression rate sometimes becomes bogus when we compress a large tar file.
+
+BZIP2 compression algorithm:
+
+It is slow old compression algorithm which is a lossless type where data is not lost during compression and decompression. It has the highest compression rate compared to other algorithms. But this is not always true. This statement of compression rate sometimes becomes bogus when we compress a large tar file.

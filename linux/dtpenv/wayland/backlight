@@ -1,0 +1,31 @@
+# Backlight in Wayland
+
+The xrandr command does not work with Wayland. Instead you can use the icc-brightness[broken link: package not found] tool to control the brightness.
+
+You can find it here: https://github.com/udifuchs/icc-brightness
+Backlight in Sway
+
+For sway users you can use redshift-wlr-gamma-controlAUR to set the brightness. The following command sets the brightness to 75%.
+
+redshift -o -b 0.75 -O 6500k -m wayland -l manual
+
+This may also work for other window managers based on wlroots.
+
+source:
+https://wiki.archlinux.org/index.php/Dell_XPS_15_7590#Graphics
+
+
+# OLED brightness control
+
+ICC Brightness
+Control OLED display brightness by applying ICC color profiles.
+Introduction
+
+This tool is a work-around for displays whose brightness contol is not supported by the linux kernel. It preforms well on OLED displays, since these have very dark black point and their power consumption is relative to the brightness of the viewed content.
+
+This tool can be used on an LCD display, but in that case you really want to control the brightness directly using the display backlight.
+
+Specifically icc-brightness was developed for the Lenovo ThinkPad X1 Yoga OLED display.
+
+source:
+https://github.com/udifuchs/icc-brightness

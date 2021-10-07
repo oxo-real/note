@@ -1,0 +1,41 @@
+# install neatroff w/o installation
+
+git clone https://github.com/aligrudi/neatroff_make
+cd neatroff_make
+
+## clone git repos & ghostscript fonts
+make init
+
+## compile & generate font descriptions
+make neat
+
+## compile documentation
+cd demo && make
+
+
+# installing neatroff
+
+vim demo/Makefile
+	point $BASE to the installation location
+	(/opt/share/neatroff)
+
+## compile $ generate font descriptions
+make neat
+
+## install target
+make install
+
+
+# adding fonts
+
+mkfn -b -o file.ttf >$BASE/devutf/fontname
+
+OR
+
+.ds fp.src "$XDG_CONFIG_HOME/fonts/
+.fp.ttf - F3 NewFont
+.ft FN
+Testing the new font...
+
+--------------------------------
+[GitHub - aligrudi/neatroff_make: Neatroff top-level makefile](https://github.com/aligrudi/neatroff_make)

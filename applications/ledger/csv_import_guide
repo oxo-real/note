@@ -1,0 +1,6 @@
+download csv
+move csv to new transactions
+execute script from csv/
+
+processed csv goes to process/ed
+

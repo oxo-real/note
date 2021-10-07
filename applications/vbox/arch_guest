@@ -1,0 +1,12 @@
+archvm
+
+
+> settings > system
+
+> motherboard
+extended features: enable EFI
+
+# not longer necessary as of 05/2020
+#> display
+#graphics controller: vboxvga
+#after boot wait for approximately two minutes

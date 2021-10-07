@@ -1,0 +1,26 @@
+# program still has file open
+
+## open file descriptor recovery attempt (/proc/[pid]/fd/[num])
+
+file=$1
+lsof=$(lsof | grep "$file")
+pid=$(printf "$lsof" | awk '{print $2}')
+user=$(printf "$lsof" | awk '{print $4}') | head -c -1)
+cp /proc/$pid/fd/$user $HOME/$file'_restored'
+
+
+# no program has file open
+
+## prevent further fs writing
+mount -o remount,ro /dev/mapper/vg0-lv_home
+OR
+umount /dev/mapper/vg0-lv_home
+OR
+shutdown system and reboot with archiso
+
+## make a backup
+dd if=/dev/sdX of=/dev/sdY bs=4M status=progress oflag=sync
+
+## undelete
+on a unmopunted ext3 or ext4 filesystem use
+extundelete /dev/<device-file> --restore-all

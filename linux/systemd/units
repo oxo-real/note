@@ -1,0 +1,166 @@
+# list units
+
+## all
+```
+systemctl list-units
+```
+
+## of specific type
+```
+systemctl --type=
+```
+
+## unit types
+
+unit files can be one of the following types:
+
+## .device
+ devices will automatically be translated into the appropriate .device unit
+ specifying /dev/sda1 is equivalent to dev-sda1.device
+
+## .mount
+ mountpoints will automatically be translated into the appropriate .mount unit
+ specifying /home is equivalent to home.mount
+
+## .path
+
+## .scope
+
+## .service
+ if systemctl calls a unit without its suffix, then .service is assumed
+
+## .slice
+## .socket
+## .swap
+## .timer
+
+
+# list unit files
+
+## all
+```
+systemctl list-unit-files
+```
+
+## package specific
+find which units an installed package offers, with:
+```
+yay -Qql <package> | grep -Fe .service -e .socket
+```
+
+
+# file locations
+
+## system units
+system unit files are located
+
+### by installed packages in
+```
+/usr/lib/systemd/system/
+```
+
+### by the system administrator in
+```
+/etc/systemd/system/
+```
+
+## user units
+user units are located (ordered by ascending precedence):
+
+### units provided by installed packages
+```
+/usr/lib/systemd/user/
+```
+### units of packages installed in the home directory
+```
+~/.local/share/systemd/user/
+```
+### system-wide user units, placed by the system administrator
+```
+/etc/systemd/user/
+```
+### user units, placed by user
+```
+~/.config/systemd/user/
+```
+
+When a systemd user instance starts, it brings up the target default.target.
+Other units can be controlled manually with systemctl --user.
+
+The systemd --user instance is a per-user process, and not per-session
+This means that all user services run outside of a session.
+
+
+# template units
+
+unit files with an @ in their name are running as instance of a template unit,
+like name@string.service
+
+
+# tips
+
+* with systemctl multiple units can be specified ('unit' in the examples below can be names of multiple units)
+* the '--now' switch can be used in conjunction with commands that will usually need a reboot to take effect (like enable, disable and mask)
+
+
+# manage units
+```
+systemctl start unit
+systemctl stop unit
+systemctl restart unit
+systemctl reload unit  ## reload configuration
+systemctl status unit
+systemctl is-enabled unit  ## check if enabled
+systemctl enable unit
+systemctl enable --now unit
+systemctl disable unit
+systemctl disable --now unit
+systemctl mask unit  ## unit can not be started (manually and as dependency)
+systemctl unmask unit
+systemctl unmask --now unit
+systemctl help unit  ## show man page of associated package man
+systemctl daemon-reload
+sudo systemctl --user --global enable service  ## for all users
+```
+
+
+# comments
+Comments prepended with '#' may be used in unit-files, but only at the beginning of new lines.
+Do not use end-line comments after systemd parameters or the unit will fail to activate.
+
+
+# writing user units
+
+All the user services will be placed in ~/.config/systemd/user/.
+
+## example
+
+The following is an example of a user version of the mpd service.
+
+~/.config/systemd/user/mpd.service
+```
+[Unit]
+Description=Music Player Daemon
+
+[Service]
+ExecStart=/usr/bin/mpd --no-daemon
+
+[Install]
+WantedBy=default.target
+```
+
+## example with variables
+
+The following is an example of a user version of sickbeard.service, which takes into account variable home directories where SickBeard can find certain files:
+
+~/.config/systemd/user/sickbeard.service
+```
+[Unit]
+Description=SickBeard Daemon
+
+[Service]
+ExecStart=/usr/bin/env python2 /opt/sickbeard/SickBeard.py --config %h/.sickbeard/config.ini --datadir %h/.sickbeard
+
+[Install]
+WantedBy=default.target
+```

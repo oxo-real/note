@@ -1,0 +1,43 @@
+#!! see also: ~/_git/notes/applications/yay/conflicting_packages !!
+if you removed packages from the package database, but the files failed to be
+removed (i.e. because there where no write permissions), you will see this:
+
+# error
+
+% yay -Rns ssss
+[sudo] password for cytopyge:
+checking dependencies...
+
+Packages (1) ssss-0.5-4
+
+Total Removed Size:  0.07 MiB
+
+:: Do you want to remove these packages? [Y/n]
+:: Processing package changes...
+error: cannot remove file '/usr/bin/': Read-only file system
+:: Running post-transaction hooks...
+(1/1) Arming ConditionNeedsUpdate...
+touch: setting times of '/usr': Read-only file system
+error: command failed to execute correctly
+
+
+# problem:
+the package database is no longer congruent with the package files
+
+# solution:
+remove package files, to become up to date with the database again
+
+## automatic
+you can use cytopyges script: ~/_git/notes/applications/yay/conflicting_packages for this
+
+## manual
+if you run cytopyges updater you can get affected packages from logging:
+
+cd $HOME/_data/journal/logs/$HOST/updater/package_lists
+
+retrieve package name from newest logfile of diffs (_dQ)
+(find the newest file with cytopyge's tool get_newest)
+
+or
+
+from the package_list file before update (_0Q)

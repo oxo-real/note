@@ -1,0 +1,9 @@
+# prettify json
+
+## with python
+curl "https://website_with_data.json" | python -m json.tool
+cat file.json | python -m json.tool
+
+## with jq
+curl "https://website_with_data.json" | jq .
+cat file.json | jq .

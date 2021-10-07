@@ -1,0 +1,8 @@
+# gsettings/schemas/settings
+
+# list gsettings of touchpad
+gsettings list-recursively org.gnome.desktop.peripherals.touchpad
+
+# enable tap to click
+gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+

@@ -1,0 +1,5 @@
+:read!<cmd>  ## execute command
+
+:noh  ## turn off highlighting until the next search
+
+:s/^V^M//g	## remove ^M at EOL (press ctrl-v ctrl-m when writing command)

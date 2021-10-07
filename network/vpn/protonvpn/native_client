@@ -1,0 +1,9 @@
+yay -S protonvpn-cli-ng
+
+protonvpn --help
+
+protonvpn -init
+
+protonvpn connect --random -p udp
+
+protonvpn s (status)

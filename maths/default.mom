@@ -1,0 +1,19 @@
+.TITLE "A test document for groff_mom"
+.SUBTITLE "A deep dive"
+.AUTHOR	"Cyto Pyge"
+.DRAFT 1
+.REVISION 1
+\#
+.DOCTYPE NAMED "TOP SECRET" red
+.PRINTSTYLE TYPESET
+.COPYSTYLE FINAL
+\#
+\".FAMILY T
+\".PT_SIZE 12
+\".LS	14
+\".QUAD LEFT    \"i.e. rag right
+\".FOOTERS
+\".LINEBREAK_CHAR	*
+\#
+.START
+Hello world!

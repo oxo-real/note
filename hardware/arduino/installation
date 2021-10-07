@@ -1,0 +1,8 @@
+yay -S arduino arduino-docs
+usermod -aG uucp,lock <user>
+modprobe cdc-acm
+
+# for avr boards (as atmega328p)
+yay -S arduino-avr-core
+
+

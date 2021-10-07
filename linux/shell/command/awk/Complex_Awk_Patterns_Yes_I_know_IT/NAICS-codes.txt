@@ -1,0 +1,579 @@
+211      Category: Oil and gas extraction
+212      Category: Mining (except oil and gas)
+213      Category: Support activities for mining
+21       Category: Mining, quarrying, and oil and gas extraction
+2211     Category: Electric power generation, transmission and distribution
+2212     Category: Natural gas distribution
+2213     Category: Water, sewage and other systems
+221      Category: Utilities
+22       Category: Utilities
+236      Category: Construction of buildings
+237      Category: Heavy and civil engineering construction
+238      Category: Specialty trade contractors
+23       Category: Construction
+311      Category: Food manufacturing
+312      Category: Beverage and tobacco product manufacturing
+31-33    Category: Manufacturing
+313      Category: Textile mills
+314      Category: Textile product mills
+315      Category: Apparel manufacturing
+316      Category: Leather and allied product manufacturing
+321      Category: Wood product manufacturing
+322      Category: Paper manufacturing
+323      Category: Printing and related support activities
+324      Category: Petroleum and coal products manufacturing
+325      Category: Chemical manufacturing
+326      Category: Plastics and rubber products manufacturing
+327      Category: Nonmetallic mineral product manufacturing
+331      Category: Primary metal manufacturing
+332      Category: Fabricated metal product manufacturing
+333      Category: Machinery manufacturing
+334      Category: Computer and electronic product manufacturing
+335      Category: Electrical equipment, appliance, and component manufacturing
+336      Category: Transportation equipment manufacturing
+337      Category: Furniture and related product manufacturing
+339      Category: Miscellaneous manufacturing
+423110   Category: Automobile and other motor vehicle merchant wholesalers
+42311    Category: Automobile and other motor vehicle merchant wholesalers
+423120   Category: Motor vehicle supplies and new parts merchant wholesalers
+42312    Category: Motor vehicle supplies and new parts merchant wholesalers
+423130   Category: Tire and tube merchant wholesalers
+42313    Category: Tire and tube merchant wholesalers
+423140   Category: Motor vehicle parts (used) merchant wholesalers
+42314    Category: Motor vehicle parts (used) merchant wholesalers
+4231     Category: Motor vehicle and motor vehicle parts and supplies merchant wholesalers
+423210   Category: Furniture merchant wholesalers
+42321    Category: Furniture merchant wholesalers
+423220   Category: Home furnishing merchant wholesalers
+42322    Category: Home furnishing merchant wholesalers
+4232     Category: Furniture and home furnishing merchant wholesalers
+423310   Category: Lumber, plywood, millwork, and wood panel merchant wholesalers
+42331    Category: Lumber, plywood, millwork, and wood panel merchant wholesalers
+423320   Category: Brick, stone, and related construction material merchant wholesalers
+42332    Category: Brick, stone, and related construction material merchant wholesalers
+423330   Category: Roofing, siding, and insulation material merchant wholesalers
+42333    Category: Roofing, siding, and insulation material merchant wholesalers
+423390   Category: Other construction material merchant wholesalers
+42339    Category: Other construction material merchant wholesalers
+4233     Category: Lumber and other construction materials merchant wholesalers
+423410   Category: Photographic equipment and supplies merchant wholesalers
+42341    Category: Photographic equipment and supplies merchant wholesalers
+423420   Category: Office equipment merchant wholesalers
+42342    Category: Office equipment merchant wholesalers
+423430   Category: Computer and computer peripheral equipment and software merchant wholesalers
+42343    Category: Computer and computer peripheral equipment and software merchant wholesalers
+423440   Category: Other commercial equipment merchant wholesalers
+42344    Category: Other commercial equipment merchant wholesalers
+423450   Category: Medical, dental, and hospital equipment and supplies merchant wholesalers
+42345    Category: Medical, dental, and hospital equipment and supplies merchant wholesalers
+423460   Category: Ophthalmic goods merchant wholesalers
+42346    Category: Ophthalmic goods merchant wholesalers
+423490   Category: Other professional equipment and supplies merchant wholesalers
+42349    Category: Other professional equipment and supplies merchant wholesalers
+4234     Category: Professional and commercial equipment and supplies merchant wholesalers
+423510   Category: Metal service centers and other metal merchant wholesalers
+42351    Category: Metal service centers and other metal merchant wholesalers
+423520   Category: Coal and other mineral and ore merchant wholesalers
+42352    Category: Coal and other mineral and ore merchant wholesalers
+4235     Category: Metal and mineral (except petroleum) merchant wholesalers
+423610   Category: Electrical apparatus and equipment, wiring supplies, and related equipment merchant wholesalers
+42361    Category: Electrical apparatus and equipment, wiring supplies, and related equipment merchant wholesalers
+423620   Category: Electrical and electronic appliance, television, and radio set merchant wholesalers
+42362    Category: Electrical and electronic appliance, television, and radio set merchant wholesalers
+423690   Category: Other electronic parts and equipment merchant wholesalers
+42369    Category: Other electronic parts and equipment merchant wholesalers
+4236     Category: Electrical and electronic goods merchant wholesalers
+423710   Category: Hardware merchant wholesalers
+42371    Category: Hardware merchant wholesalers
+423720   Category: Plumbing and heating equipment and supplies (hydronics) merchant wholesalers
+42372    Category: Plumbing and heating equipment and supplies (hydronics) merchant wholesalers
+423730   Category: Warm air heating and air-conditioning equipment and supplies merchant wholesalers
+42373    Category: Warm air heating and air-conditioning equipment and supplies merchant wholesalers
+423740   Category: Refrigeration equipment and supplies merchant wholesalers
+42374    Category: Refrigeration equipment and supplies merchant wholesalers
+4237     Category: Hardware, plumbing and heating equipment and supplies merchant wholesalers
+423810   Category: Construction and mining (except oil well) machinery and equipment merchant wholesalers
+42381    Category: Construction and mining (except oil well) machinery and equipment merchant wholesalers
+423820   Category: Farm and garden machinery and equipment merchant wholesalers
+42382    Category: Farm and garden machinery and equipment merchant wholesalers
+423830   Category: Industrial machinery and equipment merchant wholesalers
+42383    Category: Industrial machinery and equipment merchant wholesalers
+423840   Category: Industrial supplies merchant wholesalers
+42384    Category: Industrial supplies merchant wholesalers
+423850   Category: Service establishment equipment and supplies merchant wholesalers
+42385    Category: Service establishment equipment and supplies merchant wholesalers
+423860   Category: Transportation equipment and supplies (except motor vehicle) merchant wholesalers
+42386    Category: Transportation equipment and supplies (except motor vehicle) merchant wholesalers
+4238     Category: Machinery, equipment, and supplies merchant wholesalers
+423910   Category: Sporting and recreational goods and supplies merchant wholesalers
+42391    Category: Sporting and recreational goods and supplies merchant wholesalers
+423920   Category: Toy and hobby goods and supplies merchant wholesalers
+42392    Category: Toy and hobby goods and supplies merchant wholesalers
+423930   Category: Recyclable material merchant wholesalers
+42393    Category: Recyclable material merchant wholesalers
+423940   Category: Jewelry, watch, precious stone, and precious metal merchant wholesalers
+42394    Category: Jewelry, watch, precious stone, and precious metal merchant wholesalers
+423990   Category: Other miscellaneous durable goods merchant wholesalers
+42399    Category: Other miscellaneous durable goods merchant wholesalers
+4239     Category: Miscellaneous durable goods merchant wholesalers
+423      Category: Merchant wholesalers, durable goods
+424110   Category: Printing and writing paper merchant wholesalers
+42411    Category: Printing and writing paper merchant wholesalers
+424120   Category: Stationery and office supplies merchant wholesalers
+42412    Category: Stationery and office supplies merchant wholesalers
+424130   Category: Industrial and personal service paper merchant wholesalers
+42413    Category: Industrial and personal service paper merchant wholesalers
+4241     Category: Paper and paper product merchant wholesalers
+424210   Category: Drugs and druggists' sundries merchant wholesalers
+42421    Category: Drugs and druggists' sundries merchant wholesalers
+4242     Category: Drugs and druggists' sundries merchant wholesalers
+424310   Category: Piece goods, notions, and other dry goods merchant wholesalers
+42431    Category: Piece goods, notions, and other dry goods merchant wholesalers
+424320   Category: Men's and boys' clothing and furnishings merchant wholesalers
+42432    Category: Men's and boys' clothing and furnishings merchant wholesalers
+424330   Category: Women's, children's, and infants' clothing and accessories merchant wholesalers
+42433    Category: Women's, children's, and infants' clothing and accessories merchant wholesalers
+424340   Category: Footwear merchant wholesalers
+42434    Category: Footwear merchant wholesalers
+4243     Category: Apparel, piece goods, and notions merchant wholesalers
+424410   Category: General line grocery merchant wholesalers
+42441    Category: General line grocery merchant wholesalers
+424420   Category: Packaged frozen food merchant wholesalers
+42442    Category: Packaged frozen food merchant wholesalers
+424430   Category: Dairy product (except dried or canned) merchant wholesalers
+42443    Category: Dairy product (except dried or canned) merchant wholesalers
+424440   Category: Poultry and poultry product merchant wholesalers
+42444    Category: Poultry and poultry product merchant wholesalers
+424450   Category: Confectionery merchant wholesalers
+42445    Category: Confectionery merchant wholesalers
+424460   Category: Fish and seafood merchant wholesalers
+42446    Category: Fish and seafood merchant wholesalers
+424470   Category: Meat and meat product merchant wholesalers
+42447    Category: Meat and meat product merchant wholesalers
+424480   Category: Fresh fruit and vegetable merchant wholesalers
+42448    Category: Fresh fruit and vegetable merchant wholesalers
+424490   Category: Other grocery and related products merchant wholesalers
+42449    Category: Other grocery and related products merchant wholesalers
+4244     Category: Grocery and related product merchant wholesalers
+424510   Category: Grain and field bean merchant wholesalers
+42451    Category: Grain and field bean merchant wholesalers
+424520   Category: Livestock merchant wholesalers
+42452    Category: Livestock merchant wholesalers
+424590   Category: Other farm product raw material merchant wholesalers
+42459    Category: Other farm product raw material merchant wholesalers
+4245     Category: Farm product raw material merchant wholesalers
+424610   Category: Plastics materials and basic forms and shapes merchant wholesalers
+42461    Category: Plastics materials and basic forms and shapes merchant wholesalers
+424690   Category: Other chemical and allied products merchant wholesalers
+42469    Category: Other chemical and allied products merchant wholesalers
+4246     Category: Chemical and allied products merchant wholesalers
+424710   Category: Petroleum bulk stations and terminals 
+42471    Category: Petroleum bulk stations and terminals 
+424720   Category: Petroleum and petroleum products merchant wholesalers (except bulk stations and terminals) 
+42472    Category: Petroleum and petroleum products merchant wholesalers (except bulk stations and terminals) 
+4247     Category: Petroleum and petroleum products merchant wholesalers
+424810   Category: Beer and ale merchant wholesalers
+42481    Category: Beer and ale merchant wholesalers
+424820   Category: Wine and distilled alcoholic beverage merchant wholesalers
+42482    Category: Wine and distilled alcoholic beverage merchant wholesalers
+4248     Category: Beer, wine, and distilled alcoholic beverage merchant wholesalers
+424910   Category: Farm supplies merchant wholesalers
+42491    Category: Farm supplies merchant wholesalers
+424920   Category: Book, periodical, and newspaper merchant wholesalers
+42492    Category: Book, periodical, and newspaper merchant wholesalers
+424930   Category: Flower, nursery stock, and florists' supplies merchant wholesalers
+42493    Category: Flower, nursery stock, and florists' supplies merchant wholesalers
+424940   Category: Tobacco and tobacco product merchant wholesalers
+42494    Category: Tobacco and tobacco product merchant wholesalers
+424950   Category: Paint, varnish, and supplies merchant wholesalers
+42495    Category: Paint, varnish, and supplies merchant wholesalers
+424990   Category: Other miscellaneous nondurable goods merchant wholesalers
+42499    Category: Other miscellaneous nondurable goods merchant wholesalers
+4249     Category: Miscellaneous nondurable goods merchant wholesalers
+424      Category: Merchant wholesalers, nondurable goods
+425110   Category: Business to business electronic markets
+42511    Category: Business to business electronic markets
+425120   Category: Wholesale trade agents and brokers
+42512    Category: Wholesale trade agents and brokers
+4251     Category: Wholesale electronic markets and agents and brokers
+425      Category: Wholesale electronic markets and agents and brokers
+42       Category: Wholesale trade
+441110   Category: New car dealers
+44111    Category: New car dealers
+441120   Category: Used car dealers
+44112    Category: Used car dealers
+4411     Category: Automobile dealers
+441210   Category: Recreational vehicle dealers
+44121    Category: Recreational vehicle dealers
+441221   Category: Motorcycle, ATV, and personal watercraft dealers
+441222   Category: Boat dealers
+441229   Category: All other motor vehicle dealers
+44122    Category: Motorcycle, boat, and other motor vehicle dealers
+4412     Category: Other motor vehicle dealers
+4413104  Category: Automotive parts and accessories stores, except used
+4413105  Category: Used automotive parts and accessories stores
+441310   Category: Automotive parts and accessories stores
+44131    Category: Automotive parts and accessories stores
+441320   Category: Tire dealers
+44132    Category: Tire dealers
+4413     Category: Automotive parts, accessories, and tire stores
+441      Category: Motor vehicle and parts dealers
+442110   Category: Furniture stores
+44211    Category: Furniture stores
+4421     Category: Furniture stores
+442210   Category: Floor covering stores
+44221    Category: Floor covering stores
+442291   Category: Window treatment stores
+442299   Category: All other home furnishings stores
+44229    Category: Other home furnishings stores
+4422     Category: Home furnishings stores
+442      Category: Furniture and home furnishings stores
+443111   Category: Household appliance stores
+443112   Category: Radio, television, and other electronics stores
+44311    Category: Appliance, television, and other electronics stores
+443120   Category: Computer and software stores
+44312    Category: Computer and software stores
+443130   Category: Camera and photographic supplies stores
+44313    Category: Camera and photographic supplies stores
+4431     Category: Electronics and appliance stores
+443      Category: Electronics and appliance stores
+444110   Category: Home centers
+44411    Category: Home centers
+444120   Category: Paint and wallpaper stores
+44412    Category: Paint and wallpaper stores
+444130   Category: Hardware stores
+44413    Category: Hardware stores
+444190   Category: Other building material dealers
+44419    Category: Other building material dealers
+4441     Category: Building material and supplies dealers
+444210   Category: Outdoor power equipment stores
+44421    Category: Outdoor power equipment stores
+444220   Category: Nursery, garden center, and farm supply stores
+44422    Category: Nursery, garden center, and farm supply stores
+4442     Category: Lawn and garden equipment and supplies stores
+44-45    Category: Retail trade
+444      Category: Building material and garden equipment and supplies dealers
+445110   Category: Supermarkets and other grocery (except convenience) stores
+44511    Category: Supermarkets and other grocery (except convenience) stores
+445120   Category: Convenience stores
+44512    Category: Convenience stores
+4451     Category: Grocery stores
+4452     Category: Specialty food stores
+445310   Category: Beer, wine, and liquor stores
+44531    Category: Beer, wine, and liquor stores
+4453     Category: Beer, wine, and liquor stores
+445      Category: Food and beverage stores
+446110   Category: Pharmacies and drug stores
+44611    Category: Pharmacies and drug stores
+446120   Category: Cosmetics, beauty supplies, and perfume stores
+44612    Category: Cosmetics, beauty supplies, and perfume stores
+446130   Category: Optical goods stores
+44613    Category: Optical goods stores
+446191   Category: Food (health) supplement stores
+446199   Category: All other health and personal care stores
+44619    Category: Other health and personal care stores
+4461     Category: Health and personal care stores
+446      Category: Health and personal care stores
+447110   Category: Gasoline stations with convenience stores
+44711    Category: Gasoline stations with convenience stores
+447190   Category: Other gasoline stations
+44719    Category: Other gasoline stations
+4471     Category: Gasoline stations
+447      Category: Gasoline stations
+448110   Category: Men's clothing stores
+44811    Category: Men's clothing stores
+448120   Category: Women's clothing stores
+44812    Category: Women's clothing stores
+448130   Category: Children's and infants' clothing stores
+44813    Category: Children's and infants' clothing stores
+448140   Category: Family clothing stores
+44814    Category: Family clothing stores
+448150   Category: Clothing accessories stores
+44815    Category: Clothing accessories stores
+448190   Category: Other clothing stores
+44819    Category: Other clothing stores
+4481     Category: Clothing stores
+4482101  Category: Men's shoe stores
+4482102  Category: Women's shoe stores
+4482103  Category: Children's and juveniles' shoe stores
+4482104  Category: Family shoe stores
+4482105  Category: Athletic footwear stores
+448210   Category: Shoe stores
+44821    Category: Shoe stores
+4482     Category: Shoe stores
+448310   Category: Jewelry stores
+44831    Category: Jewelry stores
+448320   Category: Luggage and leather goods stores
+44832    Category: Luggage and leather goods stores
+4483     Category: Jewelry, luggage, and leather goods stores
+448      Category: Clothing and clothing accessories stores
+4511101  Category: General-line sporting goods stores
+4511102  Category: Specialty-line sporting goods stores
+451110   Category: Sporting goods stores
+45111    Category: Sporting goods stores
+451120   Category: Hobby, toy, and game stores
+45112    Category: Hobby, toy, and game stores
+451130   Category: Sewing, needlework, and piece goods stores
+45113    Category: Sewing, needlework, and piece goods stores
+451140   Category: Musical instrument and supplies stores
+45114    Category: Musical instrument and supplies stores
+4511     Category: Sporting goods, hobby, and musical instrument stores
+4512111  Category: Book stores, general
+4512112  Category: Specialty book stores
+4512113  Category: College book stores
+451211   Category: Book stores
+451212   Category: News dealers and newsstands
+45121    Category: Book stores and news dealers
+451220   Category: Prerecorded tape, compact disc, and record stores
+45122    Category: Prerecorded tape, compact disc, and record stores
+4512     Category: Book stores and news dealers
+451      Category: Sporting goods, hobby, musical instrument, and book stores
+452111   Category: Department stores (except discount department stores)
+452112   Category: Discount department stores
+45211    Category: Department stores
+4521     Category: Department stores
+452910   Category: Warehouse clubs and supercenters
+45291    Category: Warehouse clubs and supercenters
+4529901  Category: Variety stores
+4529904  Category: Miscellaneous general merchandise stores
+452990   Category: All other general merchandise stores
+45299    Category: All other general merchandise stores
+4529     Category: Other general merchandise stores
+452      Category: General merchandise stores
+453110   Category: Florists
+45311    Category: Florists
+4531     Category: Florists
+453210   Category: Office supplies and stationery stores
+45321    Category: Office supplies and stationery stores
+453220   Category: Gift, novelty, and souvenir stores
+45322    Category: Gift, novelty, and souvenir stores
+4532     Category: Office supplies, stationery, and gift stores
+453310   Category: Used merchandise stores
+45331    Category: Used merchandise stores
+4533     Category: Used merchandise stores
+453910   Category: Pet and pet supplies stores
+45391    Category: Pet and pet supplies stores
+453920   Category: Art dealers
+45392    Category: Art dealers
+453930   Category: Manufactured (mobile) home dealers
+45393    Category: Manufactured (mobile) home dealers
+45399    Category: All other miscellaneous store retailers
+4539     Category: Other miscellaneous store retailers
+453      Category: Miscellaneous store retailers
+45411    Category: Electronic shopping and mail-order houses
+4541     Category: Electronic shopping and mail-order houses
+454210   Category: Vending machine operators
+45421    Category: Vending machine operators
+4542     Category: Vending machine operators
+454311   Category: Heating oil dealers
+454312   Category: Liquefied petroleum gas (bottled gas) dealers
+454319   Category: Other fuel dealers
+45431    Category: Fuel dealers
+454390   Category: Other direct selling establishments
+45439    Category: Other direct selling establishments
+4543     Category: Direct selling establishments
+454      Category: Nonstore retailers
+4811     Category: Scheduled air transportation
+4812     Category: Nonscheduled air transportation
+481      Category: Air transportation
+4831     Category: Deep sea, coastal, and great lakes water transportation
+4832     Category: Inland water transportation
+483      Category: Water transportation
+4841     Category: General freight trucking
+4842     Category: Specialized freight trucking
+48-49(104) Category: Transportation and warehousing(104)
+484      Category: Truck transportation
+4851     Category: Urban transit systems
+4852     Category: Interurban and rural bus transportation
+4853     Category: Taxi and limousine service
+4854     Category: School and employee bus transportation
+4855     Category: Charter bus industry
+4859     Category: Other transit and ground passenger transportation
+485      Category: Transit and ground passenger transportation
+4861     Category: Pipeline transportation of crude oil
+4862     Category: Pipeline transportation of natural gas
+4869     Category: Other pipeline transportation
+486      Category: Pipeline transportation
+4871     Category: Scenic and sightseeing transportation, land
+4872     Category: Scenic and sightseeing transportation, water
+4879     Category: Scenic and sightseeing transportation, other
+487      Category: Scenic and sightseeing transportation
+4881     Category: Support activities for air transportation
+4882     Category: Support activities for rail transportation
+4883     Category: Support activities for water transportation
+4884     Category: Support activities for road transportation
+4885     Category: Freight transportation arrangement
+4889     Category: Other support activities for transportation
+488      Category: Support activities for transportation
+4921     Category: Couriers and express delivery services
+4922     Category: Local messengers and local delivery
+492      Category: Couriers and messengers
+4931     Category: Warehousing and storage
+493      Category: Warehousing and storage
+5111     Category: Newspaper, periodical, book, and directory publishers
+5112     Category: Software publishers
+511      Category: Publishing industries (except internet)
+5121     Category: Motion picture and video industries
+5122     Category: Sound recording industries
+512      Category: Motion picture and sound recording industries
+5151     Category: Radio and television broadcasting
+5152     Category: Cable and other subscription programming
+515      Category: Broadcasting (except internet)
+5171     Category: Wired telecommunications carriers
+5172     Category: Wireless telecommunications carriers (except satellite)
+5174     Category: Satellite telecommunications
+5179     Category: Other telecommunications
+517      Category: Telecommunications
+5182     Category: Data processing, hosting, and related services
+518      Category: Data processing, hosting, and related services
+5191     Category: Other information services
+519      Category: Other information services
+51       Category: Information
+5211     Category: Monetary authorities - central bank
+521      Category: Monetary authorities - central bank
+5221     Category: Depository credit intermediation
+5222     Category: Nondepository credit intermediation
+5223     Category: Activities related to credit intermediation
+522      Category: Credit intermediation and related activities
+5231     Category: Securities and commodity contracts intermediation and brokerage
+5232     Category: Securities and commodity exchanges
+5239     Category: Other financial investment activities
+523      Category: Securities, commodity contracts, and other financial investments and related activities
+5241     Category: Insurance carriers
+5242     Category: Agencies, brokerages, and other insurance related activities
+524      Category: Insurance carriers and related activities
+52       Category: Finance and insurance
+5311     Category: Lessors of real estate
+5312     Category: Offices of real estate agents and brokers
+5313     Category: Activities related to real estate
+531      Category: Real estate
+5321     Category: Automotive equipment rental and leasing
+5322     Category: Consumer goods rental
+5323     Category: General rental centers
+5324     Category: Commercial and industrial machinery and equipment rental and leasing
+532      Category: Rental and leasing services
+5331     Category: Lessors of nonfinancial intangible assets (except copyrighted works)
+533      Category: Lessors of nonfinancial intangible assets (except copyrighted works)
+53       Category: Real estate and rental and leasing
+5411     Category: Legal services
+5412     Category: Accounting, tax preparation, bookkeeping, and payroll services
+5413     Category: Architectural, engineering, and related services
+5414     Category: Specialized design services
+5415     Category: Computer systems design and related services
+5416     Category: Management, scientific, and technical consulting services
+5417     Category: Scientific research and development services
+5418     Category: Advertising, public relations, and related services
+5419     Category: Other professional, scientific, and technical services
+541      Category: Professional, scientific, and technical services
+54       Category: Professional, scientific, and technical services
+5511     Category: Management of companies and enterprises
+551      Category: Management of companies and enterprises
+55       Category: Management of companies and enterprises
+5611     Category: Office administrative services
+5612     Category: Facilities support services
+5613     Category: Employment services
+5614     Category: Business support services
+5615     Category: Travel arrangement and reservation services
+5616     Category: Investigation and security services
+5617     Category: Services to buildings and dwellings
+5619     Category: Other support services
+561      Category: Administrative and support services
+5621     Category: Waste collection
+5622     Category: Waste treatment and disposal
+5629     Category: Remediation and other waste management services
+562      Category: Waste management and remediation services
+56       Category: Administrative and support and waste management and remediation services
+6114     Category: Business schools and computer and management training
+6115     Category: Technical and trade schools
+6116     Category: Other schools and instruction
+6117     Category: Educational support services
+611      Category: Educational services
+61       Category: Educational services
+6211     Category: Offices of physicians
+6212     Category: Offices of dentists
+6213     Category: Offices of other health practitioners
+6214     Category: Outpatient care centers
+6215     Category: Medical and diagnostic laboratories
+6216     Category: Home health care services
+6219     Category: Other ambulatory health care services
+621      Category: Ambulatory health care services
+6221     Category: General medical and surgical hospitals
+6222     Category: Psychiatric and substance abuse hospitals
+6223     Category: Specialty (except psychiatric and substance abuse) hospitals
+622      Category: Hospitals
+6231     Category: Nursing care facilities
+6232     Category: Residential mental retardation, mental health and substance abuse facilities
+6233     Category: Community care facilities for the elderly
+6239     Category: Other residential care facilities
+623      Category: Nursing and residential care facilities
+6241     Category: Individual and family services
+6242     Category: Community food and housing, and emergency and other relief services
+6243     Category: Vocational rehabilitation services
+6244     Category: Child day care services
+624      Category: Social assistance
+62       Category: Health care and social assistance
+7111     Category: Performing arts companies
+7112     Category: Spectator sports
+7113     Category: Promoters of performing arts, sports, and similar events
+7114     Category: Agents and managers for artists, athletes, entertainers, and other public figures
+7115     Category: Independent artists, writers, and performers
+711      Category: Performing arts, spectator sports, and related industries
+7121     Category: Museums, historical sites, and similar institutions
+712      Category: Museums, historical sites, and similar institutions
+7131     Category: Amusement parks and arcades
+7132     Category: Gambling industries
+7139     Category: Other amusement and recreation industries
+713      Category: Amusement, gambling, and recreation industries
+71       Category: Arts, entertainment, and recreation
+721110   Category: Hotels (except casino hotels) and motels
+72111    Category: Hotels (except casino hotels) and motels
+721120   Category: Casino hotels
+72112    Category: Casino hotels
+721191   Category: Bed-and-breakfast inns
+721199   Category: All other traveler accommodation
+72119    Category: Other traveler accommodation
+7211     Category: Traveler accommodation
+721211   Category: RV (recreational vehicle) parks and campgrounds
+721214   Category: Recreational and vacation camps (except campgrounds)
+72121    Category: RV (recreational vehicle) parks and recreational camps
+7212     Category: RV (recreational vehicle) parks and recreational camps
+721310   Category: Rooming and boarding houses
+72131    Category: Rooming and boarding houses
+7213     Category: Rooming and boarding houses
+721      Category: Accommodation
+722110   Category: Full-service restaurants
+72211    Category: Full-service restaurants
+7221     Category: Full-service restaurants
+722211   Category: Limited-service restaurants
+722212   Category: Cafeterias, grill buffets, and buffets
+722213   Category: Snack and nonalcoholic beverage bars
+72221    Category: Limited-service eating places
+7222     Category: Limited-service eating places
+722310   Category: Food service contractors
+72231    Category: Food service contractors
+722320   Category: Caterers
+72232    Category: Caterers
+722330   Category: Mobile food services
+72233    Category: Mobile food services
+7223     Category: Special food services
+722410   Category: Drinking places (alcoholic beverages)
+72241    Category: Drinking places (alcoholic beverages)
+7224     Category: Drinking places (alcoholic beverages)
+722      Category: Food services and drinking places
+72       Category: Accommodation and food services
+8111     Category: Automotive repair and maintenance
+8112     Category: Electronic and precision equipment repair and maintenance
+8113     Category: Commercial and industrial machinery and equipment (except automotive and electronic) repair and maintenance
+8114     Category: Personal and household goods repair and maintenance
+811      Category: Repair and maintenance
+8121     Category: Personal care services
+8122     Category: Death care services
+8123     Category: Drycleaning and laundry services
+8129     Category: Other personal services
+812      Category: Personal and laundry services
+8132     Category: Grantmaking and giving services
+8133     Category: Social advocacy organizations
+8134     Category: Civic and social organizations
+8139     Category: Business, professional, labor, political, and similar organizations
+813      Category: Religious, grantmaking, civic, professional, and similar organizations
+81       Category: Other services (except public administration)

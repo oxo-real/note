@@ -1,0 +1,4 @@
+# find the mimetype of a file
+file -i <file>
+
+

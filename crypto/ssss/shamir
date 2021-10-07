@@ -1,0 +1,16 @@
+# Shamir's Secret Sharing Scheme
+
+(k,n)-threshold scheme to split secret S
+S <= 128 ascii characters (256 bytes)
+
+n shares are generated
+k shares threshold to reconstruct S
+
+# split secret
+
+ssss-split -t k -n n [-w <token>]
+
+
+# combining shares
+
+ssss-combine -t k

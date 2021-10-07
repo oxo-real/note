@@ -1,0 +1,51 @@
+# integer math
+bash can only do integer arithmatic
+
+# floating point arithmatic
+flpa can be done using i.e. bc, awk, perl, python or ruby
+
+## bc
+% echo 1.1 + 2.2 | bc -l
+
+3.3
+
+% echo 1.1 - 2.2 | bc -l
+
+-1.1
+
+### X this needs an escape
+% echo 1.1 * 2.2 | bc -l
+
+(standard_in) 1: illegal character: _
+(standard_in) 1: syntax error
+
+### V escape the asterisk
+% echo 1.1 \* 2.2 | bc -l
+
+2.42
+
+### 'literal' quotation, therefore no escaping
+% echo '1.1 * 2.2' | bc -l
+
+2.42
+
+### 'literal' quotation
+% echo '1.1 / 2.2' | bc -l
+
+.50000000000000000000
+
+### assigning to a variable with `backticks`
+% var=`echo '1.1 / 2.2' | bc -l`
+
+### recalling the variable
+% echo $var
+
+.50000000000000000000
+
+source:
+https://mathblog.com/floating-point-arithmetic-in-the-bourne-again-shell-bash/
+
+
+### using "double" quotes for variable expansion
+timestamp=$(date +%s)
+julian_date=`echo "$timestamp/(24*60*60)+2440587.5" | bc -l`

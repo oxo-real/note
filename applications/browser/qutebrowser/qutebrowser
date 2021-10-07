@@ -1,0 +1,27 @@
+# press t to open new tab
+:bind t open -t
+
+# version info
+## here you can also find config file location
+qute://version
+
+# delete all history
+rm -rf ~/.local/share/qutebrowser && rm -rf ~/.config/qutebrowser
+
+# restore main settings
+[ -d ~/.config/qutebrowser ] || mkdir -p ~/.config/qutebrowser && \
+cp ~/.dot/symlinks/qutebrowser/.qutebrowserrcFILE ~/.config/qutebrowser/config.py
+
+# custom content stylsheets
+:set content.user_stylesheets ~/.config/qutebrowser/<custom.css>
+
+# second instance
+--basedir=<directory>
+'How do I change the WM_CLASS used by qutebrowser windows?
+Qt only supports setting WM_CLASS globally, which you can do by starting with --qt-arg name foo.
+Note that all windows are part of the same qutebrowser instance
+(unless you use --temp-basedir or --basedir), so they all will share the same WM_CLASS.'
+(https://qutebrowser.org/FAQ.html)
+
+# independent instance with custom configuration settings
+qutebrowser -C ~/.config/qutebrowser/config_no_darkmode.py --temp-basedir :adblock-update

@@ -1,0 +1,38 @@
+# information
+
+groups			## current users group membership
+groups <user>		## <user>s group membership
+id <user>		## additional detail
+cat /etc/group		## list all groups on system
+
+
+# addition
+
+useradd -m -G <groups> -s <login_shell> <user>	## add new user with homedir (-m)
+						## <login_shell> has to be an element in /etc/shells
+
+groupadd <group>		## adds a new group
+gpasswd -a <user> <group>	## append <user> to <group>
+
+
+# modification
+
+usermod -aG <group1>,<group2> <user>	## append user to group1 and group2
+groupmod -n <new_group> <old_group>	## rename <old_group> to <new_group> ## !GID
+
+
+# deletion
+
+groupdel <group>		## remove group
+gpasswd -d <user> <group>	## remove user from group
+
+userdel -r <user>		## remove user and homedir
+
+
+#passwords
+
+passwd <user>		## set <user> password
+chage -d 0 <user>	## set user password status expired
+
+/etc/passwd	contains the users
+/etc/shadow	contains password hashes

@@ -1,0 +1,333 @@
+vim modes
+{{{
+
+key		mode
+~~~		~~~~
+esc		normal
+i		insert
+v		visual
+V		visual
+C-v		visual block
+R		replace
+:		command
+
+}}}
+
+file operations
+{{{
+
+ZZ		write & quit
+ZQ		discard & quit
+
+:w		write
+
+:earlier 5m		document state -5m
+:later 5m		document state +5m
+
+}}}
+
+# vim command syntax
+{{{
+
+[count]	[operator]	[motion/text_object]
+
+operators ex: c d y act upon text objects or motions
+text objects ex: >aw < >iw< aW iW ap ip ab ib at it
+motions ex: % $ h j k l f t w b e
+
+[count]	[operator]	[motion/text_object]
+
+}}}
+
+# movement
+{{{
+
+move	cursor moves
+scroll	cursor stays, viewport moves
+
+## cursor movement
+{{{
+
+### cursor moves (to)
+
+j		line up
+k		line down
+
+-		line down to start of line
++		line up to start of line
+
+H		top of screen (high)
+M		middle of screen
+L		bottom of screen (low)
+
+z^		line above window to bottom
+z+		line below window to top
+
+gg		start of file
+G		end of file
+ngg		start of line n
+
+C-f		up page (forward)
+C-b		down page (back)
+
+C-u		up half page
+C-d		down half page
+
+0		start of line
+$		end of line
+
+w		start of next word
+b		start of previous word
+
+e		end of next word
+ge		end of previous word
+bbe		end of previous word
+
+h		one character left
+l		one character right
+
+(		start of previous sentence
+)		start of next sentence
+
+{		start of previous paragraph
+}		start of next paragraph
+
+%		matching quote ({[
+#		previous match
+*		next match
+''		go back (to top of view) and forth (to begining of last line)
+
+t		before (character) (up to)
+f		onto character (find)
+
+#### movement over visual lines
+gj		one visual line up
+gk		one visual line down
+g0		start of visual line
+g$		end of visual line
+
+}}}
+
+## scroll movement
+{{{
+
+C-e		scroll up one line
+C-y		scroll down one line
+
+zt		scroll current line to top (high)
+zz		scroll current line to center (middle)
+zb		scroll current line to bottom (low)
+
+25%		move to 25% of all lines
+
+}}}
+
+}}}
+
+# text entry
+{{{
+
+## repetitive entry:
+n	number of entries
+c	character or string
+
+### from insert mode
+c ESC n.	(single repeat)
+OR
+C-o nic ESC
+
+### from normal mode
+ESC nic ESC
+OR
+xnp			(paste buffer)
+
+### from  mode
+selection
+
+}}}
+
+# text selection
+{{{
+
+vab		(visual) select around block
+vib		select inside block
+
+vaB		select around block markers
+viB		select inside block markers
+
+vaw		select around word
+viw		select inside word
+
+gv		reselect previous visual area
+
+}}}
+
+# text editing
+{{{
+
+u		undo last operation
+C-r		redo last undo
+
+.		repeat last operation
+
+c		change
+d		delete
+y		yank
+
+cap		change around paragraph
+di"		delete inside double quotes
+ya"		yank around quotes
+
+<<		indent left
+>>		indent right
+>G		indent to eof
+
+J		join lines
+gJ		join lines without spaces
+gq		format text (unjoin lines)
+
+gU		capitalize
+gu		uncapitalize
+g~		swap capitalisation
+
+~		swap capitalization character after cursor
+r		replace one character
+x		delete character after cursor
+X		remove character before cursor
+
+:s/old/new/g	globally replace inline
+:#,#s/old/new/g	globally replace from line #,#
+:%s/old/new/g	globally replace infile
+:%s/old/new/gc	globally replace infile, with conformation
+
+g&		repeat last :s on all lines
+
+}}}
+
+# vim commands
+{{{
+
+:!		execute shell command
+
+:help g				commands starting with 'g'
+
+:search
+:set ic				make search case insensitive
+:set hlsearch		highlight matches
+:noh				remove highlighting
+
+:%y+				copy all text to clipboard (+)
+
+:{range}sort		internal sort
+:{range}!sort u		external shell sort keep unique
+
+:ls					list all open buffers
+:tabedit [file]		open [file in] new buffer in new tab
+:tabs				list tabs
+:tabclose			close tab
+
+:set encoding=utf-8		utf-8 fileencoding
+:set fileencodings=uft8	utf-8 fileencoding
+
+}}}
+
+cytopyge customized operations
+{{{
+(defined in vimrc)
+
+`<Tab>		writing mode
+
+A--			new pane under (like tmux)
+A-\			new pane right (like tmux)
+
+A-hjkl		focus panes
+A-S-hjkl	move panes
+A-C-hjkl	resize panes
+
+A-[	(gt)	previous tab
+A-]	(gT)	next tab
+
+}}}
+
+I	^=	0i		insert bol
+	^=	^i
+D	^=	d$		delete eol
+C	^=	c$		change eol
+s	^=	cl		change right
+S	^=	^C		change line
+A	^=	$a		insert eol (append)
+o	^=	A<CR>	insert line after
+O	^=	ko		insert line before
++	^=	j0
+-	^=	k0
+
+w		word
+p		paragraph
+
+C-g		get cursor status
+g c-g	cursor position status
+
+
+# plugins
+{{{
+
+## vim-surround
+{{{
+
+#!	can have interference
+#!	with Plugin autopairs?
+#!	does not always work
+
+### add
+ysiw(	word	-->		( word )
+ysiw)	word	-->		(word)
+
+### delete
+ds(		(word)	-->		word
+
+### change
+cs{'	{word}	-->		'word'
+
+see also: notes/applications/vim/tpope_vim-surround
+}}}
+
+}}}
+
+
+# vimdiff
+{{{
+
+]c			next change
+[c			previous change
+do          diff obtain (from there)
+dp          diff put (to there)
+:diffget	diff obtain (from there)
+:diffput	diff put (to there)
+:diffupdate	re-scan files for differences
+
+za			toggle fold
+zo          open fold
+zc          close fold
+zr			unfold all
+zm			fold all
+
+C-w [w,h,l]				default navigate columns
+A-[h,j,k,l]				cytopyge's navigate columns
+:windo diffthis			start vimdiff on each (?visible) windows in tab
+:diffoff!				diffoff (!) apply to all windows of the current tab
+:set diffopt+=iwhite	ignore whitespace comparison
+:set wrap				wrap lines
+:syn off				remove colors
+:set diffopt+=context:0	no (0) identical lines around diff (default: 6)
+:set noscrollbind		stop scrollbinding other file
+
+}}}
+
+
+# examples
+{{{
+d7j		remove 7 lines below
+7dd		remove 7 lines below
+
+
+  }}}

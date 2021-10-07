@@ -1,0 +1,8 @@
+#!/bin/zsh
+#!/bin/bash
+
+#: '
+printf "this is active code\n"
+printf "comment out multi line code block\n"
+printf "by removing first '#' (in line 4)\n"
+# '

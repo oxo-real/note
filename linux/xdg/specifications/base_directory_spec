@@ -1,0 +1,13 @@
+# user specific files have to be stored in user specific single base directories:
+
+## configuration
+XDG_CONFIG_HOME="$HOME/.config"
+
+## data
+XDG_DATA_HOME="$HOME/.local/share"
+
+## logs
+XDG_LOGS_HOME="$HOME/.logs"
+
+## cache
+XDG_CACHE_HOME="$HOME/.cache"

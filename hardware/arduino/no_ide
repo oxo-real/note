@@ -1,0 +1,31 @@
+# install arduino make
+yay -S arduino-mk
+
+# arduino makefile
+cd /usr/share/arduino
+
+# create a testfile that blinks an led
+blinking_led.ino
+
+void setup(){
+     pinMode(13. OUTPUT) :
+     Serial.begin(9600) :
+}
+
+void.loop(){
+	digitalWrite(13. HIGH) :
+	delay(1000) :
+	digitalWrite(13. LOW) :
+	delay(1000) :
+	Serial.println("program end") :
+}
+
+# child make file that points to Arduino.mk
+ARDUINO_DIR = /usr/share/arduino
+##ARDUINO_PORT = /dev/ttyACM*
+ARDUINO_PORT = /dev/ttyUSB*
+
+USER_LIB_PATH = $HOME/sketchbook/libraries
+BOARD_TAG = uno
+
+include /usr/share/arduino/Arduino.mk

@@ -1,0 +1,32 @@
+# linux standard streams
+
+stdin	0
+stdout	1
+stderr	2
+
+
+# redirect
+
+stdout	1>
+stderr	2>
+
+## single redirect examples:
+<command>.sh 1> stdout_file
+<command>.sh 2> stderr_file
+
+## multiple redirect examples:
+### to separate files
+<command>.sh 1> stdout_to_file 2> stderr_file
+### to single file
+<command>.sh > stdout_to_file 2&>1
+#### note:
+'>' is short for '1>'
+'2&>1' means: redirect stream 2 to the same destination as stream 1
+
+## no output example:
+<command>.sh > /dev/null 2&>1
+#### note:
+redirecting to /dev/null means: no output anywhere
+
+# source
+https://www.howtogeek.com/435903/what-are-stdin-stdout-and-stderr-on-linux/

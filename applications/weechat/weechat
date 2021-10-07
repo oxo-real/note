@@ -1,0 +1,130 @@
+# documentation
+https://weechat.org/files/doc/stable/weechat_quickstart.en.html
+https://libera.chat/
+
+# add server
+/server add libera irc.libera.chat/6697 -ssl
+
+
+# set IRC nick
+
+/nick [name]
+
+
+# register IRC nick
+
+/msg NickServ REGISTER password youremail@example.com
+
+
+# get info from email and enter
+/msg NickServ VERIFY REGISTER <nick> <string>
+
+
+# identify on irc server
+/msg NickServ identify <password>
+
+
+# message of the day
+/MOTD
+
+
+# connect libera.chat server
+/set irc.server.libera.addresses "irc.libera.chat/6697"
+/set irc.server.libera.ssl on
+/set irc.server.libera.sasl_mechanism PLAIN
+
+/set irc.server.libera.sasl_username
+/set irc.server.libera.sasl_password
+
+/save
+
+/connect libera
+
+
+# list of servers
+/list
+/list keyword
+
+
+# config directory
+default is		$HOME/.weechat
+
+preferred;		$XDG_CONFIG_HOME/weechat
+with:
+ln -s $XDG_CONFIG_HOME/weechat .weechat
+
+
+irc.conf has per node settings
+no value = not set
+
+
+# join
+/join #archlinux
+
+/set irc.server.libera.autojoin "#weechat"
+
+# navigation
+alt arrows	change channels
+
+
+
+
+### ### ###
+#Freenode requires that VPN users use SASL.
+
+They have information on configuring various IRC clients here:
+https://freenode.net/kb/answer/sasl
+
+https://freenode.net/kb/answer/weechat
+
+Configuring SASL for WeeChat
+Here's a simple guide for password-based authentication, based on the WeeChat quick-start guide .
+
+If you haven't already set up your connection to freenode, use this command:
+
+/server add freenode chat.freenode.net/6697 -ssl
+If you have already set up a connection to freenode, or if that command fails with a message like irc: server "freenode" already exists, can't add it!, then use these commands to ensure that SSL/TLS is enabled for your connection:
+
+/set irc.server.freenode.addresses "chat.freenode.net/6697"
+/set irc.server.freenode.ssl on
+Now, configure SASL:
+
+/set irc.server.freenode.sasl_mechanism PLAIN
+/set irc.server.freenode.sasl_username <nickname>
+/set irc.server.freenode.sasl_password <password>
+/save
+For more complete instructions, including non-password-based mechanisms, see the official Weechat documentation .
+### ### ###
+
+# modes
+become invisible on server:
+    /mode nick +i
+
+channel modes:
+  channel: channel name to modify (default is current one)
+  o: give/take channel operator privileges
+  p: private channel flag
+  s: secret channel flag
+  i: invite-only channel flag
+  t: topic settable by channel operator only flag
+  n: no messages to channel from clients on the outside
+  m: moderated channel
+  l: set the user limit to channel
+  b: set a ban mask to keep users out
+  e: set exception mask
+  v: give/take the ability to speak on a moderated channel
+  k: set a channel key (password)
+user modes:
+  nick: nick to modify
+  i: mark a user as invisible
+  s: mark a user for receive server notices
+  w: user receives wallops
+  o: operator flag
+
+  https://freenode.net/kb/answer/usermodes
+
+# colors
+/set weechat.bar.status.color_bg 0
+/set weechat.bar.title.color_bg 0
+
+

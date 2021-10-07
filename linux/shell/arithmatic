@@ -1,0 +1,17 @@
+# integer math
+#
+bash can only do integer arithmatic
+
+% expr 1 + 2
+3
+
+% echo $[1 + 2]
+3
+
+var1=$(expr 1 + 1)
+var2=$(expr $var1 \* 2)
+echo $var2
+4
+
+
+# see also 'bc' and 'awk' commands

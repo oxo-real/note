@@ -1,0 +1,31 @@
+# bash 'static' for loop
+
+```
+for i in {1..10}
+do
+	printf $i
+done
+```
+
+## however, with variable start and/or end values, this does not work
+## in that case use three-expression bash for loops syntax:
+
+
+# bash 'variable' for loop
+
+```
+start_value=1
+end_value=10
+for (( i=$start_value; i<=$end_value; i++ ))
+do
+	printf $i
+done
+```
+
+## loop through files
+```
+for i in *.txt
+do
+	print $i
+done
+```

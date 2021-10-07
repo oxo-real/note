@@ -1,0 +1,82 @@
+# [ single ] square brackets
+
+a single square bracket set '[ <condition> ]' represent the test command
+the condition to be tested is inside the brackets.
+
+```
+if [ $foo -ge 3 ]; then
+```
+
+is the same as
+
+```
+if test $foo -ge 3; then
+```
+
+
+# "quote" string variables
+
+quote string variables if you use them in conditions
+otherwise they can give errors, i.e. if they contain spaces and/or newlines
+
+
+# combining conditions
+
+combine conditions by using certain operators;
+-a	and
+-o	or
+
+```
+if [ $foo -ge 3 -a $foo -lt 10 ]; then
+```
+
+
+# [[ double ]] square brackets
+differences with single square brackets conditions are:
+the double-bracket syntax
+
+1. features 'shell globbing';
+2. prevents word splitting;
+3. does not expand filenames.
+4. addition more combining expressions ('&&' and '||' operators)
+5. allows regex pattern matching ('=~' operator)
+
+
+ad 1. see shell_globbing notes
+
+ad 2. you could omit placing quotes around string variables,
+	but this is not adviced!
+	string variable quoting stays a good habit
+
+ad 3. see explanation of difference below
+### no filename expansion
+```
+if [ -a *.sh ]; then
+```
+- returns true if there is one single file in the working directory that has a .sh extension
+- if there are none, it will return false.
+- if there are several .sh files, bash will throw an error and stop executing the script.
+This is because *.sh is expanded to the files in the working directory.
+Use double brackets prevents this:
+```
+if [[ -a *.sh ]]; then
+```
+returns true only if there is a file in the working directory called '*.sh',
+no matter what other .sh files exist.
+The asterisk is taken literally, because the double-bracket syntax
+does not expand filenames.
+
+ad 4. Note that the and operator has precedence over the or operator,
+	meaning that '&&' or '-a' will be evaluated before '||' or '-o'.
+
+ad 5. see regex notes
+
+
+# $(( double parenthesis ))
+
+syntax for arithmetic or calculation within number-based conditions
+
+see arithmatic notes
+
+-----
+https://linuxacademy.com/blog/linux/conditions-in-bash-scripting-if-statements/

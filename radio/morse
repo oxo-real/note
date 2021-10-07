@@ -1,0 +1,41 @@
+
+
+The basic element of Morse code is the dot.
+All other elements can be defined in terms of multiples of the dot length.
+The word PARIS has a total length of 50 dot lengths.
+
+Paris
+.--. .- .-. .. ...
+
+
+If the word PARIS can be sent ten times in a minute using normal Morse code timing then the code speed is 10 WPM.
+
+The character speed is related to dot length in seconds by the following formula:
+
+Speed (WPM) = 2.4 * (Dots per second)
+
+
+
+Here are the ratios for the other code elements:
+
+Dash length
+
+Dot length x 3
+
+Pause between elements
+
+Dot length
+
+Pause between characters
+
+Dot length x 3
+
+Pause between words (see note)
+
+Dot length x 7
+
+
+
+Note: For learning the code this ratio is often increased so that overall text speed is lower than in standard Morse code. This stretched code is called Farnsworth code.
+
+

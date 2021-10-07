@@ -1,0 +1,112 @@
+#
+##         _       _ _            
+##   __  _(_)_ __ (_) |_ _ __ ___ 
+##   \ \/ / | '_ \| | __| '__/ __|
+##  _ >  <| | | | | | |_| | | (__ 
+## (_)_/\_\_|_| |_|_|\__|_|  \___|
+##  _ _|_ _ ._    _  _  
+## (_\/|_(_)|_)\/(_|(/_ 
+##   /      |  /  _|    
+##
+## .xinitrc
+## xinitrc
+## xorg initial configuration
+## by cytopyge
+##
+#
+
+#
+## this file:
+##  is being sourced by ~/.xinitrc
+##  overrides default /etc/X11/xinit/xinitrc
+#
+
+# display resolution configuration
+## xps
+xrandr --output eDP1 --mode 3200x1800  
+## vestigo 
+# xrandr --output DVI-I-1 --mode 1920x1080 --rate 60 --dpi 220
+
+## call .Xresources
+xrdb -I$HOME ~/.dot/.Xresources
+[[ -f ~/.dot/.Xresources ]] && xrdb -merge -I$HOME ~/.dot/.Xresources
+
+## hide mouse when typing
+unclutter &
+
+## remap CAPS LOCK key to ESC key
+xmodmap -e 'clear Lock' #switch CAPS LOCK key off
+xmodmap -e 'keycode 0x42=Escape' #remap CAPS LOCK key to ESC key
+
+## execute window manager
+exec i3
+#===============================================================================
+
+## define monitors
+laptop_display=eDP1
+external_monitor=DP1
+
+
+## 1.	laptop only
+#
+## Dell XPS 13 9360 > 3200x1800 (16:9) 220dpi
+#2560x1440
+xrandr --output eDP1 --mode 3200x1800 #--dpi 220 
+
+
+## 2.	external primary & laptop
+#
+## Dell XPS 13 9360 > 3200x1800 (16:9) 220dpi
+## HP Z27n > 2560x1440 (16:9)
+#>>>
+#	xrandr --output eDP1 --primary --dpi 220 --output DP1 --left-of eDP1 
+#<<<
+#	xrandr --output eDP1 --primary --dpi 220 --output DP1 --above eDP1 
+##xrandr --auto --output DP1 --primary --mode 2560x1440 --output eDP1 --below DP1 --mode 3200x1800 --scale 0.5x0.5 
+#>>>xrandr --output eDP1 --primary --dpi 220 --output DP1 --mode 2560x1440 --left-of eDP1 --scale 2x2 
+
+#xrandr --output eDP1 --primary --dpi 220 --output DP1 --above eDP1 #--mode 2560x1440 #--auto 
+#xrandr --output eDP1 --primary --dpi 220 --output DP1 --mode 2560x1440 --left-of eDP1 --panning 1280x720+3200+0 --scale 0.5x0.5 
+#xrandr --output eDP1 --auto --output DP1 --auto --left-of eDP1 --scale 2x2 #--panning 2560x1440+3200+0 #--scale 0.5x0.5 
+
+# resolution eDP1 (high dpi) = AxB
+# resolution DP1 (external) = CxD
+# scaling = [ExF] #E=A/C
+# xrandr --output eDP1 --auto --output DP1 --auto --panning [C*E]x[D*F]+[A]+0 --scale [E]x[F] --right-of eDP1
+
+
+## 3.	laptop & external primary + external secondary
+#xrandr --auto --output DP1 --primary --mode 2560x1440 --output eDP1 --below DP1 --mode 3200x1800 --scale 0.5x0.5 --output eDP2 --right-of DP1 --mode 3200x1800 --scale 0.5x0.5
+
+
+## 4.	external screen; laptop screen off
+#xrandr --auto --output DP1 --primary --mode 2560x1440 --output eDP1 --below DP1 --off
+
+
+## toggle external monitor
+#if xrandr | grep "$external_monitor connected"; then
+#	# xrandr --output eDP1 --primary --dpi 220 --output DP1 --above eDP1 
+#	xrandr --output eDP1 --primary --dpi 220 --output DP1 --above eDP1 --mode 2560x1440
+#else
+#	xrandr --output eDP1 --mode 1600x900#--dpi 220 --scale 0.5x0.5
+#fi
+
+#===============================================================================
+
+## for archbak
+# xrandr --output DVI-I-1 --mode 1920x1080 --rate 60 --dpi 220
+
+## call .Xresources
+xrdb -I$HOME ~/.dot/.Xresources
+[[ -f ~/.dot/.Xresources ]] && xrdb -merge -I$HOME ~/.dot/.Xresources
+
+
+## hide mouse when typing
+unclutter &
+
+## remap CAPS LOCK key to ESC key
+xmodmap -e 'clear Lock' #switch CAPS LOCK key off
+xmodmap -e 'keycode 0x42=Escape' #remap CAPS LOCK key to ESC key
+
+## execute window manager
+exec i3

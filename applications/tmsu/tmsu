@@ -1,0 +1,15 @@
+# set environment variable of db location
+## default db location is ~/.tmsu
+zshrc
+export TMSU_DB=/home/<user>/_data/tags/.tmsu/db
+
+# database initialization
+cd $HOME/_data/tags
+tmsu init
+
+# tag
+## one file
+tmsu tag file tag_name
+
+## change tag name from <old> to <new>
+tmsu merge <old> <new>

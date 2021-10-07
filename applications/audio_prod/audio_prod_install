@@ -1,0 +1,48 @@
+# unfa: How do I prepare Majaro for audio production
+
+## installation
+yay -S jack2 cadence
+
+## configure cadence
+select alsa as driver on analog interface
+engine properties, select realtime
+engine properties, realtime priority can be set higher for better performance
+
+## configuring user permissions
+### user must be allowed realtime scheduling (the permission to get more cpu time)
+### https://jackaudio.org/faq/linux_rt_config.html
+
+user must be member of audio group
+add audio group with:
+sudo groupadd audio
+and add user to group with:
+sudo usermod -a -G audio $USER
+
+
+to specify priviledges for the audio group in:
+/etc/security/limits.conf
+add:
+"
+# audio group
+#<domain>      <type>  <item>         <value>
+@audio			-		rtprio			95
+@audio			-		memlock			unlimited
+"
+
+login again for changes to take effect
+
+start cadence and start server
+
+## install ardour
+yay -S ardour
+
+start ardour
+change audio system to jack
+
+## install more packages
+yay -S zyn-fusion surge-synthesizer calf lsp-plugins tap-plugins caps carla dpf-plugins dragonfly-reverb ebometer drumgizmo eq10q geonkick guitarix helm ir.lv2 liquidsfz mda.lv2 ninjas2 moise-repellent samplv1 setbfree sherlock.lv2 sonic-visualiser swh-plugins wolf-shaper wolf-spectrum x42-plugins zam-plugins zita-ajbridge zita-njbrtidge zita-rev1
+
+in ardour select preferences > plugins > scan for plugins
+
+## install
+yay -S pulseaudio-jack vcvrack

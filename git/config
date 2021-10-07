@@ -1,0 +1,36 @@
+
+% git config --global user.name "cytopyge"
+% git config --global user.email cytopyge@protonmail.com
+
+by default writes to $HOME/.gitconfig
+
+mv $HOME/.gitconfig $HOME/.config/git/config
+
+
+git reads config subsequently from:
+
+1 system level	/etc/gitconfig
+2 global level	$HOME/.gitconfig OR $HOME/.config/git/config
+3 local level	<repo_dir>/.git/config
+
+
+https://www.git-scm.com/book/en/v2/Customizing-Git-Git-Configuration
+
+8.1 Customizing Git - Git Configuration
+
+So far, we’ve covered the basics of how Git works and how to use it, and we’ve introduced a number of tools that Git provides to help you use it easily and efficiently. In this chapter, we’ll see how you can make Git operate in a more customized fashion, by introducing several important configuration settings and the hooks system. With these tools, it’s easy to get Git to work exactly the way you, your company, or your group needs it to.
+
+Git Configuration
+As you read briefly in Getting Started, you can specify Git configuration settings with the git config command. One of the first things you did was set up your name and email address:
+
+$ git config --global user.name "John Doe"
+$ git config --global user.email johndoe@example.com
+Now you’ll learn a few of the more interesting options that you can set in this manner to customize your Git usage.
+
+First, a quick review: Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in the system-wide [path]/etc/gitconfig file, which contains settings that are applied to every user on the system and all of their repositories. If you pass the option --system to git config, it reads and writes from this file specifically.
+
+The next place Git looks is the ~/.gitconfig (or ~/.config/git/config) file, which is specific to each user. You can make Git read and write to this file by passing the --global option.
+
+Finally, Git looks for configuration values in the configuration file in the Git directory (.git/config) of whatever repository you’re currently using. These values are specific to that single repository, and represent passing the --local option to git config. If you don’t specify which level you want to work with, this is the default.
+
+Each of these “levels” (system, global, local) overwrites values in the previous level, so values in .git/config trump those in [path]/etc/gitconfig, for instance.

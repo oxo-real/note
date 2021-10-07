@@ -1,0 +1,47 @@
+# file locations
+
+## downloaded packages
+/var/cache/pacman/pkg
+this location can be cleaned with use of the application 'paccache'
+
+## installed packages
+/var/lib/pacman/local
+
+
+# resources
+
+## pacman restore local database
+https://wiki.archlinux.org/index.php/Pacman/Restore_local_database
+
+## ~/git/notes/yay
+
+## ~/git/notes/shell/hfcmd
+#
+
+
+# on error
+:: Starting full system upgrade...
+error: could not open file /var/lib/pacman/sync/multilib.db: Unrecognized archive format
+error: failed to prepare transaction (invalid or corrupted database)
+Error installing repo packages
+
+## force update the repository lists
+yay -Syyu
+
+# download a package without installing
+pacman -Sw package_name
+
+# install a 'local' package that is not from a remote repository (e.g. the package is from the AUR):
+pacman -U /path/to/package/package_name-version.pkg.tar.xz
+
+# keep a copy of the local package in pacman's cache, use:
+pacman -U file:///path/to/package/package_name-version.pkg.tar.xz
+
+# install a 'remote' package (not from a repository stated in pacman's configuration files):
+
+pacman -U http://www.example.com/repo/example.pkg.tar.xz
+
+To inhibit the -S, -U and -R actions, -p can be used.
+
+Pacman always lists packages to be installed or removed and asks for permission before it takes action.
+https://wiki.archlinux.org/index.php/Pacman

@@ -1,0 +1,292 @@
+device is busy:
+
+##
+lsof | grep '<mountpoint of /dev/sda1>' (or whatever the mounted device is)
+pkill target_process (kills busy proc. by name | kill PID | killall target_process)
+umount /dev/sda1 (or whatever the mounted device is)
+
+##
+fuser -kim /address  # kill any processes accessing file
+
+##
+https://stackoverflow.com/questions/7878707/how-to-unmount-a-busy-device
+
+## TODO work out options below
+
+
+
+How to unmount a busy device
+Ask Question
+Asked 8 years, 5 months ago
+Active 17 days ago
+Viewed 555k times
+
+225
+
+
+75
+I've got some samba drives that are being accessed by multiple users daily. I already have code to recognize shared drives (from a SQL table) and mount them in a special directory where all users can access them.
+
+I want to know, if I remove a drive from my SQL table (effectively taking it offline) how, or even is, there a way to unmount a busy device? So far I've found that any form of umount does not work.
+
+Ignoring the possibility of destroying data - is it possible to unmount a device that is currently being read?
+
+linux umount
+shareimprove this questionfollow
+edited Mar 12 '19 at 10:52
+
+Javier Arias
+1,01122 gold badges77 silver badges2424 bronze badges
+asked Oct 24 '11 at 16:22
+
+Max
+3,32922 gold badges1717 silver badges2727 bronze badges
+3
+A more general answer addressing more causes for failing umount is found here oletange.blogspot.dk/2012/04/umount-device-is-busy-why.html – Ole Tange Jun 22 '14 at 11:13
+add a comment
+9 Answers
+Active
+Oldest
+Votes
+
+435
+
+YES!! There is a way to detach a busy device immediately (even if it is busy and cannot be unmounted forcefully). You may cleanup all later:
+
+umount -l /PATH/OF/BUSY-DEVICE
+umount -f /PATH/OF/BUSY-NFS(NETWORK-FILE-SYSTEM)
+NOTE:
+
+These commands can disrupt a running process, cause data loss OR corrupt open files. Programs accessing target DEVICE/NFS files may throw errors OR could not work properly after force unmount.
+Try to execute these commands when NOT inside mounted Folder/Drive/Device.
+shareimprove this answerfollow
+edited Jan 7 '19 at 18:16
+
+boop
+5,14577 gold badges3333 silver badges6868 bronze badges
+answered Nov 14 '13 at 4:17
+
+Amit Verma
+4,96755 gold badges2323 silver badges3434 bronze badges
+21
+Note: -l here is a lowercase L (for "lazy unmounting"). ( See this related answer. ) – ジョージ Feb 21 '14 at 7:47
+4
+Worked. One nuance, if you are logged in through FTP client, you have to logout in order to successfully unmount folder. – Alexander Kim Oct 22 '14 at 16:47
+They don't work. They both just hang for ever. (Debian 8, cifs-utils 2:6.4-1) – Hubro Sep 28 '16 at 8:44
+1
+-l / --lazy won't corrupt open files, but on Linux it seems you can't know when the device is actually unmounted and can be removed – Tom Hale Aug 12 '17 at 6:14
+1
+Kinda scary. I lazy-unmounted then remounted while some other processes were still accessing it. So I guess I mounted it twice in the end to the same location? Not sure what that did. – sudo Sep 8 '17 at 0:42
+show 1 more comment
+
+107
+
+If possible, let's locate/identify the busy the process, kill the process and then unmount the samba share to minimize damage.
+
+lsof | grep '<mountpoint of /dev/sda1>' (or whatever the mounted device is)
+
+pkill target_process (kills busy proc. by name | kill PID | killall target_process)
+
+umount /dev/sda1 (or whatever the mounted device is)
+
+shareimprove this answerfollow
+edited Jan 24 '19 at 9:09
+
+Dan Dascalescu
+90.3k3131 gold badges254254 silver badges313313 bronze badges
+answered Oct 24 '11 at 16:27
+
+Frank Tudor
+2,85822 gold badges1919 silver badges4141 bronze badges
+6
+That doesn't return anything. I'm assuming its because its a network drive and I can't see the processes of other computers accessing the drive. Same deal with the "fuser" commands. – Max Oct 24 '11 at 16:40
+oh hell... you need the samba commands... /usr/bin/smbclient service <password>: See if this gets you started...tldp.org/HOWTO/SMB-HOWTO-8.html – Frank Tudor Oct 24 '11 at 17:17
+2
+The smb commands have actually been deprecated and replaced by "umount.cifs" .... which also doesn't work. It appears that I'm stuck with not being able to umount while its busy. – Max Oct 24 '11 at 18:00
+If you are using Asuswrt-Merlin, you need to install lsof: # opkg install lsof – Tonatio Jul 24 '19 at 17:18
+add a comment
+
+77
+
+Make sure that you aren't still in the mounted device when you are trying to umount.
+
+shareimprove this answerfollow
+answered Apr 28 '17 at 19:05
+
+Luci
+77944 silver badges22 bronze badges
+4
+Exactly, simply having current folder (located on target device) opened in your terminal (through e.g. cd command) is enaugh to stop the unmnounting process :) – jave.web Jan 28 '18 at 14:13
+2
+Yep, I had a shell running in a directory on the device. Closed the terminal window and voila – sh78 Dec 31 '18 at 20:31
+Also, make sure there are not any other mount points inside the one you are trying to umount. – victe Jul 19 '19 at 8:19
+@victe Thanks; I was mouting a folder using pfexec mount -F vboxfs carpetacompartida ~/Documents on Solaris 11; but Documents had subfolders and it was the issue. – Dani Aya Jan 29 at 20:44
+add a comment
+
+44
+
+Try the following, but before running it note that the -k flag will kill any running processes keeping the device busy.
+
+The -i flag makes fuser ask before killing.
+
+fuser -kim /address  # kill any processes accessing file
+unmount /address
+shareimprove this answerfollow
+edited Aug 24 '16 at 17:14
+
+Arel
+8691111 silver badges1717 bronze badges
+answered Jun 30 '14 at 7:44
+
+user3751769
+54944 silver badges33 bronze badges
+5
+lsof | grep '/dev/<my-device> didn't return anything, but this works great! May want to also suggest fuser -m /dev/<my-device> in case you want to find out the process before killing it. – modulitos Feb 10 '16 at 8:26
+3
+Running the fuser command immediately disconnected me from the VPS. – giorgio79 May 30 '16 at 13:06
+add a comment
+
+17
+
+Avoid umount -l
+At the time of writing, the top-voted answer recommends using umount -l.
+
+umount -l is dangerous or at best unsafe. In summary:
+
+It doesn't actually unmount the device, it just removes the filesystem from the namespace. Writes to open files can continue.
+It can cause btrfs filesystem corruption
+Work around / alternative
+The useful behaviour of umount -l is hiding the filesystem from access by absolute pathnames, thereby minimising further moutpoint usage.
+
+This same behaviour can be achieved by mounting an empty directory with permissions 000 over the directory to be unmounted.
+
+Then any new accesses to filenames in the below the mountpoint will hit the newly overlaid directory with zero permissions - new blockers to the unmount are thereby prevented.
+
+First try to remount,ro
+The major unmount achievement to be unlocked is the read-only remount. When you gain the remount,ro badge, you know that:
+
+All pending data has been written to disk
+All future write attempts will fail
+The data is in a consistent state, should you need to physcially disconnect the device.
+mount -o remount,ro /dev/device is guaranteed to fail if there are files open for writing, so try that straight up. You may be feeling lucky, punk!
+
+If you are unlucky, focus only on processes with files open for writing:
+
+lsof +f -- /dev/<devicename> | awk 'NR==1 || $4~/[0-9]+[uw -]/'
+You should then be able to remount the device read-only and ensure a consistent state.
+
+If you can't remount read-only at this point, investigate some of the other possible causes listed here.
+
+Read-only re-mount achievement unlocked 🔓☑
+
+Congratulations, your data on the mountpoint is now consistent and protected from future writing.
+
+Why fuser is inferior to lsof
+Why not use use fuser earlier? Well, you could have, but fuser operates upon a directory, not a device, so if you wanted to remove the mountpoint from the file name space and still use fuser, you'd need to:
+
+Temporarily duplicate the mountpoint with mount -o bind /media/hdd /mnt to another location
+Hide the original mount point and block the namespace:
+Here's how:
+
+null_dir=$(sudo mktemp --directory --tmpdir empty.XXXXX")
+sudo chmod 000 "$null_dir"
+
+# A request to remount,ro will fail on a `-o bind,ro` duplicate if there are
+# still files open for writing on the original as each mounted instance is
+# checked.  https://unix.stackexchange.com/a/386570/143394
+# So, avoid remount, and bind mount instead:
+sudo mount -o bind,ro "$original" "$original_duplicate"
+
+# Don't propagate/mirror the empty directory just about hide the original
+sudo mount --make-private "$original_duplicate"
+
+# Hide the original mountpoint
+sudo mount -o bind,ro "$null_dir" "$original"
+You'd then have:
+
+The original namespace hidden (no more files could be opened, the problem can't get worse)
+A duplicate bind mounted directory (as opposed to a device) on which to run fuser.
+This is more convoluted[1], but allows you to use:
+
+fuser -vmMkiw <mountpoint>
+which will interactively ask to kill the processes with files open for writing. Of course, you could do this without hiding the mount point at all, but the above mimicks umount -l, without any of the dangers.
+
+The -w switch restricts to writing processes, and the -i is interactive, so after a read-only remount, if you're it a hurry you could then use:
+
+fuser -vmMk <mountpoint>
+to kill all remaining processes with files open under the mountpoint.
+
+Hopefully at this point, you can unmount the device. (You'll need to run umount on the mountpoint twice if you've bind mounted a mode 000 directory on top.)
+
+Or use:
+
+fuser -vmMki <mountpoint>
+to interactively kill the remaining read-only processes blocking the unmount.
+
+Dammit, I still get target is busy!
+Open files aren't the only unmount blocker. See here and here for other causes and their remedies.
+
+Even if you've got some lurking gremlin which is preventing you from fully unmounting the device, you have at least got your filesystem in a consistent state.
+
+You can then use lsof +f -- /dev/device to list all processes with open files on the device containing the filesystem, and then kill them.
+
+[1] It is less convoluted to use mount --move, but that requires mount --make-private /parent-mount-point which has implications. Basically, if the mountpoint is mounted under the / filesystem, you'd want to avoid this.
+
+shareimprove this answerfollow
+edited Jan 24 at 15:33
+answered Sep 26 '19 at 16:41
+
+Tom Hale
+16.1k77 gold badges9595 silver badges127127 bronze badges
+1
+If --lazy is so dangerous, why is there not so much as a warning in the umount man page? All it says is "Lazy unmount. Detach the filesystem from the file hierarchy now, and clean up all references to this filesystem as soon as it is not busy anymore." – bitinerant Jan 23 at 14:26
+add a comment
+
+7
+
+Check for exported NFS file systems with exportfs -v. If found, remove with exportfs -d share:/directory. These don't show up in the fuser/lsof listing, and can prevent umount from succeeding.
+
+shareimprove this answerfollow
+answered Apr 20 '14 at 15:02
+
+numberer6
+10111 silver badge11 bronze badge
+1
+Thanks for this advice. I had to use exportfs -ua to remove the lock. – FuePi Apr 14 '15 at 8:36
+add a comment
+
+6
+
+Check out umount2:
+
+Linux 2.1.116 added the umount2() system call, which, like umount(), unmounts a target, but allows additional flags controlling the behaviour of the operation:
+
+MNT_FORCE (since Linux 2.1.116) Force unmount even if busy. (Only for NFS mounts.) MNT_DETACH (since Linux 2.4.11) Perform a lazy unmount: make the mount point unavailable for new accesses, and actually perform the unmount when the mount point ceases to be busy. MNT_EXPIRE (since Linux 2.6.8) Mark the mount point as expired. If a mount point is not currently in use, then an initial call to umount2() with this flag fails with the error EAGAIN, but marks the mount point as expired. The mount point remains expired as long as it isn't accessed by any process. A second umount2() call specifying MNT_EXPIRE unmounts an expired mount point. This flag cannot be specified with either MNT_FORCE or MNT_DETACH. Return Value
+
+On success, zero is returned. On error, -1 is returned, and errno is set appropriately.
+
+shareimprove this answerfollow
+answered Oct 24 '11 at 16:26
+
+chown
+46.5k1616 gold badges122122 silver badges164164 bronze badges
+Unforunately these aren't NFS mounts, but CIFS. I will try the MNT_DETACH though. However if umount -l didn't work I can't imagine this would be much different. Thanks though! – Max Oct 24 '11 at 16:35
+add a comment
+
+1
+
+Another alternative when anything works is editing /etc/fstab, adding noauto flag and rebooting the machine. The device won't be mounted, and when you're finished doing whatever, remove flag and reboot again.
+
+shareimprove this answerfollow
+answered May 31 '18 at 7:55
+
+jesjimher
+97011 gold badge88 silver badges1515 bronze badges
+add a comment
+
+1
+
+Someone has mentioned that if you are using terminal and your current directory is inside the path which you want to unmount, you will get the error.
+As a complementary, in this case, your lsof | grep path-to-be-unmounted must have below output:
+
+bash ... path-to-be-unmounted

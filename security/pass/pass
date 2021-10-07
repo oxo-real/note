@@ -1,0 +1,27 @@
+# create gpg_id
+
+gpg
+
+
+# initialize pass
+
+pass init -p <directory> <gpg_id>
+
+OR
+
+## get gpg key to encrypt with
+gpg --list-secret-keys
+pass init 0x12345678
+OR
+pass init unique_string_that_identifies_gpg_private_key
+
+## a .password-store directory is created
+
+
+# alternate password store location
+remove directory $HOME/.password-store
+create symlink to alternate location:
+ln -s $HOME/dir/ .password-store
+# i.e.:
+# to redirect the password store data to $HOME/dock/pass enter:
+# ln -s $HOME/dock/pass .password-store

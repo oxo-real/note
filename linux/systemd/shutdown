@@ -1,0 +1,61 @@
+# shutdown is hanging
+
+## 1. wait at least 5 minutes
+	to distinguish a permanent hang from a broken service that's timing out.
+
+## 2. then test whether the system reacts to CTRL+ALT+DEL
+
+## 3. test if the kernel itself is able to reboot or power-off the machine forcedly, with
+```
+reboot -f
+```
+or
+```
+poweroff -f
+```
+
+if this doesn't work, it's more likely to be the kernel, not systemd issue.
+
+
+# shutdown completes eventually
+
+If normal reboot or poweroff work, but take a suspiciously long time, then
+
+## 4. boot with the debug options:
+```
+systemd.log_level=debug systemd.log_target=kmsg log_buf_len=1M printk.devkmsg=on enforcing=0
+```
+
+## 5. create executable debug script
+```
+sudo vim /usr/lib/systemd/system-shutdown/debug.sh
+```
+enter:
+```
+#!/bin/sh
+mount -o remount,rw /
+dmesg > /shutdown-log.txt
+mount -o remount,ro /
+```
+make executable
+```
+sudo chmod +x /usr/lib/systemd/system-shutdown/debug.sh
+```
+reboot
+```
+sudo systemctl reboot
+```
+
+## 6. Look for timeouts logged in the resulting file shutdown-log.txt
+```
+sudo > /shutdown-log.txt
+```
+
+
+# shutdown never finishes
+
+the above method to create the shutdown log will not help
+the log must be obtained using other methods
+Two options:
+## use a serial console
+## use a debug shell

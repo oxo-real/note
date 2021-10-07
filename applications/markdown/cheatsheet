@@ -1,0 +1,28 @@
+*italic*
+**bold**
+
+#	heading1
+##	heading2
+
+[Link](https://domain.org)
+
+![Image](https://domain/image.png)
+
+< blockquote
+
+* list_item1
+* list_item2
+
+1. one
+2. two
+
+--- line
+
+`code` inline code
+
+```
+# multi_line_code_block
+printf 'three backticks '
+printf 'or '
+printf 'indent four spaces'
+```

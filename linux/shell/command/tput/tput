@@ -1,0 +1,72 @@
+# Controlling the Cursor
+
+The capnames below output strings containing control codes that instruct the
+terminal to manipulate the cursor:
+
+##	Cursor control capnames
+Capname			Description
+sc				Save the cursor position
+rc				Restore the cursor position
+home			Move the cursor to upper left corner (0,0)
+cup <row> <col>	Move the cursor to position row, col
+cud1			Move the cursor down 1 line
+cuu1			Move the cursor up 1 line
+civis			Set to cursor to be invisible
+cnorm			Set the cursor to its normal state
+
+# Text Effects
+Like the capnames used for cursor manipulation, the following capnames output
+strings of control codes that affect the way our terminal displays text characters:
+
+##	Text effects capnames
+Capname			Description
+bold			Start bold text
+smul			Start underlined text
+rmul			End underlined text
+rev				Start reverse video
+blink			Start blinking text
+invis			Start invisible text
+smso			Start “standout” mode
+rmso			End “standout” mode
+sgr0			Turn off all attributes
+setaf <value>	Set foreground color
+setab <value>	Set background color
+
+
+#	Text Color
+Most terminals support 8 foreground text colors and 8 background colors (though
+some support as many as 256). Using the setaf and setab capabilities, we can set
+the foreground and background colors. The exact rendering of colors is a little
+hard to predict. Many desktop managers impose “system colors” on terminal
+windows, thereby modifying foreground and background colors from the standard.
+Despite this, here are what the colors should be:
+
+##	Text colors
+Value			Color
+0				Black
+1				Red
+2				Green
+3				Yellow
+4				Blue
+5				Magenta
+6				Cyan
+7				White
+8				Not used
+9				Reset to default color
+
+
+#	Clearing the Screen
+These capnames allow us to selectively clear portions of the terminal display:
+
+##	Screen erasure capnames
+Capname			Description
+smcup			Save screen contents
+rmcup			Restore screen contents
+el				Clear from the cursor to the end of the line
+el1				Clear from the cursor to the beginning of the line
+ed				Clear from the cursor to the end of the screen
+clear			Clear the entire screen and home the cursor
+
+
+--------------------------------
+https://www.linuxcommand.org/lc3_adv_tput.php

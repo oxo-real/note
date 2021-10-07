@@ -1,0 +1,123 @@
+# generate hashes
+
+<input>		->	[sha3512]	-> <sha3512>
+
+<input>		->	[sha1]		-> <sha1>
+
+
+# dynamic truncate hashes
+
+<sha3512>	->	[dynamic	-> <dividend>
+				 truncate]
+
+<sha1>		->	[dynamic	-> <divisor>
+			  	 truncate]
+
+
+# generate round key
+
+<dividend>	->	[sha3512 	-> <round_key>
+<divisor>		 hmac    ]
+
+
+# calculate rounds
+
+<dividend> 	%	<divisor>	-> <rounds>
+
+
+# running rounds
+
++---<------------------ <rounds> -----------<---+
+|											    |
+|											    |
++--->	<sha3512>	-> [sha3512	-> output	>---+--->	output_rr
+		<round_key>	    hmac    ]
+
+# output
+
+<sha3512><output_rr> (1024bits/256hexc/128bytes)
+
+# pwgn process in words {{{
+
+## main input and output {{{
+### input
+can be an unlimited amount of characters
+
+### output
+consist of 1024 bits of data blocks represented in hexadecimal values.
+
+the first block is 512 bits; sha3-512 of the input
+the second block is 512 bits; sha3-512 iteration result
+}}}
+
+## generate hashes {{{
+create sha3512 from <input>	->	<sha3512>
+
+hash_3_input()
+
+create sha1 from <input>	->	<sha1>
+
+hash_1_input()
+}}}
+
+## dynamic truncate hashes {{{
+get lower four bits (last hex char) of the last byte (two hex chars) of the hash
+get the integernumber (decimal) of this hex character
+this is the base of the offset
+
+1 byte	^=	2 hex_chars	^=	8 bits
+
+example calculating offset:
+						hex:							bin:		dec:
+hash =					01 23 45 67 89 ab cd 33			 ...		...
+last byte =									 33		00110011		 51
+lower four bits =							  3			0011		  3
+offset =															  3
+
+starting from the offset, get the next four bytes from the hash
+
+example getting the next four bytes:
+four_bytes =					 67 89 ab cd
+
+dynamic_truncate()
+}}}
+
+## dividend and divisor {{{
+in order to calculate the
+	### dividend
+	sha3512 of the input is used to dynamic truncate with 10 digits returned
+
+	round_pool()
+
+	### divisor
+	sha1 of the input is used to dynamic truncate with 4 digits returned
+
+	round_space()
+}}}
+
+## calculate rounds {{{
+number of rounds is calculated by: dividend modulo divisor
+
+round_number()
+}}}
+
+## calculate round key {{{
+the round key is calculated by sha3-512 the dividend with divisor as hmac
+
+round_key()
+}}}
+
+## running rounds {{{
+calculate final output by iterating over sha3-512 the input with round key as hmac
+
+first input is the sha3-512 of the user input (hash_sha3512)
+the result is being fed back as input into the next round
+the hmac does not change during the rounds
+
+final output is a second block of sha3-512
+
+running_rounds()
+
+}}}
+
+}}}

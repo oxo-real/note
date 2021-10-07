@@ -1,0 +1,54 @@
+units of information storage (weird old stuff)
+
+1 bit:		unibit, sniff
+
+2 bits:		dibit, crumb, quartic digit, quad, quarter, taste, tayste, tidbit,
+			tydbit, lick, lyck, semi-nibble, snort
+
+3 bits:		tribit, triad, triade, tribble
+
+4 bits:		character (on Intel 4004 – however, characters are typically 8 bits
+			wide or larger on other processors),
+			for other terms denoting 4 bits see nibble
+
+5 bits:		pentad, pentade, nickel, nyckle
+
+6 bits:		byte (in early IBM machines using BCD alphamerics), hexad, hexade,
+			sextet
+
+7 bits:		heptad, heptade
+
+8 bits:		octet, commonly also called byte
+
+9 bits:		nonet, rarely used
+
+10 bits:	declet, decle, deckle, dyme
+
+12 bits:	slab
+
+15 bits:	parcel (on CDC 6600 and CDC 7600)
+
+16 bits:	doublet, wyde, parcel (on Cray-1), plate, playte, chomp,
+			chawmp (on a 32-bit machine)
+
+18 bits:	chomp, chawmp (on a 36-bit machine)
+
+32 bits:	quadlet, tetra, dinner, dynner, gawble (on a 32-bit machine)
+
+48 bits:	gobble, gawble (under circumstances that remain obscure)
+
+64 bits:	octlet, octa
+
+96 bits:	bentobox (in ITRON OS)
+
+128 bits:	hexlet
+
+16 bytes:	paragraph (on Intel x86 processors)
+
+256 bytes:	page (on Intel 4004,[21] 8080 and 8086 processors,
+			also many other 8-bit processors – however,
+			pages are typically much larger on many 16-bit/32-bit processors)
+
+6 trits:	tryte
+
+combit, comword

@@ -1,0 +1,23 @@
+flashing the bios is risky.
+linux is able to load a recent image during boot
+
+# for intel based
+
+iucode-tool
+
+DESCRIPTION
+       iucode_tool is an utility that can load Intel® processor microcode data from files in both text and binary microcode bundle formats.
+
+       It  can  output a list of the microcodes in these files, merge them, upload them to the kernel (to upgrade the microcode in the system processor cores) or write some of
+       them out to a file in binary format for later use.
+
+
+intel-ucode
+
+
+# for amd
+amd-ucode
+
+# check for ucode status
+journalctl | grep microcode
+## has to contain: 'microcode updated'

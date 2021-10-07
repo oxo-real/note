@@ -1,0 +1,2 @@
+# view errors on last boot
+journalctl -b -x -p 3

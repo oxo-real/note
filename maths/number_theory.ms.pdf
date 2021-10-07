@@ -1,0 +1,52 @@
+x T utf
+x res 720 1 1
+x init
+x font 1 R
+x font 2 I
+x font 3 B
+x font 4 BI
+x font 5 CR
+x font 6 HR
+x font 7 HI
+x font 8 HB
+x font 9 S1
+x font 10 S
+s10
+f1
+p1
+V0
+H720
+V120
+h0cNh72h-2cuh50cmh78h0cbh50ceh44crh33h25cth28h1chh50ceh44h0coh50crh33h2cyh50h25cch44h-2cyh50h0cth28h-1coh50cph50h-3cyh50h-5cgh50h-3ceh44
+H720
+V240
+H720
+V360
+h0cNh72h-3cah44h-1cth28h1h0cuh50h0crh33cah44clh28h25cnh50cuh50cmh78h0cbh50ceh44crh33csh39h25c(h33cNh72c)h33h25cxh50h-6c-h33h0c2h50c=h56c0h50h354h360cxh50c=h56c2h50
+H720
+V480
+H720
+V600
+h0cWh94h2chh50coh50clh28ceh44h25cnh50cuh50cmh78h0cbh50ceh44crh33csh39h25c(h33cZh61c)h33h25cxh50c+h56c2h50c=h56c0h50h4h360cxh50c=h56c-h33h0c2h50h25cNh72h25c∈
+h100h25cZh61
+H720
+V720
+H720
+V840
+h0cRh67cah44h-1h0cth28h1cih28coh50h0cnh50cah44clh28h25cnh50cuh50cmh78h0cbh50ceh44crh33csh39h25c(h33cQh72h1c)h33h25c2h50cxh50h-6c-h33h0c1h50c=h56c0h50h260h360cxh50c=h56c-h33h25c1h50h25coh50h-4cvh50h-4ceh44crh33h25c2h50h25cZh61h25c∈
+h100h25cQh72
+H720
+V960
+H720
+V1080
+h0cRh67h-2ceh44h-1cah44clh28h25cnh50cuh50cmh78h0cbh50ceh44crh33csh39h25c(h33cRh67h-4c)h33h25cxh50h25csh39cuh50cph50h25c2h50h25c-h33h25c2h50h25c=h56h25c0h50h134h360cxh50c=h56h25h25csh39cqh50crh33h2cth28h25c2h50h25cQh72h25c∈
+h100h25cRh67
+H720
+V1200
+H720
+V1320
+h0cCh67h-1coh50cmh78h-1h0cph50clh28ceh44h-3cxh50h25cnh50cuh50cmh78h0cbh50ceh44crh33csh39h25c(h33cCh67c)h33h25cxh50h25csh39cuh50cph50h25c2h50h25c+h56h25c1h50h25c=h56h25c0h50h285h360cxh50c=h56h25h25csh39cqh50crh33h2cth28h25c-h33c1h50h25c=h56h25h25cih28h25cRh67h25c∈
+h100h25cCh67
+V7920
+x trailer
+x stop

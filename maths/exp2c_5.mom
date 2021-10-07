@@ -1,0 +1,23 @@
+.TITLE "Geometri"
+.SUBTITLE "Exerpt"
+.AUTHOR	"cytopyge"
+.DRAFT 1
+.REVISION 1
+\#
+.CHAPTER 5
+.DOCTYPE CHAPTER
+.PRINTSTYLE TYPESET
+.COPYSTYLE FINAL
+\#
+\".FAMILY T
+.PT_SIZE 10
+.LS	12
+\".FOOTERS
+\".LINEBREAK_CHAR	*
+\#
+.START
+.XN
+Kurva
+.LP
+Rak eller böjd linje som är obegränsd åt båda håll.
+

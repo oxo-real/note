@@ -1,0 +1,3 @@
+# exit out of a sudo prompt
+# ctrl-c does not work
+# ctrl-d

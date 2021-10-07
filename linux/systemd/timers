@@ -1,0 +1,214 @@
+systemd timers are systemd unit files that act as a cron replacement
+timers can be run asynchronous
+
+
+# systemd timer unit
+systemd unit file with a .timer suffix
+
+## realtime
+activate on a calendar event
+```
+OnCalendar=
+```
+
+## monotonic
+activate after a time span relative to a varying starting point
+```
+OnTypeSec=
+```
+
+
+# service unit
+for each timer unit there is a matching service unit file with .service suffix
+e.g.: foo.timer & foo.service
+
+
+# management
+
+##to use a timer unit start it:
+```
+systemctl start foo.timer
+```
+
+## view all started timers:
+```
+systemctl list-timers
+```
+
+## view all timers
+```
+systemctl list-timers --all
+```
+
+
+# examples
+
+## Monotonic timer
+
+A timer which will start foo.service 15 minutes after boot and
+again every week while the system is running:
+
+/etc/systemd/system/foo.timer
+```
+[Unit]
+Description=Run foo weekly and on boot
+
+[Timer]
+OnBootSec=15min
+OnUnitActiveSec=1w
+
+[Install]
+WantedBy=timers.target
+```
+
+## Realtime timer
+
+A timer which starts foo.service once a week (at 12:00am on Monday).
+When activated, it triggers the service immediately if it missed the last start time
+(option Persistent=true), for example due to the system being powered off:
+
+/etc/systemd/system/foo.timer
+```
+[Unit]
+Description=Run foo weekly
+
+[Timer]
+OnCalendar=weekly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+```
+
+
+# more specific times; OnCalendar examples
+
+## OnCalendar general format
+```
+DayOfWeek Year-Month-Day Hour:Minute:Second
+```
+
+run when weekday is Mon,Tue (, or) & daynumber is 1..4 (.. closed range) at 12:00
+```
+OnCalendar=Mon,Tue *-*-01..04 12:00:00
+```
+
+run every first Sat of the month at 18:00
+```
+OnCalendar=Sat *-*-1..7 18:00:00
+ ```
+
+run daily at 04:00
+```
+OnCalendar=*-*-* 4:00:00
+```
+
+To run a service at different times, OnCalendar may be specified more than once.
+
+run every weekday at 22:30 and in weekends at 20:00
+```
+OnCalendar=Mon..Fri 22:30
+OnCalendar=Sat,Sun 20:00
+ ```
+
+
+# Transient timer units
+
+One can use systemd-run to create transient .timer units.
+These can run a command at a specified time without having a service file.
+
+touch a file after 30 seconds
+```
+systemd-run --on-active=30 /bin/touch /tmp/foo
+```
+
+One can also specify a pre-existing service file that does not have a timer file.
+
+start someunit.service after 12.5 hours
+```
+systemd-run --on-active="12h 30m" --unit someunit.service
+```
+
+# Location timer files
+
+## user timers
+~/.local/share/systemd/stamp-*
+
+## system timers
+/var/lib/systemd/timers/stamp-*
+
+
+# Reset timers
+
+If a timer gets out of sync, it may help to delete its stamp-* file in
+/var/lib/systemd/timers (or ~/.local/share/systemd/ in case of user timers).
+These are zero length files which mark the last time each timer was run.
+If deleted, they will be reconstructed on the next start of their timer.
+
+
+# timer files
+
+Timer files must include a [Timer] section, which carries information about the timer it defines. The options specific to the [Timer] section of timer units are the following:
+
+## OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec=, OnUnitInactiveSec=
+Defines monotonic timers relative to different starting points:
+
+
+Table 1. Settings and their starting points
+|--------------------+----------------------------------------------------------------------------------------------|
+| Setting            | Meaning                                                                                      |
+|--------------------+----------------------------------------------------------------------------------------------|
+| OnActiveSec=       | Defines a timer relative to the moment the timer unit itself is activated.                   |
+|                    |                                                                                              |
+| OnBootSec=         | Defines a timer relative to when the machine was booted up. In containers,                   |
+|                    | for the system manager instance, this is mapped to OnStartupSec=, making both equivalent.    |
+|                    |                                                                                              |
+| OnStartupSec=      | Defines a timer relative to when the service manager was first started.                      |
+|                    | For system timer units this is very similar to OnBootSec= as the system service manager      |
+|                    | is generally started very early at boot. It's primarily useful when configured in units      |
+|                    | running in the per-user service manager, as the user service manager is generally started    |
+|                    | on first login only, not already during boot.                                                |
+|                    |                                                                                              |
+| OnUnitActiveSec=   | Defines a timer relative to when the unit the timer unit is activating was last activated.   |
+|                    |                                                                                              |
+| OnUnitInactiveSec= | Defines a timer relative to when the unit the timer unit is activating was last deactivated. |
+|--------------------+----------------------------------------------------------------------------------------------|
+
+## OnCalendar=
+    Defines realtime (i.e. wallclock) timers with calendar event expressions. See systemd.time(7) for more information on the syntax of calendar event expressions. Otherwise, the semantics are similar to OnActiveSec= and related settings.
+
+    Note that timers do not necessarily expire at the precise time configured with this setting, as it is subject to the AccuracySec= setting below.
+
+    May be specified more than once, in which case the timer unit will trigger whenever any of the specified expressions elapse. Moreover calendar timers and monotonic timers (see above) may be combined within the same timer unit.
+
+    If the empty string is assigned to any of these options, the list of timers is reset (both OnCalendar= timers and monotonic timers, see above), and all prior assignments will have no effect.
+
+## AccuracySec=
+    Specify the accuracy the timer shall elapse with. Defaults to 1min.
+
+## Unit=
+    The unit to activate when this timer elapses. The argument is a unit name, whose suffix is not ".timer". If not specified, this value defaults to a service that has the same name as the timer unit, except for the suffix. It is recommended that the unit name that is activated and the unit name of the timer unit are named identically, except for the suffix.
+
+## Persistent=
+    Takes a boolean argument. If true, the time when the service unit was last triggered is stored on disk. When the timer is activated, the service unit is triggered immediately if it would have been triggered at least once during the time when the timer was inactive. This is useful to catch up on missed runs of the service when the system was powered down.
+
+    Note that this setting only has an effect on timers configured with OnCalendar=.
+    Defaults to false.
+
+    Use
+    ```
+    systemctl clean --what=state
+    ```
+    on the timer unit to remove the timestamp file maintained by this option from disk. In particular, use this command before uninstalling a timer unit. See systemctl(1) for details.
+
+## WakeSystem=
+
+    Takes a boolean argument. If true, an elapsing timer will cause the system to resume from suspend, should it be suspended and if the system supports this. Note that this option will only make sure the system resumes on the appropriate times, it will not take care of suspending it again after any work that is to be done is finished. Defaults to false.
+
+    Note that this functionality requires privileges and is thus generally only available in the system service manager.
+
+    Note that behaviour of monotonic clock timers (as configured with OnActiveSec=, OnBootSec=, OnStartupSec=, OnUnitActiveSec=, OnUnitInactiveSec=, see above) is altered depending on this option. If false, a monotonic clock is used that is paused during system suspend (CLOCK_MONOTONIC), if true a different monotonic clock is used that continues advancing during system suspend (CLOCK_BOOTTIME), see clock_getres(2) for details.
+
+## RemainAfterElapse=
+
+    Takes a boolean argument. If true, an elapsed timer will stay loaded, and its state remains queryable. If false, an elapsed timer unit that cannot elapse anymore is unloaded. Turning this off is particularly useful for transient timer units that shall disappear after they first elapse. Note that this setting has an effect on repeatedly starting a timer unit that only elapses once: if RemainAfterElapse= is on, it will not be started again, and is guaranteed to elapse only once. However, if RemainAfterElapse= is off, it might be started again if it is already elapsed, and thus be triggered multiple times. Defaults to yes.

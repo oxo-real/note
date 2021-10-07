@@ -1,0 +1,80 @@
+# Byte order; big & little endian
+
+problem is that different computers can store data
+in different ways like different languages
+
+to solve this we have to agree to a common format
+
+## number
+an abstract concept that is agreed upon
+e.g. you have ten fingers;
+the idea of 'ten' doesn't change with it's expression
+in the form of language or representation: (10, ten, ju, diez, X, 1010)
+
+## data
+a physical concept with no inherent meaning
+this raw sequence of bits must be interpreted in order to conceptualize it
+e.g. marks on a paper, like |O can mean 10 (dec), 2 (bin), input/output,
+Jupiters' moon, a Greek goddess, ...
+
+So: the meaning of data is unclear,
+	until someone clarifies the intent of the author.
+
+## agreed basic data format (bits & bytes)
+
+* one bit can have two values (1 or 0)
+
+* one byte is a sequence of 8 bits
+
+	o size: the leftmost bit is the biggest;
+		i.e.: 00001010 (bin) = ... 1*2^3 + 0*2^2 + 1*2^1 + 0*2^0 = 10 (dec)
+
+	o the 8 bits are numbered from right-to-left (like their powers)
+
+	> bit 0 is the rightmost and the smallest
+	> bit 7 is the leftmost and the biggest
+
+## but: there is no agreement on how sequences of bytes should be stored.
+
+
+# problem
+
+reading multi-byte data, where does the biggest byte appear?
+
+## big endian machine:
+stores data big-end first; the first byte is the biggest.
+
+## little endian machine:
+stores data little-end first; the first byte is the smallest.
+
+## the endianness problem does not exist for single bytes,
+	because computer agree upon what a byte is.
+	only when reading multi-byte -data
+
+
+# example
+
+address:	0       1       2       3
+byte_name:	W       X       Y       Z
+value:		0x12    0x34    0x56    0x78
+
+## read two bytes (in c: short int)
+short *s;
+s = 0;
+
+## big endian machine
+s	address	byte_name	value
+0	0		W			0x12
+1	1		X			0x34
+
+first byte is the biggest
+short *s = 0x1234
+
+## little endian machine
+s	address	byte_name	value
+0	0		W			0x12
+1	1		X			0x34
+
+first byte is the smallest
+short *s = 0x3412
+

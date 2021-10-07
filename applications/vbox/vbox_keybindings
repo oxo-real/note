@@ -1,0 +1,11 @@
+host key		right CTRL
+ACPI shutdown		host h
+close			host q
+insert ctrl alt del	host del
+pauze			host p
+reset			host r
+seamless mode		host l
+session info		host n
+settings		host s
+screenshot		host e
+snapshot		host t

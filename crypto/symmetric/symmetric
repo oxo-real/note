@@ -1,0 +1,13 @@
+# openssl
+
+# show available symmetric ciphers
+openssl enc -list
+
+
+# chacha20 stream cipher with openssl
+
+## encryption
+openssl enc -chacha20 -salt -pbkdf2 -in <file_in.txt> -out <file_out.chacha20>
+
+## decryption
+openssl enc -chacha20 -salt -pbkdf2 -d -in <file_in.chacha20> -out <file_out.txt>

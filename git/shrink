@@ -1,0 +1,31 @@
+https://www.saschawillems.de/blog/2017/09/10/how-to-shrink-down-a-github-repository/
+https://git-scm.com/docs/git-reflog
+https://gitbetter.substack.com/p/how-to-clean-up-the-git-repo-and
+
+git reflog expire --expire=now --all && git gc --prune=now --aggressive
+
+--expire=<time>
+Prune entries older than the specified time. If this option is not specified, the expiration time is taken from the configuration setting gc.reflogExpire, which in turn defaults to 90 days. --expire=all prunes entries regardless of their age; --expire=never turns off pruning of reachable entries (but see --expire-unreachable).
+
+--------------------------------
+
+https://stackoverflow.com/questions/5613345/how-to-shrink-the-git-folder
+
+cytopyge: not tested!!
+
+If you don't already have a local clone of the repository in question, create one now:
+
+git clone remote-url
+
+Now—you may have cloned the repository, but you don't have all of the remote branches. This is imperative to ensure a proper 'deep clean'. To do this, we'll need a little Bash script:
+
+#!/bin/bash
+for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master`; do
+    git branch --track ${branch##*/} $branch
+done
+
+
+
+git gc --agressive --prune
+
+git repack -a -d --depth=250 --window=250

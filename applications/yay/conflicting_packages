@@ -1,0 +1,44 @@
+#!/bin/bash
+# i.e. accidentally yay -Rns package with /usr on ro caused an error on removal attempt
+# see also: yay_rns_wo_usr_rw
+
+timestamp=`date "+%Y%m%d%H%M%S"`
+
+# remove conflicts
+
+printf "package?\n"
+read package
+
+# go to a safe place
+cd $XDG_CACHE_HOME/temp
+
+## get error log
+yay -S $package | tee "$timestamp"_"$package"_yay_errors
+
+## make conflicting files list
+grep exists "$timestamp"_"$package"_yay_errors | awk '{print $2}' \
+	> "$timestamp"_"$package"_conflicting_files
+
+## make /usr writable
+sudo mount -o remount,rw  /usr
+
+while read line;
+do
+
+	sudo rm $line
+
+done < "$timestamp"_"$package"_conflicting_files
+
+## reinstall package
+yay -S $package
+
+## remove package, now properly
+yay -Rns $package
+
+## clean up
+sudo mount -o remount,ro  /usr
+cd
+
+echo
+printf "conflicting package $package resolved\n"
+exit 0

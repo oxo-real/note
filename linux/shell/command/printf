@@ -1,0 +1,2 @@
+# escape special characters in string
+printf "%s\n" "$string"

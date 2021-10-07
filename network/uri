@@ -1,0 +1,64 @@
+URI-reference := [scheme ":"] ["//" [userinfo "@"] host [":" port]] /path 
+                 [ "?" query ] [ "#" fragment ]
+ 
+RFC3986
+
+scheme:							path
+	//			host				?	query	#	fragment
+		userinfo@		:	port
+
+
+method://userinfo@host:port/path?query#fragment
+
+
+# uniform resource identifier (uri)
+
+method ?^= scheme ?^= protocol
+path ?^= location
+uri = urn + url -> identifier = name + location (authority + path)
+
+an uri has 8 components and 5 parts:
+
+ foo://example.com:8042/over/there?name=ferret#nose
+ \_/   \______________/\_________/ \_________/ \__/
+  |           |            |            |        |
+scheme     authority       path        query   fragment
+  |   _____________________|__
+ / \ /                        \
+ urn:example:animal:ferret:nose
+
+
+# authority (rfc3986 3.2)
+
+authority (name or server address)
+host ?^= hostname
+
+The URI authority part in itself can be composed of up to 3 parts.
+
+john:doe@example.com:8042
+\______/ \_________/ \__/
+    |         |        |
+userinfo    host     port
+
+
+# userinfo
+
+The userinfo part is composed of the user and the pass components.
+
+captain:future
+\_____/ \____/
+   |      |
+  user   pass
+
+
+# all identifiable elements
+scheme://user:pass@host:port/path?query#fragment
+
+## first aggregation
+scheme://userinfo@host:port/path?query#fragment
+
+## second aggregation
+scheme://authority/path?query#fragment
+
+## third aggregation
+scheme://hostname/location

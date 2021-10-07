@@ -1,0 +1,32 @@
+# shell
+
+Basically, the shell is just there to take a list of commands and run them; it doesn't really care whether the commands are in a file, or typed in at the terminal.
+
+shell startup files:
+/etc/zshenv	runs for every zsh
+~/.zshenv	usually runs for every zsh
+
+## interactive shell
+In the second case, when you are typing at a prompt and waiting for each command to run, the shell is interactive; in the other case, when the shell is reading commands from a file, it is, consequently, non-interactive.
+
+interactive shell startup files:
+/etc/zshrc	runs for interactive shells
+~/.zshrc	runs for interactive shells
+
+## login shell
+A list of commands used in this second way --- typically by typing something like zsh filename, although there are shortcuts --- is called a script, as if the shell was acting in a play when it read from it (and shells can be real hams when it comes to playacting).
+
+login shell startup files:
+/etc/zprofile	runs for login shells
+~/.zprofile	runs for login shells
+/etc/zlogin	runs for login shells
+~/.zlogin	runs for login shells
+
+
+When you start up a script from the keyboard, there are actually two zsh's around: the interactive one you're typing at, which is waiting for another, non-interactive one to finish running the script. Almost nothing that happens in the second one affects the first; they are different copies of zsh.
+
+
+# all options in .zshrc, unless you run into the need otherwise
+
+You may wonder why there are both ~/.zprofile and ~/.zlogin, when they are both for login shells: the answer is the obvious one, that one is run before, one after ~/.zshrc. This is historical; Bourne-type shells run /etc/profile, and csh-type shells run ~/.login, and zsh tries to cover the bases with its own startup files.
+Almost everybody sets some options in their startup files. Since you want them in every interactive shell, at the least, the choice is between putting them in ~/.zshrc or ~/.zshenv. The choice really depends on how you use non-interactive shells. They can be started up in unexpected places. For example, if you use Emacs and run commands from inside it, such as grep, that will start a non-interactive shell, and may require some options. My rule of thumb is to put as many options as possible into ~/.zshrc, and transfer them to ~/.zshenv if I find I need them there. Some purists object to setting options in ~/.zshenv at all, since it affects scripts; but, as I've already hinted, you have to work a bit harder to make sure scripts are unaffected by that sort of thing anyway. In the following, I just assume they are going to be in ~/.zshrc.

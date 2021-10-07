@@ -1,0 +1,35 @@
+# list current aliases
+alias
+
+
+# enable alias
+
+## for current terminal session
+
+alias a_name=value
+alias a_name='command'
+alias a_name='command arg1 arg2'
+alias a_name='/path/to/script'
+alias a_name='/path/to/script.pl arg1'
+
+## over next terminal sessions
+source the alias file in shell init (rc)
+
+
+# disable alias
+
+## temporarily
+\a_name
+
+## permanent
+### in session
+unalias a_name
+### over next terminal sessions
+remove source from shell init
+
+
+
+sources:
+https://www.cyberciti.biz/faq/bash-shell-temporarily-disable-an-alias/
+https://www.tldp.org/LDP/abs/html/aliases.html
+https://www.cyberciti.biz/tips/bash-aliases-mac-centos-linux-unix.html

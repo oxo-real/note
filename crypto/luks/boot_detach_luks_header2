@@ -1,0 +1,1067 @@
+https://www.reddit.com/r/archlinux/comments/7np36m/detached_luks_header_full_disk_encryption_with/
+
+
+Detached LUKS header full disk encryption with encrypted keyfile inside a passphrase-protected bootable keydisk using direct UEFI secure boot, encrypted swap, unbound with DNSCrypt and DNSSEC, and system hardening
+EDIT: added parts to Arch Wiki
+
+I.   Installation
+General tips and notes:
+
+If you're paranoid about leaving the internet connected when you don't need it, use 'rfkill block <device>' on wifi or ip link set down <device> on any interface to disconnect it, press the airplane or wifi button, or disconnect manually. 'ip link' gives you a list of available devices.
+
+The encrypted volume, when prepared properly, will appear to be a continuous stream of random characters from the outside. When choosing between this or that, remember it only has to be done once as long as the drive remains an encrypted drive (no plain text directly stored on it).
+
+Use /dev/urandom unless you have a smaller machine like raspberry pi or know what you're doing.
+
+For the usb drive, since we're encrypting the drive and the keyfile inside, I prefer to cascade the ciphers so I don't use the same one twice. Whether a meet-in-the-middle attack would actually be feasible, I don't know. You can do twofish-serpent or serpent-twofish.
+
+Consider putting "customencrypthook" on a USB or SD card and mount that during the install to get the files without having to type it out yourself.
+
+This guide assumes you have an UEFI laptop but if you don't and use a BIOS setup you should still be able to get some use out of this, although you won't be able to secure boot. In that scenario I'm sure you you could find some hackish manual workaround using gpg signatures, checksums, and a safe live usb or installation media to check with.
+
+
+
+I. Part I: Preparing the devices
+
+Before you begin, go to your EFI settings (commonly referred to as BIOS settings although technically it's EFI now) at boot time using the designated function key. On my laptop that's F10 but you should google yours. Now go to Boot options and disable Secure Boot, then clear keys, this will leave the TPM in a receptive state for when we enroll our custom keys later. Note the clear keys option should be on the same page as the secure boot option, and it is not the separate TPM keys option which is something different. When you save changes and exit you may have to hit a key combination and press enter to verify.
+
+Make sure to run 'lsblk' to find out what your block device mappings are, don't copy this blindly. We're overwriting all the data, so if there's files you need copy them or image them with Clonezilla to a different drive and leave that one unplugged.
+
+dd if=/dev/urandom of=/dev/sda bs=4096
+hard drive (just wait, a 500gb HDD took around 2.5 hours)
+dd if=/dev/urandom of=/dev/sdb bs=4096
+USB
+
+
+I. Part II: Preparing the USB key
+
+gdisk /dev/sdb
+n
+
+1
+
+2048
+
++512M
+
+EF00
+
+n is new partition, L shows all hex codes for filesystems (EF00, 8300), t allows you to change a filesystem after creating a partition
+
+n
+
+2
+
+(Hit enter to accept the automatic start value here)
+
++250M
+
+8300
+
+Write changes with 'w', 'q' is quit.
+
+cryptsetup --hash=sha512 --cipher=twofish-xts-plain64 --key-size=512 -i 30000 luksFormat /dev/sdb2
+
+
+Note: the -i is for iteration time in milliseconds for the key derivation function pbkdf, it should be at least 5000 (5 seconds), but preferably put it as high as you can stand. For me, that's about 30 seconds.
+
+
+
+cryptsetup open /dev/sdb2 cryptboot
+
+
+mkfs.ext2 /dev/mapper/cryptboot
+
+
+Note: I picked ext2 for simplicity and to avoid journaling since it's just a usb drive
+
+
+
+mount /dev/mapper/cryptboot /mnt
+
+
+cd /mnt
+
+
+dd if=/dev/urandom of=key.img bs=20M count=1
+
+
+cryptsetup --align-payload=1 --hash=sha512 --cipher=serpent-xts-plain64 --key-size=512 -i 30000 luksFormat key.img
+
+
+cryptsetup open key.img lukskey
+
+
+Note: You should make the file larger than 8192 bytes (the maximum keyfile size for cryptsetup) since the encrypted loop device will be a little smaller than the file's size.
+
+20M might be a little too big for you, but 1) With a big file, we'll use --keyfile-offset=X and --keyfile-size=8192 to navigate to the correct position and 2) having too small of a file will get you a nasty 'Requested offset is beyond real size of device /dev/loop0' error.
+
+Shoutout to the Gentoo Wiki for showing me how to do this easily and this thread from the Arch Linux forums for the inspiration. And the Gentoo Wiki again for explaining the size issue.
+
+Now you should have 'lukskey' opened in a loop device (underneath /dev/loop1), mapped as /dev/mapper/lukskey
+
+
+
+I. Part III: The main drive
+
+truncate -s 2M header.img
+
+
+cryptsetup --hash=sha512 --cipher=serpent-xts-plain64 --key-size=512 --key-file=/dev/mapper/lukskey --keyfile-offset=X --keyfile-size=8192 luksFormat /dev/sda --align-payload 4096 --header header.img
+
+
+Pick an offset, and a number of milliseconds you can wait for
+
+
+
+cryptsetup open --header header.img --key-file=/dev/mapper/lukskey --keyfile-offset=X --keyfile-size=8192 /dev/sda enc
+
+
+cd /
+
+
+cryptsetup close lukskey
+
+
+umount /mnt
+(if it complains about being busy make sure lukskey container is closed then "ps -efw" to find hanged processes and their PIDs to kill with "kill -9 <PID>"
+
+
+
+pvcreate /dev/mapper/enc
+
+
+vgcreate store /dev/mapper/enc
+
+
+lvcreate -L 20G store -n root
+
+
+lvcreate -L 4G store -n swap
+
+
+lvcreate -l 100%FREE store -n home
+
+
+You can name "store" anything you want, the number of GB is up to you (note my root partition is currently using 3.9GB if you're looking for a rough minimum), swap space doesn't have to be twice your RAM unless you have a machine with very low RAM. Some people do the size of their RAM, some do half of their RAM, some do less. If you plan on suspending and hibernating, which I don't recommend (it's more proper to shutdown so the encryption keys are wiped from memory) then you would do at least the size of your RAM.
+
+
+
+mkfs.ext4 /dev/store/root
+
+
+mkfs.ext4 /dev/store/home
+
+
+mount /dev/store/root /mnt
+
+
+mkdir /mnt/home
+
+
+mount /dev/store/home /mnt/home
+
+
+mkswap /dev/store/swap
+
+
+swapon /dev/store/swap
+
+
+mkdir /mnt/boot
+
+
+mount /dev/mapper/cryptboot /mnt/boot
+
+
+mkfs.fat -F32 /dev/sdb1
+
+
+mkdir /mnt/boot/efi
+
+
+mount /dev/sdb1 /mnt/boot/efi
+
+
+I. Part IV: The actual installation procedure and custom encrypt hook
+
+After reading the "pacstrap" command and other tips below, follow the Installation Guide up to the "mkinitcpio" step but don't do it yet. You will skip "Partition the disks", "Format the partitions", and "Mount the file systems" as we've already done that. If you use a regular US keymap layout skip "Set the keyboard layout" as well. I skipped "Hostname" and "Network configuration" because I don't need a hostname and I prefer to start dhcpcd@<device>.service manually.
+
+tl;dr quick network connection:
+
+ip link set <device> up
+
+
+systemctl start dhcpcd@<device>.service
+This is my quick way to get https mirrors in order of speed (adjust for your country):
+
+grep -i -A1 "United States" /etc/pacman.d/mirrorlist | grep -iP "^Server" | grep -vP "^--$" | sed 's/http/https/gi' > /etc/pacman.d/mirrorlist2
+The accuracy of this grep statement could change depending on the format in the future, you may need to adjust.
+
+
+rankmirrors -n 0 /etc/pacman.d/mirrorlist2 > /etc/pacman.d/mirrorlist
+
+
+Refreshing the package keys and a basic pacstrap command for our guide (if you need any other packages add them to the end or do a "pacman -S package" anytime after the chroot step):
+
+pacman-key --refresh-keys
+
+
+pacstrap /mnt base base-devel linux-hardened efibootmgr sudo
+
+
+Now you should be at the "mkinitcpio" step and chrooted into your system. In order to get our encrypted setup to work, we will need to build our own hook, which is thankfully easy to do and I have the code you need. You will have to run "ls -lth /dev/disk/by-id" to figure out your own ID values for usb and main hard drive (they're linked -> to sda or sdb) then to get them into the file: "ls -lth /dev/disk/by-id | grep -iP 'PATTERNYOUWANT' | awk '{print $9}' >> /etc/initcpio/hooks/customencrypthook". You should be using those ids instead of just sda or sdb because sdX can change and this ensures it's the correct device.
+
+You can name "customencrypthook" anything you want, and note that /etc/initcpio is the folder for hooks you create. Keep a backup of both files ("cp" them over to the /home directory or your user's home directory after you make one). /usr/bin/ash is not a typo.
+
+/etc/initcpio/initcpio/hooks/customencrypthook
+
+#!/usr/bin/ash
+
+
+run_hook() {
+
+
+modprobe -a -q dm-crypt >/dev/null 2>&1
+
+
+modprobe loop
+
+
+[ "${quiet}" = "y" ] && CSQUIET=">/dev/null"
+
+
+while [ ! -L '/dev/disk/by-id/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-part2' ]; do
+the Xs represent your USB drive id found by "ls -lth /dev/disk/by-id"
+
+
+ echo 'Waiting for USB'
+
+
+ sleep 1
+
+
+done
+
+
+    cryptsetup open /dev/disk/by-id/XXXXXXXXXXXXXXXXXXXXXXXX-part2 cryptboot
+
+
+    mkdir -p /mnt
+
+
+    mount /dev/mapper/cryptboot /mnt
+
+
+    cd /mnt
+
+
+    cryptsetup open key.img lukskey
+
+
+    cryptsetup --header header.img --key-file=/dev/mapper/lukskey --keyfile-offset=N --keyfile-size=8192 open /dev/disk/by-id/YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY enc
+the Ys represent your main hard drive found by "ls -lth /dev/disk/by-id", N is your offset
+
+
+    cd /
+
+
+    cryptsetup close lukskey
+
+
+    umount /mnt
+
+
+}
+Note: I could also close cryptboot, but I want it to be easier to mount for updating and signing the kernel (which happens automatically during kernel updates), and regenerating the initramfs with mkinitcpio. You can close it using "cryptsetup close cryptboot", but then you would have to reenter the password before you mount it after booting into the system.
+
+
+/etc/initcpio/install/customencrypthook
+
+#!/bin/bash
+
+
+build() {
+
+
+local mod
+
+
+add_module dm-crypt
+
+
+if [[ $CRYPTO_MODULES ]]; then
+
+
+    for mod in $CRYPTO_MODULES; do
+
+
+        add_module "$mod"
+
+
+    done
+
+
+else
+
+
+    add_all_modules '/crypto/'
+
+
+fi
+
+
+add_binary "cryptsetup"
+
+
+add_binary "dmsetup"
+
+
+add_file "/usr/lib/udev/rules.d/10-dm.rules"
+
+
+add_file "/usr/lib/udev/rules.d/13-dm-disk.rules"
+
+
+add_file "/usr/lib/udev/rules.d/95-dm-notify.rules"
+
+
+add_file "/usr/lib/initcpio/udev/11-dm-initramfs.rules" "/usr/lib/udev/rules.d/11-dm-initramfs.rules"
+
+
+add_runscript
+
+
+}
+
+
+/etc/mkinitcpio.conf (edit this only don't replace it, these are just excerpts of the necessary parts)
+
+MODULES=(loop)
+
+
+HOOKS=(base udev autodetect modconf block customencrypthook lvm2 filesystems keyboard fsck)
+Note: the files=() and binaries=() arrays are empty, and you shouldn't have to replace HOOKS=(...) array entirely just edit in "customencrypthook lvm2" after block and before filesystems, and make sure "systemd", "sd-lvm2", and "encrypt" are removed.
+
+
+I. Part V: Setting up sudo and a user
+
+First, we need to change the root password and then add a user.
+
+passwd
+
+
+useradd -m -G wheel -s /bin/bash USERNAMEHERE
+
+
+passwd USERNAMEHERE
+
+
+EDITOR=nano
+
+
+ visudo
+and make these edits:
+
+at the top:
+
+See the sudoers man page for the details on how to write a sudoers file.
+Defaults env_reset
+
+Defaults editor=/usr/bin/nano, !env_editor
+
+Defaults timestamp_timeout=0
+
+Note: env_reset resets environment variables to prevent somebody from selecting a different program as their "editor" using the EDITOR environment variable, your default in the second line can be vi or another editor instead of nano, and timestamp_timeout=0 disables the sudo cache because I want to type the password every time. I recommend following these because even in a single-user scenario, potential malware could take advantage if you have those vulnerabilities open. The first two lines are from Sudo - Arch Wiki.
+
+
+
+and near the bottom:
+
+User privilege specification
+root ALL=(ALL) ALL
+
+USERNAMEHERE ALL=(ALL) ALL
+
+The owner and group for the sudoers file must both be root. The file permissions must be set to 0440.
+
+ls -lth /etc/sudoers and make sure it looks like this:
+
+-r--r----- 1 root root
+
+If it doesn't then:
+
+chown -c root:root /etc/sudoers
+
+
+chmod -c 0440 /etc/sudoers
+Now "su -l USERNAMEHERE" and run "sudo -i" and see if you can login as sudo, it should change your terminal to "root@" instead of your username. Once you see it works, disable the direct root login and then exit.
+
+passwd -l root
+
+
+exit
+From now on, you will use "sudo -e file" to safely edit files that require you to be root to edit them as it uses temporary files and is considered to be the proper form.
+
+Also, while you should always use sudo to become root, if you ever use "su" for any user, use "su -l". This changes home directory and environment variables for safety as discussed here
+
+
+
+I. Part VI: Direct UEFI using secure boot
+
+
+
+We need to get cryptboot and sbupdate git from the AUR, then untar, read the pkgbuild, and "makepkg -si" inside the folder, for each. Yes, the program "cryptboot" has the same name as what we named our encrypted usb drive, but know that there's no relation here besides the implied meaning of "encrypted boot" and you can use any name for your encrypted usb drive.
+
+These are the AUR links: cryptboot and sbupdate for reference. However, we'll be downloading a snapshot .tar.gz directly.
+
+As of December 2017, the snapshot links are:
+
+https://aur.archlinux.org/cgit/aur.git/snapshot/cryptboot.tar.gz
+
+https://aur.archlinux.org/cgit/aur.git/snapshot/sbupdate-git.tar.gz
+
+
+
+Important note: Don't do this as root and don't use sudo, add a user first and do it as the user.
+
+su -l USERNAMEHERE
+
+
+If you're not already in the user's home directory:
+
+cd ~
+
+
+curl -o cryptboot.tar.gz https://aur.archlinux.org/cgit/aur.git/snapshot/cryptboot.tar.gz
+At this point I used my phone to copy and paste the .tar.gz "Download Snapshot" link from https://aur.archlinux.org/packages/cryptboot/ into VirusTotal.com and then used "sha256sum cryptboot.tar.gz" on the computer to get a checksum and compared it with the value on my phone.
+
+
+
+tar xvf cryptboot.tar.gz
+
+
+cd cryptboot
+
+
+less PKGBUILD
+Read the package build and make sure nothing malicious has been snuck in there, to the best of your ability.
+
+
+
+makepkg -si
+
+
+According to the Arch Linux wiki, this will download the code, resolve the dependencies with pacman, compile it, package it, and ask you for your sudo password to install the package.
+
+Now we make our keys:
+
+First prepare crypttab temporarily to be compatible with cryptboot.
+
+Use "sudo -i" to become root.
+
+sudo -e /etc/crypttab
+cryptboot /dev/disk/by-uuid/ZZZZZZZZZZZZZZZZZZZZZZZZZZZ none luks
+
+You will have to find Z by running "ls -lth /dev/disk/by-uuid" and see which one links to sdb2 or whichever is the encrypted boot partition of your usb drive. Then "ls -lth /dev/disk/by-uuid | grep -iP 'PATTERNYOUWANT' | awk '{print $9}' >> /etc/crypttab".
+
+sudo -e /etc/cryptboot.conf
+BOOT_CRYPT_NAME="cryptboot"
+
+BOOT_DIR="/boot"
+
+EFI_DIR="/boot/efi"
+
+EFI_KEYS_DIR="/boot/efikeys"
+
+
+
+cryptboot-efikeys create
+
+
+cryptboot-efikeys enroll
+
+
+Hopefully if you cleared your secure boot keys beforehand and properly configured the cryptboot.conf and your /boot partition is mounted, it should be successful. Delete the temporary entry we created from your crypttab.
+
+Remember that generating keys only has to be done once. I guess you could do it again if you're worried that your keys have been compromised (don't forget to rename DB.* files back to db.*, see efikeys below), but it only needs to be done once and sbupdate will use the same keys to sign your new images every time you update your kernel.
+
+Now we must prepare the system for sbupdate. Use "sudo -i" to become root.
+
+cd /boot/efikeys
+"ls" to get a list of files and change all the "db.*" files to "DB" like this: mv db.file DB.file
+
+Switch back to regular user "su -l USERNAMEHERE". Repeat the curl, tar, less, makepkg procedure done above for cryptboot except this time do it for sbupdate.
+
+sudo -e /etc/default/sbupdate
+KEY_DIR="/boot/efikeys"
+
+ESP_DIR="/boot/efi"
+
+CMDLINE_DEFAULT="/vmlinuz-linux-hardened root=/dev/mapper/store-root rw quiet"
+
+The CMDLINE_DEFAULT is really important here, without it your efi will not boot. If you're curious what these files are and where they come from, vmlinuz is the compressed kernel image which is part of the package for linux-hardened. It's installed to the mounted /boot directory. In the same directory, initramfs-*.img files are created by mkinitcpio when we run the command.
+
+now "sudo -i" into root and run:
+
+mkinitcpio -p linux && mkinitcpio -p linux-hardened && sbupdate
+It should generate the initramfs image, and generate a signed UEFI image of your kernel and initramfs that we will be able to boot from. There should be a few "missing firmware" errors which should be harmless
+
+
+
+Note: I keep the linux kernel as a backup in case anything goes wrong with linux-hardened after an update and I need to boot
+
+
+
+Now we need a boot option for the signed efi file.
+
+First run "lsblk" and look for the usb device and the 512M EFI partition. Mine is sdb1.
+
+The Gentoo Wiki gives us a good example:
+
+efibootmgr -c -d /dev/sdb -p 1 -L "Arch Linux Hardened Signed" -l "EFI\Arch\linux-hardened-signed.efi"
+-c create, -d disk, -p partition, -L label, and -l loader
+
+Make sure the boot order puts "Arch Linux Hardened Signed" first. If not change it with "efibootmgr -o XXXX,YYYY,ZZZZ"
+
+Finally, exit the chroot (keep running exit until it says root@archiso without brackets [] and the "lsblk" shows boot as "/mnt/boot" and not "/boot") and umount devices, then reboot
+
+exit
+
+
+cd /
+
+
+umount -R /mnt
+
+
+reboot
+
+
+Now you will have to press the button for your EFI settings (BIOS settings) and enable secure boot, disable legacy boot and cd boot, and set up an administrator or power on password to prevent access. You'll need the usb key to boot and you'll have to enter two passwords, one for the usb key and another for the keyfile. Then the keyfile unlocks the main hard drive. You should probably run 'pacman -Syu' to update the system.
+
+I. Part VII: Graphics and audio
+
+First check your graphics driver here. I'm using radeon. Newer AMD cards use amdgpu (xf86-video-amdgpu). Nvidia and Intel should check the wiki for info.
+
+pacman -S xorg-server xf86-video-ati xfce4 mousepad
+Check your ~/.local/share/xorg/Xorg.0.log and make sure it got loaded properly. For example, radeon will have lines that say "RADEON(0):". If it didn't load your driver it may say "MODESETTING(0):" which is the fallback driver as explained here Xorg - ArchWiki.
+
+Also check your driver's wiki page to find out about enabling "TearFree" which prevents the horizontal lines when playing video (you'll have to create a minimal Xorg Configuration first with a "Device" section containing "Driver" and "Identifier").
+
+Ctrl + F this page for "Prevent Xorg" and do that now, plus "Run Xorg Rootless".
+
+Now for the audio:
+
+pacman -S pulseaudio pavucontrol xfce4-pulseaudio-plugin
+Controversial, but pulseaudio indeed "just works" and you need it to hear sound on Firefox.
+
+II.   Firewall
+https://aur.archlinux.org/cgit/aur.git/snapshot/arno-iptables-firewall.tar.gz
+
+You know the AUR drill we used for cryptboot and sbupdate by now, just curl -o the snapshot, verify the checksum matches the one online with VirusTotal, tar xvf, less pkgbuild, then makepkg -si. Remember to do it all as a regular user, not root so don't use sudo. Then:
+
+ cd ~/arno-*/src/aif*
+ sudo ./install.sh
+
+
+sudo -e  /etc/arno-iptables-firewall/firewall.conf
+EXT_IF="<device>"
+
+EXT_IF_DHCP_IP=1
+
+If you use a static ip you would leave the dhcp setting at 0.
+
+sudo systemctl enable arno-iptables-firewall.service
+
+
+sudo systemctl start arno-iptables-firewall.service
+III.   System Hardening
+Encrypted Swap
+
+sudo -e /etc/crypttab
+swap /dev/mapper/store-swap /dev/urandom swap,cipher=twofish-xts-plain64,hash=sha512,size=512,nofail
+
+sudo -e /etc/fstab
+/dev/mapper/swap none swap defaults 0 0
+
+The entry for fstab replaces the old swap entry, you could just edit the old one to look like this.
+
+Umask
+
+sudo -e /etc/profile
+Set our umask
+umask 077
+
+The way it was explained to me is that before the umask is applied, linux permissions for files you create start off as 0777. Umask 077 is the same as 0077. Thus, subtract 0777 - 0077 = 0700
+
+The order is 0 (setuid, setgid, sticky bit), 7 (user), 0 (group), 0 (others)
+
+This means that only the user who created or root will be able to read, write, and execute the file or directory (only directories create as exec). A umask of "177" would prevent the executable bit from being set so the default file permissions for directories you create would be "-rw-------".
+
+The first 0 is for setuid, setgid, and sticky bit. Setuid and setgid allow a user to become other users or groups like root or wheel. Sticky bit allows your user to write or change a file, but prevent the change or deletion of your files by other users. This is useful for group or world-writable settings where people have the same permissions in a folder but you want to prevent destructive behavior.
+
+Know that root can violate any permissions it wants unless you write a specific rule in SELinux which is a out of scope for this guide, unforunately. There are good books on it written by a guy named "Vermeulen".
+
+Permissions
+
+You may want to consider running: chmod -R g-rwx,o-rwx /boot
+
+What this does is - (subtracts) all permissions (rwx) from group (g) and others (o). Leaving only root and the owner of the file with permissions.
+
+chmod 000 /boot/key.img
+
+chmod 000 /boot/header.img
+
+Note that obviously root will still be able to override this, but it means that no user can access it so the files can only be read or written to by root.
+Pluggable Authentication Modules PAM rules
+
+sudo -e /etc/pam.d/system-login
+auth required pam_tally.so onerr=succeed file=/var/log/faillog
+auth required pam_tally.so deny=2 unlock_time=600 onerr=succeed file=/var/log/faillog
+
+Note you have to comment the first line so failed attempts are not counted twice, then the second line sets 2 denials (wrong passwords) and a 10 minute lockout. onerr=succeed counts the number of attempts. The file=* is a failure log.
+
+sudo -e /etc/pam.d/su
+auth required pam_wheel.so use_uid
+
+sudo -e /etc/pam.d/su-l
+auth required pam_wheel.so use_uid
+
+TCP IP Hardening
+
+sudo -e 50-dmesg-restrict.conf
+kernel.dmesg_restrict = 1
+
+sudo -e 51-net.conf
+net.ipv4.conf.all.accept_redirects = 0
+
+net.ipv4.conf.all.rp_filter = 1
+
+net.ipv4.conf.all.secure_redirects = 1
+
+net.ipv4.conf.all.send_redirects = 0
+
+net.ipv4.conf.default.accept_redirects = 0
+
+net.ipv4.conf.default.rp_filter = 1
+
+net.ipv4.conf.default.secure_redirects = 1
+
+net.ipv4.conf.default.send_redirects = 0
+
+net.ipv4.icmp_echo_ignore_all = 1
+
+net.ipv4.icmp_echo_ignore_broadcasts = 1
+
+net.ipv4.icmp_ignore_bogus_error_responses = 1
+
+net.ipv4.ip_forward = 0
+
+net.ipv4.tcp_rfc1337 = 1
+
+net.ipv4.tcp_syncookies = 1
+
+net.ipv4.tcp_timestamps = 0
+
+sudo -e 40-ipv6.conf
+net.ipv6.conf.all.accept_ra = 0
+
+net.ipv6.conf.all.accept_redirects = 0
+
+net.ipv6.conf.all.forwarding = 0
+
+net.ipv6.conf.all.use_tempaddr = 2
+
+net.ipv6.conf.default.accept_ra = 0
+
+net.ipv6.conf.default.accept_redirects = 0
+
+net.ipv6.conf.default.use_tempaddr = 2
+
+net.ipv6.conf.eno1.use_tempaddr = 2
+
+net.ipv6.conf.lo.accept_redirects = 0
+
+net.ipv6.conf.wlo1.use_tempaddr = 2
+
+To apply changes,
+
+sudo sysctl --system
+I've intentionally left out logging martian packets (people sending you packets with a spoofed or misconfigured addresses), but if you want you can log those to track down malicious activity.
+
+net.ipv4.conf.all.log_martians = 1
+
+net.ipv4.conf.default.log_martians = 1
+
+Disabling Root login
+
+We already ran "passwd -l root" after we set up sudo.
+
+sudo -e /etc/securetty
+Comment out all the lines in this file, you'll still be able to use sudo.
+
+Hardening fstab
+
+For cryptboot and the usb EFI partition add this to the fourth field comma-separated values:
+
+noauto,nodev,nosuid,noexec
+
+For /dev/store/home or /dev/mapper/store-home:
+
+nodev,nosuid
+
+Hidepid
+
+sudo -e /etc/fstab
+proc /proc proc nosuid,nodev,noexec,hidepid=2,gid=proc 0 0
+
+For Xorg to work, an exception needs to be added for systemd-logind:
+
+sudo -e /etc/systemd/system/systemd-logind.service.d/hidepid.conf
+[Service]
+
+SupplementaryGroups=proc
+
+Prevent coredumps
+
+sudo -i /etc/systemd/coredump.conf
+Storage=none
+
+Check Pacman SigLevel and PGP keyring keys
+
+grep -i siglevel /etc/pacman.conf
+SigLevel = Required DatabaseOptional
+
+Update the keys manually:
+
+pacman-key --refresh-keys
+Today is January 02, 2018. As of today, the "archlinux-keyring" was last updated on "2017-12-15 12:23 UTC". In a scenario where a key is no longer valid or goes rogue, it would be helpful to have the latest keys.
+
+Safe mounting of external disks (sdc1 is an example)
+
+sudo mount -o nodev,nosuid,noexec /dev/sdc1 /mnt
+This prevents executables, programs running with different user privileges than the user has, and nodev prevents character or block devices from being interpreted on the drive to prevent malicious exploits.
+
+Browser cache permissions
+
+edit: Updated to chromium
+
+~/.config/chromium and ~/.cache/chromium files are "-rw-------" (chmod 600) and folders are "drwx------" (chmod 700). The point is to check permissions frequently and prevent executable files in the cache.
+
+TTY Timeout
+
+sudo -e /etc/profile.d/shell-timeout.sh
+TMOUT="$(( 60*10 ))";
+
+[ -z "$DISPLAY" ] && export TMOUT;
+
+case $( /usr/bin/tty ) in
+
+/dev/tty[0-9]*) export TMOUT;;
+
+esac
+
+You can also block tty access all together but I prefer having it so I can switch over if I want or need to get away from Xorg.
+
+Prevent Xorg from being run on a different terminal besides the one you logged in
+
+sudo -e ~/.xserverrc
+!/bin/sh
+exec /usr/bin/Xorg -nolisten tcp -nolisten local "$@" vt$XDG_VTNR
+
+-nolisten local disables abstract sockets of X11. Which are supposed to be a risk if a keylogger or screenshotter attached itself to them. This blog gives some history on the subject.
+
+Startx will execute this when you start up your desktop. You can autostart X at login but I prefer to do it manually. I use xfce so it's "exec startxfce4" after I login.
+
+Run Xorg rootless
+
+sudo -e /etc/X11/Xwrapper.config
+set needs_root_rights = no
+
+IV.   Unbound + Dnscrypt + DNSSEC
+edit: The new dnscrypt-proxy automatically updates the sources (servers list) so I've simplified this section.
+
+
+
+sudo pacman -S unbound expat dnscrypt-proxy ldns
+
+
+sudo -e /etc/dhcpcd.conf
+Add anywhere:
+
+static domain_name_servers=127.0.0.1
+
+sudo systemctl edit dnscrypt-proxy.service
+edit: After the update on 5/18/2018 dnscrypt-proxy needs CAP_NET_BIND_SERVICE capability.
+
+[Service]
+
+DynamicUser=yes
+
+CapabilityBoundingSet=CAP_IPC_LOCK CAP_SETGID CAP_SETUID CAP_NET_BIND_SERVICE
+
+ProtectSystem=strict
+
+ProtectHome=true
+
+ProtectKernelTunables=true
+
+ProtectKernelModules=true
+
+PrivateTmp=true
+
+PrivateDevices=true
+
+MemoryDenyWriteExecute=true
+
+NoNewPrivileges=true
+
+RestrictRealtime=true
+
+RestrictAddressFamilies=AF_INET
+
+SystemCallArchitectures=native
+
+SystemCallFilter=~@clock @cpu-emulation @debug @keyring @ipc @module @mount @obsolete @raw-io
+
+Above is from DNSCrypt - ArchWiki
+
+sudo -e /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+listen_addresses = []
+
+require_dnnssec = true
+
+cache = false
+
+Cache is disabled because we are using DNSCrypt as a forwarder for the unbound cache. I still use Unbound because it has a better way of actually testing and validating that DNSSEC is working.
+
+sudo -e /etc/unbound/unbound.conf
+server:
+
+use-syslog: yes
+
+username: "unbound"
+
+directory: "/etc/unbound"
+
+trust-anchor-file: trusted-key.key
+
+port:53
+
+do-not-query-localhost: no
+
+forward-zone:
+
+  name: "."
+
+  forward-addr: 127.0.0.1@5138
+
+sudo -e /etc/resolv.conf
+nameserver 127.0.0.1
+
+options edns0 single-request-reopen
+
+systemctl edit dnscrypt-proxy.socket
+[Socket]
+
+ListenStream=
+
+ListenDatagram=
+
+ListenStream=127.0.0.1:5138
+
+ListenDatagram=127.0.0.1:5138
+
+The port number is larger than 1024 so dnscrypt-proxy is not required to be run by root. So pick a number from 1025-65535, or run this command "shuf -n 1 -i 1025-65535".
+
+For DNSCrypt with Unbound, only unbound and dnscrypt-proxy.socket need to be started and enabled.
+
+   systemctl enable dnscrypt-proxy.socket
+
+
+   systemctl enable unbound.service
+
+
+   systemctl start dnscrypt-proxy.socket
+
+
+   systemctl start unbound.service
+
+
+Now test it out
+
+   drill -DT sigfail.verteiltesysteme.net
+
+
+   drill -DT sigok.verteiltesysteme.net
+
+
+   unbound-host -C /etc/unbound/unbound.conf -v sigok.verteiltesysteme.net
+
+
+   unbound-host -C /etc/unbound/unbound.conf -v sigfail.verteiltesysteme.net
+Root Hints
+
+sudo curl -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache
+
+
+sudo chmod 644 /etc/unbound/root.hints
+
+
+sudo -e /etc/unbound/unbound.conf
+Under "server:":
+
+root-hints: "/etc/unbound/root.hints"
+
+
+
+sudo systemctl restart unbound
+
+
+Root Hints script (Optional, probably unnecessary)
+
+This optional script creates a service that updates root hints automatically. <DEVICE> is your internet device from "ip link", usually eno1 or wlo1. If you don't use dhcpcd then change it to the service that gets your internet working. Once the timer goes off each month, the script will retry every 20 minutes until the internet is on then update the root hints. If a timer is missed it will keep trying. The 2 minute predelay is to give dnscrypt time to resolve fingerprints and the certificate.
+
+sudo -e /etc/systemd/system/roothints.service
+
+
+[Unit]
+
+Description=Update root hints for unbound
+
+After=dhcpcd@<DEVICE>.service
+
+[Service]
+
+TimeoutStartSec=0
+
+Restart=on-failure
+
+RestartSec=1200
+
+ExecStartPre=/bin/sleep 120
+
+ExecStart=/usr/bin/bash -c 'isitalive=$(/usr/bin/systemctl is-active dhcpcd@<DEVICE>.service); if [ "$isitalive" == "active" ]; then /usr/bin/curl -v -o /etc/unbound/root.hints https://www.internic.net/domain/named.cache; fi; if [ "$isitalive" == "inactive" ]; then exit 1; fi'
+
+
+
+sudo -e /etc/systemd/system/roothints.timer
+[Unit]
+
+Description=Run root.hints monthly
+
+[Timer]
+
+OnCalendar=monthly
+
+Persistent=true
+
+[Install]
+
+WantedBy=timers.target
+
+You can use a custom date like this: "OnCalendar=*-*-12 12:00:00". That would run the job on the 12th of every month at 12pm local time.
+
+sudo systemctl enable roothints.timer
+
+
+sudo systemctl start roothints.timer
+
+
+sudo systemctl status roothints.timer
+Testing our script
+
+From the wiki on Timers you can check the calendar time until the next run:
+
+systemd-analyze calendar "*-*-12 12:00:00"
+
+
+systemd-analyze calendar monthly
+If you have other timers also, you may want to consider setting them to separate, specific times or using "RandomizedDelaySec" in the .timer file under [Timer]
+
+
+
+systemctl daemon-reload
+To reload units after making changes on disk.
+
+sudo systemctl start roothints
+Wait a little and then check the systemctl status.
+
+
+
+Troubleshooting
+
+If you can't resolve hosts try:
+
+Setting "verbosity=5" under "server:" in /etc/unbound/unbound.conf and check "journalctl -u unbound.service". You should see some pretty detailed output that shows if it's working.
+
+If you just want to get your internet working again, # comment out the forwardings section ("forward-zone:", "name:", "forward-addr:") and "trust-anchor-file" in unbound.conf, systemctl stop dnscrypt-proxy.socket and dnscrypt-proxy.service, then stop and start unbound to fix the internet.
+
+If you're using unbound, make sure /etc/dnscrypt-proxy/dnscrypt-proxy.toml 'cache' is disabled.
+
+Sometimes, fixing the internet is as simple as using "ip link set <device> down", "ip link set <device> up", then stop and start dhcpcd@<device>.service. Or restarting unbound.service. Also check "systemctl status dnscrypt*" to make sure the socket is running and that the proxy service received its certificate and fingerprints from the server.
+
+V.   Firejail:
+pacman -S firejail chromium xorg-server-xephyr openbox
+Edit: changed to Chromium
+
+Xephyr and openbox will allow us to enable X11 sandboxing and resize the browser window, respectively.
+
+sudo -e /etc/firejail/firejail.config
+xephyr-screen WIDTHxHEIGHT
+
+Width and Height are in pixels.
+
+To open the sandbox and browser:
+
+firejail --x11 --profile=/etc/firejail/chromium.profile openbox --startup 'chromium'
+You should be able to adjust the window or maximize it, and the internet should work automatically since unbound is handling our dns.
+
+VI.   Afternotes:
+Be careful with your LUKS header and any backups of it, the proper disposal is to "shred", "wipe", or dd it with random data multiple times before deleting it Securely Wipe Disk - Arch Wiki.
+
+If an attacker gets a hold of your old LUKS header (after you changed the passphrase) and they figured out the old passphrase or keyfile, they can use the old header to get access to your system.
+Check out the cryptsetup FAQ for more details.
+
+A way to mitigate this is to use "cryptsetup-reencrypt" which will generate a new master key (volume key) and make the old header ineffective even when they have the compromised passphrase or keyfile, but read the man page first.
+
+You can use dd to backup the whole usb drive as an image, or the partitions (assuming it's sdb):
+
+dd if=/dev/sdb1 of=backup.img bs=4M
+
+dd if=/dev/sdb2 of=backup2.img bs=4M
+
+The LUKS keyfile can be changed like this:
+
+ cryptsetup --header /boot/header.img --key-file=/dev/mapper/lukskey --keyfile-offset=X --keyfile-size=8192 luksChangeKey /dev/mapper/enc /dev/mapper/lukskey2 --new-keyfile-size=8192 --new-keyfile-offset=Y
+Afterwards, "cryptsetup close lukskey" and "shred" or "dd" the old keyfile with random data before deleting it, then make sure that the new keyfile is renamed to the same name of the old one "key.img" or other name.
+
+For some reason sysctl doesn't seem to be loading my /etc/sysctl.d/51-net.conf file on boot so I have to run "sysctl --reload" to get it working.
+
+Read General Recommendations on the Arch Wiki, mainly "System Administration" and "Package Management"
+
+Consider blacklisting usb devices with USBGuard
+
+Check permissions, ownership, and sticky bits everywhere you can.
+
+find / -path /proc -prune -o -type f \( -perm -4000 -o -perm -2000 \) | xargs ls
+
+ #look for setuid or setgid bits
+chmod u-s /path/to/file
+
+ #unset a setsuid bit for a file (user id)
+chmod g-s /path/to/file
+
+ #unset a setguid bit for a file (group id)
+find / -nouser -o -nogroup | xargs ls
+
+ #unowned abandoned orphaned files
+find / -path /proc -prune -o -perm -2 ! -type l | xargs ls
+
+ #world-writable files
+Anti virus or anti malware such as clamav and rkhunter
+
+Intrusion detection, scanning, and security auditing tools such as lynis, nmap, aide, snort, yasat. You can find more recommendations here
+
+Implementing access control security policies such as SELinux, Tomoyo, AppArmor, Smack, and I'm sure there's more.

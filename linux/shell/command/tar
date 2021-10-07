@@ -1,0 +1,23 @@
+tar is an archiver with compression options
+archiving and compression are two different things!
+
+archive modi
+-c	create
+-x	extract
+
+compression filter
+-j	bzip2
+-z	gzip
+
+informative output
+-v	verbose
+
+file and/or device selection
+-f	file (--file=archive)
+
+	compr>		none	bzip2	gzip
+modus:			----	----	----
+create		|	cvf		cvjf	cvzf
+extract		|	xvf		xvjf	xvzf
+
+tar -[option] file

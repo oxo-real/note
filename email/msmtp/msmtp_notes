@@ -1,0 +1,14 @@
+# msmtp user config file must be read-/writable by owner
+chmod 600 <msmtp_config>
+
+
+# using msmtp offline
+
+## copy msmtp queue scripts to convenient location
+cp /usr/share/doc/msmtp/msmtpqueue /usr/local/bin
+
+## backup is in $XDG_CONFIG_HOME/msmtp/offline
+
+# Chris Gianniotis msmtpq
+# http://futurile.net/resources/msmtp-a-simple-mail-transfer-agent/#configure-mutt-to-use-msmtp
+#

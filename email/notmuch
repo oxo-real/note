@@ -1,0 +1,8 @@
+# initialize
+notmuch setup
+
+# refresh
+notmuch new
+
+# search
+notmuch search <term>

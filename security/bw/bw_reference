@@ -1,0 +1,78 @@
+# bw get vault status
+# not an official command but returns when vault is locked
+# else returns 'unknown object'
+bw get vault status
+
+
+# bw login
+ echo -e 'tsds' | xclip -selection clipboard -rmlastnl
+bw login <user@domain>
+# C-A-v
+
+# export session key
+# select with mouse (click 4x) C-A-c
+# C-A-v in cli
+export BW_SESSION="<blob>"
+
+
+# synchronize
+bw sync
+
+# bw search item
+bw list items --search <string>
+
+# bw get object
+bw get <object> <itemid>
+# with objects { 
+    item
+    username
+    password
+    uri
+    totp
+    exposed
+    attachment
+    folder
+    collection
+    organization
+    template
+}
+
+
+# copy password
+bw get password <search_term> | xclip
+
+# paste password
+S-Insert
+
+
+
+
+# bw generate pw
+bw generate -luns --length <integer>
+
+# clear_buffers
+# buffer lenght
+lc=$(xclip -o -selection clipboard | wc -m)
+# generate random string and paste
+bw generate -luns --length $lc | xclip -selection clipboard -i
+# clear xclip
+echo "" | xclip -selection clipboard 
+
+lp=$(xclip -o -selection primary | wc -m)
+bw generate -luns --length $lp | xclip -selection primary -i
+echo "" | xclip -selection primary 
+
+ls=$(xclip -o -selection secondary | wc -m)
+bw generate -luns --length $ls | xclip -selection secondary -i
+echo "" | xclip -selection secondary
+
+lb=$(xclip -o -selection buffer-cut | wc -m)
+bw generate -luns --length $lb | xclip -selection buffer-cut -i
+echo "" | xclip -selection buffer-cut 
+
+
+# bw lock
+bw lock
+
+# bw logout
+bw logout

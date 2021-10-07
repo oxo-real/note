@@ -1,0 +1,56 @@
+# mailcap
+## from mailcap (5)
+
+each mailcap entry specifies: content_type; command_to_execute; flags_optional
+
+
+# content type field
+
+rfc822 describes content type names
+metamail matches content type against the content type header
+can also contain more specific /subtypes and more general /wildcards
+
+
+# command field
+
+unix command that will be passed by system (3) facility
+
+no %s			message body will be send through standard input
+				text/plain;	less
+
+%s				message body send as a file
+				text/plain; $EDITOR %s
+
+%t				content-type field, including the subtype, if any
+
+%{<parameter>}	returns value of <parameter> from
+
+%n				will be replaced by the number of parts within the multi part object.
+
+%F				will be replaced by a series of arguments, two for each part, giving first
+				the content-type and then the name of the temporary file where the decoded
+				part has been stored.
+
+# flags
+
+needsterminal	the named interpreter needs to interact with user on a terminal
+
+copiousoutput	more than a few lines to stdout
+
+# secure use of mailcap
+## https://neomutt.org/guide/mimesupport#3-2-%C2%A0secure-use-of-mailcap
+The interpretation of shell meta-characters embedded in MIME parameters
+can lead to security problems in general.
+Keep the %-expandos away from shell quoting.
+Don't quote them with single or double quotes.
+Don't put them into backtick expansions.
+If you have to use the %-expandos' values in context where you need quoting or
+backtick expansions, put that value into a shell variable and reference the
+shell variable where necessary, as in the following example (using $charset
+inside the backtick expansion is safe, since it is not itself subject to any
+further expansion):
+
+text/test-mailcap-bug; cat %s; \
+copiousoutput; \
+test=charset=%{charset} \
+&& test "`echo $charset | tr '[A-Z]' '[a-z]'`" != iso-8859-1

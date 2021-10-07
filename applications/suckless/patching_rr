@@ -1,0 +1,13 @@
+Arch Linux Install Extras 1 - Patching, Compiling DWM(Dynamic Window Manager) & ST(Simple Terminal)
+https://www.youtube.com/watch?v=wWWDDyl5j-g
+
+git clone https://git.suckless.org/dwm
+wget https://dwm.suckless.org/patches/bottomstack/dwm-bottomstack-6.1.diff
+wget https://dwm.suckless.org/patches/push/dwm-push-20160731-56a31dc.diff
+
+vim config.def.h
+
+...
+1:47
+patch -p1 < dwm-bottomstack-6.1.diff
+

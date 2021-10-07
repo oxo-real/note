@@ -1,0 +1,17 @@
+# install packages
+
+yay -S cifs-utils keyutils
+
+
+# mount cifs
+
+sudo mount.cifs -o username=<username>,vers=3.0,ro,dom=digi.intern "//<source>" /home/user/<target>
+
+## if version 3.0 is not working; try 2.0 (or others check man)
+
+
+# umount cifs
+
+sudo umount -a -t cifs -l
+
+( -a --all, -t --types, -l --lazy )

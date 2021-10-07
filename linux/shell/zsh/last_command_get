@@ -1,0 +1,22 @@
+# last command get
+## aliases are expandible
+## ! execution is immediate
+## source: $HISTFILE
+
+!!			last command get full command
+
+!* or !:*	last command get all arguments
+
+!$ or !:$	last command get last argument/word
+
+!^ or !:1	last command get first argument
+
+
+!foo		last command get that started with 'foo'
+
+!-3:$		last command get last word of 3 ago
+
+!-2:*		last command get all arguments of 2 ago
+
+
+!-2; !-1	combination of two 'last command get's' in one line

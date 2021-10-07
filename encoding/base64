@@ -1,0 +1,14 @@
+# be aware of padding!!
+
+## padding is 'on' when encoding using base64 function in zsh (and probably also bash)
+
+
+# be aware of EOL's!!
+
+## 'echo' includes an EOL when not excluded with '-n' option;
+% echo -n test | base64
+dGVzdA==
+
+## printf excludes an EOL when not included with '\n';
+% printf test | base64
+dGVzdA==

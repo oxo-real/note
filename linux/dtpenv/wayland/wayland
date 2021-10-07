@@ -1,0 +1,14 @@
+check if a wayand session is active:
+```echo $WAYLAND-DISPLAY```
+has to give back wayland
+if no wayland session then it will give back x
+to check if the session is indeed x enter:
+```echo $XDG_SESSION_TYPE```
+
+
+
+if
+yay -S wayland-git
+then
+yay -S sway-git
+fi

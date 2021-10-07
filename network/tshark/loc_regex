@@ -1,0 +1,19 @@
+https://www.google.ca/maps/@43.6474528,-79.3799409,14.78z,
+\@(-?[\d\.]*)
+
+https://www.google.ca/maps/@43.6474528,-79.3799409,14.78z
+ \@[-?\d\.]*\,([-?\d\.]*)
+
+ \@[-?\d\.]*\,([-?\d\.]*)
+
+If the latitude and longitude in the URL is preceded by an "@" symbol, (e.g. https://www.google.ca/maps/@43.6474528,-79.3799409,14.78z):
+
+    Latitude: \@(-?[\d\.]*)
+    Longitude:  \@[-?\d\.]*\,([-?\d\.]*)
+
+If the latitude and longitude in the URL is preceded by "ll=" (e.g. https://maps.google.com/maps?ll=43.6474528,-79.3799409,14.78z
+
+    Latitude:  ll=(-?[\d\.]*) 
+    Longitude:  ll=[-?\d\.]*\,([-?\d\.]*) 
+
+https://www.google.com/maps/@52.3618629,4.903278,14z

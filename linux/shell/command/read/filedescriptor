@@ -1,0 +1,79 @@
+## read command inside a read
+
+https://stackoverflow.com/questions/6911520/read-command-in-bash-script-is-being-skipped
+
+
+The relevant portions of the code are still not complete but based on the comments I'm going to guess that your while loop looks like
+
+while read -r ... ; do
+    # do stuff ...
+
+    # read user input
+    read -r var
+
+done < file
+
+From this the problem is immediately apparent: the inner read is getting its input from the same place as the outer loop, namely stdin which has been redirected from file, and not the user. For a slightly more portable alternative that does not depend on kernel-level support for /dev/tty, just use a different file descriptor other than stdin for the while loop.
+
+while read -r ... <&9; do
+    # loop stuff
+
+    # stdin still attached to the terminal untouched,
+    # so this reads from the terminal as expected
+    read -r var
+
+done 9< file
+
+Notice that this example uses fd 9 for the file, leaving fd 0 (stdin) alone. Take a look at the BashFAQ 089 for more details.
+
+
+
+
+## BashFAQ 089
+
+http://mywiki.wooledge.org/BashFAQ/089
+
+I'm reading a file line by line and running ssh or ffmpeg, only the first line gets processed!
+
+When reading a file line by line, if a command inside the loop also reads stdin, it can exhaust the input file. For example:
+
+Toggle line numbers
+
+   1 # Non-working example
+   2 while IFS= read -r file; do
+   3   ffmpeg -i "$file" -vcodec libxvid -acodec libfaac -ar 32000 "${file%.avi}".mkv
+   4 done < <(find . -name '*.avi')
+
+Toggle line numbers
+
+   1 # Non-working example
+   2 while read host; do
+   3   ssh "$host" some command
+   4 done <hostslist
+
+What's happening here? Let's take the first example. read reads a line from standard input (FD 0), puts it in the file parameter, and then ffmpeg is executed. Like any program you execute from BASH, ffmpeg inherits standard input, which for some reason it reads. I don't know why. But in any case, when ffmpeg reads stdin, it sucks up all the input from the find command, starving the loop.
+
+Here's one way to make it work:
+Toggle line numbers
+
+   1 while IFS= read -r file; do
+   2   ffmpeg -i "$file" -vcodec libxvid -acodec libfaac -ar 32000 "${file%.avi}".mkv </dev/null
+   3 done < <(find . -name '*.avi')
+
+Notice the redirection on the ffmpeg line: </dev/null. The ssh example can be fixed the same way, or with the -n switch (at least with OpenSSH).
+
+Sometimes with large loops it might be difficult to work out what's reading from stdin, or a program might change its behaviour when you add </dev/null to it. In this case you can make read use a different FileDescriptor that a random program is less likely to read from:
+Toggle line numbers
+
+   1 while read -r line <&3; do
+   2   ...
+   3 done 3<file
+
+In bash, the read builtin can also be told to read directly from an fd (-u fd) without redirection, and since bash 4.1, an available fd can be assigned ({var}<file) instead of hard coding a file descriptor.
+
+Toggle line numbers
+
+   1 # bash 4.1+
+   2 while read -r -u "$fd" line; do
+   3   ...
+   4 done {fd}<file

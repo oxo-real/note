@@ -1,0 +1,10 @@
+$GNUPGHOME/gpg-agent.conf
+
+default-cache-ttl	1800
+max-cache-ttl		3600
+
+
+default-cache-ttl	ttl from last pinentry
+max-cache-ttl		ttl from first pinentry
+
+see: man gpg-agent

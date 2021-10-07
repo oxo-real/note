@@ -1,0 +1,307 @@
+yay -S yubikey-manager
+
+% ykman --help
+Usage: ykman [OPTIONS] COMMAND [ARGS]...
+
+  Configure your YubiKey via the command line.
+
+  Examples:
+
+    List connected YubiKeys, only output serial number:
+    $ ykman list --serials
+
+    Show information about YubiKey with serial number 0123456:
+    $ ykman --device 0123456 info
+
+Options:
+  -v, --version
+  -d, --device SERIAL
+  -l, --log-level [DEBUG|INFO|WARNING|ERROR|CRITICAL]
+                                  Enable logging at given verbosity level.
+  --log-file FILE                 Write logs to the given FILE instead of standard error;
+                                  ignored unless --log-level is also set.
+
+  -r, --reader NAME               Use an external smart card reader. Conflicts with --device
+                                  and list.
+
+  -h, --help                      Show this message and exit.
+
+Commands:
+  config   Enable/Disable applications.
+  fido     Manage FIDO applications.
+  info     Show general information.
+  list     List connected YubiKeys.
+  mode     Manage connection modes (USB Interfaces).
+  oath     Manage OATH Application.
+  openpgp  Manage OpenPGP Application.
+  otp      Manage OTP Application.
+  piv      Manage PIV Application.
+
+
+% ykman config --help
+Usage: ykman config [OPTIONS] COMMAND [ARGS]...
+
+  Enable/Disable applications.
+
+  The applications may be enabled and disabled independently over different interfaces (USB
+  and NFC). The configuration may also be protected by a lock code.
+
+  Examples:
+
+    Disable PIV over the NFC interface:
+    $ ykman config nfc --disable PIV
+
+    Enable all applications over USB:
+    $ ykman config usb --enable-all
+
+    Generate and set a random application lock code:
+    $ ykman config set-lock-code --generate
+
+Options:
+  -h, --help  Show this message and exit.
+
+Commands:
+  nfc            Enable or disable applications over NFC.
+  set-lock-code  Set or change the configuration lock code.
+  usb            Enable or disable applications over USB.
+
+
+% ykman fido --help
+Usage: ykman fido [OPTIONS] COMMAND [ARGS]...
+
+  Manage FIDO applications.
+
+  Examples:
+
+    Reset the FIDO (FIDO2 and U2F) applications:
+    $ ykman fido reset
+
+    Change the FIDO2 PIN from 123456 to 654321:
+    $ ykman fido set-pin --pin 123456 --new-pin 654321
+
+Options:
+  -h, --help  Show this message and exit.
+
+Commands:
+  delete   Delete a resident credential.
+  info     Display status of FIDO2 application.
+  list     List resident credentials.
+  reset    Reset all FIDO applications.
+  set-pin  Set or change the PIN code.
+  unlock   Verify U2F PIN for YubiKey FIPS.
+
+
+% ykman info --help
+Usage: ykman info [OPTIONS]
+
+  Show general information.
+
+  Displays information about the attached YubiKey such as serial number, firmware version,
+  applications, etc.
+
+Options:
+  -c, --check-fips  Check if YubiKey is in FIPS Approved mode.
+  -h, --help        Show this message and exit.
+
+
+% ykman list --help
+Usage: ykman list [OPTIONS]
+
+  List connected YubiKeys.
+
+Options:
+  -s, --serials  Output only serial numbers, one per line (devices without serial will be
+                 omitted).
+
+  -r, --readers  List available smart card readers.
+  -h, --help     Show this message and exit.
+
+
+% ykman mode --help
+Usage: ykman mode [OPTIONS] [MODE]
+
+  Manage connection modes (USB Interfaces).
+
+  Get the current connection mode of the YubiKey, or set it to MODE.
+
+  MODE can be a string, such as "OTP+FIDO+CCID", or a shortened form: "o+f+c". It can also be
+  a mode number.
+
+  Examples:
+
+    Set the OTP and FIDO mode:
+    $ ykman mode OTP+FIDO
+
+    Set the CCID only mode and use touch to eject the smart card:
+    $ ykman mode CCID --touch-eject
+
+Options:
+  --touch-eject                When set, the button toggles the state of the smartcard between
+                               ejected and inserted (CCID mode only).
+
+  --autoeject-timeout SECONDS  When set, the smartcard will automatically eject after the given
+                               time. Implies --touch-eject (CCID mode only).
+
+  --chalresp-timeout SECONDS   Sets the timeout when waiting for touch for challenge response.
+  -f, --force                  Confirm the action without prompting.
+  -h, --help                   Show this message and exit.
+
+
+% ykman oath --help
+Usage: ykman oath [OPTIONS] COMMAND [ARGS]...
+
+  Manage OATH Application.
+
+  Examples:
+
+    Generate codes for credentials starting with 'yubi':
+    $ ykman oath code yubi
+
+    Add a touch credential with the secret key f5up4ub3dw and the name yubico:
+    $ ykman oath add yubico f5up4ub3dw --touch
+
+    Set a password for the OATH application:
+    $ ykman oath set-password
+
+Options:
+  -p, --password TEXT  Provide a password to unlock the YubiKey.
+  -h, --help           Show this message and exit.
+
+Commands:
+  add                Add a new credential.
+  code               Generate codes.
+  delete             Delete a credential.
+  info               Display status of OATH application.
+  list               List all credentials.
+  remember-password  Manage local password storage.
+  reset              Reset all OATH data.
+  set-password       Password protect the OATH credentials.
+  uri                Add a new credential from URI.
+
+
+% ykman openpgp --help
+Usage: ykman openpgp [OPTIONS] COMMAND [ARGS]...
+
+  Manage OpenPGP Application.
+
+  Examples:
+
+    Set the retries for PIN, Reset Code and Admin PIN to 10:
+    $ ykman openpgp set-retries 10 10 10
+
+    Require touch to use the authentication key:
+    $ ykman openpgp set-touch aut on
+
+Options:
+  -h, --help  Show this message and exit.
+
+Commands:
+  attest                  Generate a attestation certificate for a key.
+  delete-certificate      Delete an OpenPGP certificate.
+  export-certificate      Export an OpenPGP certificate.
+  import-attestation-key  Import a private attestation key.
+  import-certificate      Import an OpenPGP certificate.
+  info                    Display status of OpenPGP application.
+  reset                   Reset OpenPGP application.
+  set-pin-retries         Set PIN, Reset Code and Admin PIN retries.
+  set-touch               Set touch policy for OpenPGP keys.
+
+
+% ykman otp --help
+Usage: ykman otp [OPTIONS] COMMAND [ARGS]...
+
+  Manage OTP Application.
+
+  The YubiKey provides two keyboard-based slots which can each be configured with a
+  credential. Several credential types are supported.
+
+  A slot configuration may be write-protected with an access code. This prevents the
+  configuration to be overwritten without the access code provided. Mode switching the
+  YubiKey is not possible when a slot is configured with an access code.
+
+  Examples:
+
+    Swap the configurations between the two slots:
+    $ ykman otp swap
+
+    Program a random challenge-response credential to slot 2:
+    $ ykman otp chalresp --generate 2
+
+    Program a Yubico OTP credential to slot 1, using the serial as public id:
+    $ ykman otp yubiotp 1 --serial-public-id
+
+    Program a random 38 characters long static password to slot 2:
+    $ ykman otp static --generate 2 --length 38
+
+Options:
+  --access-code HEX  A 6 byte access code. Set to empty to use a prompt for input.
+  -h, --help         Show this message and exit.
+
+Commands:
+  calculate  Perform a challenge-response operation.
+  chalresp   Program a challenge-response credential.
+  delete     Deletes the configuration of a slot.
+  hotp       Program an HMAC-SHA1 OATH-HOTP credential.
+  info       Display status of YubiKey Slots.
+  ndef       Select slot configuration to use for NDEF.
+  settings   Update the settings for a slot.
+  static     Configure a static password.
+  swap       Swaps the two slot configurations.
+  yubiotp    Program a Yubico OTP credential.
+
+
+% ykman piv --help
+Usage: ykman piv [OPTIONS] COMMAND [ARGS]...
+
+  Manage PIV Application.
+
+  Examples:
+
+    Generate an ECC P-256 private key and a self-signed certificate in
+    slot 9a:
+    $ ykman piv generate-key --algorithm ECCP256 9a pubkey.pem
+    $ ykman piv generate-certificate --subject "yubico" 9a pubkey.pem
+
+    Change the PIN from 123456 to 654321:
+    $ ykman piv change-pin --pin 123456 --new-pin 654321
+
+    Reset all PIV data and restore default settings:
+    $ ykman piv reset
+
+Options:
+  -h, --help  Show this message and exit.
+
+Commands:
+  attest                 Generate a attestation certificate for a key.
+  change-management-key  Change the management key.
+  change-pin             Change the PIN code.
+  change-puk             Change the PUK code.
+  delete-certificate     Delete a certificate.
+  export-certificate     Export a X.509 certificate.
+  generate-certificate   Generate a self-signed X.509 certificate.
+  generate-csr           Generate a Certificate Signing Request (CSR).
+  generate-key           Generate an asymmetric key pair.
+  import-certificate     Import a X.509 certificate.
+  import-key             Import a private key.
+  info                   Display status of PIV application.
+  read-object            Read arbitrary PIV object.
+  reset                  Reset all PIV data.
+  set-ccc                Generate and set a CCC on the YubiKey.
+  set-chuid              Generate and set a CHUID on the YubiKey.
+  set-pin-retries        Set the number of PIN and PUK retries.
+  unblock-pin            Unblock the PIN.
+  write-object           Write an arbitrary PIV object.
+
+  ------------------------------------------------------------
+
+ykman info
+error: python script errors
+
+and:
+
+ykman list
+Error: Failed to establish CCID context. Is the pcscd service running?
+
+then:
+
+sudo systemctl start pcscd.service

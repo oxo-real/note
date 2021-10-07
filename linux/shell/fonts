@@ -1,0 +1,9 @@
+# arch linux wiki install
+## font location for all users: /usr/share/fonts
+### set file permissions to at least 0444 (0555 for directories)
+## font location for single user: ~/.local/share/fonts (~/.fonts is deprecated)
+# for xserver to load fonts directly (not via font server) the font must be added
+# to the files section of the xorg configuration file
+# /etc/X11/xorg.conf or /etc/xorg.conf
+# create skeleton with: Xorg :0 -configure
+

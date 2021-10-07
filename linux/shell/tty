@@ -1,0 +1,5 @@
+# switch to tty2
+ctrl alt (Fn) F2
+
+copy paste with xsel:
+$(DISPLAY=:0 xsel -ob)

@@ -1,0 +1,5 @@
+yay -S forticlientsslvpn ppp
+
+forticlientssl_cli --server <ip> --vpnuser <user>
+
+password+otp

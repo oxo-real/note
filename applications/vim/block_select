@@ -1,0 +1,13 @@
+Adding block text
+
+CTRL + v	(visual mode)
+select block
+SHIFT + i	(enter inert mode)
+enter text
+ESC
+
+Removing block text
+
+CTRL + v	(visual mode)
+select block
+x

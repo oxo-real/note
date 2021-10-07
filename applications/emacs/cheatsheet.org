@@ -1,0 +1,12 @@
+#+TITLE: emacs cheat sheet
+#+AUTHOR: cytopyge
+* font
+*** size
+    text-scale-adjust C-c C--
+    text-scale-adjust C-c C-+
+* packages 
+** update local repository
+   M-x package-list-packages
+   RET
+   U update
+   x execute

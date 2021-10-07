@@ -1,0 +1,147 @@
+# gpg
+# for --expert functions see also yubikey
+
+## generate key pair
+gpg --full-generate-key
+
+## generate passphrase
+< /dev/random tr -d -c "[:graph:]" | head -c 32 | wl-copy
+
+>>>
+
+gpg: key F20A12F5C5A6A351 marked as ultimately trusted
+gpg: directory '/home/user/.gnupg/openpgp-revocs.d' created
+gpg: revocation certificate stored as '/home/user/.gnupg/openpgp-revocs.d/BCE2A64A2DEF8E906DFF20A12F5C5A6A351.rev'
+public and secret key created and signed.
+
+pub   rsa4096 2019-01-10 [SC] [expires: 2020-01-10]
+      BCE2A64A2DEF8E906DFF20A12F5C5A6A351
+uid                      user <user@protonmail.com>
+sub   rsa4096 2019-01-10 [E] [expires: 2020-01-10]
+
+<<<
+
+## key ID
+RFC4880
+https://tools.ietf.org/html/rfc4880
+in here is (section-12.2):
+Fingerprint: BCE2A64A2DEF8E906DFF20A12F5C5A6A351
+Long key ID:                    F20A12F5C5A6A351
+Short key ID:                          5C5A6A351
+ID's can be prefixed by 0x (which designates a hex value).
+
+keyID can also be the emailaddress
+
+## generate revocation certificate
+### from gpg 2.1 revoke certs are created upon key generation
+gpg --gen-revoke ID > ID.revoke.asc
+
+
+# get info
+
+## list keys
+### public
+gpg --list-keys
+
+### private
+gpg --list-secret-keys
+
+### signed keys
+gpg --list-sigs
+
+
+# export
+
+## public key
+### binary file
+gpg --export ID > ID.puk.gpg
+### ascii armored file
+gpg --armor --export ID > ID.prk.asc
+
+
+## private keys
+## be careful with sharing of private (gpg: secret) keys!
+gpg -a --export-secret-keys > myprivatekeys.asc
+
+## trustdb
+gpg --export-ownertrust > otrust.txt
+
+
+# import
+
+## default location ~/.gnupg
+
+## public keys
+### from a file
+gpg --import ID.puk.asc
+### from a keyserver
+gpg --recv-keys ID
+
+### verify
+gpg --list-public-keys
+gpg --fingerprint ID
+
+## private keys
+gpg --import myprivatekeys.asc
+gpg --edit-key ID trust quit
+
+### verify
+gpg --list-secret-keys
+
+## trustdb
+gpg --import-ownertrust otrust.txt
+
+
+# test
+
+## encryption
+### TX signed (fingerprint) encrypted <file> for NAME_RX (receiver)
+gpg -e -u NAME_TX -r NAME_RX <file>[.gpg]
+
+## decryption
+gpg -d <file>[.gpg]
+
+## important user notice
+decryption and signing will probably fail if the user that is running gpg
+does not own the terminal in which gpg is running
+Therefore: don't su over to the new user, but login directly via ssh or console!
+
+## verification
+### verify message from NA
+
+
+# change expiration date
+
+gpg --edit-key <key_id>
+
+## in the gpg shell get a list of all the keys
+list
+
+## work on the (first) primary key
+key 0
+
+## set a new expiration period
+expire
+
+## save
+save
+
+
+# change passphrase
+gpg --edit-key <key_id>
+> passwd
+> save
+
+
+# gpg homedir
+export GNUPGHOME='$XDG_CONFIG_HOME/gnupg/'
+## set correct permissions
+chown -R cytopyge $XDG_CONFIG_HOME/gnupg
+find $XDG_CONFIG_HOME/gnupg -type f -exec chmod 600 {} \;
+find $XDG_CONFIG_HOME/gnupg -type d -exec chmod 700 {} \;
+
+
+# full gpg backup
+
+## copy the entire gpg homedir
+tar -cvzf gpg_backup.tar $GNUPGHOME

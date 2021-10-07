@@ -1,0 +1,5 @@
+C-c '		toggle edit-mode
+C-c C-c		test execution of code block
+#+BEGIN_SRC	begin code block
+#+END_SRC	end code block
+<s TAB		insert begin and end code block

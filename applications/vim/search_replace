@@ -1,0 +1,11 @@
+# only first occurence per line
+:[range]s/search/replace/
+
+# global option
+:[range]s/search/replace/g
+
+# with confirmation
+:[range]s/search/replace/gc
+
+# range
+% entire line

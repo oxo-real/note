@@ -1,0 +1,32 @@
+# globbing patterns
+filename expansion
+
+## char		matches
+?		any single character
+*		zero or more characters
+
+## range patterns
+[:upper:]	[A-Z]
+[:lower:]	[a-z]
+[:digit:]	[0-9]
+[:alpha:]	[a-zA-Z]
+[:alnum:]	[z-aA-Z0-9]
+
+## grep (in file)
+[^a-c]		starts with a,b or c (highlight matching lines)
+^[a-c]		starts with a,b or c (show matching lines)
+[!a-c]		starts with a,b or c (show matching lines)
+a$		ends with a
+
+{glb1,glb2}	match filenames with comma separated globbing patterns
+(glb1|glb2)	match filenames with comma separated globbing patterns
+
+-----
+https://linuxhint.com/bash_globbing_tutorial/
+
+
+# other examples
+
+*.txt		selects all files ending with .txt
+
+ls '*/*.txt'	selects all files ending with .txt in all underlying directories

@@ -1,0 +1,6 @@
+1 code
+2 code
+3 file_mon (> vifm)
+4 net_mon (> wavemon, iftop -i <device> / tshark -i <device>)
+5 mem_mon (> vmstat -t 2 -aw / top, htop) 
+6 sys_mon (> iotop, glances / journalctl -f)

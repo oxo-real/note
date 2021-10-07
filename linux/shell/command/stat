@@ -1,0 +1,26 @@
+# stat
+
+## timestamps
+(see also man 2 stat)
+
+file timestamp fields inside file metadata:
+
+Access	-	read file
+Modify	-	modification file content
+Change	-	change file meta data (e.g. permissions)
+
+
+# important notices:
+
+## mount
+if fs is mounted with --noatime then atime is not updated by the filesystem
+
+## touch
+-a			changes only the access time
+-m			changes only the modification time
+-t	STAMP	use [[CC]YY]MMDDhhmm[.ss] instead of current time
+-d	STRING	parse string as current time
+			mostly free format human readable date string
+			can be absolute or relative time
+			see also man info
+

@@ -1,0 +1,27 @@
+## command substitution
+write the output of a shell command to a variable or stdout.
+
+## two syntaxes are possible in bash for command substitution
+$(<command>) OR `<command>`
+
+## example
+echo "time now is: $(date)"
+
+
+String interpolation
+In computer programming, string interpolation (or variable interpolation, variable substitution, or variable expansion) is the process of evaluating a string literal containing one or more placeholders, yielding a result in which the placeholders are replaced with their corresponding values. It is a form of simple template processing[1] or, in formal terms, a form of quasi-quotation (or logic substitution interpretation). String interpolation allows easier and more intuitive string formatting and content-specification compared with string concatenation.[2]
+
+String interpolation is common in many programming languages which make heavy use of string representations of data, such as Apache Groovy, Kotlin, Perl, PHP, Python, Ruby, Scala, Swift, Tcl and most Unix shells. Two modes of literal expression are usually offered: one with interpolation enabled, the other without (termed raw string). Placeholders are usually represented by a bare or a named sigil (typically $ or %), e.g. $placeholder or %123. Expansion of the string usually occurs at run time.
+-----
+https://en.wikipedia.org/wiki/String_interpolation
+
+## some useful (ZSH!!) substitutions
+${var:-foo}			substitute var with foo if it is unset or set to an empty string
+${var:s/foo/bar}	replace foo for bar				(same as ${var/foo/bar} in bash)
+${var:h}			leave "head" of variable path	(same as dirname ${var} or ${str%/*} in bash)
+${var:t}			leave "tail" of variable path	(same as basename or ${str##*/} in bash)
+${var:l}			convert variable to lowercase	(this is ${var,,} in bash)
+${var:u}			convert variable to UPPERCASE	(this is ${var^^} in bash)
+
+see also: man zshexpn
+!! use sparingly, because there is no interoperatability with shell or bash

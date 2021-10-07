@@ -1,0 +1,53 @@
+# https://www.reddit.com/r/archlinux/comments/7np36m/detached_luks_header_full_disk_encryption_with/
+#
+# /dev/sda installation target device
+# /dev/sdb usb stick
+#
+# Part I: Preparing the devices
+#
+# disable Secure Boot, then clear keys, this will leave the TPM in a receptive state for when we enroll our custom keys later
+#
+# dd if=/dev/urandom of=/dev/sda bs=4096
+# dd if=/dev/urandom of=/dev/sdb bs=4096
+#
+# Part II: Preparing the USB key
+#
+# usb=>/dev/sdb
+# gdisk
+# sdb1 512M ef00
+# sdb2 250M 8300
+
+cryptsetup --hash=sha512 --cipher=twofish-xts-plain64 --key-size=512 -i 30000 luksFormat /dev/sdb2
+
+cryptsetup open /dev/sdb2 cryptboot
+
+mkfs.ext2 /dev/mapper/cryptboot
+
+mount /dev/mapper/cryptboot /mnt
+
+cd /mnt
+
+dd if=/dev/urandom of=key.img bs=20M count=1
+
+cryptsetup --align-payload=1 --hash=sha512 --cipher=serpent-xts-plain64 --key-size=512 -i 30000 luksFormat key.img
+
+cryptsetup open key.img lukskey
+
+# Part III: The main drive
+
+truncate -s 2M header.img
+
+
+cryptsetup --hash=sha512 --cipher=serpent-xts-plain64 --key-size=512 --key-file=/dev/mapper/lukskey --keyfile-offset=512 --keyfile-size=8192 luksFormat /dev/sda --align-payload 4096 -i 30000 --header header.img
+
+cryptsetup open --header header.img --key-file=/dev/mapper/lukskey --keyfile-offset=512 --keyfile-size=8192 /dev/sda cryptlvm
+
+cd /
+
+cryptsetup close lukskey
+
+umount /mnt
+
+# ?busy: ps -efw :: kill -9 <PID>
+
+
