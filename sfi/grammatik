@@ -3,7 +3,7 @@ ORDKLASSER
 
 *.	mening
 {{{
-	en vanlig mening är en sats med mindestens en verb och en subject
+	en vanlig mening är en sats med mindestens ett verb och ett subject
 	en mening borjar med en stor bokstav och slutar med en punkt.
 }}}
 
