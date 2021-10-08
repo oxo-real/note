@@ -95,8 +95,8 @@ gpg --output file.gpg --symmetric file >  ## encrypt file symmetricly
 gpg --output ID.puk.asc --armor --export ID >  ## export public key ascii armored
 gpg --output revoke.asc --gen-revoke ID  ## generate revocation certificate
 gpg -vv public_key.asc
-grep -ril 'text' [directory]  ## find files containing text recursively in directory
-grep -rin 'text' [directory]  ## find files containing text recursively in directory with linenumbers
+grep -riIl 'text' [directory]  ## find files (no binary) containing text recursively in directory
+grep -riIn 'text' [directory]  ## find files (no binary) containing text recursively in directory with linenumbers
 grep "\sro[\s,]" /proc/mounts
 history -d <history_id>
 history -t +%Y%m%d_%H%M%S
