@@ -6,18 +6,25 @@ archive modi
 -x	extract
 
 compression filter
+-z	gzip	(recommended)
 -j	bzip2
--z	gzip
 
 informative output
 -v	verbose
 
 file and/or device selection
--f	file (--file=archive)
+-f	file	(--file=archive)
 
-	compr>		none	bzip2	gzip
+	compr>		none	gzip	bzip2
 modus:			----	----	----
-create		|	cvf		cvjf	cvzf
-extract		|	xvf		xvjf	xvzf
+create		|	cvf		cvzf	cvjf
+extract		|	xvf		xvzf	xvjf
 
 tar -[option] file
+
+--------------------------------
+paths in archive from $bu_src
+tar -czf $archive_name -C $bu_src $bu_subdir	1>&2 2>/dev/null
+
+extract to $re_dest ?check -C option for extracting
+tar -xzf $archive_name -C $re_dest/ $re_subdir	1>&2 2>/dev/null
