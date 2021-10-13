@@ -2003,10 +2003,29 @@ subject			finit					infinit	vad?	när?
 adverbial								reflex	vem?	var?
 (obj)									partik			hur?
 
+1				2		3		4		5		6		7			8
+								sats								prep
+fundament		verb1	subjekt	advl	verb2	objekt	adverbial	obj
+
+
+# rak ordfjöld
+(fundament = subjekt)
+
+1				2		3		4		5		6		7			8
+								sats								prep
+subjekt			verb1	-		advl	verb2	objekt	adverbial	obj
+
+
+# omvänd ordfjöld
+(fundament != subjekt)
 
 1				2		3		4		5		6		7			8
 								sats								prep
 fundament		verb1	subjekt	advl	verb2	objekt	adverbial	obj
+
+en bisats har alltid rak ordfjöld
+en huvudsats kan ha rak eller omvänd ordfjöld
+
 
 
 ## huvudsatsschema explanation
@@ -2071,6 +2090,7 @@ bisatsinlädare
 bisatsinledare = subjunktion
 
 bisats ger information om huvudsats
+bisats borjar med bisatsinledare
 alla frågeord kan vara bisatsinledare
 inte alla fr
 
@@ -2090,20 +2110,19 @@ därför att			medan		(kan inte börjar en mening)	because
 ### plan
 för att							(oftas ska)					because
 
+## villkor
 om					försåvid								if
+ifall				huruvida								if
 
 ## motsätsning
 trots att													even though
 fastän														even though
-även om														even though
+även om				tänkt situation i framtiden				even though
 
 ## vad?				(bistats blir object i meningen)
 att															that
 
 ## vad?				(indirect fragor, villkor, bistats blir object i meningen)
-
-##
-ifall				huruvida								if
 
 ## visar resultatet eller konsekvensen av någonting (huvudsatsen innebär bisatsen)
 så [..] att													so [..] that
