@@ -196,10 +196,9 @@ rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
 rfkill [un]block wlan  ## soft [un]block wifi radio
 rmmod btusb
 rm -rf -- '-r'
-rsync -aAXv --delete <destination> <source>
+rsync -aAXv --delete <source> <destination>
 rsync -aAXv --delete --exclude-from=<exclude_list> <source> <destination>
 rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exclude-from=/home/cytopyge/.config/settings/rsync/parvus_exclude_list / /dock/1/parvus
-rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exclude-from=/home/cytopyge/settings/rsync/parvus_exclude_list / /dock/1/parvus
 rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exclude-from=/home/cytopyge/settings_/rsync/parvus_exclude_list -e ssh / admin@192.168.3.199:/share/backup/devices/dellxps13
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove history last line
