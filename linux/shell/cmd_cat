@@ -132,8 +132,7 @@ journalctl --vacuum-size=500M
 kill $(pidof <process_name>)
 ln -s <path> <name>  ## create symlink <name> to <path>
 ls $XDG_DATA_HOME/keys/wl | fzf | xargs -r cat | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## fzf select wifi key and show qr
-lsblk -i --tree -o name,uuid,fstype,label,size,fsuselsblk -i --tree -o name,uuid,fstype,label,size,fsuse%,fsused,path,mountpoint
-lsblk --tree -o path,fstype,size,label,uuid,name,fsuse%,fsused,mountpoint
+lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint
 lsmod  ## list drivers currently added to kernel
 lsof +f -- [path/1 path/2]  ## list open files in paths opened by processes
 lsof -p [PID]  ## list open files for PID
@@ -253,7 +252,7 @@ ts .local/share
 uptime
 usermod -a -G group_2_add user_2_add
 vlock -a
-watch -d -n 1 -t lsblk -i --tree -o name,fstype,size,fsuse%,fsused,uuid,path,label,mountpoint
+watch -d -n 1 -t lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint
 watch -n 1 'ls -ilatr'
 wev  ## show wayland events i.e. keypresses keynames
 wget -rv -l 0 -nd http://proxpn.com/locations
