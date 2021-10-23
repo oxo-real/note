@@ -1281,7 +1281,8 @@ prn	per		du				dig				dig				din     	    you
 prn	per		han (♂)			honom			sig				hans    	    he
 prn	per		hon	(♀)			henne			sig				hennes  	    she
 prn	per		hen (○)			hen				sig				hens    	    (s)he
-prn	per		den/det			den/det			sig				dess    	    it
+prn	per		den				den				sig				dess    	    it
+prn	per		det				det				sig				dess    	    it
 
 plural
 
@@ -1296,12 +1297,13 @@ prn	per		de				dem				sig				deras   	    they
 
 singular
 
-prn	pos		jag				min	 			mitt			mina			I
-prn	pos		du				din				ditt			dina			you
-prn	pos		han	(♂)			hans			hans			hans			he
-prn	pos		hon	(♀)			hennes			hennes			hennes			she
-prn pos		hen	(○)			sin				sitt			sina			(s)he	!possreflprn
-prn	pos		den/det			dess			dess			dess			it
+prn	pos		jag				min	 			mitt			mina			mijn
+prn	pos		du				din				ditt			dina
+prn	pos		han	(♂)			hans			hans			hans			zijn
+prn	pos		hon	(♀)			hennes			hennes			hennes			haar
+prn pos		hen	(○)			sin				sitt			sina			(s)he	=possreflprn!
+prn	pos		den				dess			dess			dess
+prn	pos		det				dess			dess			dess			it
 
 plural
 
@@ -1313,39 +1315,62 @@ prn	pos		de				deras			deras			deras			they
 possessiva pronomen använder man istället för ett substantiv
 efter alla posessiva pronomen har substantivet obestämd form
 
+## prn pos exempel
+{{{
+Jag har lånat hennes bil.
+Hans telefon är trasig.
+  }}}
+
 }}}
 
-# possesiv reflexiva pronomen
+# possesiv reflexiv pronomen
 {{{
 			subject			en				ett				plural
 
 singular
 
-prn	psrfl	jag				min	 			mitt			mina			I
-prn	psrfl	du				din				ditt			dina			you
-prn	psrfl	han	(♂)			sin				sitt			sina			he
-prn	psrfl	hon	(♀)			sin				sitt			sina			she
-prn psrfl	hen	(○)			sin				sitt			sina			(s)he
-prn	psrfl	den/det			sin				sitt			sina			it
+prn	psrfl	jag				min	 			mitt			mina			mine
+prn	psrfl	du				din				ditt			dina			yours
+prn	psrfl	han	(♂)			sin				sitt			sina			his
+prn	psrfl	hon	(♀)			sin				sitt			sina			hers
+prn psrfl	hen	(○)			sin				sitt			sina			hi/hers
+prn	psrfl	den				sin				sitt			sina			its
+prn	psrfl	det		 		sin				sitt			sina			its
 
 plural
 
-prn	psrfl	vi				vår				vårt			våra			we
-prn	psrfl	ni				er				ert				era				you
-prn	psrfl	de				sin				sitt			sina			they
+prn	psrfl	vi				vår				vårt			våra			our
+prn	psrfl	ni				er				ert				era				your
+prn	psrfl	de				sin				sitt			sina			their
 
 
 
 ## posessiv reflexiv pronomen
+https://www.youtube.com/watch?v=7uLIIZCZ3IQ
+användar vi när objekt tillhör subjektet	(1)
+användar vi när adverbial tillhör subjektet (2)
+
 https://www.youtube.com/watch?v=YnoMjR9OJeY
+'sin bok' är rätt (bok = object)
 meningen 'boken är sin' är fell (boken = subjekt, är = verb)
 för att: sin kan inte vara predikativ.
 regel är att 'boken' måste vara objekt eller adverbial.
 meningen 'boken är hans' är rätt
 för att: hans kann vara predikativ.
 
+prn psrfl kan inte vara subjekt				(3)
+
+## prn psrfl exempel
+{{{
 Hon kramar sin man. Vi vet vems man.
 Hon kramar hennes man. Vi vet inte vems man!
+(1) Hon städar sitt rum.
+(2) Han tvättar bilen i sitt garage. (sitt egen, 1 person)
+	Han tvättar bilen i hans garage. (inte sitt egen, 2 olika personer)
+(3)	Hans telefon är trasig.
+	XSin telefon är trasig. FEL!
+}}}
+
 }}}
 
 # indefinita (obestämda) pronomen

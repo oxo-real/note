@@ -52,7 +52,7 @@ dhcpcd -k wlp58s0  ## dhcp remove interface ip
 dhcpcd wlp58s0	## dhcp request for interface
 diff -Naur <lf> <rf> > patch_file  ## recursive diff from lf to rf with 3 lines of context (unified)
 dig -x 89.39.107.195  ## reverse lookup own public ip
-dirname <pathname>  ## print <pathname> without last component
+dirname <filename>  ## print <filename> without last component
 du -sbh <directory>  ## total size of all content in directory
 echo 0  ## print exit code of the last executed command
 echo -n $string | base64  ## base64 encoding
@@ -155,8 +155,8 @@ mpv --ytdl-format='best[filesize<300M]' --profile=cache_s --demuxer-cache-wait -
 msgcat --color=test
 mv -t <target_dir> <source_dirs>  ## move source_dirs to target_dir
 #: '\nmultiline\ncodeblock\n# '  ## switchable multiline codeblock / comment (remove first #)
-openssl enc -base64 -aes-256-cbc -salt -pbkdf2 -d -in crypt.aes -out plain.txt  ## openssl base64 encoded aes 256 cbc decryption
-openssl enc -base64 -aes-256-cbc -salt -pbkdf2 -in plain.txt -out crypt.aes  ## openssl base64 encoded aes 256 cbc encryption
+openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## openssl base64 encoded aes 256 bits galois counter mode decryption
+openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## openssl base64 encoded aes 256 bits galois counter mode encryption
 openvpn --config openvpn/udp-ams1_udp.ovpn
 output=$(printf $input | openssl dgst -sha512 -hmac $hmac | sed 's/^.*= //') ## zz3
 pacman-key --delete <pub_key>
@@ -242,6 +242,7 @@ systemctl list-units
 systemctl start vboxdrv vboxpci vboxnetadp vboxnetflt
 systemd-analyze
 tail -f /var/log/{messages,kernel,dmesg,syslog}
+tar -cv[j/z]f <archive.tar> -C <subdir> <files>  ## create tar archive [bzip2/gzip compression (optional)] files in archive relative to <subdir>
 tar -cv[j/z]f <archive.tar> <files>  ## create tar archive [bzip2/gzip compression (optional)]
 tar -tvf <archive.tar>  ## print contents of tar archive
 tar -xv[j/z]f <archive.tar>  ## extract tar archive [bzip2/gzip compression (optional)]
@@ -297,3 +298,4 @@ yay -Tv  ## check dependencies; show file paths
 yay -U <package>  ## remove then upgrade or add package
 ykman opt static 2 -k US <string>  ## assign string to yk slot 2
 zsh -f  ## run zsh without .zshrc
+id -gn [$USER] ## show effective group name
