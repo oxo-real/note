@@ -299,3 +299,5 @@ yay -U <package>  ## remove then upgrade or add package
 ykman opt static 2 -k US <string>  ## assign string to yk slot 2
 zsh -f  ## run zsh without .zshrc
 id -gn [$USER] ## show effective group name
+git reset --hard 2db93df  ## back to a previous commit
+git log --oneline  ## list of commits
