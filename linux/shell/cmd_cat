@@ -301,3 +301,5 @@ zsh -f  ## run zsh without .zshrc
 id -gn [$USER] ## show effective group name
 git reset --hard 2db93df  ## back to a previous commit
 git log --oneline  ## list of commits
+cat >> file << EOF; multi_line_text; EOF  ## append to here document
+read input | printf $input | base64 | wl-copy -n -o  ## copy base64 translation
