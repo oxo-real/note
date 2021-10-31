@@ -85,3 +85,13 @@ pass		=													s	+	yss1
 pwd			=	$HOST				+	yss2
 
 pw			=							yss2						+	yss1
+
+
+## script locations
+Hdvp='$HOME/dock/vlt/pass'
+H.lsgct='$XDG_DATA_HOME/git/code/tools'
+H.lsmvp='$XDG_DATA_HOME/media/vault/pass'
+% sudo cryptsetup luksUUID $H.lsmvp | wl-copy -n -o
+% sh $H.lsgct/vault open $H.lsmvp $Hdvp	(password)
+% sh $H.lsgct/pwgn						(pass_key)
+% sh $H.lsgct/passget $file $item		(passwd)
