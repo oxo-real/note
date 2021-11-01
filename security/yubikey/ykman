@@ -292,7 +292,7 @@ Commands:
   unblock-pin            Unblock the PIN.
   write-object           Write an arbitrary PIV object.
 
-  ------------------------------------------------------------
+--------------------------------
 
 ykman info
 error: python script errors
@@ -305,3 +305,23 @@ Error: Failed to establish CCID context. Is the pcscd service running?
 then:
 
 sudo systemctl start pcscd.service
+
+--------------------------------
+
+# yubikey manager
+
+## install
+yay -S yubikey-manager
+
+## usage example
+ykman otp static --keyboard-layout US 1 'password1'
+ykman otp static --no-enter --keyboard-layout US 2 'password2'
+
+
+# other programs
+
+## the 'old' gui programming tool
+yay -S yubikey-personalization-gui
+
+## the noob gui programming tool
+yay -S yubikey-manager-qt
