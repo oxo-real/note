@@ -1,0 +1,56 @@
+YubiKey Standard
+
+	Created May 8, 2020 - Updated 1 year ago
+
+	YubiKey-Standard.png
+
+	Note: This article lists the technical specifications of the YubiKey Standard.
+	If you're looking for setup instructions for your YubiKey Standard,
+	see https://www.yubico.com/start.
+
+	The YubiKey Standard is the original YubiKey and supports a variety of OTP methods.
+
+	Interface
+	The YubiKey Standard uses a USB 2.0 interface.
+
+	Applications
+	OTP
+	The OTP applet contains two programmable slots,
+	each can hold one of the following credentials:
+
+	Yubico OTP
+	HMAC-SHA1 Challenge-Response
+	Static Password
+	OATH-HOTP
+	USB Interface: OTP
+
+	Physical Specifications
+	Form Factor
+	Connector: USB-A
+	Dimensions: 18mm x 45mm x 3.3mm
+	Weight: 3g
+
+	Temperatures
+	Operational range: 0 °C to 40 °C (32 °F to 104 °F)
+	Storage range: -20 °C to 85 °C (-4 °F to 185 °F)
+
+generates error:
+
+gpg: selecting card failed: No such device
+
+with:
+
+gpg (GnuPG) 2.2.29
+libgcrypt 1.9.4-unknown
+Copyright (C) 2021 Free Software Foundation, Inc.
+License GNU GPL-3.0-or-later <https://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Home: /home/cytopyge/.config/gnupg
+Supported algorithms:
+Pubkey: RSA, ELG, DSA, ECDH, ECDSA, EDDSA
+Cipher: IDEA, 3DES, CAST5, BLOWFISH, AES, AES192, AES256, TWOFISH,
+        CAMELLIA128, CAMELLIA192, CAMELLIA256
+Hash: SHA1, RIPEMD160, SHA256, SHA384, SHA512, SHA224
+Compression: Uncompressed, ZIP, ZLIB, BZIP2
