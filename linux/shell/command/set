@@ -1,0 +1,17 @@
+set -e		script stops on error
+set -u		script stops on undefined variable
+
+set -o pipefail
+
+## catch all arguments at the beginning of a script
+args=("$@")
+
+## set var to the first argument
+## if $1 is not set then set var to an empty string
+## so var is not mandatory
+local var=${1;-}
+
+## now var is mandatory
+local var=$1
+
+

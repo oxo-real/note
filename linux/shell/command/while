@@ -1,0 +1,14 @@
+# while and until loops
+## (typically) iterate based on an external resource
+
+while list1_of_commands; do
+	list2_of_commands;
+done
+### execute list1; if return status = 0 (succes) execute list2 and repeat
+### continues until list1 return status = 1 (fail)
+
+until list1_of_commands; do
+	list2_of_commands;
+done
+### execute list1; if return status = 1 (fail) execute list2 and repeat
+### continues until list1 return status = 0 (success)

@@ -141,7 +141,7 @@ lspci -k -s <xx:xx.x> #[[[[<domain>]:]<bus>]:][<slot>][.[<func>]]
 lspci -kvvt
 lspci -vv  ## list pci devices, find kernel drivers
 man -k . | fzf | awk '{print $1}' | xargs -r man  ## fzf find and open manpage
-man zshall  ## view the entire zsh manual
+man zshall  ## view the system reference manual for all zsh
 metar get
 metar set eham
 mkdir /dock/<1-4>
@@ -304,3 +304,8 @@ git log --oneline  ## list of commits
 cat >> file << EOF; multi_line_text; EOF  ## append to here document
 read input; printf $input | base64 | wl-copy -n -o; unset input  ## copy base64 translation
 e2label /dev/X [label]  ## read [/rewrite] device label
+readlink <symlink> | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change symlink to current users $HOME
+realpath file  ## return canonicalized absolute pathname
+type command/file  ## determine type of command, file or function
+apropos keyword  ## search man page names and descriptions
+info  ## advanced manual system primarily for gnu programs
