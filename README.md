@@ -35,11 +35,14 @@
 |   |-- ledger
 |   |   `-- csv_import_guide
 |   |-- markdown
+|   |   |-- cheatsheet
 |   |   |-- rmarkdown
 |   |   `-- test.rmd
 |   |-- media
 |   |   `-- images
 |   |       `-- darkroom
+|   |-- neatroff
+|   |   `-- neatroff_install
 |   |-- pacman
 |   |   |-- applic_list
 |   |   |   |-- applic_list
@@ -52,6 +55,8 @@
 |   |   |   |-- config.def.h
 |   |   |   `-- default_keybindings
 |   |   `-- patching_rr
+|   |-- tar
+|   |   `-- compression
 |   |-- terminal
 |   |   `-- alacritty
 |   |       `-- copy_paste
@@ -129,8 +134,9 @@
 |   |   |-- customencrypthook
 |   |   |-- luksaddkey
 |   |   `-- rr_detach_luks_boot
-|   |-- pwgn_process
+|   |-- pwgn_policy
 |   |-- ssss
+|   |   |-- math_ssss
 |   |   |-- online
 |   |   `-- shamir
 |   `-- symmetric
@@ -442,12 +448,15 @@
 |   |   |   |   |-- sed_cheat_sheet
 |   |   |   |   |-- sed_guide.url
 |   |   |   |   `-- swap_columns_sed
+|   |   |   |-- set
+|   |   |   |-- stat
 |   |   |   |-- sudo
 |   |   |   |-- tar
 |   |   |   |-- tput
 |   |   |   |   `-- tput
 |   |   |   |-- tr
 |   |   |   |   `-- tr
+|   |   |   |-- while
 |   |   |   `-- yay
 |   |   |       |-- yay_D_database
 |   |   |       |-- yay_F_files
@@ -481,7 +490,6 @@
 |   |   |-- globbing
 |   |   |-- hardware_info
 |   |   |-- here_strings
-|   |   |-- old_cmds
 |   |   |-- password_policy
 |   |   |-- pure-sh-bible.html
 |   |   |-- quotation
@@ -523,6 +531,32 @@
 |-- logic
 |   |-- gates
 |   `-- operators
+|-- maths
+|   |-- algebra.ms
+|   |-- algebra.ms.pdf
+|   |-- default.mom
+|   |-- default.mom.pdf
+|   |-- exp2c_1.ms
+|   |-- exp2c_1.pdf
+|   |-- exp2c_2.ms
+|   |-- exp2c_2.pdf
+|   |-- exp2c_3.ms
+|   |-- exp2c_3.pdf
+|   |-- exp2c_4.ms
+|   |-- exp2c_4.pdf
+|   |-- exp2c_5.mom
+|   |-- exp2c_5.mom.pdf
+|   |-- exp2c_5.ms
+|   |-- exp2c_5.ms.pdf
+|   |-- formulas.ms.pdf
+|   |-- geometry.ms
+|   |-- groff_template.ms
+|   |-- number_theory.ms
+|   |-- number_theory.ms.pdf
+|   |-- test2.mom
+|   |-- test2.mom.pdf
+|   |-- test.ms
+|   `-- test.ms.pdf
 |-- network
 |   |-- bluetooth
 |   |   |-- bluetoothctl
@@ -620,6 +654,8 @@
 |       |-- make_clone_yt.sh
 |       |-- README.md
 |       `-- yt_comments.py
+|-- perl
+|   `-- perl_101
 |-- radio
 |   |-- bfuv5r
 |   |-- koncept
@@ -629,7 +665,6 @@
 |   |-- morse_mnemonics.png
 |   `-- sstv
 |       `-- testbeeld.jpg
-|-- README.json
 |-- README.md
 |-- regex
 |   |-- grep
@@ -644,8 +679,11 @@
 |   |   |-- manpage
 |   |   `-- pass
 |   `-- yubikey
-|       `-- ykman
+|       |-- ykman
+|       `-- yubikey4
+|-- sfi
+|   `-- grammatik
 `-- ucode
     `-- ucode
 
-122 directories, 526 files
+127 directories, 559 files
