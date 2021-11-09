@@ -260,6 +260,7 @@ wget -rv -l 0 -nd http://proxpn.com/locations
 which -a <command>  ## show path of all <command> (from $PATH)
 while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk {print $1})" ## which package from Qm is in /v/c/p/p
 while read line_in_file; do <command> $line_in_file; done < <file>  ## loop through lines in file
+while read -r -u "$fd" line_in_file <&5; do <command> $line_in_file; done {fd} < <file>  ## loop through lines in file (with stdin redirection)
 whois -B 46.166.142.215  ## whois own public ip
 wpa_supplicant -B -i wlp58s0 -c ~/keys/wl/mn.wifi
 xargs -r command  ## run command with stdin as argument, no-run if empty
