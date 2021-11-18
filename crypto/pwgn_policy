@@ -95,3 +95,13 @@ H.lsmvp='$XDG_DATA_HOME/media/vault/pass'
 % sh $H.lsgct/vault open $H.lsmvp $Hdvp	(password)
 % sh $H.lsgct/pwgn						(pass_key)
 % sh $H.lsgct/passget $file $item		(passwd)
+
+
+## cryptr sequence
+pwgn(base64(passphrase))
+	 read input; printf '%s' "$input" | base64 | wl-copy -n -o; unset input
+password
+H.lsgct/cryptr -e gnupg
+cipher_cascade: aes256 twofish cast5
+H.lsgct/cryptr -e openssl
+cipher_cascade: chacha20 aes-256-ctr aes-256-cbc

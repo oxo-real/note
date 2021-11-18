@@ -188,7 +188,6 @@ rankmirrors -n 10 /etc/pacman.d/mirrorlist | grep -w 'Server =' >> mirrorlist.ra
 rcvboxdrv
 read input  ## zz1
 readlink <file>  ## print resolved symbolic links or canonical file names
-read string
 renice -19 $(pgrep <process_name>)  ## give <process_name> highest (-19) priority
 rfkill  ## check hard and soft block status wireless radios
 rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
@@ -220,6 +219,7 @@ sort $HISTFILE | uniq -c | sort -k1,1nr -k2 >> history_freq  ## create history f
 sort < <file> | sort -nr > <file_sort_freq>
 sort file | uniq -c | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort
 sort < <file> | uniq -u > <file_uniq>
+split <file> -n N  ## split <file> into N files
 ssh-keygen -R 192.168.0.195  ## remove cached key for ip on the local machine
 ssh-keyscan -t ecdsa 192.168.x.y >> ~/.ssh/known_hosts  ## update ecdsa key for ip on local machine
 stat -c %A <file>  ## display file access rights in human readable format
@@ -303,7 +303,7 @@ id -gn [$USER] ## show effective group name
 git reset --hard 2db93df  ## back to a previous commit
 git log --oneline  ## list of commits
 cat >> file << EOF; multi_line_text; EOF  ## append to here document
-read input; printf $input | base64 | wl-copy -n -o; unset input  ## copy base64 translation
+read input; printf '%s' "$input" | base64 | wl-copy -n -o; unset input  ## input base64 translation
 e2label /dev/X [label]  ## read [/rewrite] device label
 readlink <symlink> | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change symlink to current users $HOME
 realpath file  ## return canonicalized absolute pathname
