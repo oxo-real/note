@@ -118,21 +118,21 @@ futurum preteriti			preteritum	+ infinitiv				dåtidens framtid
 
 # verbformerna exempel
 
-verbform					exempel								tempus
+verbform					tempus				exempel
 
-presens		+ supinum		Jag har ätit.						perfekt
-presens						Jag äter. Det regnar.				presens
-presens		+ infinitiv		Jag vill äta.						futurum
+presens		+ supinum		perfekt             Jag har ätit.
+presens						presens             Jag äter. Det regnar.
+presens		+ infinitiv		futurum             Jag vill äta.
 
-preteritum	+ supinum		Jag hade ätit.						pluskvamperfekt
-preteritum					Jag åt.	Det regnade.				preteritum
-preteritum	+ infinitiv		Igår när jag skulle äta.			futurum preteriti
+preteritum	+ supinum		pluskvamperfekt     Jag hade ätit.
+preteritum					preteritum          Jag åt.	Det regnade.
+preteritum	+ infinitiv		futurum preteriti   Igår när jag skulle äta.
 
 
-verbform					exempel								tiden är
+verbform					tiden är            exempel
 
-presens						Jag hämtar barnen efter jobbet.		framtid (nuets-)
-presens						Jag spelar fotboll på torsdagar.	alltid (generell)
+presens						framtid (nuets-)    Jag hämtar barnen efter jobbet.
+presens						alltid (generell)   Jag spelar fotboll på torsdagar.
 
 
 # när händer tempus?
@@ -520,19 +520,21 @@ vrb	g	imperativ	infinitiv	presens		preteritum	supinum
 vrb	2a?	betyd		betyda		betyder		betydde		betytt			innebära, mean
 vrb	2a	föd			föda		föder		födde		fött			ge liv åt, be born
 vrb	2a	häng		hänga		hänger		hängde		hängt			hang
+vrb 2a	känna		känna		känner		kände		känt			feel
 vrb	2a	skilj		skilja		skiljer		skilde		skilt			separate
 vrb	2a	stäng		stänga		stänger		stängde		stängt			close
-vrb 2a	känna		känna		känner		kände		känt			feel
-vrb	2a	ring		ringa		ringer		ringde		ringt			call
-vrb 2a	vända		vända s. om vänder		vände		vänt			turn around
-
 vrb	2a	sälj		sälja		säljer		sålde		sålt			sell
+vrb	2a	ring		ringa		ringer		ringde		ringt			call
+vrb 2a	vända		vända		vänder		vände		vänt			ändra rörelseriktning, turn
 
+vrb	2b	byt			byta		byter		bytte		bytt			förändra
 vrb	2b	hjälp		hjälpa		hjälper		hjälpte		hjälpt			help
+vrb	2b	krymp		krympa		krymper		krympte		krympt			dra sig samman, minska
 vrb	2b	lek			leka		leker		lekte		lekt			play
 vrb	2b	lås			låsa		låser		låste		låst			lock
 vrb	2b	läs			läsa		läser		läste		läst			read
 vrb	2b	lös			lösa		löser		löste		löst			solve
+vrb	2b	möt			möta		möter		mötte		mött			träffa, meet
 vrb	2b	res			resa		reser		reste		rest			travel
 vrb 2b	tänk		tänka		tänker		tänkte		tänkt			fundera, think
 vrb	2b	tyck		tycka		tycker		tyckte		tyckt			think, imagine
@@ -727,10 +729,8 @@ vrb		tuggar		chewing
 vrb 	finns
 vrb		lova					lovar					lovat
 
-vrb					krympt		krymper		krympte		krympt
 
 vrb								liknar
-vrb		byt			byta		byter		bytte		bytt			förändra
 vrb					delar
 vrb					bråkar
 vrb
