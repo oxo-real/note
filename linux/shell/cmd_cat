@@ -310,3 +310,4 @@ realpath file  ## return canonicalized absolute pathname
 type command/file  ## determine type of command, file or function
 apropos keyword  ## search man page names and descriptions
 info  ## advanced manual system primarily for gnu programs
+>/dev/null 2>&1  ## suppress all output from command

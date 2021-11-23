@@ -1439,7 +1439,9 @@ prepos		under					under
 prepos		av						anger upphov, of, by
 prepos		bland					mellan, among
 prepos		enligt					på grund av, according to
-prepos		bakom					på baksidan av, ingen rörelse
+prepos		på grund av				beroende på
+prepos		i och med				på grund av (nära i tid eller samtidigt)
+prepos		bakom					på baksidan av (ingen rörelse)
 prepos		efter					med rörelse
 prepos		framför					ingen rörelse
 prepos		före					med rörelse
@@ -1456,7 +1458,8 @@ prepos		till					hela väggen
 prepos		om						omkring, på, angående, i förhållande till
 prepos		utan					ingen, inte med, witout
 prepos		utom					utanför, (alla) men inte
-prepos		vid						nära
+prepos		vid						nära till
+prepos		bredvid					vid sidan av, jämsides med (ingen rörelse)
 prepos		åt						mot, till, om
 
 }}}
