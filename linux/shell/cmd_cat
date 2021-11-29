@@ -3,7 +3,8 @@
 < /dev/random tr -d -c "[:alnum:]" | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate password)
 < /dev/random tr -d -c "[:graph:]" | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate password)
 <command> 2>&1 | tee -a logfile  ## <command> stderr to stdout, also append to logfile
->/dev/null 2>&1  ## suppress all output from command
+<command> >/dev/null 2>&1  ## suppress all output from command
+<command> &> <file>  ## <command> stdout to <file>
 [SysRq] ([Alt]+[PrtScr]) reisub
 amixer info  ## info about alsamixer device
 amixer scontrols  ## list of alsamixer controls
