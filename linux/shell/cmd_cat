@@ -2,9 +2,9 @@
 < ${$(sh $XDG_DATA_HOME/git/code/tools/get_newest_file $XDG_LOGS_HOME/updater/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file
 < /dev/random tr -d -c "[:alnum:]" | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate password)
 < /dev/random tr -d -c "[:graph:]" | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate password)
+<command> &> <file>  ## <command> stdout to <file>
 <command> 2>&1 | tee -a logfile  ## <command> stderr to stdout, also append to logfile
 <command> >/dev/null 2>&1  ## suppress all output from command
-<command> &> <file>  ## <command> stdout to <file>
 [SysRq] ([Alt]+[PrtScr]) reisub
 amixer info  ## info about alsamixer device
 amixer scontrols  ## list of alsamixer controls
@@ -18,7 +18,6 @@ basename <pathname>  ## print <pathname> without any leading directory component
 bindkey  ## zsh bound keys
 blkid /dev/sda128 | awk '{print $3}' | cut -d '"' -f 2  ## get uuid from /dev/sd
 bluetoothctl connect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth connect
-bluetoothctl connect $(bluetoothctl devices | fzf | awk {print }) && bluetoothctl info  ## bluetooth connect
 bluetoothctl disconnect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth disconnect
 bluetoothctl discoverable off	## bluetooth don't broadcast radio device
 bluetoothctl power off && sudo systemctl stop bluetooth.service && sudo rfkill block bluetooth  ## bluetooth radio off
@@ -166,6 +165,7 @@ mpv --ytdl-format='best[filesize<300M]' --profile=cache_s --demuxer-cache-wait -
 mpv `echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\//'`  ## change yt url
 msgcat --color=test
 mv -t <target_dir> <source_dirs>  ## move source_dirs to target_dir
+notmuch address '*'  ## all mail addresses
 openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## openssl base64 encoded aes 256 bits galois counter mode decryption
 openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## openssl base64 encoded aes 256 bits galois counter mode encryption
 openvpn --config openvpn/udp-ams1_udp.ovpn
