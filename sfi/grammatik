@@ -1417,6 +1417,8 @@ prn	dem						sådan [sån]		sådant [sånt]	sådana [såna]		zo'n / zulke
 prepositioner
 {{{
 
+ord som sätts framför en satsdel för att ange dess förhållande till andra satsdelar
+
 - är oftast före substantivet det beskriver tid eller plats
 - ger information om var eller när
 
@@ -1438,6 +1440,7 @@ prepos		över					above
 prepos		under					under
 prepos		av						anger upphov, of, by
 prepos		bland					mellan, among
+prepos		ibland					mellan, among (inte tid)
 prepos		enligt					på grund av, according to
 prepos		på grund av				beroende på
 prepos		i och med				på grund av (nära i tid eller samtidigt)
@@ -1445,22 +1448,34 @@ prepos		bakom					på baksidan av (ingen rörelse)
 prepos		efter					med rörelse
 prepos		framför					ingen rörelse
 prepos		före					med rörelse
+prepos		från					av
+prepos		ifrån					av
 prepos		än						mer än
 prepos		genom					through
+prepos		igenom					through
 prepos		för						for
 prepos		hos						en plats som tillhör en person
 prepos		inom					innan tid eller på en plats
-prepos		längs					langs (nl)
+prepos		längs					alongside, langs
 prepos		med						with
 prepos		mellan					between
 prepos		mot						bara riktningen
+prepos		emot					bara riktningen
 prepos		till					hela väggen
 prepos		om						omkring, på, angående, i förhållande till
 prepos		utan					ingen, inte med, witout
 prepos		utom					utanför, (alla) men inte
+prepos		förutom					utanför, (alla) men inte
 prepos		vid						nära till
 prepos		bredvid					vid sidan av, jämsides med (ingen rörelse)
 prepos		åt						mot, till, om
+prepos		av						itu, bruten, utav, från, by, at, of
+
+# ovanliga former
+prepos		uti						i
+prepos		emellan					mellan
+prepos		alltsedan				sedan
+prepos		förutan					utan
 
 }}}
 
@@ -1478,9 +1493,11 @@ under
 			under tio minuter
 
 av
-			perfekt particip? -> använda 'av'!
+			perfekt particip
+				verb som vi använder som adjectiv
+				vänligt att använda 'av'
 			Bordet är gjort av trä.	t-genus: gjort
-			Den är gjord av mig.	n-genus: gjord
+			Den är gjort av mig.	n-genus: gjord
 			interesserad av			interested in
 			#[TODO] gjort gjord? https://youtu.be/d5Rs4qwH0xs
 			passiv form
@@ -1570,6 +1587,7 @@ adv tid		idag
 adv tid		igår
 adv tid		ikväll
 adv tid		ibland
+adv tid		imorgon
 adv tid		då
 !!			förra året är inte tidsadverb
 			förra (tidspreposition) året (substantiv)
@@ -2525,7 +2543,7 @@ hunden	skäller	voff		dog
 katten	jamar	mjau		cat
 kon		råmar	mu			cow
 grisen	grymtar	nöff		pig
-hästen	gnäggar				horse
+hästen	gnäggar hihihi		horse
 fåret	bräker	bä			sheep
 tuppen	gal		kuckeliku	cock
 hönan	kacklar				chicken
@@ -2534,4 +2552,5 @@ skälla				säga någonthing argt
 gal					skricka hogt
 kackla				pratar mycket
 
+den var det
 }}}

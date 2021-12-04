@@ -1,0 +1,19 @@
+directory stack
+
+dirs		single line
+dirs -p		list
+dirs -v		numbered list
+dirs -l		long format
+
+dirs -c			clear stack
+pushd <dir>		push <dir> onto the stack
+popd <dir>		pop <dir> from the stack
+
+stack
+0		   $PWD
+1		+1		-2
+2		+2  	-1
+3		+3  	-0
+
+
+stack is rotating lifo

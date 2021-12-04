@@ -104,6 +104,7 @@ gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetri
 gpg --output file.gpg --symmetric file >  ## encrypt file symmetricly
 gpg --output revoke.asc --gen-revoke ID  ## generate revocation certificate
 gpg -vv public_key.asc
+gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
 grep "\sro[\s,]" /proc/mounts
 grep -riIl 'text' [directory]  ## find files (no binary) containing text recursively in directory
 grep -riIn 'text' [directory]  ## find files (no binary) containing text recursively in directory with linenumbers
