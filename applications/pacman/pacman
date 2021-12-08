@@ -1,5 +1,9 @@
 # file locations
 
+## local sync databases
+/var/lib/pacman/sync
+community.db  core.db  extra.db  multilib.db
+
 ## downloaded packages
 /var/cache/pacman/pkg
 this location can be cleaned with use of the application 'paccache'
@@ -7,6 +11,15 @@ this location can be cleaned with use of the application 'paccache'
 ## installed packages
 /var/lib/pacman/local
 
+## mirrorlist
+/etc/pacman.d/mirrorlist
+contains remote servers
+
+## remote sync databases
+<mirrorlist_server>/core.db
+<mirrorlist_server>/community.db
+<mirrorlist_server>/extra.db
+<mirrorlist_server>/multilib.db
 
 # resources
 
@@ -15,8 +28,8 @@ https://wiki.archlinux.org/index.php/Pacman/Restore_local_database
 
 ## ~/git/notes/yay
 
-## ~/git/notes/shell/hfcmd
-#
+## generate mirrorlist
+reflector --verbose --country Sweden -l 5 --sort rate --save /etc/pacman.d//mirrorlist
 
 
 # on error

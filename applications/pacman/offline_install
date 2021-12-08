@@ -1,0 +1,163 @@
+# offline (airgapped) arch installation
+https://wiki.archlinux.org/title/Offline_installation
+
+## create archiso on a local removable storage device
+### use of isolatest is highly recommended
+
+isolatest /dev/sdA							[ARCHISO]
+
+
+################################
+# method1 (local repo method w/ internet)
+https://wiki.archlinux.org/title/Pacman/Tips_and_tricks#Installation_and_recovery
+https://wiki.archlinux.org/title/Pacman/Tips_and_tricks#Installing_packages_from_a_CD/DVD_or_USB_stick
+
+## requires an internet connection as
+##	remote repositories are synched and
+##	packages are downloaded (Syw) to [REPO]
+
+assume storage device is at	/dev/sdR		[REPO]
+
+## minimal package installation
+<package(s) / -group(s)> = 'base base-devel linux linux-firmware systemd mkinitcpio vim'
+### make directories
+mkdir /dev/sdR/pacman/packages
+mkdir /dev/sdR/pacman/database
+### download packages (w/o installing / upgrading; -w instead of -u)
+cd /dev/sdR/pacman/packages
+
+pacman -Syw \
+	--cachedir	/dev/sdR/pacman/packages \
+	--dbpath	/dev/sdR/pacman/database/cytopyge.db.tar.xz \
+	<package(s) / -group(s)>
+
+### --cachedir <directory>
+specifies alternative package cache location than the default /var/cache/pacman/pkg
+### --dbpath <directory>
+specifies alternative package database location than the default /var/lib/pacman
+
+pacman, which will reference the host installation by default,
+will not properly resolve and download existing dependencies.
+in cases where all packages and dependencies are wanted,
+it is recommended to create a temporary blank db and reference it with --dbpath
+
+## now install on the airgapped machine
+
+### mounting storage device medium
+```
+mkdir /mnt/repo
+mount /dev/sdR /mnt/repo
+```
+
+### edit pacman.conf
+```
+vim /etc/pacman.conf
+```
+copy as first repository
+```
+[cytopyge]
+SigLevel = PackageRequired
+Server = file:///mnt/repo/pacman/database
+```
+comment out [core], [extra] and [community]
+so that pacman does not fail on the default repos
+
+synchronize pacman database
+```
+pacman -Syu
+#pacman -Syu --cachedir /mnt/repo/pacman/packages
+```
+
+pacstrap the packages from repo to the new installation
+```
+pacstrap /mnt <package(s) / -group(s)>
+```
+
+################################
+# method2 (local repo method w/o internet)
+### make directories
+mkdir /dev/sdR/packages
+mkdir /dev/sdR/packages/db
+### copy packages
+# use cytopyges copy_pkg
+```
+copy_pkg /dev/sdR/packages
+
+```
+### create custom package database
+```
+repo-add /dev/sdR/packages/db/cytopyge.db.tar.xz /dev/sdR/packages
+```
+### creates:
+# cytopyge.db
+# cytopyge.db.tar.zst
+# cytopyge.files
+# cytopyge.files.tar.zst
+
+
+### copying packages installed on the current system:
+pacman -Syw --cachedir . --dbpath [REPO] $(pacman -Q)
+
+https://wiki.archlinux.org/title/Offline_installation_of_packages
+## copy all packages to a local removable storage device [REPO]
+
+offline:
+on a up-to-date system copy local packages to [REPO]
+
+cp -r /var/cache/pacman/pkg [REPO]
+
+cp -r $XDG_DATA_HOME/git/code/* [REPO]
+
+
+## copy only the newest versions to a local removable storage device
+
+
+
+
+
+
+
+
+
+
+
+
+
+#!/bin/bash
+
+ARCH="x86_64"
+MIRROR="https://mirrors.kernel.org/archlinux/"
+
+wget "${MIRROR}/community/os/${ARCH}/community.db"
+wget "${MIRROR}/core/os/${ARCH}/core.db"
+wget "${MIRROR}/extra/os/${ARCH}/extra.db"
+wget "${MIRROR}/multilib/os/${ARCH}/multilib.db"
+
+#
+## list all packages on current system
+pacman -Qq
+
+## create a list of links to the required packages
+### one package
+pacman -Sp vim > /mnt/packages.list
+### one package group
+pacman -Sp base-devel > /mnt/packages.list
+### all packages on current system
+pacman -Sp $(pacman -Qq) > /mnt/packages.list
+
+## read links from input file /mnt/packages.list and save links to /mnt/packages
+## requires internet connection
+wget -P /mnt/packages -i /mnt/packages.list
+
+## copy dependencies that are already installed from the cache to /mnt/packages
+cp /var/cache/pacman/pkg/* /mnt/packages
+
+## create a repository database for (just) these packages
+cd packages
+ls
+repo-add packages.db.tar.gz *.pkg.tar.xz
+
+
+loose eds:
+# install package from a local file
+pacman -U file.tar.gz
