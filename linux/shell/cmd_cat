@@ -316,3 +316,4 @@ ykman opt static 2 -k US <string>  ## assign string to yk slot 2
 zsh --no-rcs  ## zsh terminal without run command script
 jobs  ## list background processes
 fg [%n]  ## job [n] to foreground
+gpg --fingerprint | grep -i -B 1 <uid/email> | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)

@@ -32,6 +32,9 @@ ID's can be prefixed by 0x (which designates a hex value).
 
 keyID can also be the emailaddress
 
+### get fingerprint
+gpg --fingerprint | grep -i -B 1 <uid/email> | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
+
 ## generate revocation certificate
 ### from gpg 2.1 revoke certs are created upon key generation
 gpg --gen-revoke ID > ID.revoke.asc
@@ -61,7 +64,7 @@ gpg --armor --export ID > ID.prk.asc
 
 ## private keys
 ## be careful with sharing of private (gpg: secret) keys!
-gpg -a --export-secret-keys > myprivatekeys.asc
+gpg --armor --export-secret-keys > myprivatekeys.asc
 
 ## trustdb
 gpg --export-ownertrust > otrust.txt

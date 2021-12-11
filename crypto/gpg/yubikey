@@ -38,7 +38,7 @@ throw-keyids
 trust-model	tofu+pgp
 
 tofu:	trust on first use
-pgp:	web of trust and trust signatures (pgp5.x and later), which is the default trust model
+pgp:	web of trust and trust signatures (pgp5.x and later default trust model)
 
 
 # generate passphrase
