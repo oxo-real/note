@@ -1,0 +1,8 @@
+https://unix.stackexchange.com/questions/240146/why-does-tmux-set-term-variable-to-screen
+https://invisible-island.net/ncurses/terminfo.src.html#tic-screen-256color
+
+# inverse current date
+TERM=tmux; cal
+
+# italic current date
+TERM=xterm; cal

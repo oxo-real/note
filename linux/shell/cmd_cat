@@ -21,8 +21,8 @@ bluetoothctl connect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoo
 bluetoothctl disconnect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth disconnect
 bluetoothctl discoverable off	## bluetooth don't broadcast radio device
 bluetoothctl power off && sudo systemctl stop bluetooth.service && sudo rfkill block bluetooth  ## bluetooth radio off
-cal -m -w -3 `date +%y`  ## calendar showing last, current and next month
-cal -m -w `date +%y`	## year calendar of current year
+cal -3 -m -w `date -I`  ## calendar showing last, current and next month
+cal -y -m -w `date +%Y`	 ## current year calendar
 case $expr in pattern1) statements ;; ptrn2) stmnt ;; *) stmnt ;; esac
 cat $XDG_DATA_HOME/keys/wl/mn.wifi | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8
 cat -n <file>
@@ -98,6 +98,7 @@ gpg --edit-key ID >  ## edit public key
 gpg --export ID > ID.puk.gpg  ## export public key binary
 gpg --gen-key  ## generate new keypair
 gpg --import ID >  ## import public key
+gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 1 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list
 gpg --output ID.puk.asc --armor --export ID >  ## export public key ascii armored
 gpg --output file --decrypt file.gpg >  ## decrypt file.gpg asymmetricly using private key
 gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetricly using public key ID
@@ -317,3 +318,5 @@ zsh --no-rcs  ## zsh terminal without run command script
 jobs  ## list background processes
 fg [%n]  ## job [n] to foreground
 gpg --fingerprint | grep -i -B 1 <uid/email> | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
+printf "%d\n" \'A  ## character (A) to ascii value (65)
+printf "\x$(printf %x 65)"  ## ascii value (65) to character (A)
