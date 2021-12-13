@@ -320,3 +320,5 @@ fg [%n]  ## job [n] to foreground
 gpg --fingerprint | grep -i -B 1 <uid/email> | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
 printf "%d\n" \'A  ## character (A) to ascii value (65)
 printf "\x$(printf %x 65)"  ## ascii value (65) to character (A)
+< /home/cytopyge/.config/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
+wl-paste >> /home/cytopyge/.config/qutebrowser/bookmark_urls  ## add to bookmark_urls
