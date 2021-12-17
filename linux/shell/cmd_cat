@@ -322,3 +322,5 @@ printf "%d\n" \'A  ## character (A) to ascii value (65)
 printf "\x$(printf %x 65)"  ## ascii value (65) to character (A)
 < /home/cytopyge/.config/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
 wl-paste >> /home/cytopyge/.config/qutebrowser/bookmark_urls  ## add to bookmark_urls
+cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to $USER for $PATH
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
