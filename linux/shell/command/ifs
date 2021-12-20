@@ -1,0 +1,27 @@
+# internal field separator (IFS)
+default value is [space][tab][newline]
+## define newline as IFS
+IFS=$'\n'
+
+## variable with comma separated values
+IFS=,
+
+6b. Reading into an array:
+
+guru@unixschool:~$ cat user.txt
+guru:x:1001:1001:guru,,,:/home/guru:/bin/bash
+oracle:x:1002:1002::/u01/app/oracle:/bin/bash
+test:x:1003:1003::/home/test:/bin/bash
+guru@unixschool:~$
+
+Instead of reading into multiple variables, we can also read into an array:
+
+#!/bin/bash
+IFS=":"
+while read -a arr
+do
+    echo "User : ${arr[0]} , Home Dir : ${arr[1]}"
+done < $HOME/user.txt
+
+By using -a option of read, the values got read into arrays.
+
