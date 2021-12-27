@@ -1,0 +1,32 @@
+# error: failed to commit transaction (conflicting files)
+
+[Solve "error: failed to commit transaction (conflicting files)" In Arch Linux - OSTechNix](https://ostechnix.com/how-to-solve-error-failed-to-commit-transaction-conflicting-files-in-arch-linux/)
+
+## bypass file conflict checks and overwrite conflicting files
+sudo pacman -Syu --overwrite /usr/lib/libstfl.so.0
+
+OR
+
+## remove stfl library and update again
+sudo rm /usr/lib/libstfl.so.0
+sudo pacman -Syu
+
+
+# error: <filename> exists in filesystem
+
+[pacman error: FILENAME exists in filesystem / Newbie Corner / Arch Linux Forums](https://bbs.archlinux.org/viewtopic.php?id=56373)
+
+This comes up quite often, and since users are not using the excellent forum search function, it will be stickied.
+
+error: could not prepare transaction
+error: failed to commit transaction (conflicting files)
+libname: /insert/file/name/here exists in filesystem
+Errors occurred, no packages were upgraded.
+Why this is happening: pacman has detected a file conflict, and by design, will not overwrite files for you. This is a design feature, not a flaw.
+It is the user's responsibility to maintain their system, not the package manager's. (pacman -Qo may be invoked to query which package owns the file, if any.)
+
+What can be done to solve this: The issue is usually trivial to solve. A safe way is to firstly check if another package owns the file (pacman -Qo <full file path>).  If the file is owned by another package file a bug report If the file is not owned by another package rename (or remove) the the file which 'exists in filesystem', and reissue the pacman -Syu command. If all goes well, the file may then be removed.
+
+As always, there may be exceptions, so check the front page Arch news, Announcement lists, and optionally the forum and Mailing Lists for possible known issues.
+
+pacman can also be forced to overwrite the files, if you know what you are doing. Please read this post for more information.

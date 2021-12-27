@@ -249,6 +249,8 @@ A-]	(gT)	next tab
 
 }}}
 
+key_synonyms
+{{{
 I	^=	0i		insert bol
 	^=	^i
 D	^=	d$		delete eol
