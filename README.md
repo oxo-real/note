@@ -1,4 +1,4 @@
-/home/cytopyge/.local/share/git/notes
+.
 |-- applications
 |   |-- abook
 |   |   `-- abook
@@ -14,6 +14,8 @@
 |   |   |   `-- greasemonkey
 |   |   `-- qutebrowser
 |   |       `-- qutebrowser
+|   |-- cal
+|   |   `-- current_date_italic
 |   |-- docker
 |   |   |-- docker_commands
 |   |   `-- docker_help
@@ -47,9 +49,12 @@
 |   |   |-- applic_list
 |   |   |   |-- applic_list
 |   |   |   `-- miscellanous
+|   |   |-- errors_solved
+|   |   |-- offline_install
 |   |   |-- pacman
 |   |   |-- pacman_arch_wiki
 |   |   `-- pacman_arch_wiki_tips
+|   |-- protonvpn
 |   |-- suckless
 |   |   |-- dwm
 |   |   |   |-- config.def.h
@@ -163,6 +168,8 @@
 |   |-- gitignore
 |   |-- shrink
 |   `-- simple_guide
+|-- gl
+|   `-- 3
 |-- hardware
 |   |-- arduino
 |   |   |-- installation
@@ -193,7 +200,6 @@
 |   |   |   `-- README.html
 |   |   |-- byte_order
 |   |   |-- char_classes
-|   |   |-- chmod_flags
 |   |   |-- cmd_cat
 |   |   |-- coding_standards
 |   |   |-- command
@@ -433,12 +439,14 @@
 |   |   |   |-- find
 |   |   |   |   `-- find
 |   |   |   |-- iconv
+|   |   |   |-- ifs
 |   |   |   |-- less
 |   |   |   |-- mount
 |   |   |   |-- mount_cifs
 |   |   |   |-- printf
 |   |   |   |-- read
-|   |   |   |   `-- filedescriptor
+|   |   |   |   |-- filedescriptor
+|   |   |   |   `-- read_into_array
 |   |   |   |-- rm
 |   |   |   |   `-- undelete
 |   |   |   |-- rsync
@@ -480,10 +488,12 @@
 |   |   |-- copy_paste
 |   |   |-- devhints_bash
 |   |   |-- device_drivers
+|   |   |-- dirs_pushd_popd
 |   |   |-- exit_codes
 |   |   |-- expansion
 |   |   |   |-- expansion_types
 |   |   |   `-- parameter_expansion
+|   |   |-- file_permissions
 |   |   |-- fonts
 |   |   |-- getopts
 |   |   |-- getopts_web
@@ -683,7 +693,9 @@
 |       `-- yubikey4
 |-- sfi
 |   `-- grammatik
-`-- ucode
-    `-- ucode
+|-- ucode
+|   `-- ucode
+`-- zzz_deprecated
+    `-- xab
 
-127 directories, 559 files
+132 directories, 566 files

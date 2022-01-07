@@ -1,0 +1,11 @@
+# install tor
+
+pacman -S tor
+systemctl start tor.service
+
+
+## in qb use the tor network as a proxy:
+c.content.proxy = 'socks://localhost:9050/'
+
+## onion address of duckduckgo as default search engine:
+c.url.searchengines = {'DEFAULT': 'https://3g2upl4pq6kufc4m.onion/?q={}'}
