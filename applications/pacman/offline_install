@@ -74,29 +74,103 @@ pacstrap /mnt <package(s) / -group(s)>
 ```
 
 ################################
-# method2 (local repo method w/o internet)
-### make directories
+# method2 (local repo method w/o internet /downloading)
+### make directories on REPO
 mkdir /dev/sdR/packages
 mkdir /dev/sdR/packages/db
-### copy packages
-# use cytopyges copy_pkg
+
+### copy packages from (up-to-date!) host machine
+# use cytopyges pkg_copy (in gitlab tools)
+### pkg_copy copies currently installed version of every pacman installed package
 ```
-copy_pkg /dev/sdR/packages
+pkg_copy /dev/sdR/packages
 
 ```
-### create custom package database
+### build custom package database on REPO
+### and add package signatures if present alongside
 ```
-repo-add /dev/sdR/packages/db/cytopyge.db.tar.xz /dev/sdR/packages
+repo-add /dev/sdR/packages/db/cytopyge.db.tar.zst /dev/sdR/packages/*.pkg.tar.zst
 ```
-### creates:
+#[DEV] try .db.tar.xz if .db.tar.zst does not work
+
+### this creates:
 # cytopyge.db
 # cytopyge.db.tar.zst
 # cytopyge.files
 # cytopyge.files.tar.zst
 
 
+# then on the new machine
+>>>>
+#[TODO]
+redirect repo source list to local directory
+update packages
+
+
+% for package in $(pacman -Qq); do pacman -Sp $package >> package.list; done
+gives errors on these (probably all Qe) packages
+error: target not found: abook
+error: target not found: fim
+error: target not found: gnuplot-git
+error: target not found: grim-git
+error: target not found: gsfonts-type1
+error: target not found: j4-dmenu-desktop
+error: target not found: keyd-git
+error: target not found: lf
+error: target not found: mako-git
+error: target not found: nbfc-linux
+error: target not found: pacolog
+error: target not found: pipe-viewer-git
+error: target not found: protonmail-bridge-nogui
+error: target not found: protonvpn-cli-ng
+error: target not found: python-proton-client
+error: target not found: python-protonvpn-nm-lib
+error: target not found: simple-mtpfs
+error: target not found: ssss
+error: target not found: sway-git
+error: target not found: swaybg-git
+error: target not found: tasksh
+error: target not found: termite
+error: target not found: tmsu
+error: target not found: tor-browser
+error: target not found: transmission-remote-cli-git
+error: target not found: uasm
+error: target not found: vimball
+error: target not found: wev
+error: target not found: wl-clipboard-git
+error: target not found: wlroots-git
+error: target not found: wxgtk-common-dev
+error: target not found: wxgtk2-dev
+error: target not found: xorg-font-utils
+error: target not found: yay
+error: target not found: ytfzf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### copying packages installed on the current system:
+#### downloading
 pacman -Syw --cachedir . --dbpath [REPO] $(pacman -Q)
+
 
 https://wiki.archlinux.org/title/Offline_installation_of_packages
 ## copy all packages to a local removable storage device [REPO]
@@ -110,17 +184,6 @@ cp -r $XDG_DATA_HOME/git/code/* [REPO]
 
 
 ## copy only the newest versions to a local removable storage device
-
-
-
-
-
-
-
-
-
-
-
 
 
 #!/bin/bash
