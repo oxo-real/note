@@ -160,10 +160,11 @@ metar set eham
 mkdir /dock/<1-4>
 modprobe -r <driver>  ## remove driver from kernel
 modprobe <driver>  ## add driver to kernel
-mount -o remount,rw /dev/sdY1 /boot
+mount -o uid=cytopyge,gid=wheel /dev/sdX dock/1  ## mount as user
+mount -o remount,rw /dev/sdY1 /boot  ## remount rw existing mountpoint
 mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
-mount | grep ro,
-mpv --ytdl-format='best[filesize<300M]' --profile=cache_s --demuxer-cache-wait --msg-level=all=v $(wl-paste)  ## stream movie verbose with mpv.conf cache_s profile
+mount | grep ro,  ## find all ro mountpoints
+mpv --start=+00:00 --ytdl-format='best[filesize<300M]' --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --http-header-fields="User-Agent: $(head -n 1 $USER_AGENT)" $(wl-paste) ## stream movie verbose with mpv.conf cache_s profile
 mpv `echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\//'`  ## change yt url
 msgcat --color=test
 mv -t <target_dir> <source_dirs>  ## move source_dirs to target_dir
