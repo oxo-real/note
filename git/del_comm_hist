@@ -1,0 +1,18 @@
+git checkout --orphan 'new_branch'
+
+git status
+	new files
+
+git add .
+
+git commit -m 'initial commit'
+
+git branch -D branch_to_be_deleted
+
+git branch -m master
+
+git reflog expire --expire=now --all
+
+git gc --aggressive --prune=now
+
+git push -f origin master

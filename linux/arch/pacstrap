@@ -1,0 +1,45 @@
+https://man.archlinux.org/man/extra/arch-install-scripts/pacstrap.8.en
+
+NAME
+pacstrap - install packages to the specified new root directory
+
+SYNOPSIS
+pacstrap [options] root [packages...]
+
+DESCRIPTION
+pacstrap is designed to create a new system installation from scratch. The specified packages will be installed into a given directory after setting up some basic mountpoints. By default, the host system’s pacman signing keys and mirrorlist will be used to seed the chroot.
+If no packages are specified to be installed, the base metapackage will be installed.
+
+OPTIONS
+-C <config>
+Use an alternate config file for pacman.
+-c
+
+Use the package cache on the host, rather than the target.
+-G
+
+Avoid copying the host’s pacman keyring to the target.
+-i
+
+Prompt for package confirmation when needed (run interactively).
+-M
+
+Avoid copying the host’s mirrorlist to the target.
+-U
+
+Use pacman -U to install packages. Useful for obtaining fine-grained control over the installed packages.
+-h
+
+Output syntax and command line options.
+
+SEE ALSO
+pacman(8)
+
+BUGS
+Bugs can be reported on the bug tracker https://bugs.archlinux.org in the Arch Linux category and title prefixed with [arch-install-scripts] or via arch-projects@archlinux.org.
+
+AUTHORS
+Maintainers:
+•Dave Reisner <dreisner@archlinux.org>
+•Eli Schwartz <eschwartz@archlinux.org>
+For additional contributors, use git shortlog -s on the arch-install-scripts.git repository.

@@ -268,7 +268,7 @@ p		paragraph
 
 C-g		get cursor status
 g c-g	cursor position status
-
+}}}
 
 # plugins
 {{{
@@ -295,16 +295,16 @@ see also: notes/applications/vim/tpope_vim-surround
 
 }}}
 
-
 # vimdiff
 {{{
 
-vim -d		file1 file2
+nvim -d		file1 file2
 
 ]c			next change (diff)
 [c			previous change (diff)
 do          diff obtain (from there)
 dp          diff put (to there)
+
 :diffget	diff obtain (from there)
 :diffput	diff put (to there)
 :diffupdate	re-scan files for differences
@@ -315,7 +315,8 @@ zm			fold all close
 zo          fold open
 zc          fold close
 
-A-[h,j,k,l]				cytopyge's navigate columns
+A-[h,j,k,l]				cytopyge's navigate column focus
+A-S-[h,j,k,l]			cytopyge's move columns
 C-w [w,h,l]				default navigate columns
 
 :windo diffthis			start vimdiff on each (?visible) windows in tab
@@ -327,7 +328,6 @@ C-w [w,h,l]				default navigate columns
 :set noscrollbind		stop scrollbinding other file
 
 }}}
-
 
 # examples
 {{{

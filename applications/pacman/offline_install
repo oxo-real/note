@@ -32,9 +32,9 @@ pacman -Syw \
 	<package(s) / -group(s)>
 
 ### --cachedir <directory>
-specifies alternative package cache location than the default /var/cache/pacman/pkg
+specifies alternative package cache location than the default /var/cache/pacman/packages
 ### --dbpath <directory>
-specifies alternative package database location than the default /var/lib/pacman
+specifies alternative package database location than the default /var/lib/pacman/database
 
 pacman, which will reference the host installation by default,
 will not properly resolve and download existing dependencies.
@@ -102,50 +102,28 @@ repo-add /dev/sdR/packages/db/cytopyge.db.tar.zst /dev/sdR/packages/*.pkg.tar.zs
 
 # then on the new machine
 >>>>
+#1. install packages not via database but manually
+### !!! dependencies !!!
+pacman -U /dev/sdRpackages/package.tar.zst
+pacman -U /dev/sdRpackages/*.tar.zst
+
+#2. install via
 #[TODO]
 redirect repo source list to local directory
 update packages
 
 
-% for package in $(pacman -Qq); do pacman -Sp $package >> package.list; done
-gives errors on these (probably all Qe) packages
-error: target not found: abook
-error: target not found: fim
-error: target not found: gnuplot-git
-error: target not found: grim-git
-error: target not found: gsfonts-type1
-error: target not found: j4-dmenu-desktop
-error: target not found: keyd-git
-error: target not found: lf
-error: target not found: mako-git
-error: target not found: nbfc-linux
-error: target not found: pacolog
-error: target not found: pipe-viewer-git
-error: target not found: protonmail-bridge-nogui
-error: target not found: protonvpn-cli-ng
-error: target not found: python-proton-client
-error: target not found: python-protonvpn-nm-lib
-error: target not found: simple-mtpfs
-error: target not found: ssss
-error: target not found: sway-git
-error: target not found: swaybg-git
-error: target not found: tasksh
-error: target not found: termite
-error: target not found: tmsu
-error: target not found: tor-browser
-error: target not found: transmission-remote-cli-git
-error: target not found: uasm
-error: target not found: vimball
-error: target not found: wev
-error: target not found: wl-clipboard-git
-error: target not found: wlroots-git
-error: target not found: wxgtk-common-dev
-error: target not found: wxgtk2-dev
-error: target not found: xorg-font-utils
-error: target not found: yay
-error: target not found: ytfzf
-
-
+###>>>
+# write packages and db under repo
+# with pkg_copy
+# repo-add /dev/sdR/packages/db/cytopyge.db.tar.zst /dev/sdR/packages/*.pkg.tar.zst
+#
+# after iso boot mount repo
+# vim /etc/pacman.conf
+# uncomment the other repos
+# add [offline]
+# SigLEvel = Optional
+# Server = file:///root/tmp/repo
 
 
 

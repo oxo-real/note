@@ -5,28 +5,49 @@ stdout	1
 stderr	2
 
 
-# redirect
+# redirection to
 
 stdout	1>
 stderr	2>
 
+# redrection from
+<
+
 ## single redirect examples:
-<command>.sh 1> stdout_file
+<command>.sh 1> stdout_file		or: <command>.sh > stdout_file
 <command>.sh 2> stderr_file
+
+## redirect append examples:
+<command>.sh 1>> stdout_file	or: <command>.sh >> stdout_file
+<command>.sh 2>> stderr_file
+
+## redirect from example
+<command>.sh < input_file
 
 ## multiple redirect examples:
 ### to separate files
 <command>.sh 1> stdout_to_file 2> stderr_file
 ### to single file
-<command>.sh > stdout_to_file 2&>1
+<command>.sh > stdout_to_file 2>&1
 #### note:
 '>' is short for '1>'
-'2&>1' means: redirect stream 2 to the same destination as stream 1
+'2>&1' means: join stderr to stdout
 
 ## no output example:
-<command>.sh > /dev/null 2&>1
+<command>.sh 1> /dev/null 2>&1
 #### note:
-redirecting to /dev/null means: no output anywhere
+redirecting to /dev/null means: show no output anywhere
+
+## input to a command
+<command.sh> < input_file
 
 # source
 https://www.howtogeek.com/435903/what-are-stdin-stdout-and-stderr-on-linux/
+
+# difference between output redirection and a pipe
+https://askubuntu.com/questions/172982/what-is-the-difference-between-redirection-and-pipe
+A redirect	outputs to a	file
+A pipe		outputs to		stdin (of the next command)
+
+command1 > temp_file && command2 < temp_file == command1 | command2
+

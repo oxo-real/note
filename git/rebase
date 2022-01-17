@@ -1,0 +1,23 @@
+# checkout to the status of the git repo at commit 3f58
+# creating a branch named temp
+git checkout --orphan temp 3f5817c160b740b62093d43dac8748079c1fd493
+
+# create a new commit that is to be the new root commit
+git commit -m 'new root commit'
+
+# now rebase the part of history from 3f58 to master on the temp branch
+git rebase --onto=temp 3f5817c160b740b62093d43dac8748079c1fd493 master
+
+# we dont need the temp branch anymore
+git switch master
+git branch -D temp
+
+# check if last version of the code is still the same
+git diff origin/master
+
+# push remote
+git push -f
+
+# keep repo in good shape
+git prune --progress
+git gc --aggressive

@@ -83,6 +83,7 @@ find ./ -maxdepth 1 -type f -mtime +1 -print
 find / -iname file_case_insensitive
 find /<directory> -name '<search-string>' 2>/dev/null
 find /<directory> -type f -exec shred -v -z -n 3 -u {} \;
+find . -maxdepth 1 -type d -exec du -sb {} \; | sort -g -k 1  ## directories sorted by size (bytes)
 findmnt
 for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
 for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors

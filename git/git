@@ -1,12 +1,26 @@
 # git cheat sheet
 
 
-# setup
+# git config setup
+## ! overwrites existing values
 
-git config --global user.name "cytopyge"
-git config --global user.email "cytopyge@example.com"
+git config --global user.name 'cytopyge'
+git config --global user.email 'cytopyge@example.com'
+git config --global http.version HTTP/2
+
+git config --global diff.tool nvimdiff
+git config --global difftool.prompt true
+git config --global difftool.keepBackup false
+git config --global difftool.nvimdiff.cmd 'nvim -d "$LOCAL" "$REMOTE"'
+
+git config --global merge.tool nvimdiff
+git config --global mergetool.prompt true
+git config --global mergetool.keepBackup false
+
 git config --global color.ui auto
-git config --global alias.hist "git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+git config --global alias.d difftool
+git config --global alias.hist "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 
 # ignore files
@@ -142,3 +156,27 @@ git for-each-ref --format="%(refname)" refs/original/ | xargs -n 1 git update-re
 git reflog expire --expire=now --all
 git gc --aggressive --prune=now
 
+--------------------------------
+# reinit repo local & remote
+# ! WARNING first make local backup
+
+## locally
+### delete
+cp .git/config .
+rm -rf .git
+### reinit
+git init
+mv config .git
+git add .
+git commit -a -m 'reinit repo'
+
+## remotely
+### delete the project
+?git remote remove [remote_name]
+?git remote remove origin
+? browser remove
+#### verify
+git remote -v
+### reinit
+git push --set-upstream origin master
+? browser make public

@@ -74,7 +74,7 @@ pwgn(r5r6)				no spaces,	no EOL
 center_blocks			no spaces,	no EOL
 
 
-## synthesize passwords
+## synthesize password levels
 
 password	=	pwgn(r5r6)	+	<	+	yss2	+	center_blocks	+	yss1
 
