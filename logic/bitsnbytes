@@ -1,0 +1,30 @@
+# bits & bytes
+
+# 0b1 = 1 bit
+a binary number of one bit can be either 0 or 1
+binary numbers can be written as 0b111111
+
+# 8 bits = 1 byte
+the convention is that there are 8 bits in one byte
+values in computer are expressed as multiples of bytes
+
+# 0x1 = 4 bits
+one hexadecimal digit needs 4 bits in a binary expression
+hexadecimal numbers can be written as 0xABCDEF
+
+# 1 byte = 8 bits (2 hex digits)
+so a byte can be expressed with two hex digits
+you need 8 bits to represent 1 byte as a binary number
+
+# table
+
+		0	1	2	3		4		5		6
+2^
+
+0d		1	2	4	8		16		32		64			15		26
+
+0x		1	2	4	8		16		20		40			F		1A
+
+0b		0	1	11	1000	10000	100000	1000000		1111	10011
+
+see also /home/cytopyge/.local/share/git/notes/linux/shell/byte_order

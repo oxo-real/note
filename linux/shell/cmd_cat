@@ -61,8 +61,8 @@ dig -x 89.39.107.195  ## reverse lookup own public ip
 dirname <filename>  ## print <filename> without last component
 du -sbh <directory>  ## total size of all content in directory
 e2label /dev/X [label]  ## read [/rewrite] device label
-echo "obase=10; ibase=16; $(echo <HEX> | tr a-f A-F)" | bc  ## HEX to decimal
-echo "obase=16; ibase=10; $(echo <DEC>)" | bc | tr A-F a-f  ## decimal to HEX
+echo "obase=10; ibase=16; <0x>" | bc  ## hexadecimal to decimal conversion
+echo "obase=16; ibase=10; <0d>" | bc  ## decimal to hexadecimal conversion
 echo -n $string | base64  ## base64 encoding
 echo 0  ## print exit code of the last executed command
 env  ## print current environment variables and their values
@@ -70,6 +70,7 @@ faillock --user $USER --reset  ## remove sudo lockout for current user
 fc  ## edit last command in
 fc -l -n -1  ## last command entered, hide line number
 fc-list  ## list available fonts
+fg [id]  ## recall suspended command to foreground
 find . -exec <command> {} \;
 find . -maxdepth 1 -name \*_ -type d -exec cp -r {} ~/test_/bu \;
 find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks and copy without dereferencing
@@ -198,7 +199,7 @@ ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list process
 ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom AIX format descriptors, sort high to low cpu usage
 pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
 qrencode -t UTF8 <string>
-qutebrowser -s content.webgl true -s content.canvas_reading true -s colors.webpage.darkmode.enabled false  ## qb for windy
+qutebrowser -s content.canvas_reading true ## qb for windy
 rankmirrors -n 10 /etc/pacman.d/mirrorlist | grep -w 'Server =' >> mirrorlist.ranked
 rcvboxdrv
 read input  ## zz1
