@@ -92,6 +92,7 @@ for i in {0..7}; do; printf "\033[0;3${i}mcolor$i\n"; done  ## print 8 colors
 free -m  ## free and used memory in system
 fuser -vmM <file(system)>	## display PIDs using file / file(system) (filesystem in mount)
 getent ahosts <url>  ## get ip address from name service switch library database ahost
+git config --show-scope --show-origin --list  ## origin and scope of git configuration
 git log --oneline  ## list of commits
 git reset --hard 2db93df  ## back to a previous commit
 glances

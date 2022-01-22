@@ -1,12 +1,11 @@
-# error:
+# error
 while installing (building packages):
 
 :: Importing keys with gpg...
 gpg: keyserver receive failed: General error
 problem importing keys
 
-
-# solution:
+## solution
 use different keyserver
 most common keyservers are:
 
@@ -19,13 +18,12 @@ keys.openpgp.org: central, verification of email IDs, keys can be deleted, no th
 More are listed at Wikipedia:Key server (cryptographic)#Keyserver examples.
 (https://wiki.archlinux.org/index.php/GnuPG#Use_a_keyserver)
 
-
 ## permanent solution
-An alternative key server can be specified with the keyserver option in one of the #Configuration files, for instance:
+An alternative key server can be specified
+with the keyserver option in one of the #Configuration files, for instance:
 
 vim ~/.gnupg/dirmngr.conf
 keyserver pool.sks-keyservers.net
-
 
 ## temporary solution
 A temporary use of another server is handy when the regular one does not work as it should.
@@ -33,3 +31,20 @@ It can be achieved by;
 gpg --keyserver keys.openpgp.org/ --search-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
 or, receive directly:
 gpg --recv-keys 7DCB12A7
+
+
+# error
+gpg: WARNING: unsafe permissions on homedir
+
+## solution (see also separate bash script)
+```
+#!/usr/bin/env bash
+# correct ownership
+chown -R $(whoami):$(id -gn) $GNUPGHOME
+# correct permissions
+## for files
+find $GNUPGHOME -type f -exec chmod 600 {} \;
+## for directories
+find $GNUPGHOME -type d -exec chmod 700 {} \;
+```
+

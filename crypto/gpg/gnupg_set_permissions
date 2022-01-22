@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# correct ownership
+chown -R $(whoami):$(id -gn) $GNUPGHOME
+
+# correct permissions
+## for files
+find $GNUPGHOME -type f -exec chmod 600 {} \;
+## for directories
+find $GNUPGHOME -type d -exec chmod 700 {} \;
+

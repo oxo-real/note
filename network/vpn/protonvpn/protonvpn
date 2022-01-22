@@ -1,0 +1,3 @@
+yay -S protonvpn-cli-ng
+protonvpn init
+protonvpn_openvpn_ikev2
