@@ -33,6 +33,10 @@ different fs types on SRC and DEST devices seems to rsync get idle
 rsync --info=help
 
 ## mentionable options
+-a, --archive
+recursion with preservation like times, ownership, permissions and attributes
+(no hardlinks!)
+
 -u, --update
 skip files that are newer on the receiver
 do not copy SRC files that are older then DEST files
@@ -66,3 +70,100 @@ recommended partial directory= $XDG_CACHE_HOME/rsync/partial
 --log-file=FILE
 send logs to FILE
 recommended log file= $XDG_LOGS_HOME/rsync/$(date +%Y%m%d_%H%M%S)
+
+## rsync comparison method
+--------------------------------
+https://stackoverflow.com/questions/13778889/rsync-difference-between-size-only-and-ignore-times
+
+The long answer is that rsync has three ways to decide if a file is outdated:
+
+1. Compare the size of source and destination.
+2. Compare the timestamp of source and destination.
+3. Compare the static checksum of source and destination.
+
+--------------------------------
+dircompare
+https://unix.stackexchange.com/questions/57305/rsync-compare-directories
+### files not in RIGHT, but in LEFT
+rsync -rin --ignore-existing "$LEFT_DIR"/ "$RIGHT_DIR"/ |sed -e 's/^[^ ]* /L /'
+### files not in LEFT, but in RIGHT
+rsync -rin --ignore-existing "$RIGHT_DIR"/ "$LEFT_DIR"/ |sed -e 's/^[^ ]* /R /'
+### files in LEFT different in RIGHT
+rsync -rin --existing "$LEFT_DIR"/ "$RIGHT_DIR"/ |sed -e 's/^/X /'
+
+dircompare output interpretation
+L             file-only-in-Left-dir			in source, not in destination
+R             file-only-in-right-dir		in destination, not in soucre
+X >f.st...... file-with-dif-size-and-time
+X .f...p..... file-with-dif-perms
+
+## rsync output interpretation
+--------------------------------
+<filename>			in source, not in destination
+deleting <filename>	in destination, not in source
+--------------------------------
+
+https://unix.stackexchange.com/questions/57305/rsync-compare-directories
+with one <filename> on a line for every "new" file in ${SOURCE}
+and one "deleting <filename>" line for each "new" file in ${DEST}
+
+These checks are performed before transferring data. Notably, this means the static checksum is distinct from the stream checksum - the later is computed while transferring data.
+
+By default, rsync use 1 and 2. Both 1 and 2 can be acquired together by a single stat, whereas 3 requires reading the entire file (this is independent from reading the file for transfer). Assuming only one modifier is specified, that means the following:
+
+By using --size-only, only 1 is performed - timestamps and checksum are ignored. A file is copied unless its size is identical on both ends.
+
+By using --ignore-times, neither of 1, 2 or 3 is performed. A file is always copied.
+
+By using --checksum, 3 is used in addition to 1 but 2 is not performed. A file is copied unless size and checksum match. The checksum is only computed if size matches.
+
+#!/bin/bash
+# Compare two directories using rsync and print the differences
+# CAUTION: options MUST appear after the directories
+#
+# SYNTAX
+#---------
+# diff-dirs Left_Dir Right_Dir [options]
+#
+# EXAMPLE OF OUTPUT
+#------------------
+# L             file-only-in-Left-dir
+# R             file-only-in-right-dir
+# X >f.st...... file-with-dif-size-and-time
+# X .f...p..... file-with-dif-perms
+#
+# L / R mean that the file/dir appears only at the `L`eft or `R`ight dir.
+#
+# X     means that a file appears on both sides but is not the same (in which
+#       case the next 11 characters give you more info. In most cases knowing
+#       that s,t,T and p depict differences in Size, Time and Permissions
+#       is enough but `man rsync` has more info
+#       (look at the --itemize-changes option)
+#
+# OPTIONS
+#---------
+# All options are passed to rsync. Here are the most useful for the purpose
+# of directory comparisons:
+#
+# -c will force comparison of file contents (otherwise only
+#    time & size is compared which is much faster)
+#
+# -p/-o/-g will force comparison of permissions/owner/group
+
+if [[ -z $2 ]] ; then
+    echo "USAGE: $0 dir1 dir2 [optional rsync arguments]"
+    exit 1
+fi
+
+set -e
+
+LEFT_DIR=$1; shift
+RIGHT_DIR=$1; shift
+OPTIONS="$*"
+
+# Files that don't exist in Right_Dir
+rsync $OPTIONS -rin --ignore-existing "$LEFT_DIR"/ "$RIGHT_DIR"/|sed -e 's/^[^ ]* /L             /'
+# Files that don't exist in Left_Dir
+rsync $OPTIONS -rin --ignore-existing "$RIGHT_DIR"/ "$LEFT_DIR"/|sed -e 's/^[^ ]* /R             /'
+# Files that exist in both dirs but have differences
+rsync $OPTIONS -rin --existing "$LEFT_DIR"/ "$RIGHT_DIR"/|sed -e 's/^/X /'

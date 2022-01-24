@@ -38,6 +38,7 @@ chown -R user:group directory	## recursive set user & group ownership
 chown :group file	## set group ownership
 chown user: file	## set user ownership
 cp -p  ## copy and preserve mode, ownership and timestamps
+cp -pr --attributes-only  ## copy no content, but only mode, ownership and timestamps
 cryptsetup ---cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 --verify-passphrase open --type=plain /dev/sdX lvm
 cryptsetup ---cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 key-file=/dev/sdZ open --type=plain /dev/sdX lvm
 cryptsetup ---cipher=serpent-xts-plain -hash=sha512 --key-size=512 --iter-time=4096 --use-random --verify-passphrase luksFormat /dev/sdX
@@ -163,7 +164,7 @@ metar set eham
 mkdir /dock/<1-4>
 modprobe -r <driver>  ## remove driver from kernel
 modprobe <driver>  ## add driver to kernel
-mount -o uid=cytopyge,gid=wheel /dev/sdX dock/1  ## mount as user
+mount -o uid=$(whoami),gid=$(id -gn) /dev/sdX dock/1  ## mount as current user
 mount -o remount,rw /dev/sdY1 /boot  ## remount rw existing mountpoint
 mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
 mount | grep ro,  ## find all ro mountpoints
@@ -271,6 +272,7 @@ tr -s " " < file_with_double_spaces > file_without_double_spaces  ## remove doub
 ts .local/share
 type command/file  ## determine type of command, file or function
 uptime
+umount -l <mountpoint>  ## umount busy targets (mountpoints)
 usermod -a -G group_2_add user_2_add
 vlock -a
 watch -d -n 1 -t lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint

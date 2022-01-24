@@ -111,8 +111,8 @@ password
 H.lsgct/cryptr [-e] file.txt [dest]
 H.lsgct/cryptr [-d] file.tarx [dest]
 ### gnupg
-cipher_cascade01: aes256		camellia256
-cipher_cascade02: aes256		twofish		cast5
+cipher_cascade01: aes256	camellia256
+cipher_cascade02: aes256	twofish		cast5
 ### openssl
 cipher_cascade03: chacha20	aes-256-ctr	aes-256-cbc
 

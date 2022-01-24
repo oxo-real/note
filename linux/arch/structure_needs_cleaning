@@ -1,0 +1,60 @@
+debugfs -w /dev/sda5
+clri path/to/file
+run fsck
+--------------------------------
+Has anyone ever gotten "structure needs cleaning" errors on their EXT4 file system?
+Solved- don't use windows to copy data to an ext4. I just unlocked the LUKs partition, and reformatted it with EXT4
+
+I'm unable to edit (including delete) specific directories on my ext4 filesystem, as it gives me a "structure needs cleaning" error. When I Googled it, most of the cases involved an XFS, not EXT4.
+
+FSCK is telling me that the partition is perfectly fine though.
+
+It's a 100GB EXT4 partition encrypted with LUKS, and contains my home directory (root directory is on another partition and is fine)
+
+Any insight would be very much appreciated, thanks!
+
+8 Comments
+
+Share
+
+Save
+
+Hide
+
+Report
+100% Upvoted
+User avatar
+u/officialsquarespace
+·
+Promoted
+Create and own your online presence by building your brand in just a few clicks. Everything to sell anything.
+www.squarespace.com
+Sign Up
+Log in or sign up to leave a comment
+Log In
+Sign Up
+
+Sort By: Best
+
+User avatar
+level 1
+iddqdidfka
+·
+6 yr. ago
+Gold
+I figured out how to fix this issue.
+
+First you need to find files that cause this issue. this is very simple - in ls -l listing they will be shown like
+
+????????? ? ? ? 1.7K Jun  8 13:49 filename
+then, you need to run debugfs and delete inode of this file
+
+debugfs -w /dev/sda5
+-w says that partition will be opened in read-write mode.
+
+In debugfs prompt you need to type
+
+clri path/to/file
+File path should be absolute for this partition. If your partition mounted to /mnt and file you need to delete is /mnt/folder/filename, you should use just folder/filename.
+
+After deleting inodes of all broken files you can leave debugfs and run fsck on partition. It will automatically remove files without inodes and fix your partition.
