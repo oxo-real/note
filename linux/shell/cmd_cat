@@ -92,6 +92,7 @@ for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## pri
 for i in {0..7}; do; printf "\033[0;3${i}mcolor$i\n"; done  ## print 8 colors
 free -m  ## free and used memory in system
 fuser -vmM <file(system)>	## display PIDs using file / file(system) (filesystem in mount)
+fusermount -u <mountpoint>  ## umount simple-mptfs android device
 getent ahosts <url>  ## get ip address from name service switch library database ahost
 git config --show-scope --show-origin --list  ## origin and scope of git configuration
 git log --oneline  ## list of commits
@@ -234,6 +235,7 @@ sh -xv file.sh  ## extra verbose debug output
 showkey  ## [-a(scii), -s(cancodes), -k(eycodes)] examine codes sent by the keyboard
 showkey -s
 shred -v -z -n 3 -u <file>
+simple-mtpfs --device 1 <mountpoint>  ## mount android device
 sleep 3 && scrot -s
 slurm -i <device>
 sort $HISTFILE | uniq -c | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
