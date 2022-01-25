@@ -268,6 +268,7 @@ tar -cv[j/z]f <archive.tar> -C <subdir> <files>  ## create tar archive [bzip2/gz
 tar -cv[j/z]f <archive.tar> <files>  ## create tar archive [bzip2/gzip compression (optional)]
 tar -tvf <archive.tar>  ## print contents of tar archive
 tar -xv[j/z]f <archive.tar>  ## extract tar archive [bzip2/gzip compression (optional)]
+tee -a file1 file2  ## append stdout to multiple files
 tmux attach-session -t 0
 tmux show-options -g
 tr -s " " < file_with_double_spaces > file_without_double_spaces  ## remove double spaces
@@ -332,3 +333,4 @@ printf "\x$(printf %x 65)"  ## ascii value (65) to character (A)
 wl-paste >> /home/cytopyge/.config/qutebrowser/bookmark_urls  ## add to bookmark_urls
 cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to $USER for $PATH
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
+cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
