@@ -2,6 +2,7 @@
 < ${$(sh $XDG_DATA_HOME/git/code/tools/get_newest_file $XDG_LOGS_HOME/updater/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file
 < /dev/random tr -d -c "[:alnum:]" | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate password)
 < /dev/random tr -d -c "[:graph:]" | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate password)
+< /home/cytopyge/.config/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
 <command> &> <file>  ## <command> stdout to <file>
 <command> 2>&1 | tee -a logfile  ## <command> stderr to stdout, also append to logfile
 <command> >/dev/null 2>&1  ## suppress all output from command
@@ -32,13 +33,16 @@ cat <file_sort_freq> | cut -c 8- > <file_rm_freq>	##
 cat >> file << EOF; multi_line_text; EOF  ## append to here document
 cat file | wl-copy	## copy file content to clipboard
 cd "$(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)"  ## cd with fzf from $HOME, spacebar for info box
+cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
+cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to $USER for $PATH
 cd /usr/lib/modules/$(uname -r)
 cd /var/lib/pacman/local  ## pacman 'install' directory
+chmod --reference=ref_file target  ## make target file mode bits same as ref_file
 chown -R user:group directory	## recursive set user & group ownership
 chown :group file	## set group ownership
 chown user: file	## set user ownership
-cp -p  ## copy and preserve mode, ownership and timestamps
-cp -pr --attributes-only  ## copy no content, but only mode, ownership and timestamps
+cp -prv --attributes-only  ## copy no content, but only mode, ownership and timestamps, verbose
+cp -pv  ## copy and preserve mode, ownership and timestamps, verbose
 cryptsetup ---cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 --verify-passphrase open --type=plain /dev/sdX lvm
 cryptsetup ---cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 key-file=/dev/sdZ open --type=plain /dev/sdX lvm
 cryptsetup ---cipher=serpent-xts-plain -hash=sha512 --key-size=512 --iter-time=4096 --use-random --verify-passphrase luksFormat /dev/sdX
@@ -62,8 +66,8 @@ dig -x 89.39.107.195  ## reverse lookup own public ip
 dirname <filename>  ## print <filename> without last component
 du -sbh <directory>  ## total size of all content in directory
 e2label /dev/X [label]  ## read [/rewrite] device label
-echo "obase=10; ibase=16; <0x>" | bc  ## hexadecimal to decimal conversion
-echo "obase=16; ibase=10; <0d>" | bc  ## decimal to hexadecimal conversion
+echo "obase=10; ibase=16; <0x>" | tr a-z A-Z ) | bc  ## hexadecimal to decimal conversion
+echo "obase=16; ibase=10; <0d>" | tr a-z A-Z ) | bc  ## decimal to hexadecimal conversion
 echo -n $string | base64  ## base64 encoding
 echo 0  ## print exit code of the last executed command
 env  ## print current environment variables and their values
@@ -71,9 +75,13 @@ faillock --user $USER --reset  ## remove sudo lockout for current user
 fc  ## edit last command in
 fc -l -n -1  ## last command entered, hide line number
 fc-list  ## list available fonts
+fg [%n]  ## job [n] to foreground
 fg [id]  ## recall suspended command to foreground
+figlet -f mini cytopyge | wl-copy  ## figlet sub_header
+figlet text | wl-copy  ## figlet header
 find . -exec <command> {} \;
 find . -maxdepth 1 -name \*_ -type d -exec cp -r {} ~/test_/bu \;
+find . -maxdepth 1 -type d -exec du -sb {} \; | sort -g -k 1  ## directories sorted by size (bytes)
 find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks and copy without dereferencing
 find . -name filename_start__\*
 find . -print -exec cat {} \; -printf n
@@ -85,7 +93,6 @@ find ./ -maxdepth 1 -type f -mtime +1 -print
 find / -iname file_case_insensitive
 find /<directory> -name '<search-string>' 2>/dev/null
 find /<directory> -type f -exec shred -v -z -n 3 -u {} \;
-find . -maxdepth 1 -type d -exec du -sb {} \; | sort -g -k 1  ## directories sorted by size (bytes)
 findmnt
 for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
 for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
@@ -101,6 +108,7 @@ glances
 gpg --armor --export ID > ID.puk.gpg  ## export public key ascii armored id
 gpg --edit-key ID >  ## edit public key
 gpg --export ID > ID.puk.gpg  ## export public key binary
+gpg --fingerprint | grep -i -B 1 <uid/email> | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
 gpg --gen-key  ## generate new keypair
 gpg --import ID >  ## import public key
 gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 1 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list
@@ -114,6 +122,7 @@ gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
 grep "\sro[\s,]" /proc/mounts
 grep -riIl 'text' [directory]  ## find files (no binary) containing text recursively in directory
 grep -riIn 'text' [directory]  ## find files (no binary) containing text recursively in directory with linenumbers
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
 history -d <history_id>
 history -t +%Y%m%d_%H%M%S
 hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
@@ -136,6 +145,7 @@ ip route add default via <default_gateway>
 ip route flush dev <interface>
 ipset add blocklist [ipaddrs]  ## add [ipaddrs] to blocklist
 ipset create blocklist hash:ip  ## create ip blocklist
+jobs  ## list background processes
 journalctl --list-boots
 journalctl --vacuum-size=500M
 journalctl -b, --boot[ID]
@@ -148,12 +158,16 @@ journalctl -p 3 -x
 journalctl -u <unit>
 journalctl _<tab>
 kill $(pidof <process_name>)
-ln -s <path> <name>  ## create symlink <name> to <path>
+ln -s -f <path> <name>  ## replace symlink <name> to <path>
 ls $XDG_DATA_HOME/keys/wl | fzf | xargs -r cat | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## fzf select wifi key and show qr
-lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint
+lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint  ## list block devices
+lsblk -o fsuse%,path,fsused,size | grep '%' | awk 'NR == 1; NR > 1 {print $0 | "sort -nr"}'  ## block devices usage percentage
+lscpu  ## display cpu architecture
+lshw  ## list hardware configuration
 lsmod  ## list drivers currently added to kernel
 lsof +f -- [path/1 path/2]  ## list open files in paths opened by processes
 lsof -p [PID]  ## list open files for PID
+lspci  ## list pci devices
 lspci -k -d #[<vendor>]:[<device>][:<class>]
 lspci -k -s <xx:xx.x> #[[[[<domain>]:]<bus>]:][<slot>][.[<func>]]
 lspci -kvvt
@@ -165,8 +179,8 @@ metar set eham
 mkdir /dock/<1-4>
 modprobe -r <driver>  ## remove driver from kernel
 modprobe <driver>  ## add driver to kernel
-mount -o uid=$(whoami),gid=$(id -gn) /dev/sdX dock/1  ## mount as current user
 mount -o remount,rw /dev/sdY1 /boot  ## remount rw existing mountpoint
+mount -o uid=$(whoami),gid=$(id -gn) /dev/sdX dock/1  ## mount as current user
 mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
 mount | grep ro,  ## find all ro mountpoints
 mpv --start=+00:00 --ytdl-format='best[filesize<300M]' --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --http-header-fields="User-Agent: $(head -n 1 $USER_AGENT)" $(wl-paste) ## stream movie verbose with mpv.conf cache_s profile
@@ -191,7 +205,9 @@ pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a
 printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
 printf "%03d%s" "2"  ## print leading zeros
 printf "%3d%s" "2"  ## print leading spaces
+printf "%d\n" \'A  ## character (A) to ascii value (65)
 printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-Transfer-Encoding: 7bit; Subject: <subject>\n; <body>" | msmtp -v -C <msmtp_config> -a <profile_name> -- destination@mail.com
+printf "\x$(printf %x 65)"  ## ascii value (65) to character (A)
 printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -
 printf "space_every_4th_char" | sed 's/.\{4\}/& /g'
 printf $(( [#n] x ))  ## print base 10 value of x in base n, with 2<=n<=36
@@ -220,6 +236,7 @@ rsync -aAXv --delete --exclude-from=<exclude_list> <source> <destination>
 rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exclude-from=/home/cytopyge/.config/settings/rsync/parvus_exclude_list / /dock/1/parvus
 rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exclude-from=/home/cytopyge/settings_/rsync/parvus_exclude_list -e ssh / admin@192.168.3.199:/share/backup/devices/dellxps13
 rsync -aAXv --delete <source> <destination>
+rsync -aAXv --dry-run --delete --info=progress2 $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## backup_c2b
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove history last line
 sed -i '$d' <file>  ## remove last line from <file>
@@ -271,13 +288,13 @@ tar -xv[j/z]f <archive.tar>  ## extract tar archive [bzip2/gzip compression (opt
 tee -a file1 file2  ## append stdout to multiple files
 tmux attach-session -t 0
 tmux show-options -g
+tr -d '[:blank:]\t\r\n'  ## remove all whitespace
 tr -s " " < file_with_double_spaces > file_without_double_spaces  ## remove double spaces
-ts .local/share
-type command/file  ## determine type of command, file or function
-uptime
+type file or command  ## file or command interpretation
 umount -l <mountpoint>  ## umount busy targets (mountpoints)
-usermod -a -G group_2_add user_2_add
-vlock -a
+uptime
+usermod -a -G group_2_add user_2_add  ## add user to group
+vlock -a  ## console lock
 watch -d -n 1 -t lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint
 watch -n 1 'ls -ilatr'
 wev  ## show wayland events i.e. keypresses keynames
@@ -287,6 +304,7 @@ while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(
 while read -r -u $fd line_in_file; do <command> $line_in_file; done {fd}< <file>  ## loop through lines in file (with stdin redirection)
 while read line_in_file; do <command> $line_in_file; done < <file>  ## loop through lines in file
 whois -B 46.166.142.215  ## whois own public ip
+wl-paste >> /home/cytopyge/.config/qutebrowser/bookmark_urls  ## add to bookmark_urls
 wpa_supplicant -B -i wlp58s0 -c ~/keys/wl/mn.wifi
 xargs -r command  ## run command with stdin as argument, no-run if empty
 xxd -b -p <infile <outfile>> ## plain bits dump
@@ -324,13 +342,3 @@ yay -Tv  ## check dependencies; show file paths
 yay -U <package>  ## remove then upgrade or add package
 ykman opt static 2 -k US <string>  ## assign string to yk slot 2
 zsh --no-rcs  ## zsh terminal without run command script
-jobs  ## list background processes
-fg [%n]  ## job [n] to foreground
-gpg --fingerprint | grep -i -B 1 <uid/email> | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
-printf "%d\n" \'A  ## character (A) to ascii value (65)
-printf "\x$(printf %x 65)"  ## ascii value (65) to character (A)
-< /home/cytopyge/.config/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
-wl-paste >> /home/cytopyge/.config/qutebrowser/bookmark_urls  ## add to bookmark_urls
-cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to $USER for $PATH
-gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
-cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist

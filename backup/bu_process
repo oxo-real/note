@@ -1,0 +1,62 @@
+# data on local storage device:
+
+## monitoring
+.logs
+.config/.fpcl
+.local/share a
+.local/share b
+.local/share c
+
+## source
+$XDG_DATA_HOME/c	(current)
+
+## destination
+$XDG_DATA_HOME/b	(backup)
+
+# storage devices
+
+1. laptop main onboard storage device
+2. laptop second onboard storage device
+3. first external storage device
+4. second external storage device
+5. online storage
+6. third external storage device
+
+
+# tier 1 local backup
+
+## goal
+first line of defence against data malformations on current,
+mainly due to human error
+
+## form
+this is just a mirror on the same storage device
+without redundancy to protect against hardware failure
+
+## execution
+rsync c to b
+
+# tier 2 remote backup
+
+## goal
+second line of defence against tier 1 risks and:
+catastrofic hardware failure
+
+## form
+separate storage device within the main operating environment
+
+## execution
+data_to
+
+# tier 3 off-site backup
+
+## goal
+protect against tier 1, tier 2 risks and:
+protection against hardware failure due to physical violence
+i.e. hardware failure due to fire, water into the main operating environment
+
+tier 3 online
+internet
+
+tier 3 offline
+separate storage device on separate storage location

@@ -1,0 +1,10 @@
+# pseudo random number generator
+
+## from video source
+open camera eye
+mpv /dev/video0
+S screenshot > mpv-shot0001.jpg
+Q close mpv
+create hash from image i.e. with:
+openssl dgst mpv-shot0001.jpg
+optional: pwgn

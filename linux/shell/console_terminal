@@ -1,0 +1,60 @@
+# teletype (tty), teleprinter or teletypewriter
+
+A communications device that allows operators to send and receive text-based
+messages using a typewriter-style keyboard and printed paper output.
+The basic principle behind teleprinters, is when two electric typewriters linked
+together by wires (or a wireless radio link). Whatever you type on one typewriter
+gets automatically printed out on the other.
+An example is Teletype Corporation's Model 33 (1963).
+
+
+# console
+
+A Console in the context of computers is a console or cabinet with a screen and
+keyboard combined inside it. But, it's effectively a Terminal. Technically the
+Console is the device and the Terminal is now the software program inside the
+Console.
+An example is the IBM 1620 (around the year 1960).
+
+In modern Linux the console refers to the prompt you get, after the kernel has
+booted.
+
+
+# terminal
+
+A physical teletype workstation, like the widely emulated hardware computer terminal DEC VT100.
+
+The word Terminal comes from terminate, indicating that it's the terminating end
+or "terminal" end of a communications process.
+
+When we refer to a Terminal in the software sense, we're referring to a literal
+software version of a TTY or Terminal.
+
+
+# shell
+
+A shell is a computer program which exposes an operating system's services to a
+human user or other programs. In general, operating system shells use either a
+command-line interface (CLI) or graphical user interface (GUI),
+depending on a computer's role and particular operation.
+It is named a shell because it is the outermost layer around the operating system
+
+Bash and Z shell (zsh) are widely adopted unix shells.
+
+## zsh
+Paul Falstad wrote the first version of Zsh in 1990[5] while a student at
+Princeton University.[6] The name zsh derives from the name of Yale professor
+Zhong Shao (then a teaching assistant at Princeton University) — Paul Falstad
+regarded Shao's login-id, "zsh", as a good name for a shell.
+
+
+# sources
+
+https://en.wikipedia.org/wiki/Teleprinter
+https://en.wikipedia.org/wiki/Teletype_Model_33
+https://en.wikipedia.org/wiki/System_console
+https://en.wikipedia.org/wiki/IBM_1620
+https://en.wikipedia.org/wiki/Computer_terminal
+https://en.wikipedia.org/wiki/VT100
+https://en.wikipedia.org/wiki/Shell_%28computing%29
+https://en.wikipedia.org/wiki/Z_shell
