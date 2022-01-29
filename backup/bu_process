@@ -1,17 +1,24 @@
-# data on local storage device:
+# backup & archive process (bap)
 
-## monitoring
-.logs
-.config/.fpcl
-.local/share a
-.local/share b
-.local/share c
 
-## source
+# targets to monitor
+
+## user data
+### real time
 $XDG_DATA_HOME/c	(current)
-
-## destination
+### dynamic
 $XDG_DATA_HOME/b	(backup)
+### static
+$XDG_DATA_HOME/a	(archive)
+
+## system data
+## installation
+					(repo)
+## configuration
+$XDG_CONFIG_HOME	(config)
+## logs
+$XDG_LOGS_HOME		(logs)
+
 
 # storage devices
 
@@ -34,7 +41,9 @@ this is just a mirror on the same storage device
 without redundancy to protect against hardware failure
 
 ## execution
-rsync c to b
+rsync c2b
+% rsync -aAXv --delete --info=progress2 $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b
+
 
 # tier 2 remote backup
 

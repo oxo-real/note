@@ -217,7 +217,7 @@ ps -eFly  ## list every process on the system
 ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list processes custom AIX format descriptors, sort low to high elapsed time since process was started
 ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom AIX format descriptors, sort high to low cpu usage
 pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
-qrencode -t UTF8 <string>
+qrencode -t utf8  ## create qr from stdin
 qutebrowser -s content.canvas_reading true ## qb for windy
 rankmirrors -n 10 /etc/pacman.d/mirrorlist | grep -w 'Server =' >> mirrorlist.ranked
 rcvboxdrv
