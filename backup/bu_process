@@ -41,8 +41,10 @@ this is just a mirror on the same storage device
 without redundancy to protect against hardware failure
 
 ## execution
-rsync c2b
-% rsync -aAXv --delete --info=progress2 $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b
+### rsync share c to b
+sudo chattr -R -i $XDG_DATA_HOME/b && \
+rsync -aAXv --delete --info=progress2 $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b && \
+sudo chattr -R +i $XDG_DATA_HOME/b
 
 
 # tier 2 remote backup
@@ -55,7 +57,7 @@ catastrofic hardware failure
 separate storage device within the main operating environment
 
 ## execution
-data_to
+syncr
 
 # tier 3 off-site backup
 

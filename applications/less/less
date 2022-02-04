@@ -11,3 +11,6 @@ export LESS_TERMCAP_se=$'\E[0m'          # end standout-mode
 source:
 https://unix.stackexchange.com/questions/149614/less-command-change-color-of-and-end
 https://en.wikipedia.org/wiki/ANSI_escape_code
+
+% \less --use-color -M --color='SWk' --color='Pgk' pacman.conf
+

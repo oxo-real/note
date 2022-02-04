@@ -1,3 +1,4 @@
+#!/usr/bin/env bash  ## search $path for bash
 #: '\nmultiline\ncodeblock\n# '  ## switchable multiline codeblock / comment (remove first #)
 < ${$(sh $XDG_DATA_HOME/git/code/tools/get_newest_file $XDG_LOGS_HOME/updater/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file
 < /dev/random tr -d -c "[:alnum:]" | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate password)
@@ -20,7 +21,7 @@ bindkey  ## zsh bound keys
 blkid /dev/sda128 | awk '{print $3}' | cut -d '"' -f 2  ## get uuid from /dev/sd
 bluetoothctl connect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth connect
 bluetoothctl disconnect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth disconnect
-bluetoothctl discoverable off	## bluetooth don't broadcast radio device
+bluetoothctl discoverable off	## bluetooth not broadcast radio device
 bluetoothctl power off && sudo systemctl stop bluetooth.service && sudo rfkill block bluetooth  ## bluetooth radio off
 cal -3 -m -w `date -I`  ## calendar showing last, current and next month
 cal -y -m -w `date +%Y`	 ## current year calendar
@@ -36,7 +37,8 @@ cd "$(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-
 cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
 cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to $USER for $PATH
 cd /usr/lib/modules/$(uname -r)
-cd /var/lib/pacman/local  ## pacman 'install' directory
+cd /var/lib/pacman/local  ## pacman install directory
+chattr -R +i file  ## 'i' attribute: file cannot be modified
 chmod --reference=ref_file target  ## make target file mode bits same as ref_file
 chown -R user:group directory	## recursive set user & group ownership
 chown :group file	## set group ownership
@@ -47,6 +49,8 @@ cryptsetup ---cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 --ve
 cryptsetup ---cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 key-file=/dev/sdZ open --type=plain /dev/sdX lvm
 cryptsetup ---cipher=serpent-xts-plain -hash=sha512 --key-size=512 --iter-time=4096 --use-random --verify-passphrase luksFormat /dev/sdX
 cryptsetup luksAddKey --key-slot 7 file  ## add luks key to slot 7 for container file
+cryptsetup luksDump file  ## dump header information
+cryptsetup luksChangeKey file  ## change a key
 cryptsetup luksUUID <luks_container> | wl-copy -o -n  ## get luks container id
 cryptsetup open /dev/sdX cryptroot
 ctags -R ~/.
@@ -126,9 +130,13 @@ gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -
 history -d <history_id>
 history -t +%Y%m%d_%H%M%S
 hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
-host -t A <ip_addr/domain>  # dns lookup A record
+host -t A <ip_addr/domain>  ## dns lookup A record
 host -v -t ANY <ip_addr/domain>  ## dns lookup any type verbose output
-id -gn [$USER] ## show effective group name
+id -u [$USER]  ## show effective user id
+id -g [$USER]  ## show effective group id
+id -un [$USER]  ## show effective user name
+id -gn [$USER]  ## show effective group name
+id [$USER]  ## show both real and effective uid & gid
 iftop -i <interface> ## display bandwith usage of interface
 info  ## advanced manual system primarily for gnu programs
 insmod <filename> [args]  ## for mods not in /usr/lib/modules/$(uname -r)
@@ -290,6 +298,7 @@ tmux attach-session -t 0
 tmux show-options -g
 tr -d '[:blank:]\t\r\n'  ## remove all whitespace
 tr -s " " < file_with_double_spaces > file_without_double_spaces  ## remove double spaces
+tree -n --charset=unicode  ## depth indented file listing
 type file or command  ## file or command interpretation
 umount -l <mountpoint>  ## umount busy targets (mountpoints)
 uptime

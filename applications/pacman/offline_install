@@ -114,16 +114,53 @@ update packages
 
 
 ###>>>
-# write packages and db under repo
-# with pkg_copy
-# repo-add /dev/sdR/packages/db/cytopyge.db.tar.zst /dev/sdR/packages/*.pkg.tar.zst
 #
-# after iso boot mount repo
+# requirements
+#
+# 1 usb1 archiso
+# 2 usb2 part 1 labelled: REPO
+# 3 usb2 part 2 labelled: CODE
+#
+#
+# on source system (with internet)
+#
+# mount usb partition 2 [repo] as user;
+#
+# copy packages to repo and
+#	cp /var/cache/pacman/pkg repo
+# write offline database to repo
+#	repo-add repo/offline.db.tar.zst repo/*.pkg.tar.zst
+# with:
+# pkg-copy $dst/repo
+#
+# then:
+# mount usb partition 3 [code] as user;
+#
+# rsync -aAXv --delete /home/cytopyge/.local/share/c/git/code ~/dock/3
+# rsync -aAXv --delete /home/cytopyge/.local/share/c/git/notes ~/dock/3
+# rsync -aAXv --delete /home/cytopyge/.local/share/c/keys ~/dock/3
+#
+#
+# iso boot
+#
+# mkdir tmp repo
+# mount /dev/sdX3 tmp
+#
+# hajime/0init.sh
+#
+# ...
+# https://bbs.archlinux.org/viewtopic.php?id=229502
+#
 # vim /etc/pacman.conf
+# remove all #X--
 # uncomment the other repos
 # add [offline]
 # SigLEvel = Optional
-# Server = file:///root/tmp/repo
+# Server = file:///root/mnt/repo
+#
+# on repo medium:
+
+
 
 
 

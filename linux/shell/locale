@@ -1,0 +1,218 @@
+# change locale
+## for all applications in current terminal
+### i.e. to international english utf8
+export LC_ALL=en_US.UTF-8
+
+## systemwide
+/etc/locale.conf
+LANG=en-US.UTF-8
+
+--------------------------------
+https://www.michal.kosmulski.org/computing/articles/linux-unicode.html
+
+Introduction to Unicode — Using Unicode in Linux
+License
+This article is double-licensed under the Creative Commons Attribution-ShareAlike License and the GNU Free Documentation License. Contact the author if you are interested in other forms of licensing.
+
+Copyright © 2004 Michał Kosmulski.
+Creative Commons License	This document is licensed under the Creative Commons Attribution-ShareAlike License
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2 or any later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+Disclaimer
+The author disclaims all warranties with regard to this document, including all implied warranties of merchantability and fitness for a certain purpose; in no event shall the author be liable for any special, indirect or consequential damages or any damages whatsoever resulting from loss of use, data or profits, whether in an action of contract, negligence or other tortious action, arising out of or in connection with the use of this document.
+
+Introduction to Unicode — Using Unicode in Linux
+Unicode, or the Universal Character Set (UCS), was developed to end once and for all the problems associated with the abundance of character sets used for writing text in different languages. It is a single character set whose goal is to be a superset of all others used before, and to contain every character used in writing any language (including many dead languages) as well as other symbols used in mathematics and engineering. Any charset can be losslessly converted to Unicode, as we'll see.
+
+ASCII, a character set based on 7-bit integers, used to be and still is popular. While its provision for 128 characters was sufficient at the time of its birth in the 1960s, the growing popularity of personal computing all over the world made ASCII inadequate for people speaking and writing many different languages with different alphabets.
+
+Newer 8-bit character sets, such as the ISO-8859 family, could represent 256 characters (actually fewer, as not all could be used for printable characters). This solution was good enough for many practical uses, but while each character set contained characters necessary for writing several languages, there was no way to put in a single document characters from two different languages that used characters found in two distinct character sets. In the case of plain text files, another problem was how to make software automatically recognize the encoding; in most cases human intervention was required to tell which character set was used for each file. A totally new class of problems was associated with using Asian languages in computing; non-Latin alphabets posed new challenges due to the some languages' needs for more than 256 characters, right to left text, and other features not taken into account by existing standards.
+
+Unicode aims to resolve all of those issues.
+
+Two organizations maintain the Unicode standard -- the Unicode Consortium and the International Organization for Standardization (ISO). The names Unicode and ISO/IEC 10646 are equivalent when referring to the character set (however, Unicode Consortium's definition of Unicode provides more than just the character set standard -- it also includes a standard for writing bidirectional text and other related issues).
+
+Unicode encodings
+Unicode defines a (rather large) number of characters and assigns each of them a unique number, the Unicode code, by which it can be referenced. How these codes are stored on disk or in a computer's memory is a matter of encoding. The most common Unicode encodings are called UTF-n, where UTF stands for Unicode Transformation Format and n is a number specifying the number of bits in a basic unit used by the encoding.
+
+Note that Unicode changes one assumption which had been correct for many years before, namely that one byte always represents one character. As you'll see, a single Unicode character is often represented by more than one byte of data, since the number of Unicode characters exceeds 256, the number of different values which can be encoded in a single byte. Thus, a distinction must be made between the number of characters and the number of bytes in a piece of text.
+
+Two very common encodings are UTF-16 and UTF-8. In UTF-16, which is used by modern Microsoft Windows systems, each character is represented as one or two 16-bit (two-byte) words. Unix-like operating systems, including Linux, use another encoding scheme, called UTF-8, where each Unicode character is represented as one or more bytes (up to four; an older version of the standard allowed up to six).
+
+UTF-8 has several interesting properties which make it suitable for this task. First, ASCII characters are encoded in exactly the same way in ASCII and in UTF-8. This means that any ASCII text file is also a correct UTF-8 encoded Unicode text file, representing the same text. In addition, when encoding characters that take up more than one byte in UTF-8, characters from the ASCII character set are never used. This ensures, among other things, that if a piece of software interprets such a file as plain ASCII, non-ASCII characters are ignored or in worst case treated as random junk, but they can't be read in as ASCII characters (which could accidentally form some correct but possibly malicious configuration option in a config file or lead to other unpredictable results). Given the importance of text files in Unix, these properties are significant. Thanks to the way UTF-8 was designed, old configuration files, shell scripts, and even lots of age-old software can function properly with Unicode text, even though Unicode was invented years after they came to be.
+
+How Linux handles Unicode
+When we say that a Linux system "can handle Unicode," we usually mean that it meets several conditions:
+
+Unicode characters can be used in filenames.
+Basic system software is capable of dealing with Unicode file names, Unicode strings as command-line parameters, etc.
+End-user software such as text editors can display and edit Unicode files.
+Thanks to the properties of UTF-8 encoding, the Linux kernel, the innermost and lowest-level part of the operating system, can handle Unicode filenames without even having the user tell it that UTF-8 is to be used. All character strings, including filenames, are treated by the kernel in such a way that they appear to it only as strings of bytes. Thus, it doesn't care and does not need to know whether a pair of consecutive bytes should logically be treated as two characters or a single one. The only risk of the kernel being fooled would be, for example, for a filename to contain a multibyte Unicode character encoded in such a way that one of the bytes used to represent it was a slash or some other character that has a special meaning in file names. Fortunately, as we noted, UTF-8 never uses ASCII characters for encoding multibyte characters, so neither the slash nor any other special character can appear as part of one and therefore there is no risk associated with using Unicode in filenames.
+
+Filesystem types not originally intended for use with Unices, such as those used by Windows, are slightly different as we'll se later on.
+
+User space programs use so-called locale information to correctly convert bytes to characters, and for other tasks such as determining the language for application messages and date and time formats. It is defined by values of special environmental variables. Correctly written applications should be capable of using UTF-8 strings in place of ASCII strings right away, if the locale indicates so.
+
+Most end-user applications can handle Unicode characters, including applications written for the GNOME and KDE desktop environments, OpenOffice.org, the Mozilla family products and others. However, Unicode is more than just a character set -- it introduces rules for character composition, bidirectional writing, and other advances features that are not always supported by common software.
+
+Some command-line utilities have problems with multibyte characters. For example, tr always assumes that one character is represented as one byte, regardless of the locale. Also, common shells such as Bash (and other utilities using the getline library, it seems) tend to get confused if multibyte characters are inserted at the command line and then removed using the Backspace or Delete key.
+
+Converting a system to Unicode
+First of all, check whether you're already using a Unicode locale. The command locale prints out the values of environmental variables that influence the locale settings. A complete description of their meanings is available in locale man pages. Usually, locale names consist of a lowercase language code followed by an underscore and an uppercase country code (e.g. en_US for U.S. English). Unicode locale names that use UTF-8 encoding additionally end with ".UTF-8." If such names are present in the output of locale, you are already using a Unicode locale.
+
+If you do need to make the conversion, back up all your important data first, as you'll be converting your disk's filesystems. Note that backups made prior to converting the filesystem and thereafter are somewhat incompatible. As we noted last time, the operating system and many utilities do not realize what characters the bytes in file names represent. Among the utilities with this problem is the tar program, which is a popular backup tool. If you are using an en_US locale now and some filename contains the character "ä" (German A umlaut), it is represented as a single byte: hex 0xE4. After you move to UTF-8, it will be represented as two bytes: 0xC3 0xA4. However, neither the filesystem nor tar know that these two different byte sequences can represent the same character. If you restore your old file from backup after moving to a UTF-8 locale, the old one-byte sequence will be used in the restored file's name, making it different from the new version's name. Under a UTF-8 locale, this single byte won't be considered "ä" but rather an invalid UTF-8 sequence, and will be displayed as a placeholder or as an octal representation of the erroneous byte only. So if you restore data from older backups or archives after you move to UTF-8, you may need to run a filename conversion similar to the one we'll describe below on the extracted files in order to get the filenames correct.
+
+To be able to use UTF-8 locales without having to invest too much work in it, you will need glibc (GNU C library) version 2.2 or newer (any reasonably modern distro should have it). You can check your version by running /lib/libc.so.6.
+
+Instructions listed in this chapter can lead you through the process of converting a filesystem to use UTF-8 encoding. They also try to give you an idea of what exactly is going on and to help you understand each step. However, performing the conversion this way can be time-consuming. There is a tool called convmv which performs file system conversions in a way which is probably more user-friendly and faster than the method described here, although the educational aspect is not highlighted as much. Convmv is also capable of performing conversions between different Unicode normalization forms (NFC and NFD) which this script is not (note: I have never used convmv so I can't make any statements about its suitability for particular tasks; I'm just repeating here what the program's homepage says). So, if you just want to convert your filesystem as quickly and painlessly as possible, convmv may be a better choice and you can skip over to the next part of this article. However, if you want to gain a better understanding of how things work, read on.
+
+The following paragraphs give a step-by-step description of how to perform the conversion. Most operations described below must be performed as root.
+
+Setting the locale
+Certain environment variables tell applications which locale is to be used. Commonly used variables are:
+
+LC_ALL -- When set, the value of this variable overrides the values of all other LC_* variables.
+LC_* -- These variables control different aspects of the locale. For example, LC_CTYPE controls the way upper- to lowercase conversion takes place, while LC_TIME controls the date and time format. LC_MESSAGES defines the language for application messages. Details can be found in the man page for locale(7).
+LANG -- If LC_ALL is not set, then locale parameters whose corresponding LC_* variables are not set default to the value of LANG.
+Before modifying your locale, remember or save to a file the output of locale, which shows your current locale. Also, note down the output of locale -k LC_CTYPE | fgrep charmap (your current character encoding), as you will need this information later on.
+
+In order to tell applications to use UTF-8 encoding, and assuming U.S. English is your preferred language, you could use the following command:
+
+export LC_ALL=en_US.UTF-8
+Applications started afterwards from the same terminal window should be aware of UTF-8. To check if that's the case, you could for example use the command wc. wc -c will tell you the number of bytes and wc -m the number of characters in a file or in data read from standard input (end typing with Enter and Ctrl-D). In a UTF-8 locale, if text contains non-ASCII characters, the number of bytes will be greater than the number of characters. For example:
+
+user@host:~$ wc -c
+Bär
+5
+user@host:~$ wc -m
+Bär
+4
+This three-character word is encoded using four bytes in UTF-8 (the extra character or byte is the end-of-line marker).
+
+If the test failed (i.e. wc returns the same number in both cases), your system probably came without UTF-8 locale definitions, and you will have to use localedef to generate them. For example, if en_US.UTF-8 is missing, you can generate it from en_US using:
+
+localedef -i en_US -f UTF-8 en_US.UTF-8
+Since values of environment variables last only as long as your session, you have to put your export commands in /etc/profile so that they are run for each user the next time he or she logs in. If you perform your work from inside KDE, you will have to log out and back in so that environmental variables can be re-read in order for changes to take effect. GNOME seems to always use UTF-8 internally, even if the locale is not UTF-8-based. No matter which desktop environment you are using, it may be necessary to log out and, if you are using a login manager (e.g. KDM or GDM), restart the X Window System by pressing Ctrl-Alt-Backspace so that /etc/profile is re-read and all applications come to know about the new locale.
+
+Converting filesystems
+The next step is to convert your filesystems. This is the only risky part of the transition, so do make a backup of all important data from your disks if you haven't done so yet.
+
+As noted above, the Linux kernel doesn't care about character encodings. For common Linux filesystems (ext2, ext3, ReiserFS, and other filesystems typical for Unices), information that a particular filesystem uses one encoding or another is not stored as a part of that filesystem. Only locale-controlling environment variables tell software that particular bytes should be displayed as one or another character. Filesystems found on Microsoft Windows machines (NTFS and FAT) are different in that they store filenames on disk in some particular encoding. The kernel must translate this encoding to the system encoding, which will be UTF-8 in our case.
+
+If you have Windows partitions on your system, you will have to take care that they are mounted with correct options. For FAT and ISO9660 (used by CD-ROMs) partitions, option utf8 makes the system translate the filesystem's character encoding to UTF-8. For NTFS, nls=utf8 is the recommended option (utf8 should also work). Add these mount options to filesystems of these types in your /etc/fstab to make them mount with the correct options. A fragment of /etc/fstab might then look like this (other options may vary depending upon your setup):
+
+/dev/hda2        /mnt/c           ntfs        defaults,ro,nls=utf8                        1 0
+/dev/hda3        /mnt/d           vfat        defaults,quiet,utf8                         1 0
+/dev/cdrom       /mnt/cdrom       iso9660     defaults,noauto,users,ro,utf8               0 0
+# If using supermount, add "utf8" to the options _after_ two dashes, e.g.
+#none             /mnt/cdrom       supermount  fs=iso9660,dev=/dev/cdrom,--,auto,ro,utf8   0 0
+/dev/fd0         /mnt/floppy      auto        defaults,noauto,users,rw,quiet,utf8         0 0
+After you modify /etc/fstab, you should remount the filesystems in question by issuing a mount -o remount /mnt/mount-point command for each of them. Non-ASCII characters in filenames on those filesystems should now be displayed correctly again. Note that this requires the kernel to be capable of converting between character sets, so support for UTF-8 must be compiled in or available as a module. This option is available in "File systems"->"Native Language Support"->"NLS UTF-8" in the kernel configuration program. Depending upon which encoding your Windows partitions use, you may also need to compile in support for that encoding, too. Check this page for a list of codepages used by various language versions of FAT. NTFS always uses Unicode internally and doesn't need any kernel NLS options except for UTF-8 support.
+
+Native Linux filesystems do not store information about the character encoding used, so you must physically change the names of all files to the new encoding, as opposed to the simple remounting of FAT and NTFS volumes. In theory, all you need to do is execute a command like:
+
+mv original-filename filename-in-UTF-8-encoding
+for each file. In practice, things tend to be a little more complicated. First of all, you may already have UTF-8-encoded filenames on your disk without knowing it. For example, some GNOME applications tend to create UTF-8 filenames regardless of the locale used, and kbd (a set of utilities for handling console fonts) comes with a sample file called ♪♬ (two music notes) in the documentation. During conversion, these files need to be identified and their names left unchanged.
+
+Another issue to look out for is directories. Since both the directory name and names of files contained within may need changing to their UTF-8 equivalents, you can't simply create a list of all files and directories and then perform mv old-name new-name for each of them. If you did and first renamed a directory, then the path referring to the files in that directory would no longer be valid. So, order is important. In the directory tree, the leaves (i.e. files) should be renamed first, then the lowest-level directories, then their parent directories, and so on.
+
+Below is a script that tries to perform the necessary convertion automatically. Note that using it may be dangerous -- back up important data first! While it should work in most cases, this script isn't bulletproof. In order to keep things simple, it doesn't handle some special cases such as spaces in mount paths (which are really rare) and read-only filesystems (it is not obvious what should be done with those; if you do intend to convert a read-only mounted hard disk partition, remount it manually as read-write with mount -o remount,rw /some/mount/path before running the script). Depending on filesystem size and the number of files that need conversion, this script may take a long time to complete, especially since for simplicity's sake it is far from optimal (all this could probably be done in Perl in a much more compact way).
+
+Remember to modify orgcharset in the script below to the name of your old character set found out in one of previous steps using locale -k LC_CTYPE.
+
+#!/bin/sh
+
+fstab=/etc/fstab
+orgcharset=INVALID_CHARSET_NAME
+
+export LC_ALL=POSIX
+
+# Find filesystems suitable for conversion
+filesystems=`awk '!/vfat|ntfs|iso9960|udf|auto|autofs|swap|subfs|sysfs|proc|devpts|nfs|smbfs|^#/{print $2}' "$fstab"`
+# Locate files whose names need to be converted and sort the list
+find $filesystems -xdev | {
+	while read; do
+		# Check if the filename needs conversion (i.e. is not a correct UTF-8 string)
+		if ! echo `basename "$REPLY"` | iconv -f UTF-8 -t UTF-8 &>/dev/null; then
+			echo "$REPLY"
+		fi
+	done
+} | sort -r | {
+	# Rename files
+	while read; do
+		dirname=`dirname "$REPLY"`
+		orgfname=`basename "$REPLY"`
+		newfname=`echo "$orgfname" | iconv -f "$orgcharset" -t UTF-8`
+		if [ $? -ne 0 ]; then
+			echo "Error: iconv failed for $REPLY. Skipping." >&2
+			continue
+		fi
+		mv "$REPLY" "$dirname"/"$newfname"
+	done
+}
+Converting text files
+It is convenient for user text files to use the system's default encoding, so after moving to UTF-8 you may want to convert your text files too. Converting configuration files isn't necessary, as programs that can handle non-ASCII data in their config almost always use UTF-8 for storing it already. You can convert a single text file with iconv:
+
+iconv -f old-encoding -t UTF-8 filename > temp.tmp && cat temp.tmp > filename && rm temp.tmp
+Again, make sure this actually works before playing with important data.
+
+Getting fonts with Unicode support
+Unicode fonts for the text console are usually shipped with major Linux distributions. To enable UTF-8 on the console, run unicode_start (unicode_stop to return to previous one-byte encoding mode).
+
+In order to be able to actually see Unicode characters displayed by X applications, you need to download and install Unicode fonts. Bitstream Vera is a TrueType font available under an open source license that now comes with many Linux distributions. Unfortunately, it contains few characters. An extended version, with support for most Latin accented characters, is called Hunky Font. A family of Unicode fonts called FreeFont is available under the GPL. There are also a number of free-as-in-beer fonts on the Web, including Microsoft Core Fonts (a package containing among others the popular typefaces Arial and Times New Roman), Bitstream Cyberbit (only Roman style is available, but it has a very good Unicode coverage), Gentium, and many others. Of course, there are also lots of commercial fonts that can be used with X.
+
+Summary
+Using UTF-8 has many advantages over using a single-byte locale. A minor one is the ability to use any character in file names and on the command line. The main advantage of Unicode, however, is that it allows easier data exchange and better interoperability than any other character set. UTF-8 is meant to replace ASCII in the future, so at some point "text file" is going to mean "UTF-8 file" just as it means "ASCII file" now.
+
+History
+2007-01-06 — version 1.2; a section regarding convmv was added
+2004-12-20 — version 1.1; article is published with minor corrections on author's homepage (double-licensed under the Creative Commons Attribution-ShareAlike License and the GNU Free Documentation License)
+2004-11-01, 2004-11-02 — version 1.0; article is first published in two parts: Introduction to Unicode and Using Unicode in Linux on newsforge.com
+Thanks
+I want to thank all people who helped me improve this document by posting their comments via e-mail and forums.
+
+See also:
+
+This article as published on newsforge.com:
+Part 1: Introduction to Unicode
+Part 2: Using Unicode in Linux
+Computing main page
+Unicode Consortium
+Unicode page in Wikipedia
+UTF-8 page in Wikipedia
+man page for UTF-8 (or run man 7 utf8)
+man page for Unicode (or run man 7 unicode)
+UTF-8 and Unicode FAQ
+Unicode HOWTO (somewhat outdated)
+A Quick Primer On Unicode and Software Internationalization Under Linux and UNIX
+A list of Unicode fonts
+convmv
+Michał Kosmulski
+Home
+CV
+:: Minerals, Fossils, Meteorites
+Meteory i komety w literaturze [PL]
+Najnowsze wiadomości o meteorytach [PL]
+:: Origami
+:: Computing
+    :: Software projects
+    :: Published Articles
+        Posts in Allegro Blog
+        Custom keyboard layouts
+        OpenOffice.org macros
+        Linux and Unicode
+        A Kommander Crash Course
+        Jak się nie dać zamknąć [PL]
+        Pingwin, który zmienił świat [PL]
+    :: Tips & tricks
+    Presentations
+    Digital photography
+    Web development and SEO
+    Links
+:: Juliusz Słowacki
+:: Marian Smoluchowski
+Feedback
+Tools
+Printable version
+Copyright
+Unless indicated otherwise, all content © 2004-2020 Michał Kosmulski. All rights reserved.
+Ten serwis używa plików cookies. Możesz określić warunki przechowywania i dostępu do plików cookies lub całkowicie zablokować ich wykorzystywanie w ustawieniach Twojej przeglądarki. Pliki cookies są używane wyłącznie w celu zapamiętania stanu rozwinięcia elementów bocznego menu oraz niniejszego komunikatu.
