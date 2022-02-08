@@ -58,3 +58,67 @@ To inhibit the -S, -U and -R actions, -p can be used.
 
 Pacman always lists packages to be installed or removed and asks for permission before it takes action.
 https://wiki.archlinux.org/index.php/Pacman
+
+
+# package signing
+# https://wiki.archlinux.org/title/Pacman/Package_signing#Resetting_all_the_keys
+#
+# Cannot import keys
+
+## upgrade system
+pacman -Syu
+
+## change keyserver
+/etc/pacman.d/gnupg/gpg.conf
+i.e.: keyserver hkp://keyserver.ubuntu.com
+
+## clean cached packages
+pacman -Sc (removes packages that are not installed)
+
+
+# Signature is unknown trust
+
+## refresh keys
+pacman-key --refresh-keys
+
+## manually signing untrusted key locally
+# https://wiki.archlinux.org/title/Pacman/Package_signing#Adding_unofficial_keys
+This method can be utilized to add a key to the pacman keyring,
+or to enable signed unofficial user repositories.
+
+First, get the key ID (keyid) from its owner.
+Then add it to the keyring using one of the two methods:
+
+1.	If the key is found on a keyserver, import it with:
+
+% pacman-key --recv-keys keyid
+
+2.	If otherwise a link to a keyfile is provided, download it and then run:
+
+% pacman-key --add /path/to/downloaded/keyfile
+
+It is recommended to verify the fingerprint,
+as with any master key or any other key you are going to sign:
+
+% pacman-key --finger keyid
+
+Finally, you must locally sign the imported key:
+
+% pacman-key --lsign-key keyid
+
+You now trust this key to sign packages.
+
+Debugging with gpg
+For debugging purposes, you can access pacman's keyring directly with gpg, e.g.:
+
+% gpg --homedir /etc/pacman.d/gnupg --list-keys
+
+## reset all keys
+sudo rm -rf /etc/pacman.d/gnupg
+pacman-key --init
+pacman-key --populate archlinux
+
+
+## reduce SigLevel
+/etc/pacman.conf
+SigLevel = TrustAll (NOT recommended)
