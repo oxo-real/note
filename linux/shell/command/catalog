@@ -323,6 +323,7 @@ xxd -p <infile <outfile>> ## plain hexdump
 xxd -r -p <infile <outfile>> ## reverse plain hexdump
 yay --gendb  ## generate developement package database
 yay --show -w -w
+yay -Gd $(yay -Qqm)  ## download package builds from installed aur packages
 yay -P  ## show (is a yay specific [no pacman] option)
 yay -Ps && yay --show -w && yay -Syu && yay -Rns $(yay -Qtdq) && yay -c && paccache -rv
 yay -Pw  ## show news

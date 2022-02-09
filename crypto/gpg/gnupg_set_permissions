@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # correct ownership
-chown -R $(whoami):$(id -gn) $GNUPGHOME
+chown -R $(id -un):$(id -gn) $GNUPGHOME
 
 # correct permissions
 ## for files
