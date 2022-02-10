@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+[[ -n $GNUPGHOME ]] || export GNUPGHOME="$HOME/.config/gnupg"
+
 # correct ownership
 chown -R $(id -un):$(id -gn) $GNUPGHOME
 
