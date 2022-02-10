@@ -166,7 +166,8 @@ journalctl -p 3 -x
 journalctl -u <unit>
 journalctl _<tab>
 kill $(pidof <process_name>)
-ln -s -f <path> <name>  ## replace symlink <name> to <path>
+ln -s <target> <link_name>  ## create sym<link_name> to <target>
+ln -s -f <target> <link_name>  ## replace sym<link_name> to <target>
 ls $XDG_DATA_HOME/keys/wl | fzf | xargs -r cat | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## fzf select wifi key and show qr
 lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint  ## list block devices
 lsblk -o fsuse%,path,fsused,size | grep '%' | awk 'NR == 1; NR > 1 {print $0 | "sort -nr"}'  ## block devices usage percentage
