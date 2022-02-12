@@ -123,6 +123,7 @@ gpg --output file.gpg --symmetric file >  ## encrypt file symmetricly
 gpg --output revoke.asc --gen-revoke ID  ## generate revocation certificate
 gpg -vv public_key.asc
 gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
+gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk 'BEGIN{CACHED=0} /^S/ {if($7==1){CACHED=1}} END{if($0!=""){print CACHED} else {print "0"}}'  ## gpg cache status (1=cached)
 grep "\sro[\s,]" /proc/mounts
 grep -riIl 'text' [directory]  ## find files (no binary) containing text recursively in directory
 grep -riIn 'text' [directory]  ## find files (no binary) containing text recursively in directory with linenumbers
@@ -256,6 +257,7 @@ sed -i 'ni insert this into line n of file' <file>
 sed -i 's/<find>/<replace>/g' <file>  ## replace <find> with <replace> in <file>
 sed -i '/<find>/{n;s/.*/<replace>/}' <file>  ## find <find> and replace next line with <replace>
 sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' <file>  ## remove last 2 lines from <file>
+sed -i '/^find/ s/./#&/' <file>  ## comment out lines containing 'find'
 setfont ter-v32n
 setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
 sh -xv file.sh  ## extra verbose debug output
