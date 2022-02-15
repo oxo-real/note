@@ -270,6 +270,13 @@ C-g		get cursor status
 g c-g	cursor position status
 }}}
 
+# macros
+{{{
+# macro x
+record		q x <command_sequence> q
+execute		@ x
+
+}}}
 # plugins
 {{{
 

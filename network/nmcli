@@ -1,0 +1,42 @@
+% nmcli general status
+STATE      CONNECTIVITY  WIFI-HW  WIFI      WWAN-HW  WWAN
+connected  full          enabled  disabled  enabled  enabled
+
+~
+% nmcli general logging
+LEVEL  DOMAINS
+INFO   PLATFORM,RFKILL,ETHER,WIFI,BT,MB,DHCP4,DHCP6,PPP,IP4,IP6,AUTOIP4,DNS,VPN,
+		SHARING,SUPPLICANT,AGENTS,SETTINGS,SUSPEND,CORE,DEVICE,OLPC,INFINIBAND,
+		FIREWALL,ADSL,BOND,VLAN,BRIDGE,TEAM,CONCHECK,DCB,DISPATCH,AUDIT,SYSTEMD,
+		PROXY
+
+~
+% nmcli device status
+DEVICE          TYPE      STATE                   CONNECTION
+enp4s0f3u4u1u2  ethernet  connected (externally)  enp4s0f3u4u1u2
+eno1            ethernet  unavailable             --
+wlp1s0          wifi      unavailable             --
+p2p-dev-wlp1s0  wifi-p2p  unavailable             --
+lo              loopback  unmanaged               --
+
+~
+% nmcli device show enp4s0f3u4u1u2
+GENERAL.DEVICE:                         enp4s0f3u4u1u2
+GENERAL.TYPE:                           ethernet
+GENERAL.HWADDR:                         3A:3A:E5:B6:4D:85
+GENERAL.MTU:                            1500
+GENERAL.STATE:                          100 (connected (externally))
+GENERAL.CONNECTION:                     enp4s0f3u4u1u2
+GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveConnection/18
+WIRED-PROPERTIES.CARRIER:               on
+IP4.ADDRESS[1]:                         192.168.0.23/24
+IP4.GATEWAY:                            192.168.0.1
+IP4.ROUTE[1]:                           dst = 192.168.0.0/24, nh = 0.0.0.0, mt = 1004
+IP4.ROUTE[2]:                           dst = 0.0.0.0/0, nh = 192.168.0.1, mt = 1004
+
+~
+% nmcli connection show
+NAME                UUID                                  TYPE      DEVICE
+enp4s0				f08d5145-4c57-405f-abf5-1453d5e2f152  ethernet  enp4s
+ProtonVPN SE#30     fd577191-7a77-45b5-9a69-43d536d3ad9e  vpn       --
+Wired connection 1  6e5d3af9-21e9-30c4-821e-0b5e3b65557c  ethernet  --

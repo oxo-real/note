@@ -1,0 +1,29 @@
+# install
+
+yay -S pam-u2f
+pamu2fcfg > ~/.config/yubikey/u2fkeys
+
+
+# yk 2fa for sudo commands
+in:
+/etc/pam.d/sudo
+after:
+@include common-auth
+add:
+auth	required	pam_u2f.so
+
+
+# yk 2fa for desktop login
+in:
+/etc/pam.d/
+
+
+# yk 2fa for tty
+in:
+/etc/pam.d/login
+after:
+@include common-auth
+add:
+auth	required	pam_u2f.so
+
+

@@ -117,9 +117,10 @@ gpg --gen-key  ## generate new keypair
 gpg --import ID >  ## import public key
 gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 1 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list
 gpg --output ID.puk.asc --armor --export ID >  ## export public key ascii armored
-gpg --output file --decrypt file.gpg >  ## decrypt file.gpg asymmetricly using private key
-gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetricly using public key ID
-gpg --output file.gpg --symmetric file >  ## encrypt file symmetricly
+gpg --output file --decrypt file.gpg >  ## decrypt file.gpg asymmetric using private key
+gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetric using public key ID
+gpg --output file.gpg --symmetric file >  ## encrypt file symmetric
+gpg -e -a -r <id> file ## encrypt file armored for recipient <id> (like pass)
 gpg --output revoke.asc --gen-revoke ID  ## generate revocation certificate
 gpg -vv public_key.asc
 gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
