@@ -3,3 +3,21 @@ ctrl alt (Fn) F2
 
 copy paste with xsel:
 $(DISPLAY=:0 xsel -ob)
+
+# obtain full sysrq priviledges
+echo '1' | sudo tee /proc/sys/kernel/sysrq
+
+# reboot
+if C-A-D does not reboot, then type (slowly):
+sysrq reisub
+
+A-prtsc (sysrq)
+R: Switch the keyboard from raw mode to XLATE mode
+E: Send the SIGTERM signal to all processes except init
+I: Send the SIGKILL signal to all processes except init
+S: Sync all mounted filesystems
+U: Remount all mounted filesystems in read-only mode
+B: Immediately reboot the system, without unmounting partitions or syncing
+
+# shutdown
+sysrq reisuo

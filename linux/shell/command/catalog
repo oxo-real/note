@@ -7,7 +7,6 @@
 <command> &> <file>  ## <command> stdout to <file>
 <command> 2>&1 | tee -a logfile  ## <command> stderr to stdout, also append to logfile
 <command> >/dev/null 2>&1  ## suppress all output from command
-[SysRq] ([Alt]+[PrtScr]) reisub
 amixer info  ## info about alsamixer device
 amixer scontrols  ## list of alsamixer controls
 amixer set Capture toggle	## alsamixer set
@@ -26,16 +25,13 @@ bluetoothctl power off && sudo systemctl stop bluetooth.service && sudo rfkill b
 cal -3 -m -w `date -I`  ## calendar showing last, current and next month
 cal -y -m -w `date +%Y`	 ## current year calendar
 case $expr in pattern1) statements ;; ptrn2) stmnt ;; *) stmnt ;; esac
-cat $XDG_DATA_HOME/keys/wl/mn.wifi | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8
-cat -n <file>
-cat /proc/sys/kernel/sysrq
-cat /var/log/pacman.log
+cat ap.wifi | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
+cat -n <file>  ## cat with line numbers
 cat <file_sort_freq> | cut -c 8- > <file_rm_freq>	##
 cat >> file << EOF; multi_line_text; EOF  ## append to here document
-cat file | wl-copy	## copy file content to clipboard
 cd "$(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)"  ## cd with fzf from $HOME, spacebar for info box
 cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
-cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to $USER for $PATH
+cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
 cd /usr/lib/modules/$(uname -r)
 cd /var/lib/pacman/local  ## pacman install directory
 chattr -R +i file  ## 'i' attribute: file cannot be modified
@@ -279,13 +275,17 @@ stat -c %A <file>  ## display file access rights in human readable format
 stat -c %a <file>  ## display file access rights in octal format
 stat <file>  ## display file or file system status
 stty -a  ## print all terminal line settings
-sudo -k
-sudo -l
+sudo -k  ## invalidate cached credentials
+sudo -l  ## list allowed commands for user
+sudo -n printf '' >/dev/null 2>&1  ## get sudo status (in error code)
 sudo ip link set up && sudo dhcpcd  && ping -c 1 9.9.9.9 && ip a
 sudo iptables -A INPUT -s [ipaddr] -j DROP  ## add [ipaddr] to chain INPUT and drop all traffic
 sudo rfkill unblock bluetooth && pulseaudio --start && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off ## bluetooth radio on
 sudo systemctl start sshd
 swaymsg -t get_outputs
+echo '1' | sudo tee /proc/sys/kernel/sysrq  ## # obtain full sysrq priviledges
+sysrq reisub  ## reboot
+sysrq reisuo  ## shutdown
 systemctl --failed
 systemctl isolate graphical.target
 systemctl isolate multi-user.target
