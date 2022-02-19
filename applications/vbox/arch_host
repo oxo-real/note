@@ -1,2 +1,4 @@
 yay -Sy virtualbox virtualbox-host-modules-arch
 modprobe vboxdrv
+usermod -a -G vboxusers $USER
+

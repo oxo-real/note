@@ -303,7 +303,7 @@ tmux attach-session -t 0
 tmux show-options -g
 tr -d '[:blank:]\t\r\n'  ## remove all whitespace
 tr -s " " < file_with_double_spaces > file_without_double_spaces  ## remove double spaces
-truncate -s 0 file  ## resize file to zero bytes
+truncate -s 5M file  ## shrink / extend or create file with 5M size
 tree -n --charset=unicode  ## depth indented file listing
 type file or command  ## file or command interpretation
 umount -l <mountpoint>  ## umount busy targets (mountpoints)

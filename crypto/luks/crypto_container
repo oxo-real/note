@@ -13,6 +13,18 @@ dd if=/dev/random of=container bs=1M count=128 iflag=fullblock status=progress
 cryptsetup -y luksFormat container
 ```
 
+## minimum size
+luksFormat creates a minimum default header size,
+because it reserves space for more keyslots and optionally reencryption
+to circumvent that use:
+```
+cryptsetup luksFormat --type luks2 --luks2-metadata-size=16k --luks2-keyslots-size=256k target
+```
+or even smaller (here <300 kB), if you ignore default 1MB alignment
+```
+cryptsetup luksFormat --type luks2 --luks2-metadata-size=16k --luks2-keyslots-size=256k --align-payload=1 target
+```
+
 WARNING!
 ========
 This will overwrite data on container irrevocably.
