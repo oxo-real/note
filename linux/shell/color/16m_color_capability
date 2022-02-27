@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# https://unix.stackexchange.com/questions/269077/tput-setaf-color-table-how-to-determine-color-codes
+# will present a red line with a very small change in tone from left to right.
+# If that small change is visible, your console is capable of 16 million colors.
+for r in {200..255..5}; do fb=4;g=1;b=1;printf '\e[0;%s8;2;%s;%s;%sm   ' "$fb" "$r" "$g" "$b"; done; echo

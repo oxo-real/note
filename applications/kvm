@@ -1,0 +1,14 @@
+# kvm qemu libvirt virt-manager
+## install & config
+
+yay -S qemu virt-manager bridge-utils dnsmasq libguestfs vde2 qemu-arch-extra openbsd-netcat ebtables
+
+sudo usermod -a -G kvm,libvirt $USER
+
+#TODO
+sudo sed -i "s/^#user = "root"/user = \"$USER\"/" /etc/libvirt/qemu.conf
+sudo sed -i 's/^#group = "root"/^group = "libvirt"/' /etc/libvirt/qemu.conf
+
+sudo systemctl start libvirtd.service
+
+virt-manager

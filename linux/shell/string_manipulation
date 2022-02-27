@@ -1,0 +1,69 @@
+# bash string manipulation
+
+% a='hello'
+% b='world'
+
+## concatenation
+% c=$a$b
+% echo $c
+helloworld
+
+## length
+% echo ${#a}
+5
+
+## substrings
+### variable c from character number 3
+### remove first 3 chars
+% echo ${c:3}
+loworld
+
+### $c from charid 3, 4 chars
+% echo ${c:3:4}
+lowo
+
+### $c last 4 chars
+### remove all but 4 last chars
+% echo ${c: -4}
+orld
+
+### $c last 4 chars, 3 chars
+% echo ${c: -4:3}
+orl
+
+### $c from charid 0 (all), but last 3 chars
+### remove last 3 chars
+% echo $(c:0: -3)
+hellowo
+
+### replacement
+% d=$a$a$b
+% echo $d
+hellohelloworld
+
+#### first instance					/
+% echo ${d/hello/hi}
+hiworld
+
+#### all instances					//
+% echo ${d//hello/hi}
+hihiworld
+
+#### only when string starts with	#
+% echo ${d/#world/earth}
+hellohelloworld
+
+% echo ${d/#hi/hello}
+hellohiworld
+
+#### only when string ends with		%
+% echo ${d/%world/earth}
+hellohelloearth
+
+#### replacement can be combined with matching
+% e='foo bar baz'
+% echo $e
+foo bar baz
+
+% echo ${e/r*/boo}
+foo baboo

@@ -12,7 +12,7 @@ visual (optical input)
 ## pwgn synopsis
 
 pwgn(master_key)
-sha3-512			text_block_01 &	qr_code_block
+sha3-512		text_block_01 &	qr_code_block
 dynamic truncate	text_block_02
 
 9ece  086e  9bac  491f  ac5c  1d10  46ca  11d7
@@ -59,45 +59,45 @@ default 128 bits; else 64, 32, 16, 8 or 4 bits
 
 pwgn(master_key)
 
-	pim					r1	first four digits
+    pim	r1	first four digits
 
-	<					r8	last digit
+    <	r8	last digit
 
-	blocks				(r,c)			(r,c)
-		center			pwgn(3,4 ..##)	pwgn(3,5 ##..)
-						pwgn(4,4 ..##)	pwgn(4,5 ##..)
-						pwgn(5,4 ..##)	pwgn(5,5 ##..)
-						pwgn(6,4 ..##)	pwgn(6,5 ##..)
+    blocks	    (r,c)	    (r,c)
+    center	pwgn(3,4 ..##)	pwgn(3,5 ##..)
+		pwgn(4,4 ..##)	pwgn(4,5 ##..)
+		pwgn(5,4 ..##)	pwgn(5,5 ##..)
+		pwgn(6,4 ..##)	pwgn(6,5 ##..)
 
-		aA				pwgn(7,1 ..##)	pwgn(7,2 ##..)
-		2@				pwgn(8,1 ..##)	pwgn(8,2 ##..)
+    aA		pwgn(7,1 ..##)	pwgn(7,2 ##..)
+    2@		pwgn(8,1 ..##)	pwgn(8,2 ##..)
 
 
-yss1									EOL
-yss2									no EOL
-pwgn(r5r6)				no spaces,		no EOL
-passbase64				no spaces,		no EOL
-center_blocks			no spaces,		no EOL
+yss1		EOL
+yss2		no EOL
+pwgn(r5r6)	no EOL, no spaces
+passbase64	no EOL, no spaces
+center_blocks	no EOL, no spaces
 
 
 ## synthesize password levels
-passphrase	=	$input
+passphrase  =	$input
 
-passbase64	=	read(bs64)
+passbase64  =	read(bs64)
 
-password+	=	pwgn(r5r6)	+	<	+	yss2	+	center	+	aA	+	2@	+	yss1
+password+   =	pwgn(r5r6)  +	<   +	yss2	+   center  +	aA  +	2@  +	yss1
 
-password	=	pwgn(r5r6)	+	<	+	yss2	+	center					+	yss1
+password    =	pwgn(r5r6)  +	<   +	yss2	+   center		    +	yss1
 
-passwd		=	pwgn(r5r6)	+	<	+	yss2
+passwd	    =	pwgn(r5r6)  +	<   +	yss2
 
-pswd		=	pwgn(r5r6)
+pswd	    =	pwgn(r5r6)
 
-pass		=															s	+	yss1
+pass	    =	s							    +   yss1
 
-pwd			=	$HOST				+	yss2
+pwd	    =	$HOST		    +   yss2
 
-pw			=							yss2								+	yss1
+pw	    =				yss2				    +   yss1
 
 
 ## locations
@@ -105,9 +105,9 @@ Hdvp='$HOME/dock/vlt/pass'
 H.lsgct='$XDG_DATA_HOME/git/code/tools'
 H.lskpv='$XDG_DATA_HOME/keys/pass/vlt_pass'
 % sudo cryptsetup luksUUID $H.lskpv | wl-copy -n -o
-% sh $H.lsgct/vault open $H.lskpv $Hdvp	(password)
-% sh $H.lsgct/pwgn						(pass_key)
-% sh $H.lsgct/passget [$file] [$item]	(passwd)
+% sh $H.lsgct/vault open $H.lskpv $Hdvp		    (password)
+% sh $H.lsgct/pwgn				    (pass_key)
+% sh $H.lsgct/passget [$file] [$item]		    (passwd)
 
 
 ## cryptr sequence
@@ -123,7 +123,7 @@ cipher_cascade03: chacha20	aes-256-ctr	aes-256-cbc
 
 ## yss1
 yss1	pwgn(e100)
-yss1	^s		/$
+yss1	^s	/$
 yss1	wc -c	64
 
 ## yss2

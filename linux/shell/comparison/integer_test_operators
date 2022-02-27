@@ -1,18 +1,35 @@
 # Linux BASH - Comparison Operators
 
 ## Integer Comparison Operators
+
+### mathematic
 Operator	Description			Example
+-eq			Is Equal To			if [ $1 -eq 200 ]
+-ne			Is Not Equal To			if [ $1 -ne 1 ]
+-gt			Is Greater Than			if [ $1 -gt 15 ]
+-ge			Is Greater Than Or Equal To	if [ $1 -ge 10 ]
+-lt			Is Less Than			if [ $1 -lt 5 ]
+-le			Is Less Than Or Equal To	if [ $1 -le 0 ]
 
--eq		Is Equal To			if [ $1 -eq 200 ]
--ne		Is Not Equal To			if [ $1 -ne 1 ]
--gt		Is Greater Than			if [ $1 -gt 15 ]
--ge		Is Greater Than Or Equal To	if [ $1 -ge 10 ]
--lt		Is Less Than			if [ $1 -lt 5 ]
--le		Is Less Than Or Equal To	if [ $1 -le 0 ]
+### lexic
+Operator	Description			Example
+==			Is Equal To			if (( $1 == $2 ))
+!=			Is Not Equal To			if (( $1 != $2 ))
+<			Is Less Than			if (( $1 < $2 ))
+<=			Is Less Than Or Equal To	if (( $1 <= $2 ))
+>			Is Greater Than			if (( $1 > $2 ))
+>=			Is Greater Than Or Equal To	if (( $1 >= $2 ))
 
-==		Is Equal To			if (( $1 == $2 ))
-!=		Is Not Equal To			if (( $1 != $2 ))
-<		Is Less Than			if (( $1 < $2 ))
-<=		Is Less Than Or Equal To	if (( $1 <= $2 ))
->		Is Greater Than			if (( $1 > $2 ))
->=		Is Greater Than Or Equal To	if (( $1 >= $2 ))
+### difference math vs. lex
+[[ 20 > 100 ]]
+echo $?
+0
+
+[[ 20 -gt 100 ]]
+echo $?
+1
+
+## logical operators
+AND		&&
+OR		||
+NOT		!

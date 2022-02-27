@@ -1,13 +1,13 @@
 # chmod numeric notation
 
-chmod ogn
+chmod ugo
 
-'ogn' are octal [0-7] digits
+'ugo' are [0-7] octals
 
-each octal position represent permissions for:
-o owner
+each octal represent permissions for:
+u owner
 g users in group
-n users not in group
+o others; users not in group
 
 the permissions are:
 0 none
@@ -20,19 +20,28 @@ the permissions are:
 
 # chmod symbolic notation
 
-	Notation
-Symbolic 	Numeric English
+notation
+symbolic 	numeric english
 ---------- 	0000 	no permissions
--rwx------ 	0700 	read, write, & execute only for owner
--rwxrwx--- 	0770 	read, write, & execute for owner and group
--rwxrwxrwx 	0777 	read, write, & execute for owner, group and others
 ---x--x--x 	0111 	execute
 --w--w--w- 	0222 	write
 --wx-wx-wx 	0333 	write & execute
 -r--r--r-- 	0444 	read
 -r-xr-xr-x 	0555 	read & execute
 -rw-rw-rw- 	0666 	read & write
+-rwx------ 	0700 	read, write, & execute only for owner
 -rwxr----- 	0740 	owner can read, write, & execute; group can only read; others have no permissions
+-rwxrwx--- 	0770 	read, write, & execute for owner and group
+-rwxrwxrwx 	0777 	read, write, & execute for owner, group and others
 
-https://en.wikipedia.org/wiki/File_system_permissions
-
+chmod 0000	## ---------- 		ugo -	no permissions
+chmod 0111	## ---x--x--x 		ugo x				execute
+chmod 0222	## --w--w--w- 		ugo w			write
+chmod 0333	## --wx-wx-wx 		ugo wx			write	execute
+chmod 0444	## -r--r--r-- 		ugo r	read
+chmod 0555	## -r-xr-xr-x 		ugo xr	read			execute
+chmod 0666	## -rw-rw-rw- 		ugo	rw	read	write
+chmod 0777	## -rwxrwxrwx 		ugo	rwx	read	write	execute
+chmod 0700	## -rwx------ 		u	rwx	g	-	o	-
+chmod 0740	## -rwxr----- 		u	rwx	g	r	o	-
+chmod 0770	## -rwxrwx--- 		u	rwx	g	rwx	o	-
