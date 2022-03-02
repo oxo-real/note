@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+declare -A myarray
+
+myarray[fruit]=apple
+myarray[color]=red
+myarray[fruit]+=citrus
+myarray[color]+=yellow
+
+for item in ${myarray[fruit]}; do
+
+    echo ${myarray[fruit]} is ${myarray[color]}
+
+done

@@ -137,13 +137,12 @@ id -gn [$USER]  ## show effective group name
 id [$USER]  ## show both real and effective uid & gid
 iftop -i <interface> ## display bandwith usage of interface
 info  ## advanced manual system primarily for gnu programs
-insmod <filename> [args]  ## for mods not in /usr/lib/modules/$(uname -r)
+insmod <filename> [args]  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
 ip a add 192.168.1.200/255.255.255.0 dev <interface>	## assign ip address to interface
 ip a add <ip>/<subnet_mask> broadcast <broadcast_ip> dev <interface>
 ip a del 192.168.1.200/24 dev <interface>	## remove ip address from interface
 ip a flush <interface>	## remove all ip addresses from interface
-ip a flush wlp58s0
-ip link set <interface> {down/up}	## change interface state
+ip link set <interface> {down/up}   ## change interface state
 ip link set dev [interface] address [mac]  ## assign [mac] address to [interface]
 ip link set dev [interface] down  ## disconnect from the network by disable interface
 ip n show	## show neighbour / arp cache
@@ -151,6 +150,7 @@ ip route add default via <default_gateway>
 ip route flush dev <interface>
 ipset add blocklist [ipaddrs]  ## add [ipaddrs] to blocklist
 ipset create blocklist hash:ip  ## create ip blocklist
+iw dev [wl_interface] scan | grep SSID | sort | uniq  ## received SSID list
 jobs  ## list background processes
 journalctl --list-boots
 journalctl --vacuum-size=500M
@@ -277,7 +277,7 @@ stat <file>  ## display file or file system status
 stty -a  ## print all terminal line settings
 sudo -k  ## invalidate cached credentials
 sudo -l  ## list allowed commands for user
-sudo -n printf '' >/dev/null 2>&1  ## get sudo status (in error code)
+sudo -n echo >/dev/null 2>&1; echo $?  ## print sudo status
 sudo ip link set up && sudo dhcpcd  && ping -c 1 9.9.9.9 && ip a
 sudo iptables -A INPUT -s [ipaddr] -j DROP  ## add [ipaddr] to chain INPUT and drop all traffic
 sudo rfkill unblock bluetooth && pulseaudio --start && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off ## bluetooth radio on
