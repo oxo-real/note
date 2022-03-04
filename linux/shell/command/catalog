@@ -1,8 +1,9 @@
 #!/usr/bin/env bash  ## search $path for bash
 #: '\nmultiline\ncodeblock\n# '  ## switchable multiline codeblock / comment (remove first #)
 < ${$(sh $XDG_DATA_HOME/git/code/tools/get_newest_file $XDG_LOGS_HOME/updater/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file
-< /dev/random tr -d -c "[:alnum:]" | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate password)
-< /dev/random tr -d -c "[:graph:]" | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate password)
+tr -d -c "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate password)
+tr -d -c "[:graph:]" < /dev/random | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate password)
+tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16  ## translate random stream in 32 specified characters (generate password)
 < /home/cytopyge/.config/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
 <command> &> <file>  ## <command> stdout to <file>
 <command> 2>&1 | tee -a logfile  ## <command> stderr to stdout, also append to logfile
@@ -96,6 +97,7 @@ find /<directory> -type f -exec shred -v -z -n 3 -u {} \;
 findmnt
 for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
 for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
+for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
 for i in {0..7}; do; printf "\033[0;3${i}mcolor$i\n"; done  ## print 8 colors
 free -m  ## free and used memory in system
 fuser -vmM <file(system)>	## display PIDs using file / file(system) (filesystem in mount)
