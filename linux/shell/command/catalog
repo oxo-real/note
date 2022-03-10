@@ -1,13 +1,12 @@
 #!/usr/bin/env bash  ## search $path for bash
-#: '\nmultiline\ncodeblock\n# '  ## switchable multiline codeblock / comment (remove first #)
-< ${$(sh $XDG_DATA_HOME/git/code/tools/get_newest_file $XDG_LOGS_HOME/updater/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file
-tr -d -c "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate password)
-tr -d -c "[:graph:]" < /dev/random | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate password)
-tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16  ## translate random stream in 32 specified characters (generate password)
+#: '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock / comment (remove first #)
+< ${$(sh $XDG_DATA_HOME/git/code/tool/get_newest_file $XDG_LOGS_HOME/updater/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file
 < /home/cytopyge/.config/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
 <command> &> <file>  ## <command> stdout to <file>
 <command> 2>&1 | tee -a logfile  ## <command> stderr to stdout, also append to logfile
 <command> >/dev/null 2>&1  ## suppress all output from command
+((i++))  ## increment i by one (i.e. in a loop)
+((i--))  ## decrement i by one (i.e. in a loop)
 amixer info  ## info about alsamixer device
 amixer scontrols  ## list of alsamixer controls
 amixer set Capture toggle	## alsamixer set
@@ -25,11 +24,9 @@ bluetoothctl discoverable off	## bluetooth not broadcast radio device
 bluetoothctl power off && sudo systemctl stop bluetooth.service && sudo rfkill block bluetooth  ## bluetooth radio off
 cal -3 -m -w `date -I`  ## calendar showing last, current and next month
 cal -y -m -w `date +%Y`	 ## current year calendar
-case $expr in pattern1) statements ;; ptrn2) stmnt ;; *) stmnt ;; esac
 cat ap.wifi | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
-cat -n <file>  ## cat with line numbers
-cat <file_sort_freq> | cut -c 8- > <file_rm_freq>	##
-cat >> file << EOF; multi_line_text; EOF  ## append to here document
+cat -n <file>  ## line number cat
+cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file (heredoc); strip leading tabs from mlt (-); EOF can be any unique limit string
 cd "$(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)"  ## cd with fzf from $HOME, spacebar for info box
 cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
 cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
@@ -168,6 +165,8 @@ journalctl _<tab>
 kill $(pidof <process_name>)
 ln -s <target> <link_name>  ## create sym<link_name> to <target>
 ln -s -f <target> <link_name>  ## replace sym<link_name> to <target>
+losetup -l -a  ## list all loop devices
+losetup -d $loop_dev  ## detach $loop_dev
 ls $XDG_DATA_HOME/keys/wl | fzf | xargs -r cat | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## fzf select wifi key and show qr
 lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint  ## list block devices
 lsblk -o fsuse%,path,fsused,size | grep '%' | awk 'NR == 1; NR > 1 {print $0 | "sort -nr"}'  ## block devices usage percentage
@@ -305,7 +304,10 @@ tmux attach-session -t 0
 tmux show-options -g
 tr -d '[:blank:]\t\r\n'  ## remove all whitespace
 tr -s " " < file_with_double_spaces > file_without_double_spaces  ## remove double spaces
-truncate -s 5M file  ## shrink / extend or create file with 5M size
+tr -d -c "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate password)
+tr -d -c "[:graph:]" < /dev/random | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate password)
+tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16  ## translate 16 random streams in 32 specified characters (generate password)
+truncate -s 5M file  ## make file 5M size
 tree -n --charset=unicode  ## depth indented file listing
 type file or command  ## file or command interpretation
 umount -l <mountpoint>  ## umount busy targets (mountpoints)
@@ -318,8 +320,8 @@ wev  ## show wayland events i.e. keypresses keynames
 wget -rv -l 0 -nd http://proxpn.com/locations
 which -a <command>  ## show path of all <command> (from $PATH)
 while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk {print $1})" ## which package from Qm is in /v/c/p/p
-while read -r -u $fd line_in_file; do <command> $line_in_file; done {fd}< <file>  ## loop through lines in file (with stdin redirection)
-while read line_in_file; do <command> $line_in_file; done < <file>  ## loop through lines in file
+while read -r -u $fd l; do <commands>; done {fd}< <file>  ## read file line by line into l (with stdin redirection)
+while read l; do <commands>; done < <file>  ## read file line by line into l
 whois -B 46.166.142.215  ## whois own public ip
 wl-paste >> /home/cytopyge/.config/qutebrowser/bookmark_urls  ## add to bookmark_urls
 wpa_supplicant -B -i wlp58s0 -c ~/keys/wl/mn.wifi
@@ -371,3 +373,9 @@ chmod 0777	## -rwxrwxrwx 		ugo	rwx	read	write	execute
 chmod 0700	## -rwx------ 		u	rwx	g	-	o	-
 chmod 0740	## -rwxr----- 		u	rwx	g	r	o	-
 chmod 0770	## -rwxrwx--- 		u	rwx	g	rwx	o	-
+case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## case statement basic structure
+if [[ $i -eq 0 ]]; then; echo 0; elif [[ $i -lt 0 ]]; then; echo neg; else; echo pos; fi  ## if elif else statement basic structure
+for i in 1 2 3; do; echo $i; done  ## for loop basic structure
+for (( i=1; i<=10; i++ )); do echo $i; done  ## for loop alternative structure
+while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure
+until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure
