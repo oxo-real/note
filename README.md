@@ -34,8 +34,11 @@
 |   |   `-- imagemagick
 |   |-- json
 |   |   `-- processing
+|   |-- kvm
 |   |-- ledger
 |   |   `-- csv_import_guide
+|   |-- less
+|   |   `-- less
 |   |-- markdown
 |   |   |-- cheatsheet
 |   |   |-- rmarkdown
@@ -54,7 +57,6 @@
 |   |   |-- pacman
 |   |   |-- pacman_arch_wiki
 |   |   `-- pacman_arch_wiki_tips
-|   |-- protonvpn
 |   |-- suckless
 |   |   |-- dwm
 |   |   |   |-- config.def.h
@@ -116,6 +118,8 @@
 |   |   `-- yay_U_upgrade
 |   `-- zbar
 |       `-- zbarcam
+|-- backup
+|   `-- bu_process
 |-- crypto
 |   |-- 2fa
 |   |   |-- 2fa_sha1_totp.sh
@@ -124,13 +128,15 @@
 |   |       `-- genotp.sh
 |   |-- dance.chacha20
 |   |-- genpw
-|   |   |-- pwgn -> /home/cytopyge/_git/code/tools/pwgn
+|   |   |-- prng
 |   |   `-- pwgn.process
 |   |-- gpg
+|   |   |-- gnupg_set_permissions
 |   |   |-- gnu_privacy_handbook
 |   |   |-- gpg
 |   |   |-- gpg-agent
 |   |   |-- gpg_errors
+|   |   |-- yk_readme
 |   |   `-- yubikey
 |   |-- luks
 |   |   |-- boot_detach_luks_header
@@ -139,7 +145,11 @@
 |   |   |-- customencrypthook
 |   |   |-- luksaddkey
 |   |   `-- rr_detach_luks_boot
+|   |-- openssl
+|   |   `-- x509_certificate_info
+|   |-- password_entry
 |   |-- pwgn_policy
+|   |-- pwgn_policy.sig
 |   |-- ssss
 |   |   |-- math_ssss
 |   |   |-- online
@@ -163,13 +173,14 @@
 |   `-- sshfs
 |-- git
 |   |-- config
+|   |-- del_comm_hist
 |   |-- git
 |   |-- git_errors
 |   |-- gitignore
+|   |-- rebase
 |   |-- shrink
+|   |-- shrinkk
 |   `-- simple_guide
-|-- gl
-|   `-- 3
 |-- hardware
 |   |-- arduino
 |   |   |-- installation
@@ -179,7 +190,9 @@
 |           `-- webcam
 |-- linux
 |   |-- arch
-|   |   `-- boot_corrupt
+|   |   |-- boot_corrupt
+|   |   |-- pacstrap
+|   |   `-- structure_needs_cleaning
 |   |-- dtpenv
 |   |   |-- gsettings
 |   |   |   `-- gsettings
@@ -197,30 +210,22 @@
 |   |-- shell
 |   |   |-- arithmatic
 |   |   |-- bash
+|   |   |   |-- associative_array
 |   |   |   `-- README.html
 |   |   |-- byte_order
 |   |   |-- char_classes
-|   |   |-- cmd_cat
 |   |   |-- coding_standards
+|   |   |-- color
+|   |   |   |-- 16m_color_capability
+|   |   |   |-- 16m_color_table
+|   |   |   |-- 256_color_table
+|   |   |   |-- colorr
+|   |   |   |-- from_hex
+|   |   |   `-- to_hex
 |   |   |-- command
 |   |   |   |-- alias
 |   |   |   |-- awk
 |   |   |   |   |-- awk_rr
-|   |   |   |   |-- Complex_Awk_Patterns_Yes_I_know_IT
-|   |   |   |   |   |-- challenge-expected-result
-|   |   |   |   |   |-- COMMAND1
-|   |   |   |   |   |-- COMMAND2
-|   |   |   |   |   |-- COMMAND3
-|   |   |   |   |   |-- COMMAND4
-|   |   |   |   |   |-- COMMAND5
-|   |   |   |   |   |-- COMMAND6
-|   |   |   |   |   |-- COMMAND7
-|   |   |   |   |   |-- Complex_Awk_Patterns_Yes_I_know_IT -> /home/cytopyge/_media/video/shell/awk/Complex_Awk_Patterns_Yes_I_know_IT
-|   |   |   |   |   |-- ECN_2012_US_00CCOMP1_metadata.csv
-|   |   |   |   |   |-- ECN_2012_US_00CCOMP1.psv
-|   |   |   |   |   |-- ECN_2012_US_00CCOMP1.README
-|   |   |   |   |   |-- NAICS-codes.txt
-|   |   |   |   |   `-- oil-and-gas-extraction-per-us-state-2007-2012-emp.data
 |   |   |   |   |-- format_columns
 |   |   |   |   |-- shell_vars_in_awk
 |   |   |   |   `-- techmint
@@ -228,6 +233,7 @@
 |   |   |   |-- bc
 |   |   |   |   `-- floating_point_arithmatic
 |   |   |   |-- case
+|   |   |   |-- catalog
 |   |   |   |-- cheatsheet
 |   |   |   |   |-- 7z
 |   |   |   |   |-- aaa_source
@@ -440,9 +446,9 @@
 |   |   |   |   `-- find
 |   |   |   |-- iconv
 |   |   |   |-- ifs
-|   |   |   |-- less
 |   |   |   |-- mount
 |   |   |   |-- mount_cifs
+|   |   |   |-- nmcli
 |   |   |   |-- printf
 |   |   |   |-- read
 |   |   |   |   |-- filedescriptor
@@ -485,6 +491,7 @@
 |   |   |   |-- if_conditions
 |   |   |   |-- parameters
 |   |   |   `-- while_loop
+|   |   |-- console_terminal
 |   |   |-- copy_paste
 |   |   |-- devhints_bash
 |   |   |-- device_drivers
@@ -500,11 +507,14 @@
 |   |   |-- globbing
 |   |   |-- hardware_info
 |   |   |-- here_strings
+|   |   |-- locale
 |   |   |-- password_policy
 |   |   |-- pure-sh-bible.html
 |   |   |-- quotation
 |   |   |-- standard_streams
 |   |   |-- std_cmd_flags
+|   |   |-- string_manipulation
+|   |   |-- terminal_escape_sequences
 |   |   |-- tty
 |   |   |-- users_groups
 |   |   `-- zsh
@@ -539,6 +549,7 @@
 |       `-- specifications
 |           `-- base_directory_spec
 |-- logic
+|   |-- bitsnbytes
 |   |-- gates
 |   `-- operators
 |-- maths
@@ -561,8 +572,11 @@
 |   |-- formulas.ms.pdf
 |   |-- geometry.ms
 |   |-- groff_template.ms
+|   |-- number_e
+|   |-- number_pi
 |   |-- number_theory.ms
 |   |-- number_theory.ms.pdf
+|   |-- route_plotting
 |   |-- test2.mom
 |   |-- test2.mom.pdf
 |   |-- test.ms
@@ -613,6 +627,9 @@
 |   |       |-- 12d1:1506.conf
 |   |       |-- 40-usb_modeswitch.rules
 |   |       `-- README.md
+|   |-- nmcli
+|   |-- tor
+|   |   `-- qb_tor
 |   |-- tshark
 |   |   |-- loc_regex
 |   |   |-- moloch_install
@@ -643,6 +660,7 @@
 |       `-- protonvpn
 |           |-- native_client
 |           |-- openvpn_client
+|           |-- protonvpn
 |           `-- protonvpn_cli
 |-- opsys
 |   |-- android
@@ -680,6 +698,7 @@
 |   |-- grep
 |   |-- meta_chars
 |   |-- quick_cheat_sheet
+|   |-- regexr
 |   |-- top_regex
 |   `-- urls
 |-- security
@@ -690,12 +709,13 @@
 |   |   `-- pass
 |   `-- yubikey
 |       |-- ykman
+|       |-- yk_u2f
 |       `-- yubikey4
-|-- sfi
+|-- sv
 |   `-- grammatik
 |-- ucode
 |   `-- ucode
 `-- zzz_deprecated
     `-- xab
 
-132 directories, 566 files
+132 directories, 586 files
