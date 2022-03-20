@@ -67,3 +67,8 @@ foo bar baz
 
 % echo ${e/r*/boo}
 foo baboo
+
+#--------------------------------
+## if set echo $a, else echo $b
+echo ${a:="$b"}
+

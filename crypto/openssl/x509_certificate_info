@@ -1,0 +1,154 @@
+5. Fetching the X.509 Public Key Certificate File
+Let’s say we want to fetch the public key certificate file of google.com. We can do that using the s_client and x509 subcommands of openssl:
+
+$ openssl s_client -connect google.com:443 -showcerts </dev/null | openssl x509 -outform pem > googlecert.pem
+Connecting to port 443 of host google.com using s_client initiates the TLS handshake.
+
+The -showcerts option indicates that we want to print the certificate to the standard output. Redirecting /dev/null to the standard input terminates the connection after we’ve obtained the certificate.
+
+We then pipe the certificate to the x509 subcommand along with the -outform option to encode it into the PEM format. Finally, we save the certificate file as googlecert.pem.
+
+6. Decoding the Entire Certificate
+The certificates in PEM format are base64 encoded. For instance, here’s the googlecert.pem file we got earlier:
+
+$ cat googlecert.pem
+-----BEGIN CERTIFICATE-----
+MIINUDCCDDigAwIBAgIQJE5S2WtVH5YKAAAAAPK69DANBgkqhkiG9w0BAQsFADBG
+MQswCQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExM
+...(truncated)
+-----END CERTIFICATE-----
+To decode the entire certificate into plain text, we use the x509 command with the -text option:
+
+$ openssl x509 -in googlecert.pem -noout -text
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            24:4e:52:d9:6b:55:1f:96:0a:00:00:00:00:f2:ba:f4
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C = US, O = Google Trust Services LLC, CN = GTS CA 1C3
+        Validity
+            Not Before: Jul 12 01:35:31 2021 GMT
+            Not After : Oct  4 01:35:30 2021 GMT
+        ...(truncated)
+Firstly, the -in option specify the certificate file to be decoded. Then, the -noout option prevents any output from the command. Without the -noout option, the command will by default return the base64 encoded certificate.
+
+Finally, we specify the -text option to print the entire certificate in plain text form.
+
+7. Extracting Specific Information from the Certificate
+Using the x509 subcommand, we can extract different fields from the certificate.
+
+7.1. Extracting the Subject
+The -subject option in the x509 subcommand allows us to extract the subject of the certificate.
+
+Let’s extract the subject information from the googlecert.pem file using x509:
+
+$ openssl x509 -in googlecert.pem -noout -subject
+subject=CN = *.google.com
+7.2. Extracting the Issuer
+We can extract the issuer information from a certificate using the -issuer option.
+
+For example, to extract the issuer information from the googlecert.pem file:
+
+$ openssl x509 -in googlecert.pem -noout -issuer
+issuer=C = US, O = Google Trust Services LLC, CN = GTS CA 1C3
+7.3. Extracting the Extension Fields
+To obtain the extension fields in X.509 public-key certificates, we can use the -ext option.
+
+For instance, specifying the -ext option followed by subjectAltName will give us the subject alternative name in the certificate:
+
+$ openssl x509 -in googlecert.pem -noout -ext subjectAltName
+X509v3 Subject Alternative Name:
+    DNS:*.google.com, DNS:*.appengine.google.com, DNS:*.bdn.dev, DNS:*.cloud.google.com, DNS:*.crowdsource.google.com, DNS:*.datacompute.google.com, ...(truncated)
+Similarly, we can use the same option to obtain the key usage field using the keyUsage argument:
+
+$ openssl x509 -in googlecert.pem -noout -ext keyUsage
+X509v3 Key Usage: critical
+    Digital Signature
+7.4. Formatting the Name Output
+For output such as issuer and subject, we can additionally specify the display format using -nameopt option.
+
+For example, we can separate the issuer information into multiple lines using -nameopt option followed by sep_multiline operator:
+
+$ openssl x509 -in googlecert.pem -noout -issuer -nameopt sep_multiline
+issuer=
+    C=US
+    O=Google Trust Services LLC
+    CN=GTS CA 1C3
+We could also display the long field name instead of the abbreviation by passing in the lname operator to -nameopt:
+
+$ openssl x509 -in googlecert.pem -noout -issuer -nameopt lname
+issuer=countryName=US, organizationName=Google Trust Servies LLC, commonName=GTS CA 1C3
+Finally, the -nameopt option can be specified multiple time to combine different operators’ behavior. For instance, we could combine the lname and sep_multiline operators:
+
+$ openssl x509 -in googlecert.pem -noout -issuer -nameopt lname -nameopt sep_multiline
+issuer=
+    countryName=US
+    organizationName=Google Trust Services LLC
+    commonName=GTS CA 1C3
+The man page for the openssl command provides a full list of formatting arguments.
+
+7.5. Extracting the Start Date and the Expiry Date
+Every certificate specifies a start date and an expiry date. These 2 dates are important since a certificate is only valid during this period.
+
+To obtain both dates, we can specify the -dates option:
+
+$ openssl x509 -in googlecert.pem -noout -dates
+notBefore=Jul 12 01:35:31 2021 GMT
+notAfter=Oct  4 01:35:30 2021 GMT
+Alternatively, we can print only the start date using -startdate option:
+
+$ openssl x509 -in googlecert.pem -noout -startdate
+notBefore=Jul 12 01:35:31 2021 GMT
+Similarly, using the -enddate option, we can obtain the expiry date of the certificate:
+
+$ openssl x509 -in googlecert.pem -noout -enddate
+notAfter=Oct  4 01:35:30 2021 GMT
+7.6. Extracting Other Information
+Each certificate has a fingerprint which is used for uniquely identifying a particular certificate.
+
+To extract the fingerprint, we can run the x509 subcommand with the -fingerprint option:
+
+$ openssl x509 -in googlecert.pem -noout -fingerprint
+SHA1 Fingerprint=5E:0B:46:9E:55:07:70:5A:C3:40:12:66:06:89:9A:92:E8:C2:15:E4
+Besides that, we can obtain the serial number of a certificate using the -serial option. For instance:
+
+$ openssl x509 -in googlecert.pem -noout -serial
+serial=244E52D96B551F960A00000000F2BAF4
+Finally, we can extract the public key of a certificate using the -pubkey option:
+
+$ openssl x509 -in googlecert.pem -noout -pubkey
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESDHX4ovWPfaIWPNZPCKJGTx7QjE5
+0gifWTUyw+t7DkNvq+2nErrpWocdifYDOoX8E+63JdEFlrRwhu4jXZheYA==
+-----END PUBLIC KEY-----
+7.7. Checking if a Certificate Is About to Expire
+Using the -checkend option of the x509 subcommand, we can quickly check if a certificate is about to expire.
+
+The option takes an additional argument n which has a unit of seconds. Generally:
+
+$ openssl x509 -in <certificate-filename> -noout -checkend n
+The command above will check if the certificate is expiring in the next n seconds. If it is, the command will result in a 1 return status code. The command returns a 0 status code if the certificate given is not expiring within the next n seconds. Furthermore, the command will return a message indicating the expiry status of the certificate.
+
+For example, to determine if a certificate is expiring within the next 60 seconds:
+
+$ openssl x509 -in googlecert.pem -noout -checkend 60
+Certificate will not expire
+$ echo $?
+0
+The command above returns a status code of 0 because the certificate is not expiring in the next 60 seconds.
+
+Let’s now check if the same certificate will expire in the next 20 weeks:
+
+$ openssl x509 -in googlecert.pem -noout -checkend 12096000
+Certificate will expire
+$ echo $?
+1
+Since the certificate will expire within the next 20 weeks, we get a return status code of 1.
+
+8. Conclusion
+In this article, we’ve learned what an X.509 certificate is, what data it contains and how to fetch it from a website that we are working on.
+
+We also learned about the openssl tool and how we can use its x509 subcommand to decode the certificate and extract various pieces of information such as the subject, the issuer, the validity period of the certificate, extension fields, etc. from it. We also found out how we can determine if a certificate is about to expire.
+
+[Extracting Certificate Information with OpenSSL | Baeldung on Linux](https://www.baeldung.com/linux/openssl-extract-certificate-info)

@@ -1,7 +1,7 @@
 # gpg
-# for --expert functions see also yubikey
 
 ## generate key pair
+### for --expert functions see yubikey
 gpg --full-generate-key
 
 ## generate passphrase
@@ -59,12 +59,14 @@ gpg --list-sigs
 ### binary file
 gpg --export ID > ID.puk.gpg
 ### ascii armored file
-gpg --armor --export ID > ID.prk.asc
+gpg --armor --export ID > ID.puk.asc
 
 
 ## private keys
-## be careful with sharing of private (gpg: secret) keys!
-gpg --armor --export-secret-keys > myprivatekeys.asc
+## keep private (gpg: secret) keys always offline!
+gpg --armor --export-secret-key $key_id > $key_id.prk.asc
+## all
+gpg --armor --export-secret-keys > priv_keys.prk.asc
 
 ## trustdb
 gpg --export-ownertrust > otrust.txt
@@ -148,3 +150,13 @@ find $XDG_CONFIG_HOME/gnupg -type d -exec chmod 700 {} \;
 
 ## copy the entire gpg homedir
 tar -cvzf gpg_backup.tar $GNUPGHOME
+
+
+# search online
+gpg --keyserver hkp://keyserver.ubuntu.com --search-key 'a@b.com'
+gpg --auto-key-locate keyserver --locate-keys a@b.com
+
+[DEV_20200320]
+% gpg --keyserver hkp://keys.openpgp.org --search-key 0x1063A72A10A3F036
+gpg: data source: http://keys.openpgp.org:11371
+(1)	  256 bit EDDSA key 0x1063A72A10A3F036, created: 2022-03-20

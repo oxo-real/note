@@ -26,6 +26,8 @@ cal -3 -m -w `date -I`  ## calendar showing last, current and next month
 cal -y -m -w `date +%Y`	 ## current year calendar
 cat ap.wifi | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
 cat -n <file>  ## line number cat
+cat -vE $file  ## prevent cat shell injection
+cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
 cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file (heredoc); strip leading tabs from mlt (-); EOF can be any unique limit string
 cd "$(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)"  ## cd with fzf from $HOME, spacebar for info box
 cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
@@ -104,11 +106,13 @@ git config --show-scope --show-origin --list  ## origin and scope of git configu
 git log --oneline  ## list of commits
 git reset --hard 2db93df  ## back to a previous commit
 glances
+gnutls-cli -d 1 grc.com -p 443 < /dev/null  ## get certificate info
 gpg --armor --export ID > ID.puk.gpg  ## export public key ascii armored id
+gpg --detach-sign --local-user 0x12345678 $file  ## sign $file with specific secret key
 gpg --edit-key ID >  ## edit public key
 gpg --export ID > ID.puk.gpg  ## export public key binary
 gpg --fingerprint | grep -i -B 1 <uid/email> | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
-gpg --gen-key  ## generate new keypair
+gpg --expert --full-generate-key  ## generate new keypair
 gpg --import ID >  ## import public key
 gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 1 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list
 gpg --output ID.puk.asc --armor --export ID >  ## export public key ascii armored
@@ -129,6 +133,7 @@ history -t +%Y%m%d_%H%M%S
 hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 host -t A <ip_addr/domain>  ## dns lookup A record
 host -v -t ANY <ip_addr/domain>  ## dns lookup any type verbose output
+hwclock --set --date='01/01/2010 00:00:00'; sudo hwclock --hctosys  ## set date and time
 id -u [$USER]  ## show effective user id
 id -g [$USER]  ## show effective group id
 id -un [$USER]  ## show effective user name
@@ -196,8 +201,13 @@ mpv `echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\/
 msgcat --color=test
 mv -t <target_dir> <source_dirs>  ## move source_dirs to target_dir
 notmuch address '*'  ## all mail addresses
+nslookup server.com  ## get server ip address
 openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## openssl base64 encoded aes 256 bits galois counter mode decryption
 openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## openssl base64 encoded aes 256 bits galois counter mode encryption
+openssl s_client -connect grc.com:443 -showcerts < /dev/null | openssl x509 -outform pem > cert.pem  ## write x509 public key certificate from grc.com:443 as pem to file cert.pem
+openssl s_client -connect $(wl-paste -n):443 -showcerts < /dev/null | openssl x509 -noout -text ## print x509 public key certificate as text to stdout
+openssl s_client -connect $server_ip:443 -servername $server_name -showcerts  ## print x509 public key certificate from $(wl-paste -n):443 as text to stdout with server name indication (SNI) in the clienthello message (if a reverse proxy ip serves multiple webservers)
+openssl x509 -in cert.pem -noout -text  ## print x509 public key certificate from file cert.pem as text to stdout
 openvpn --config openvpn/udp-ams1_udp.ovpn
 output=$(printf $input | openssl dgst -sha512 -hmac $hmac | sed 's/^.*= //') ## zz3
 pacman-key --delete <pub_key>
@@ -235,6 +245,7 @@ readlink <file>  ## print resolved symbolic links or canonical file names
 readlink <symlink> | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change symlink to current users $HOME
 realpath file  ## return canonicalized absolute pathname
 renice -19 $(pgrep <process_name>)  ## give <process_name> highest (-19) priority
+rev $file  ## reverse line characters
 rfkill  ## check hard and soft block status wireless radios
 rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
 rfkill [un]block wlan  ## soft [un]block wifi radio
@@ -266,10 +277,12 @@ simple-mtpfs --device 1 <mountpoint>  ## mount android device
 sleep 3 && scrot -s
 slurm -i <device>
 sort $HISTFILE | uniq -c | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
-sort < <file> | sort -nr > <file_sort_freq>
-sort < <file> | uniq -u > <file_uniq>
-sort file | uniq -c | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort
-split <file> -n N  ## split <file> into N files
+sort < $file | sort -nr > <file_sort_freq>
+sort < $file | uniq -u > <file_uniq>
+sort $file | uniq -c | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort
+split $file -b N  ## split $file into files with N bytes
+split $file -l N  ## split $file into files with N lines
+split $file -n N  ## split $file into N files
 ssh-keygen -R 192.168.0.195  ## remove cached key for ip on the local machine
 ssh-keyscan -t ecdsa 192.168.x.y >> ~/.ssh/known_hosts  ## update ecdsa key for ip on local machine
 stat -c %A <file>  ## display file access rights in human readable format
@@ -295,6 +308,7 @@ systemctl list-units
 systemctl start vboxdrv vboxpci vboxnetadp vboxnetflt
 systemd-analyze
 tail -f /var/log/{messages,kernel,dmesg,syslog}
+tac $file  ## concatenate and print file lines in reverse
 tar -cv[j/z]f <archive.tar> -C <subdir> <files>  ## create tar archive [bzip2/gzip compression (optional)] files in archive relative to <subdir>
 tar -cv[j/z]f <archive.tar> <files>  ## create tar archive [bzip2/gzip compression (optional)]
 tar -tvf <archive.tar>  ## print contents of tar archive
@@ -306,7 +320,7 @@ tr -d '[:blank:]\t\r\n'  ## remove all whitespace
 tr -s " " < file_with_double_spaces > file_without_double_spaces  ## remove double spaces
 tr -d -c "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate password)
 tr -d -c "[:graph:]" < /dev/random | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate password)
-tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16  ## translate 16 random streams in 32 specified characters (generate password)
+tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b  ## translate 16 random streams in 32 specified characters (generate password)
 truncate -s 5M file  ## make file 5M size
 tree -n --charset=unicode  ## depth indented file listing
 type file or command  ## file or command interpretation
@@ -377,5 +391,6 @@ case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## case st
 if [[ $i -eq 0 ]]; then; echo 0; elif [[ $i -lt 0 ]]; then; echo neg; else; echo pos; fi  ## if elif else statement basic structure
 for i in 1 2 3; do; echo $i; done  ## for loop basic structure
 for (( i=1; i<=10; i++ )); do echo $i; done  ## for loop alternative structure
+select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
 while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure
 until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure

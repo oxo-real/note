@@ -46,6 +46,8 @@ pgp:	web of trust and trust signatures (pgp5.x and later default trust model)
 gpg --gen-random --armor 0 24
 OR
 < /dev/random tr -d -c "[:alnum:]" | head -c 24
+OR
+tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16
 
 
 # generate gpg master key
@@ -53,9 +55,10 @@ OR
 gpg --expert --full-generate-key
 ```
 
-## options
-ECC curve 25519 (certify only)
-no expiry date
+## master key
+    addkey 11
+    ECC curve 25519 (certify only)
+    no expiry date
 
 
 # export key id

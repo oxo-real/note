@@ -42,13 +42,36 @@ done
 
 
 # explanation
+
+h   flag without value
+    check if flag is used
+
+s:  flag with value
+    value is send to $OPTARG
+    i.e.: if: -s 1  then: OPTARG=1
+
+:   colon at the beginning of the optstring
+    unspecified flags are send to ?
+
+
+## more:
 first line defines the 'optstring'
 this is a list of arguments expected in the input
 
-if optstring starts with a colon
-	the shell variable OPTARG is set to the option character found, but no output is written to standard error; otherwise, the shell variable OPTARG is unset and a diagnostic message is written to standard error
-If a letter is followed by a colon, the option is expected to have an argument, or group of arguments, which must be separated from it by white space.
-a leading colon in optstring to specify that you check for and handle errors in your code; when getopts finds an invalid option, it sets varname (from our syntax) to ? and OPTARG to the option letter. When it finds an option that is missing an argument, getopts sets varname to : and OPTARG to the option lacking an argument.
+if the whole optstring starts with a colon
+    the shell variable OPTARG is set to the option character found,
+    but no output is written to standard error; otherwise,
+    the shell variable OPTARG is unset and
+    a diagnostic message is written to standard error
+
+If a optstring letter is followed by a colon,
+    the option is expected to have an argument, or group of arguments,
+    which must be separated from it by white space.
+    a leading colon in optstring to specify that you check for and handle errors in your code;
+    when getopts finds an invalid option, it sets varname (from our syntax) to ?
+    and OPTARG to the option letter.
+    When getopts finds an option that is missing an argument,
+    it sets varname to : and OPTARG to the option lacking an argument.
 
 : (the first colon) means that 'the shell variable specified by name shall be
 set to the <colon> character and the shell variable OPTARG shall be set to the
@@ -56,4 +79,4 @@ option character found' (see manpage)
 
 s: means that the s flags has to be followed by a value
 
-t and h (without :) means this is a flag without value
+h (without any colons) means just check if this flag is used

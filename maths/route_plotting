@@ -1,0 +1,115 @@
+from:	A
+    	|
+       \|/
+    	`
+to:	B
+
+
+	A
+	|
+       \|/
+	`
+	|	crossing
+	|	^^^^^^^^
+	|	type;	direction
+	|
+       -|	t;	turn left
+        |
+        |-	t;	turn right
+	|
+       -|-	x;	straight ahead
+        |
+       =|	x;	turn left
+	|
+        |=	x;	turn right
+        |
+       \|	y;	turn left
+	|
+        |/	y;	turn right
+        |
+       =O	roundabout; turn left
+	|
+        O=	roundabout; turn right
+	|
+       -|-	road
+	|
+       ~|~	water
+	|
+       #|#	railroad
+	|
+	|
+	|	bridge
+	|	^^^^^^
+	|
+       ]|[	undefined
+	|
+      -]|[-	over road
+	|
+      ~]|[~	over water
+	|
+      =]|[=	over railroad
+	|
+	|
+	|	tunnel
+	|	^^^^^^
+	|
+       (|)	undefined
+	|
+      -(|)-	under road
+	|
+      ~(|)~	under water
+	|
+      =(|)=	under railroad
+	|
+	|
+	|	other information
+	|	^^^^^^^^^^^^^^^^^
+	|	suggestions:
+	|
+	U	reverse direction
+	|
+	|	~~~	waterbody
+	|
+	|	ooo	trafficlight
+	|
+	|		plain text
+	|
+       \|/
+	`
+	B
+
+
+The route from A to B is on paper bend to a straight line.
+
+A to B	    (plot route)
+
+	A
+	|
+       \|/
+	`
+	|
+       -|	turn left   or: leave one road to the right
+	|
+        |=	turn right  or: leave two roads to the left
+	|
+       \|/
+	`
+	B
+
+B to A	    (return route)
+
+	A
+	|
+	,
+       /|\
+	|
+       -|	turn right  or: leave one road to the left
+	|
+        |=	turn left   or: leave two roads to the right
+	|
+	,
+       /|\
+        |
+	B
+
+
