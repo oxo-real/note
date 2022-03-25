@@ -45,9 +45,11 @@ gpg --gen-revoke ID > ID.revoke.asc
 ## list keys
 ### public
 gpg --list-keys
+gpg -k --with-keygrip
 
 ### private
 gpg --list-secret-keys
+gpg -K --with-keygrip
 
 ### signed keys
 gpg --list-sigs

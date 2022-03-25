@@ -180,7 +180,7 @@ gpg --sign file
 ```
 
 ## detached signing
-## creates file.sig
+## creates sidecar file.sig
 ```
 gpg --detach-sign file
 ```
@@ -193,3 +193,32 @@ gpg --verify file.sig
 ```
 
 
+#--------------------------------
+# private key strategy: 'laptop' keys
+# store secret master key (sec) physically secure and separate
+# use only detached secret subkeys (ssb) for operational use
+
+## 1. export secret keys
+```
+gpg --export-secret-keys --armor 0x12345678 > sec_$KEYID.asc
+```
+
+## 2. export secret subkeys
+```
+gpg --export-secret-subkeys --armor 0x12345678 > ssb_$KEYID.asc
+```
+
+## 3. delete all secret keys
+```
+gpg --delete-secret-keys 0x12345678
+```
+
+## now only the public keys (gpg -k [KEYID]) are left
+## and the private or secret keys (gpg -K [KEYID]) are deleted
+
+## 4. import secret subkeys
+```
+gpg --import ssb_$KEYID.asc
+```
+
+## now gpg -K shows 'sec#' meaning no secret master key available (here)
