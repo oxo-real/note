@@ -4,7 +4,7 @@
 < /home/cytopyge/.config/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
 <command> &> <file>  ## <command> stdout to <file>
 <command> 2>&1 | tee -a logfile  ## <command> stderr to stdout, also append to logfile
-<command> >/dev/null 2>&1  ## suppress all output from command
+<command> >/dev/null 2>&1  ## silent execution; suppress all output from command
 ((i++))  ## increment i by one (i.e. in a loop)
 ((i--))  ## decrement i by one (i.e. in a loop)
 amixer info  ## info about alsamixer device
@@ -44,11 +44,13 @@ cp -pv  ## copy and preserve mode, ownership and timestamps, verbose
 cryptsetup ---cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 --verify-passphrase open --type=plain /dev/sdX lvm
 cryptsetup ---cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 key-file=/dev/sdZ open --type=plain /dev/sdX lvm
 cryptsetup ---cipher=serpent-xts-plain -hash=sha512 --key-size=512 --iter-time=4096 --use-random --verify-passphrase luksFormat /dev/sdX
-cryptsetup luksAddKey --key-slot 7 file  ## add luks key to slot 7 for container file
+cryptsetup luksAddKey --key-slot 7 $file  ## add luks key to slot 7 of $file
+cryptsetup luksRemoveKey --key-slot 7 $file  ## remove luks key from slot 7 of $file
 cryptsetup luksDump file  ## dump header information
 cryptsetup luksChangeKey file  ## change a key
 cryptsetup luksUUID <luks_container> | wl-copy -o -n  ## get luks container id
 cryptsetup open /dev/sdX cryptroot
+cryptsetup open /dev/sdX cryptroot --debug  ## which keyslot is used for passphrase
 ctags -R ~/.
 curl $(wl-paste) | zathura -  ## stream a copied (qb ;y) pdf url
 curl -4 https://ident.me	## external ip address
@@ -70,6 +72,7 @@ echo "obase=10; ibase=16; <0x>" | tr a-z A-Z ) | bc  ## hexadecimal to decimal c
 echo "obase=16; ibase=10; <0d>" | tr a-z A-Z ) | bc  ## decimal to hexadecimal conversion
 echo -n $string | base64  ## base64 encoding
 echo 0  ## print exit code of the last executed command
+echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
 env  ## print current environment variables and their values
 faillock --user $USER --reset  ## remove sudo lockout for current user
 fc  ## edit last command in
