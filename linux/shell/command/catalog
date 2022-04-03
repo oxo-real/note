@@ -261,6 +261,7 @@ rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exc
 rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exclude-from=/home/cytopyge/settings_/rsync/parvus_exclude_list -e ssh / admin@192.168.3.199:/share/backup/devices/dellxps13
 rsync -aAXv --delete <source> <destination>
 rsync -aAXv --dry-run --delete --info=progress2 $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## backup_c2b
+script; command; exit  ## make typescript of command
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove history last line
 sed -i '$d' <file>  ## remove last line from <file>
