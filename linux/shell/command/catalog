@@ -39,6 +39,7 @@ chmod --reference=ref_file target  ## make target file mode bits same as ref_fil
 chown -R user:group directory	## recursive set user & group ownership
 chown :group file	## set group ownership
 chown user: file	## set user ownership
+clear  ## shift current line to top of screen
 cp -prv --attributes-only  ## copy no content, but only mode, ownership and timestamps, verbose
 cp -pv  ## copy and preserve mode, ownership and timestamps, verbose
 cryptsetup ---cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 --verify-passphrase open --type=plain /dev/sdX lvm
@@ -250,6 +251,7 @@ readlink <file>  ## print resolved symbolic links or canonical file names
 readlink <symlink> | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change symlink to current users $HOME
 realpath file  ## return canonicalized absolute pathname
 renice -19 $(pgrep <process_name>)  ## give <process_name> highest (-19) priority
+reset  ## reinitialize terminal state
 rev $file  ## reverse line characters
 rfkill  ## check hard and soft block status wireless radios
 rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
@@ -294,7 +296,9 @@ ssh-keyscan -t ecdsa 192.168.x.y >> ~/.ssh/known_hosts  ## update ecdsa key for 
 stat -c %A <file>  ## display file access rights in human readable format
 stat -c %a <file>  ## display file access rights in octal format
 stat <file>  ## display file or file system status
-stty -a  ## print all terminal line settings
+stty -a  ## print all terminal line settings (human readable)
+stty -g  ## print all tty settings (stty readable)
+stty $(head -n 1 $XDG_CONFIG_HOME/tty/default)  ## (re)set default tty settings
 sudo -k  ## invalidate cached credentials
 sudo -l  ## list allowed commands for user
 sudo -n echo >/dev/null 2>&1; echo $?  ## print sudo status
@@ -322,6 +326,7 @@ tar -xv[j/z]f <archive.tar>  ## extract tar archive [bzip2/gzip compression (opt
 tee -a file1 file2  ## append stdout to multiple files
 tmux attach-session -t 0
 tmux show-options -g
+tput reset  ## reinitialize terminal state
 tr -d '[:blank:]\t\r\n'  ## remove all whitespace
 tr -s " " < file_with_double_spaces > file_without_double_spaces  ## remove double spaces
 tr -d -c "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate password)
@@ -400,3 +405,9 @@ for (( i=1; i<=10; i++ )); do echo $i; done  ## for loop alternative structure
 select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
 while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure
 until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure
+reset               # clear + reset internal terminal state + 1sec delay
+tput reset          # same as reset but without 1sec delay
+stty sane           # don't clear screen but reset some terminal options
+echo -e "\033c"     # same as tput reset but hardcoded escape seq
+printf "\033c"      # same as tput reset but hardcoded escape seq
+setterm -reset      # same as tput reset, setterm has friendlier commands

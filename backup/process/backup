@@ -1,0 +1,71 @@
+# backup & archive process (bap)
+
+
+# targets to monitor
+
+## user data
+### real time
+$XDG_DATA_HOME/c	(current)
+### dynamic
+$XDG_DATA_HOME/b	(backup)
+### static
+$XDG_DATA_HOME/a	(archive)
+
+## system data
+## installation
+			(repo)
+## configuration
+$XDG_CONFIG_HOME	(config)
+## logs
+$XDG_LOGS_HOME		(logs)
+
+
+# storage devices
+
+1. laptop main onboard storage device
+2. laptop second onboard storage device
+3. first external storage device
+4. second external storage device
+5. online storage
+6. third external storage device
+
+
+# tier 1 local backup
+
+## risk
+operational data malformations mainly due to human error
+
+## form
+a mirror on the same storage device
+
+## execution
+### rsync share c to b
+% sudo chattr -R -i $XDG_DATA_HOME/b && \
+% rsync -aAXv --delete --info=progress2 $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b && \
+% sudo chattr -R +i $XDG_DATA_HOME/b
+
+
+# tier 2 remote backup
+
+## risk
+second line of defence against tier 1 risks and:
+catastrofic hardware failure
+
+## form
+separate storage device within the main operating environment
+
+## execution
+syncr
+
+# tier 3 off-site backup
+
+## goal
+protect against tier 1, tier 2 risks and:
+protection against hardware failure due to physical violence
+i.e. hardware failure due to fire, water into the main operating environment
+
+tier 3 online
+internet
+
+tier 3 offline
+separate storage device on separate storage location

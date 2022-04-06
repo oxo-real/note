@@ -1,0 +1,70 @@
+# recovery process
+
+
+# detailed procedures
+
+## preparation
+
+### requirements
+#### hardware
+usb1: archiso device
+usb2: recovery device with 3 partitions (repo code keys)
+usb3: boot device
+device with data backup
+#### software
+isolatest
+make_recov
+
+
+
+### detailed procedure
+1. make archiso on usb1
+% isolatest /dev/sdu1
+
+2. mount recovery device partitions on usb2
+% mountr
+OR
+% mount /dev/sdu2-2 $HOME/dock/2  # (repo)
+% mount /dev/sdu2-3 $HOME/dock/3  # (code)
+% mount /dev/sdu2-4 $HOME/dock/4  # [keys]
+
+3. upgrade or make recovery media
+% sh $XDG_DATA_HOME/c/git/code/tool/make_recov
+
+
+## installation
+### requirements
+usb1: archiso device
+usb2: recovery device (repo code [keys])
+[usb3: boot device]
+
+hajime
+
+
+## data recovery
+
+
+
+---------------------------
+
+
+## offline backup   (remote and off-site-offline)
+% vault open /dev/sdx $HOME/dock/transfer
+% passr open
+% syncr $HOME/dock/transfer/$HOST/home/$USER --links --delete
+% passr close
+% vault close $HOME/dock/transfer
+
+## online backup    (off-site-online)
+% sh $XDG_CONFIG_HOME/qutebrowser/cleanup
+% read input; printf '%s' "$input" | base64 | wl-copy -n -o; unset input
+% dotbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/code/dotfile
+% passr login
+% passr gpg_protonmail_cytopyg3
+% monitor
+% passr close
+
+## local backup	    (operational storage)
+sudo chattr -Rf -i $XDG_DATA_HOME/b
+rsync -aAXv --delete --info=progress2 $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b
+sudo chattr -Rf +i $XDG_DATA_HOME/b
