@@ -42,9 +42,9 @@ chown user: file	## set user ownership
 clear  ## shift current line to top of screen
 cp -prv --attributes-only  ## copy no content, but only mode, ownership and timestamps, verbose
 cp -pv  ## copy and preserve mode, ownership and timestamps, verbose
-cryptsetup ---cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 --verify-passphrase open --type=plain /dev/sdX lvm
-cryptsetup ---cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 key-file=/dev/sdZ open --type=plain /dev/sdX lvm
-cryptsetup ---cipher=serpent-xts-plain -hash=sha512 --key-size=512 --iter-time=4096 --use-random --verify-passphrase luksFormat /dev/sdX
+cryptsetup --cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 --verify-passphrase open --type=plain /dev/sdX lvm
+cryptsetup --cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 key-file=/dev/sdZ open --type=plain /dev/sdX lvm
+cryptsetup --cipher=serpent-xts-plain -hash=sha512 --key-size=512 --iter-time=4096 --use-random --verify-passphrase luksFormat /dev/sdX
 cryptsetup luksAddKey --key-slot 7 $file  ## add luks key to slot 7 of $file
 cryptsetup luksRemoveKey --key-slot 7 $file  ## remove luks key from slot 7 of $file
 cryptsetup luksDump file  ## dump header information
@@ -246,7 +246,8 @@ qutebrowser -s content.canvas_reading true ## qb for windy
 rankmirrors -n 10 /etc/pacman.d/mirrorlist | grep -w 'Server =' >> mirrorlist.ranked
 rcvboxdrv
 read input  ## zz1
-read input; printf '%s' "$input" | base64 | wl-copy -n -o; unset input  ## input base64 translation
+read -r input; printf '%s' "$input" | base64 | wl-copy -n -o; unset input  ## input base64 translation
+read -r input; printf '%s' "$input" | openssl dgst -sha3-512 | sed 's/^.*= //'; input=; unset input  ## secure sha3-512 hash from stdin
 readlink <file>  ## print resolved symbolic links or canonical file names
 readlink <symlink> | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change symlink to current users $HOME
 realpath file  ## return canonicalized absolute pathname
@@ -291,6 +292,7 @@ sort $file | uniq -c | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort
 split $file -b N  ## split $file into files with N bytes
 split $file -l N  ## split $file into files with N lines
 split $file -n N  ## split $file into N files
+ssh-keygen -t ed25519-sk -C $key_id -f $key_file  ## generate openssh key
 ssh-keygen -R 192.168.0.195  ## remove cached key for ip on the local machine
 ssh-keyscan -t ecdsa 192.168.x.y >> ~/.ssh/known_hosts  ## update ecdsa key for ip on local machine
 stat -c %A <file>  ## display file access rights in human readable format
@@ -388,7 +390,7 @@ yay -U <package>  ## remove then upgrade or add package
 ykman otp static --no-enter --keyboard-layout US 2 'string' ## assign string to yk slot 2
 zsh --no-rcs  ## zsh terminal without run command script
 chmod 0000	## ---------- 		ugo -	no permissions
-chmod 0111	## ---x--x--x 		ugo x					execute
+chmod 0111	## ---x--x--x 		ugo x				execute
 chmod 0222	## --w--w--w- 		ugo w			write
 chmod 0333	## --wx-wx-wx 		ugo wx			write	execute
 chmod 0444	## -r--r--r-- 		ugo r	read
