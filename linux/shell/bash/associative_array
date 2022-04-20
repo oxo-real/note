@@ -11,3 +11,12 @@ for item in ${myarray[fruit]}; do
     echo ${myarray[fruit]} is ${myarray[color]}
 
 done
+
+
+## code source array (dictionary)
+declare -A code_source=( \
+    [.config]="$XDG_CONFIG_HOME" \
+    [code]="$XDG_DATA_HOME/c/git/code" \
+    [note]="$XDG_DATA_HOME/c/git/note" \
+    [prvt]="$XDG_DATA_HOME/c/git/prvt" \
+)

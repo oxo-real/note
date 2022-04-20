@@ -69,8 +69,9 @@ dig -x 89.39.107.195  ## reverse lookup own public ip
 dirname <filename>  ## print <filename> without last component
 du -sbh <directory>  ## total size of all content in directory
 e2label /dev/X [label]  ## read [/rewrite] device label
-echo "obase=10; ibase=16; <0x>" | tr a-z A-Z ) | bc  ## hexadecimal to decimal conversion
-echo "obase=16; ibase=10; <0d>" | tr a-z A-Z ) | bc  ## decimal to hexadecimal conversion
+echo "obase=02; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to binary conversion
+echo "obase=10; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to decimal conversion
+echo "obase=16; ibase=10; $dec" | bc  ## bc dec (10) to hex (16) conversion
 echo -n $string | base64  ## base64 encoding
 echo 0  ## print exit code of the last executed command
 echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
@@ -198,6 +199,7 @@ nmcli connection add type ethernet con-name $con_name ifname $if_name
 nmcli connection modify $con_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual
 modprobe -r <driver>  ## remove driver from kernel
 modprobe <driver>  ## add driver to kernel
+mount -L $label $mountpoint  ## mount device with $label to $mountpoint
 mount -o remount,rw /dev/sdY1 /boot  ## remount rw existing mountpoint
 mount -o uid=$(whoami),gid=$(id -gn) /dev/sdX dock/1  ## mount as current user
 mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
@@ -331,9 +333,9 @@ tmux show-options -g
 tput reset  ## reinitialize terminal state
 tr -d '[:blank:]\t\r\n'  ## remove all whitespace
 tr -s " " < file_with_double_spaces > file_without_double_spaces  ## remove double spaces
-tr -d -c "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate password)
-tr -d -c "[:graph:]" < /dev/random | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate password)
-tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b  ## translate 16 random streams in 32 specified characters (generate password)
+tr -d -c "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
+tr -d -c "[:graph:]" < /dev/random | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate passstring)
+tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b  ## translate 16 random streams in 32 specified characters (generate passstring)
 truncate -s 5M file  ## make file 5M size
 tree -n --charset=unicode  ## depth indented file listing
 type file or command  ## file or command interpretation
