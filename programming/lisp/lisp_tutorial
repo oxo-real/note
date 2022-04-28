@@ -1,0 +1,9 @@
+(print "enter variable")
+
+(defvar *var1* (read))
+
+;;;(defun print_variable (var1)
+;;;    (format t "hello ~a! ~%" var1))
+;;;
+;;;(setq print-case :downcase) ;;;
+;;;(print_variable *var1*)

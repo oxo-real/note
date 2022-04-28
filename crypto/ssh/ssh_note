@@ -1,0 +1,49 @@
+# generate key
+ssh-keygen -t ed25519 -C 0x3 -f keys/ssh/0x3
+ssh-keygen -t ed25519-sk -C 0x3 -f keys/ssh/0x3
+
+# set key file permissions
+
+## octal form
+chmod 600 keys/ssh/0x3
+chmod 600 keys/ssh/0x3.pub
+
+## OR equivalent literal form
+chmod u=rw,go= keys/ssh/0x3
+chmod u=rw,go= keys/ssh/0x3.pub
+
+## optional: make public key readable
+chmod 644 keys/ssh/0x3.pub
+OR
+chmod a=r,u+w keys/ssh/0x3.pub
+
+# set key directory permissions
+
+## octal form
+chmod 700 keys/ssh
+
+## OR equivalent literal form
+chmod u=rwx,go= keys/ssh
+
+# literal form legend
+#   u user	+ allow		    r read
+#   g group	- deny		    w write
+#   o others	= reset & allow	    x execute
+#   a all
+
+# start ssh-agent
+eval `ssh-agent -s`
+
+# add keyfile
+ssh-add keys/ssh/0x3.pub
+
+# test codeberg git ssh connection
+ssh -i keys/ssh/0x3 -T git@codeberg.org
+
+# upload ssh key
+\cat keys/ssh/0x3.pub | wl-copy -n
+
+# verify ssh key
+echo -n "$token" | ssh-keygen -Y sign -n gitea -f keys/ssh/0x3
+
+
