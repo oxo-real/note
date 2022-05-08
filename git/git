@@ -33,7 +33,8 @@ git config --global alias.hist "log --graph --pretty=format:'%Cred%h%Creset -%C(
 
 .git/config
 
-url = https://username@repository-url.com
+url = https://username@repository-url.com/project
+url = git@repository-url.com:username/project
 
 
 -------------------------------------------------------------------------------------------
@@ -41,12 +42,14 @@ url = https://username@repository-url.com
 
 # initialisation
 
+git init
+OR
 git clone -v https://cytopyge@gitlab.com/cytopyge/notes
 OR
 git clone ssh://user@domain.com/repo.git
-OR
-git init
+## https (username password)
 git remote add origin https://gitlab.com/cytopyge/repo.git
+## ssh
 git remote add origin git@gitlab.com:cytopyge/repo.git
 
 
@@ -123,6 +126,30 @@ git commit -a -m 'commit-message'
 ** push master
 git checkout master
 git push
+
+## push with ssh authentication
+initialization (see above)
+disable https remote in .git/config
+
+eval "$(ssh-agent -s)"
+ssh-add keys/private_key
+
+git push
+
+
+# push to multiple remotes
+
+## create new remote 'all'
+git remote add all git@codeberg.org:user/project.git
+
+## add push url 1 to remote 'all'
+git remote set-url --add --push all git@codeberg.org:user/project.git
+
+## add push url 2 to remote 'all'
+git remote set-url --add --push all git@gitlab.com:user/project.git
+
+## push to all main branch
+git push all main
 
 -------------------------------------------------------------------------------------------
 

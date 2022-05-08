@@ -14,3 +14,18 @@ https://en.wikipedia.org/wiki/ANSI_escape_code
 
 % \less --use-color -M --color='SWk' --color='Pgk' pacman.conf
 
+
+# less configuration
+## make a uniform pager experience in cli
+
+## zshenv
+
+function lessr() {
+   less -MFJRX -P '%f %l %L %PX' --use-color --color='Emk' --color='SWk' --color='Pkw'
+}
+export READNULLCMD=lessr
+
+### with this '< $file' will invoke lessr
+
+% alias less
+less='less -MFJRX -P '\''%f %l %L %PX'\'' --use-color --color='\''Emk'\'' --color='\''SWk'\'' --color='\''Pkw'\'

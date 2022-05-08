@@ -1,0 +1,33 @@
+Format specifiers in C
+CServer Side ProgrammingProgramming
+The format specifiers are used in C for input and output purposes. Using this concept the compiler can understand that what type of data is in a variable during taking input using the scanf() function and printing using printf() function. Here is a list of format specifiers.
+
+Format Specifier	Type
+%c	Character
+%d	Signed integer
+%e or %E	Scientific notation of floats
+%f	Float values
+%g or %G	Similar as %e or %E
+%hi	Signed integer (short)
+%hu	Unsigned Integer (short)
+%i	Unsigned integer
+%l or %ld or %li	Long
+%lf	Double
+%Lf	Long double
+%lu	Unsigned int or unsigned long
+%lli or %lld	Long long
+%llu	Unsigned long long
+%o	Octal representation
+%p	Pointer
+%s	String
+%u	Unsigned int
+%x or %X	Hexadecimal representation
+%n	Prints nothing
+%%	Prints % character
+These are the basic format specifiers. We can add some other parts with the format specifiers. These are like below −
+
+A minus symbol (-) sign tells left alignment
+
+A number after % specifies the minimum field width. If string is less than the width, it will be filled with spaces
+
+A period (.) is used to separate field width and precision

@@ -64,3 +64,8 @@ Wired connection 1  6e5d3af9-21e9-30c4-821e-0b5e3b65557c  ethernet  --
 
 # create a wifi hotspot
 % wifi hotspot [ifname ifname] [con-name name] [ssid SSID] [band {a | bg}] [channel channel] [password password]
+
+
+DEV
+dont save ethernet connections, devices can change names and that gives errors next time
+

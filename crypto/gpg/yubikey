@@ -47,7 +47,7 @@ gpg --gen-random --armor 0 24
 OR
 < /dev/random tr -d -c "[:alnum:]" | head -c 24
 OR
-tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16
+tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b
 
 
 # generate gpg master key

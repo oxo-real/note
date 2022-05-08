@@ -36,9 +36,9 @@ cd /usr/lib/modules/$(uname -r)
 cd /var/lib/pacman/local  ## pacman install directory
 chattr -R +i file  ## 'i' attribute: file cannot be modified
 chmod --reference=ref_file target  ## make target file mode bits same as ref_file
-chown -R user:group directory	## recursive set user & group ownership
-chown :group file	## set group ownership
-chown user: file	## set user ownership
+chown -R $USER:$GROUP $target  ## recursive set target ownership to current user & group
+chown :group file  ## set group ownership
+chown user: file  ## set user ownership
 clear  ## shift current line to top of screen
 cp -prv --attributes-only  ## copy no content, but only mode, ownership and timestamps, verbose
 cp -pv  ## copy and preserve mode, ownership and timestamps, verbose
@@ -210,6 +210,9 @@ mpv `echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\/
 msgcat --color=test
 mv -t <target_dir> <source_dirs>  ## move source_dirs to target_dir
 notmuch address '*'  ## all mail addresses
+notmuch address --output=recipients --deduplicate=address date:year.. | fzf | wl-copy  ## 1. last years recipients
+notmuch search date:year.. $(wl-paste) | fzf | awk '{print $1}' | wl-copy  ## 2. last years threads from recipient
+notmuch show $(wl-paste)  ## 3. show specific thread content
 nslookup server.com  ## get server ip address
 openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## openssl base64 encoded aes 256 bits galois counter mode decryption
 openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## openssl base64 encoded aes 256 bits galois counter mode encryption
@@ -339,7 +342,7 @@ tr -d -c "[:graph:]" < /dev/random | head -c 32  ## translate random stream in 3
 tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b  ## translate 16 random streams in 32 specified characters (generate passstring)
 truncate -s 5M file  ## make file 5M size
 tree -n --charset=unicode  ## depth indented file listing
-type file or command  ## file or command interpretation
+type -a file or command  ## file or command interpretation; print all occurences in path
 umount -l <mountpoint>  ## umount busy targets (mountpoints)
 uptime
 usermod -a -G group_2_add user_2_add  ## add user to group
