@@ -127,6 +127,9 @@ git commit -a -m 'commit-message'
 git checkout master
 git push
 
+** rename branch testing
+git branch -m new_name
+
 ## push with ssh authentication
 initialization (see above)
 disable https remote in .git/config
