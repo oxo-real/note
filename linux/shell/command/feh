@@ -1,0 +1,19 @@
+toggling
+d   filename and selection data (file list)
+e   exif data
+o   mousepointer
+
+space	next
+->	next
+n	next
+backsp	previous
+<-	previous
+p	previous
+
+<   rotate clockwise
+<   rotate anti-clockwise
+_   mirror horizontal axis
+|   mirror vertical axis
+
+del	delete from selection
+C-del	permanently delete image
