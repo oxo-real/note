@@ -1,0 +1,29 @@
+< /proc/sys/kernel/random/entropy_avail
+
+< /proc/sys/kernel/random/poolsize
+
+
+
+To set writeable kernel parameters you can use sysctl interactively:
+
+sysctl kernel.random.poolsize=8192
+
+or you can echo the value to the /proc filesystem:
+
+echo 8192 > /proc/sys/kernel/random/poolsize
+
+To make the changes effective after boot you can add a line to /etc/sysctl.conf (before boot you can usually pass the parameter in the bootloader on the kernel line):
+
+kernel.random.poolsize=8192
+
+After doing the former you can run sysctl -p for changes to be effective. This is assuming that the parameter is writeable or can be increased beyond the current value. If it isn't then you will have to rebuild the kernel or find an alternative.
+
+However, your issue may be in being able to fill up the pool quickly enough for your needs. You might want to look into haveged
+
+This type of question may attract more attention at security.stackexchange.com and I was recently looking at this question on Entropy which you may find of interest.
+
+[linux - how to increase the maximum size of the pool /dev/random - Super User]
+(https://superuser.com/questions/955509/how-to-increase-the-maximum-size-of-the-pool-dev-random)
+
+--------------------------------
+The pool size is hardcoded in /drivers/char/random.c:275 so you have to recompile the kernel to change it.

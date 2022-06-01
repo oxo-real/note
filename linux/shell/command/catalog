@@ -82,8 +82,6 @@ fc -l -n -1  ## last command entered, hide line number
 fc-list  ## list available fonts
 fg [%n]  ## job [n] to foreground
 fg [id]  ## recall suspended command to foreground
-figlet -f mini cytopyge | wl-copy  ## figlet sub_header
-figlet text | wl-copy  ## figlet header
 find . -exec <command> {} \;
 find . -maxdepth 1 -name \*_ -type d -exec cp -r {} ~/test_/bu \;
 find . -maxdepth 1 -type d -exec du -sb {} \; | sort -g -k 1  ## directories sorted by size (bytes)
@@ -254,9 +252,11 @@ rcvboxdrv
 read input  ## zz1
 read -r input; printf '%s' "$input" | base64 | wl-copy -n -o; unset input  ## input base64 translation
 read -r input; printf '%s' "$input" | openssl dgst -sha3-512 | sed 's/^.*= //'; input=; unset input  ## secure sha3-512 hash from stdin
+read -r name && printf '%s%s' "$(figlet "$name")" "$(figlet -f mini 'oxo')" | wl-copy  ## script header
 readlink <file>  ## print resolved symbolic links or canonical file names
 readlink <symlink> | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change symlink to current users $HOME
 realpath file  ## return canonicalized absolute pathname
+reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 -l 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
 renice -19 $(pgrep <process_name>)  ## give <process_name> highest (-19) priority
 reset  ## reinitialize terminal state
 rev $file  ## reverse line characters

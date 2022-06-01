@@ -1,0 +1,7 @@
+# get usb info:
+
+% lsusb
+
+OR
+
+% < /proc/bus/input/devices

@@ -3,12 +3,54 @@
 
 yay -S qemu virt-manager bridge-utils dnsmasq libguestfs vde2 qemu-arch-extra openbsd-netcat ebtables
 
+edk2-ovmf	# amd64 uef bios
+edk2-armvirt	# arm64 uefi bios
+
 sudo usermod -a -G kvm,libvirt $USER
 
-#TODO
+# changing config
+
+## user = "$USER"
 sudo sed -i "s/^#user = "root"/user = \"$USER\"/" /etc/libvirt/qemu.conf
+## group = "libvirt"
 sudo sed -i 's/^#group = "root"/^group = "libvirt"/' /etc/libvirt/qemu.conf
+
 
 sudo systemctl start libvirtd.service
 
 virt-manager
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# minimum setup
+
+
+# install
+yay -S qemu
+
+# create file.img with disk image format qcow2 of $size bytes
+qemu-img create -f qcow2 $file.img $size
+
+# run vm
+qemu-system-x86_64 \
+-enable-kvm \
+-cdrom $file.iso \
+-boot menu=on \
+-drive file=$file.img \
+-m 4G \
+
+## optional flags
+# set cpu the same as host
+-cpu host \
+-smp cores=2,threads=2 \
+-vga virtio -display sdl,gl=on \
+-usb -device usb-host,hostbus=,hostaddress= \
+-usb -device usb-host,vendorid=0x$vendid,productid=0x$prodid \
+-bios edk2/ovmf/OVMF_CODE.fd
+-rtc base=localtime
+-hda $file.img
+-host kvm=off \
+-M q35 \
+
+## keybindings
+C-A-g	exit capture
+C-A-f	fullscreen

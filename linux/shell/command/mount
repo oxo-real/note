@@ -11,6 +11,15 @@ fuser -kim /address  # kill any processes accessing file
 ##
 https://stackoverflow.com/questions/7878707/how-to-unmount-a-busy-device
 
+
+chown: changing ownership of `test/': Operation not permitted
+##
+on vfat fs ownership and permissions are defined at mount time
+solution:
+% sudo mount -o uid=$(id -u),gid=$(id -g) /dev/sda ~/dock/4
+
+
+
 ## TODO work out options below
 
 
