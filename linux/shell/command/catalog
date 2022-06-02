@@ -250,9 +250,9 @@ qutebrowser -s content.canvas_reading true ## qb for windy
 rankmirrors -n 10 /etc/pacman.d/mirrorlist | grep -w 'Server =' >> mirrorlist.ranked
 rcvboxdrv
 read input  ## zz1
-read -r input; printf '%s' "$input" | base64 | wl-copy -n -o; unset input  ## input base64 translation
-read -r input; printf '%s' "$input" | openssl dgst -sha3-512 | sed 's/^.*= //'; input=; unset input  ## secure sha3-512 hash from stdin
-read -r name && printf '%s%s' "$(figlet "$name")" "$(figlet -f mini 'oxo')" | wl-copy  ## script header
+read -er input | base64 | wl-copy -n -o; unset input  ## input base64 translation
+read -er input | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'; input=; unset input  ## secure sha3-512 hash from stdin (verify pwgn)
+read -er name && printf '%s%s' "$(figlet "$name")" "$(figlet -f mini 'oxo')" | wl-copy  ## script header
 readlink <file>  ## print resolved symbolic links or canonical file names
 readlink <symlink> | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change symlink to current users $HOME
 realpath file  ## return canonicalized absolute pathname

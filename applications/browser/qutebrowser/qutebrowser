@@ -25,3 +25,12 @@ Note that all windows are part of the same qutebrowser instance
 
 # independent instance with custom configuration settings
 qutebrowser -C ~/.config/qutebrowser/config_no_darkmode.py --temp-basedir :adblock-update
+
+# generate default config.py
+Within qutebrowser you can create a template config.py by running one of the following colon commands.
+:config-write-py --defaults
+:config-write-py -d
+This writes config.py to qutebrowser config directory
+
+# all settings
+https://qutebrowser.org/doc/help/settings.html
