@@ -119,7 +119,11 @@
 |   `-- zbar
 |       `-- zbarcam
 |-- backup
-|   `-- bu_process
+|   `-- process
+|       |-- backup
+|       |-- backup_2
+|       |-- recovery
+|       `-- recovery_2
 |-- crypto
 |   |-- 2fa
 |   |   |-- 2fa_sha1_totp.sh
@@ -127,6 +131,7 @@
 |   |       |-- create_totp_secret_file
 |   |       `-- genotp.sh
 |   |-- dance.chacha20
+|   |-- entropy
 |   |-- genpw
 |   |   |-- prng
 |   |   `-- pwgn.process
@@ -138,6 +143,7 @@
 |   |   |-- gpg_errors
 |   |   |-- yk_readme
 |   |   `-- yubikey
+|   |-- kernel
 |   |-- luks
 |   |   |-- boot_detach_luks_header
 |   |   |-- boot_detach_luks_header2
@@ -150,6 +156,8 @@
 |   |-- password_entry
 |   |-- pwgn_policy
 |   |-- pwgn_policy.sig
+|   |-- ssh
+|   |   `-- ssh_note
 |   |-- ssss
 |   |   |-- math_ssss
 |   |   |-- online
@@ -186,6 +194,7 @@
 |   |   |-- installation
 |   |   `-- no_ide
 |   `-- usb
+|       |-- general
 |       `-- webcam
 |           `-- webcam
 |-- linux
@@ -205,6 +214,7 @@
 |   |   `-- xorg
 |   |       |-- xinit_notes
 |   |       `-- xorg
+|   |-- format_specifiers
 |   |-- lvm
 |   |   `-- resize
 |   |-- shell
@@ -442,6 +452,7 @@
 |   |   |   |   |-- zip
 |   |   |   |   |-- zoneadm
 |   |   |   |   `-- zsh
+|   |   |   |-- feh
 |   |   |   |-- find
 |   |   |   |   `-- find
 |   |   |   |-- iconv
@@ -452,7 +463,8 @@
 |   |   |   |-- printf
 |   |   |   |-- read
 |   |   |   |   |-- filedescriptor
-|   |   |   |   `-- read_into_array
+|   |   |   |   |-- read_into_array
+|   |   |   |   `-- read_zsh_sh_posix
 |   |   |   |-- rm
 |   |   |   |   `-- undelete
 |   |   |   |-- rsync
@@ -682,8 +694,12 @@
 |       |-- make_clone_yt.sh
 |       |-- README.md
 |       `-- yt_comments.py
-|-- perl
-|   `-- perl_101
+|-- programming
+|   |-- lisp
+|   |   |-- lisp_tutorial
+|   |   `-- test
+|   `-- perl
+|       `-- perl_101
 |-- radio
 |   |-- bfuv5r
 |   |-- koncept
@@ -718,4 +734,4 @@
 `-- zzz_deprecated
     `-- xab
 
-132 directories, 586 files
+137 directories, 597 files
