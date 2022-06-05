@@ -1,0 +1,182 @@
+ssh-agent $SHELL && ssh-add keys/ssh/key
+
+
+[5 Unix / Linux ssh-add Command Examples to Add SSH Key to Agent](https://linux.101hacks.com/unix/ssh-add/)
+Linux 101 Hacks
+5 Unix / Linux ssh-add Command Examples to Add SSH Key to Agent
+by RAMESH
+ssh-add is a helper program for ssh-agent.
+
+ssh-add adds RSA or DSA identity files to the ssh agent. For ssh-add to work properly, the agent should be running, and have the SSH_AUTH_SOCK environment variable set.
+
+1. Fix “Could not Open” Error (and Add Default RSA/DSA identities)
+By default, when you try to execute the ssh-add command, you might get “Could not open a connection to your authentication agent.” error message as shown below.
+
+$ ssh-add
+Could not open a connection to your authentication agent.
+The reason is ssh-agent is not running.
+
+But, if you start the ssh-agent as shown below, you’ll still get the same error.
+
+$ ssh-agent
+SSH_AUTH_SOCK=/tmp/ssh-cYYsc14689/agent.14689; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=14690; export SSH_AGENT_PID;
+echo Agent pid 14690;
+
+$ ssh-add
+Could not open a connection to your authentication agent.
+In order to fix the issue, you should start the ssh-agent as shown below.
+
+$ exec ssh-agent bash
+Now, when you execute the ssh-add, it will add the ~/.ssh/id_rsa, ~/.ssh/id_dsa and ~/.ssh/identity files to ssh-agent, and will not throw any error message.
+
+$ ssh-add
+Identity added: /home/ramesh/.ssh/id_rsa (/home/ramesh/.ssh/id_rsa)
+Identity added: /home/ramesh/.ssh/id_dsa (/home/ramesh/.ssh/id_dsa)
+2. Display the entries loaded in ssh-agent
+Use either -l or -L as shown below to display all the RSA and DSA entries that are currently loaded into the ssh-agent.
+
+The following examples shows that there are two entries currently loaded to the ssh-agent.
+
+$ ssh-add -l
+2048 34:36:63:c2:7d:a5:13:e4 /home/ramesh/.ssh/id_rsa (RSA)
+1024 ee:60:11:bf:1b:31:3b:fb /home/ramesh/.ssh/id_dsa (DSA)
+
+$ ssh-add -L
+ssh-rsa A2EAAAABIwAAAQEAtVRcaEnxOef0n5WLr9DV1JsLpx4E+P2Zf/N9JBLBbVKDD1BZf
+eRmLK8hZZKf0iva8+q1VNyxQB5oTfKGr79ll7KDRwfIgErw== /home/ramesh/.ssh/id_rsa
+ssh-dsa 8WDTpyJiLUNlIXSfCRe7nOjeMlgyn8vM3cWsosO0x4eMDYEMvefzhev0RAtbhyBvs
+WLLCwkaVzCZdZvsDa2cl7zKRd+3zLSfBQRa1wpMjJaeJbCg== /home/ramesh/.ssh/id_dsa
+3. Delete all entries from ssh-agent
+Use option -D as shown below to remove all the ssh entries from the ssh-agent.
+
+$ ssh-add -D
+All identities removed.
+
+$ ssh-add -l
+The agent has no identities.
+4. Delete specific entries from ssh-agent
+Using -d option, you can specify exactly what entries you like to delete.
+
+The following example will remove only the default RSA entry from the ssh-agent.
+
+$ ssh-add -l
+2048 34:36:63:c2:7d:a5:13:e4 /home/ramesh/.ssh/id_rsa (RSA)
+1024 ee:60:11:bf:1b:31:3b:fb /home/ramesh/.ssh/id_dsa (DSA)
+
+$ ssh-add -d /home/ramesh/.ssh/id_rsa
+Identity removed: /home/ramesh/.ssh/id_rsa (/home/ramesh/.ssh/id_rsa.pub)
+
+$ ssh-add -l
+1024 ee:60:11:bf:1b:31:3b:fb /home/ramesh/.ssh/id_dsa (DSA)
+5. Lock (or) Unlock the SSH Agent
+You can lock the ssh agent as shown below using -x option. Once you lock the agent, you cannot add, delete, or list entries in the ssh agent without a password.
+
+$ ssh-add -x
+Enter lock password:
+Again:
+Agent locked.
+After locking, if you try to add, you’ll se SSH_AGENT_FAILURE message as shown below.
+
+$ ssh-add
+SSH_AGENT_FAILURE
+SSH_AGENT_FAILURE
+Could not add identity: /home/ramesh/.ssh/id_rsa
+To unlock an agent, use -X option as shown below. Make sure you enter the same password that you gave while locking the agent. If you give a wrong password, you’ll set “Failed to unlock agent.” message.
+
+$ ssh-add -X
+Enter lock password:
+Agent unlocked.
+Comments on this entry are closed.
+
+Next post: How to Fix Nagios Permission denied: exec of CGI failed Error
+
+Previous post: 5 Unix / Linux RPC Mountd Command Examples
+
+Home | Linux 101 Hacks – Table of Contents | Contact | Email | RSS | Copyright © 2009–2022 Ramesh Natarajan All rights reserved | Terms of Service
+
+
+
+[5 UNIX / Linux ssh-agent Command Examples to Manage SSH Private Keys](https://linux.101hacks.com/unix/ssh-agent/)
+Linux 101 Hacks
+5 UNIX / Linux ssh-agent Command Examples to Manage SSH Private Keys
+by RAMESH
+ssh-agent is used to hold the private keys of remote server, which can be used to authenticate from the local machine.
+
+The idea is once you add private keys using ssh-add command to the ssh-agent, you can login to the remote machine without having to enter the password.
+
+If you are new to this, you should first understand how ssh-add command works.
+
+1. Start the ssh-agent
+You can start the ssh-agent from your session, as shown below. By default, you can start it without any parameter as shown below.
+
+# ssh-agent
+SSH_AUTH_SOCK=/tmp/ssh-pwrid11012/agent.11012; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=11013; export SSH_AGENT_PID;
+echo Agent pid 11013;
+In this case, the parent PID for the ssh-agent will be 1. So, it is not tied to the current terminal.
+
+# ps -ef | grep ssh-agent
+root     11013     1  0 14:09 ?        00:00:00 ssh-agent
+If you want to start ssh-agent only for your terminal session, it is recommend that you pass the shell command variable (i.e /bin/bash to the ssh-agent while starting it as shown below). In this case, the ssh-agent will be forked from the current terminal, as you see below, the parent PID of the ssh-agent is the current terminal’s bash process.
+
+# ssh-agent $SHELL
+
+# ps -ef | grep ssh-agent
+root     11020 11019  0 14:10 ?        00:00:00 ssh-agent /bin/bash
+2. Stop / Kill the ssh-agent
+While you can use kill -9 command to kill the ssh-agent process, it is recommend that you use the -k option as shown below.
+
+# ssh-agent -k
+unset SSH_AUTH_SOCK;
+unset SSH_AGENT_PID;
+echo Agent pid 11020 killed;
+
+# ps -ef | grep ssh-agent
+3. Run ssh-agent in debug mode
+For some reason, after you’ve added the keys ot the ssh-agent, if it still asks for password when you ssh to remote server, you may want to debug and see if ssh-agent has the right keys.
+
+You can run ssh-agent in the debug mode as shown below. Please note that when you run in debug mode, it will run in the foreground mode.
+
+# ssh-agent -d
+SSH_AUTH_SOCK=/tmp/ssh-AVGCG11176/agent.11176; export SSH_AUTH_SOCK;
+echo Agent pid 11176;
+4. Set Bind Socket Name
+By default, the ssh-agent binds to a socket under /tmp directory (for example: SSH_AUTH_SOCK=/tmp/ssh-UMmVe11244/agent.11244). If you are concerned about this for security reasons, you can specify your own socket file name under your home directory (or anywhere else), instead of the /tmp directory.
+
+The following example will use the my-ssh-socket file for the SSH_AUTH_SOCK.
+
+# ssh-agent -a ~/my-ssh-socket $SHELL
+After starting the ssh-agent, you can verify that the bind socket is created in the location you’ve specified.
+
+# ls -al ~/my-ssh-socket
+srw-------. 1 root root 0 Sep  4 14:39 /root/my-ssh-socket
+When this ssh-agent is killed properly, this bind socket file will be deleted automatically by the ssh-agent as shown below.
+
+# ssh-agent -k
+unset SSH_AUTH_SOCK;
+unset SSH_AGENT_PID;
+echo Agent pid 11254 killed;
+
+# ls -al ~/my-ssh-socket
+ls: cannot access /root/my-ssh-socket: No such file or directory
+5. Set Expiry Time for Keys
+By default, the keys added to the ssh-agent doesn’t expire. They stay there as long as ssh-agent is running. However you can set an expire time using the -t option as shown below.
+
+In the following example, the keys will expire after 3600 second, which is 1 hour.
+
+# ssh-agent -t 3600 $SHELL
+You can also use one of the following time qualifiers
+
+m | M minutes (for example: 5M for 5 minutes)
+h | H hours (for example: 5h for 5 hours)
+d | D days (for example: 5D for 5 days)
+w | W weeks (for example 5w for 5 weeks)
+In the following example, the keys will expire after 3 days.
+
+# ssh-agent -t 3d $SHELL
+Next post: How to Create / Clone Oracle Virtual Machine from an OVM Template
+
+Previous post: How to Import Oracle Virtual Machine from an OVM Template
+
+Home | Linux 101 Hacks – Table of Contents | Contact | Email | RSS | Copyright © 2009–2022 Ramesh Natarajan All rights reserved | Terms of Service
