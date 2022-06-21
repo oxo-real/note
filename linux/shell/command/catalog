@@ -76,6 +76,7 @@ echo -n $string | base64  ## base64 encoding
 echo 0  ## print exit code of the last executed command
 echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
 env  ## print current environment variables and their values
+eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key
 faillock --user $USER --reset  ## remove sudo lockout for current user
 fc  ## edit last command in
 fc -l -n -1  ## last command entered, hide line number
