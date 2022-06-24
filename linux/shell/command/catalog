@@ -422,4 +422,4 @@ stty sane           # don't clear screen but reset some terminal options
 echo -e "\033c"     # same as tput reset but hardcoded escape seq
 printf "\033c"      # same as tput reset but hardcoded escape seq
 setterm -reset      # same as tput reset, setterm has friendlier commands
-DELtest
+print_entire_array() { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}" ; done }  ## print_entire_array arrayX
