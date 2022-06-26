@@ -1,0 +1,48 @@
+% protonvpn-cli -h
+
+Proton VPN CLI v3.12.0
+
+For bugs and errors, please use the form https://protonvpn.com/support-form
+or send a report to support@protonvpn.com.
+
+usage:  protonvpn-cli [--version | --help] <command>
+
+commands:
+    login               Login with Proton VPN credentials.
+    logout              Disconnect, remove Proton VPN connection and logout.
+    c, connect          Connect to Proton VPN.
+    d, disconnect       Disconnect from Proton VPN.
+    s, status           Show connection status.
+    r, reconnect        Reconnect to previously connected server.
+    config              Configure user settings.
+    ks, killswitch      Configure Kill Switch settings.
+    ns, netshield       Configure NetShield settings.
+
+optional arguments:
+    -h, --help          Display help message.
+    -v, --version       Display versions.
+    --get-logs          Get Proton VPN logs.
+
+examples:
+    protonvpn-cli login
+    protonvpn-cli login --help
+    protonvpn-cli logout
+    protonvpn-cli (c | connect)
+    protonvpn-cli (c | connect) --help
+    protonvpn-cli (d | disconnect)
+    protonvpn-cli (s | status)
+    protonvpn-cli (r | reconnect)
+    protonvpn-cli config
+    protonvpn-cli config --help
+    protonvpn-cli (-h | --help)
+    protonvpn-cli (-v | --version)
+    protonvpn-cli --get-logs
+
+
+
+% protonvpn-cli login $protonmail_username
+Enter your Proton VPN password: $protonmail_password
+
+Successful login.
+
+

@@ -346,7 +346,8 @@ truncate -s 5M file  ## make file 5M size
 tree -n --charset=unicode  ## depth indented file listing
 type -a file or command  ## file or command interpretation; print all occurences in path
 umount -l <mountpoint>  ## umount busy targets (mountpoints)
-uptime
+uptime  ## uptime since boot
+< /proc/uptime | awk '{print $1}'  ## uptime in seconds
 usermod -a -G group_2_add user_2_add  ## add user to group
 vlock -a  ## console lock
 watch -d -n 1 -t lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint
