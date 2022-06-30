@@ -43,6 +43,11 @@ hajime
 
 ## data recovery
 
+% vault open /dev/sdx $HOME/dock/transfer
+### .local
+% rsync -aAXv ~/dock/transfer/.../.local/ ~/.local
+### .config
+% rsync -aAXv ~/dock/transfer/.../.config/ ~/.config
 
 
 ---------------------------
