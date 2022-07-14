@@ -1,5 +1,5 @@
 #!/usr/bin/env bash  ## search $path for bash
-#: '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock / comment (remove first #)
+: '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment 
 < ${$(get_newest_file $XDG_LOGS_HOME/updater/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file
 < /home/cytopyge/.config/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
 <command> &> <file>  ## <command> stdout to <file>
@@ -75,6 +75,9 @@ echo "obase=16; ibase=10; $dec" | bc  ## bc dec (10) to hex (16) conversion
 echo -n $string | base64  ## base64 encoding
 echo 0  ## print exit code of the last executed command
 echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
+emacsclient --daemon[=$server_name]  ## start emacs daemon
+emacsclient -c  ## start emacs client
+emacsclient -e "(kill-emacs)" -s server  ## kill emacs server
 env  ## print current environment variables and their values
 eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key
 faillock --user $USER --reset  ## remove sudo lockout for current user
@@ -156,6 +159,7 @@ ip link set <interface> {down/up}   ## change interface state
 ip link set dev [interface] address [mac]  ## assign [mac] address to [interface]
 ip link set dev [interface] down  ## disconnect from the network by disable interface
 ip n show	## show neighbour / arp cache
+ip link show $enp | grep link | awk '{print $2}'  ## print $enp mac address
 ip route add default via <default_gateway>
 ip route flush dev <interface>
 ipset add blocklist [ipaddrs]  ## add [ipaddrs] to blocklist
@@ -247,6 +251,7 @@ ps -eFly  ## list every process on the system
 ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list processes custom AIX format descriptors, sort low to high elapsed time since process was started
 ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom AIX format descriptors, sort high to low cpu usage
 pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
+pushd $directory  ## cd to $directory and add $directory to dirs stack[0]
 qrencode -t utf8  ## create qr from stdin
 qutebrowser -s content.canvas_reading true ## qb for windy
 rankmirrors -n 10 /etc/pacman.d/mirrorlist | grep -w 'Server =' >> mirrorlist.ranked

@@ -1,0 +1,9 @@
+yay -S fprintd
+
+fprintf-enroll
+
+
+# sudo configuration
+add before first line of /etc/pam.d/sudo
+
+auth      sufficient  	 pam_fprintd.so

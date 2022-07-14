@@ -1,0 +1,56 @@
+yay -S fprintd
+
+fprintf-enroll
+
+
+# sudo configuration
+add before first line of /etc/pam.d/sudo
+
+auth      sufficient  	 pam_fprintd.so
+
+
+
+https://wiki.archlinux.org/title/Fprint
+Installation
+Install the fprintd package. imagemagick might also be needed.
+
+Some devices require a different fork of libfprint specifically made for touch-based sensors and not (yet?) merged with the main libfprint: libfprint-tod. This is available as libfprint-tod-gitAUR
+
+Configuration
+Login configuration
+Note:
+If you use GDM, the fingerprint-option is already available in the login menu (if not add yourself to the input group). You can skip this section!
+If you use SDDM, see SDDM#Using a fingerprint reader.
+Add pam_fprintd.so as sufficient to the top of the auth section of /etc/pam.d/system-local-login:
+
+/etc/pam.d/system-local-login
+auth      sufficient pam_fprintd.so
+auth      include   system-login
+...
+This tries to use fingerprint login first, and if it fails or if it finds no fingerprint signatures in the given user's home directory, it proceeds to password login.
+
+You can also modify other files in /etc/pam.d/{login,su,sudo,gdm,lightdm} in the same way, for example /etc/pam.d/polkit-1 for GNOME polkit authentication or /etc/pam.d/kde to unlock KDE's lockscreen.
+
+Adding pam_fprintd.so as sufficient to any configuration file in /etc/pam.d/ when a fingerprint signature is present will only prompt for fingerprint authentication. This prevents the use of a password if you cannot Ctrl+c fingerprint authentication (due to the lack of a shell). In order to use either a password or a fingerprint in a graphical interface, add the following line to the top of any files required:
+
+auth		sufficient  	pam_unix.so try_first_pass likeauth nullok
+auth		sufficient  	pam_fprintd.so
+...
+This will prompt for a password; pressing Enter on a blank field will proceed to fingerprint authentication.
+
+If you want to prompt for fingerprint and password input at the same time, you can use pam-fprint-grosshackAUR. This may be needed for some graphical programs which do not allow blank password input, such as Gnome's built-in polkit agent. To use this package, add the following lines to the top of any files required:
+
+auth		sufficient  	pam_fprintd_grosshack.so
+auth		sufficient  	pam_unix.so try_first_pass nullok
+...
+Create fingerprint signature
+You will need to have an authentication agent running before being able to enroll.
+
+To add a signature for a finger, run:
+
+$ fprintd-enroll
+or create a new signature for all fingers:
+
+$ fprintd-delete "$USER"
+$ for finger in {left,right}-{thumb,{index,middle,ring,little}-finger}; do fprintd-enroll -f "$finger" "$USER"; done
+You will be asked to scan the given finger. Swipe your right index finger five times. After that, the signature is created in /var/lib/fprint/.

@@ -13,7 +13,7 @@ chmod 600 keys/ssh/0x3
 
 ## public key
 chmod a=r,u+w keys/ssh/0x3.pub
-OR
+## OR equivalent octal form
 chmod 644 keys/ssh/0x3.pub
 
 
@@ -21,15 +21,19 @@ chmod 644 keys/ssh/0x3.pub
 
 ## octal form
 chmod a=-,u+rwx keys/ssh
-OR
+## OR
 chmod 700 keys/ssh
 
 ## OR equivalent literal form
 
-# start ssh-agent
-eval `ssh-agent -s`
 
-# add keyfile
+
+
+# start ssh-agent persistent in the background
+% eval $(ssh-agent)
+# eval `ssh-agent -s`
+
+# add keyfile to agent
 ssh-add keys/ssh/0x3
 
 # test codeberg git ssh connection
@@ -39,5 +43,17 @@ ssh -i keys/ssh/0x3 -T git@codeberg.org
 \cat keys/ssh/0x3.pub | wl-copy -n
 
 # verify ssh key
-echo -n "$token" | ssh-keygen -Y sign -n gitea -f keys/ssh/0x3
+echo -n "$token_to_verify" | ssh-keygen -Y sign -n gitea -f keys/ssh/0x3
 
+# ~/.ssh/config example
+Host $short_reference_name
+    Hostname 9.9.9.9
+    User admin
+    Port 2222
+    IdentityFile $private_key_file
+
+Host $short_reference_name
+    Hostname 9.9.9.9
+    User admin
+    Port 2222
+    IdentityFile $private_key_file

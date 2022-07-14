@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+ssh_conf="$XDG_CONFIG_HOME/ssh"
+ssh_keys="$XDG_DATA_HOME/c/keys/ssh"
+
+if [[ ! -d "$ssh_conf" ]]; then
+
+    printf "no $ssh_conf\n"
+    exit 3
+
+fi
+
+if [[ ! -d "$ssh_keys" ]]; then
+
+    printf "no $ssh_keys\n"
+    exit 4
+
+fi
+
+# correct ownership
+chown -R $(id -un):$(id -gn) $ssh_home
+chown -R $(id -un):$(id -gn) $ssh_keys
+
+# correct permissions
+## for files
+find $ssh_home -type f -exec chmod 600 {} \;
+find $ssh_home -type f -name *.pub -exec chmod 644 {} \;
+find $ssh_keys -type f -exec chmod 600 {} \;
+## for directories
+find $ssh_home -type d -exec chmod 700 {} \;
+find $ssh_keys -type d -exec chmod 700 {} \;
+

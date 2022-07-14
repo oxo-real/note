@@ -1,0 +1,3 @@
+% yay -S ccid libnfc acsccid pcsclite pcsc-tools                                                                                                                                                               161057
+systemctl start pcscd.service
+pcsc_scan

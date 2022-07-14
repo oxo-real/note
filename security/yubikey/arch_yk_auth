@@ -1,0 +1,59 @@
+% yay -S pam-u2f
+$ mkdir ~/.config/yk
+$ pamu2fcfg -o pam://hostname -i pam://hostname > $XDG_CONFIG_HOME/yk/u2f_keys
+## append second yk
+$ pamu2fcfg -o pam://hostname -i pam://hostname -n >> $XDG_CONFIG_HOME/yk/u2f_keys
+
+## touch only if yk is present, else password
+## in: emacs /etc/pam.d/sudo
+## add as first line:
+auth	sufficient	pam_u2f.so cue origin=pam://hostname appid=pam://hostname authfile=/home/$user/.config/yk/u2f_keys
+
+CAUTION! replace $user with username
+NOTICE:	 cue is optional
+
+## password with touch as required second factor
+## in: emacs /etc/pam.d/sudo
+## add after last line:
+auth	required	pam_u2f.so cue origin=pam://hostname appid=pam://hostname authfile=/home/$user/.config/yk/u2f_keys
+
+CAUTION! replace $user with username
+NOTICE:	 cue is optional
+
+
+
+https://wiki.archlinux.org/title/Universal_2nd_Factor
+
+Authentication for Arch Linux
+Yubico, the company creating the YubiKey, develops an U2F PAM module. It can be used to act as a second factor during login or replce the need for a password entirely.
+
+Note: Despite the mentions of Yubico/YubiKey in this document, pam-u2f should also support any u2f and/or fido2 compliant keys.
+Installing the PAM module
+The module is part of the package pam-u2f.
+
+Adding a key
+Note: The folder name below is the default location. It can be changed for single user implementations by moving the file to your preferred directory and appending authfile=/path/to/u2f_keys to the end of the line for pam_u2f.so. This is also useful if you wish to move u2f_keys to a protected part of the file-system. For multi-user implementations use a central mapping file as explained in the official documentation of pam-u2f.
+Keys need to be added with the tool pamu2fcfg:
+
+$ mkdir ~/.config/Yubico
+$ pamu2fcfg -o pam://hostname -i pam://hostname > ~/.config/Yubico/u2f_keys
+After entering your PIN, click the button of your U2F key to confirm the key.
+
+Note: If the hostname of your system changes, e.g. because of DHCP in different networks, you would be unable to login. In order to prevent that, it is recommended to specify the above mentioned options and replace hostname with the actual hostname.
+If you own multiple keys, append them with
+
+$ pamu2fcfg -o pam://hostname -i pam://hostname -n >> ~/.config/Yubico/u2f_keys
+Note: The -n in the above command is required. It will omit the username portion of the generated line as required in the spec for subsequent entries for the same user. Multiple lines with the same username will cause unpredictable behaviour in PAM.
+Passwordless sudo
+Warning: Before making any changes to your configuration, start a separate shell with root permissions (e.g. sudo -s). This way you can revert any changes if something goes wrong.
+Open /etc/pam.d/sudo and add
+
+auth            sufficient      pam_u2f.so cue origin=pam://hostname appid=pam://hostname
+as the first line. Be sure to replace the hostname as mentioned above. Then create a new terminal and type sudo ls. Your key's LED should flash and after clicking it the command is executed. The option cue is set to provide indication of what to do, i.e. Please touch the device.
+
+In order to make the token the only method of sudo (ie. no password fallback) you will need to comment out the other auth methods present. This is usually just the default system-auth include.
+
+#auth           include         system-auth
+You should also change sufficient to required in the above pam_u2f.so line.
+
+Warning: This will mean that no user on the system will be able to sudo without a U2F token configured.
