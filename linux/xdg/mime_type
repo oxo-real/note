@@ -1,3 +1,6 @@
+.desktop apps are in: /usr/share/applications
+
+
 # find the mimetype of a file
 file -i <file>
 
