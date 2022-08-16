@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)
+
+--------------------------------
+
+-E or -o errtrace: Allow error traps on function calls, subshell environment, and command substitutions.
+
+-e or -o errexit: Exit immediately. When the command exits with a non-zero status, halt the script and exit with that status. By default, this option is off, bash continues the script even if an error occurs.
+
+-u or -o nounset: No unset. Prevent the usage of undefined variables. By default, this option is off, bash allows the usage of undefined variables.
+
+-o pipefail: pipe failure. If any command in the pipeline chain exits with a non-zero status, the whole command will exit with that status.
+
+and for debugging:
+
+-x or -o xtrace might be useful. This option tells bash to print all running commands.
+
+
+
+shopt -s nullglob: when a pattern has no match, expand them as null. By default, this option is not set and the pattern is expanded as a literal string.
+
+shopt -s dotglob: include files whose names start with a dot (.) in the matching result.
+
+The DIR=$(...) assignment assigns the absolute directory path of the script to the DIR variable. It is very helpful when the script is intended to be executed from another directory and the script refers to some resources next to it. For example, /a/b.sh wants to use the resource /a/sibling.txt.
+
+[The Eeuo pipefail option and best practice to write a shell script](https://transang.me/best-practice-to-make-a-shell-script/)

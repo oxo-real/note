@@ -1,0 +1,5 @@
+to be able to read from usb device (i.e. /dev/sdc):
+
+% yay -S dosfstools
+
+% sudo mkfs.fat /dev/sdc

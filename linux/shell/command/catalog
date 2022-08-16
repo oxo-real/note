@@ -302,6 +302,7 @@ shred -v -z -n 3 -u <file>
 simple-mtpfs --device 1 <mountpoint>  ## mount android device
 sleep 3 && scrot -s
 slurm -i <device>
+echo 'string2sort' | grep -o . | sort | tr -d "\n"  ## sort chars in string
 sort $HISTFILE | uniq -c | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
 sort < $file | sort -nr > <file_sort_freq>
 sort < $file | uniq -u > <file_uniq>
