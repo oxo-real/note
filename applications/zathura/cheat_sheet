@@ -1,0 +1,6 @@
+r	rotate 90 cw
+R	rotate 90 ccw
+^r	recolor (darkmode)
+0	zoom default
+-	zoom out
++	zoom in

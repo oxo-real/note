@@ -1,5 +1,5 @@
 #!/usr/bin/env bash  ## search $path for bash
-: '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment 
+: '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 < ${$(get_newest_file $XDG_LOGS_HOME/updater/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file
 < /home/cytopyge/.config/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
 echo hello 1> $file  ## redirect stdout write to $file
@@ -74,9 +74,12 @@ e2label /dev/X [label]  ## read [/rewrite] device label
 echo "obase=02; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to binary conversion
 echo "obase=10; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to decimal conversion
 echo "obase=16; ibase=10; $dec" | bc  ## bc dec (10) to hex (16) conversion
+echo $(( 1 ^ 2 ))  ## decimal value of xor 1 and 2 (xor 01 and 10 = 11)
 echo -n $string | base64  ## base64 encoding
 echo 0  ## print exit code of the last executed command
 echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
+wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
+wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'   ## last four digits from multiline string
 emacsclient --daemon[=$server_name]  ## start emacs daemon
 emacsclient -c  ## start emacs client
 emacsclient -e "(kill-emacs)" -s server  ## kill emacs server
@@ -208,7 +211,7 @@ modprobe -r <driver>  ## remove driver from kernel
 modprobe <driver>  ## add driver to kernel
 mount -L $label $mountpoint  ## mount device with $label to $mountpoint
 mount -o remount,rw /dev/sdY1 /boot  ## remount rw existing mountpoint
-mount -o uid=$(whoami),gid=$(id -gn) /dev/sdX dock/1  ## mount as current user
+mount -o uid=$(id -u $USER),gid=$(id -g $USER) /dev/sdX dock/1  ## mount as current user
 mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
 mount | grep ro,  ## find all ro mountpoints
 mpv --start=+00:00 --ytdl-format='best[filesize<300M]' --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --http-header-fields="User-Agent: $(head -n 1 $USER_AGENT)" $(wl-paste) ## stream movie verbose with mpv.conf cache_s profile
