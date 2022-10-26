@@ -1,0 +1,17 @@
+hledger
+
+* installation
+** [Release 1.27.1 · simonmichael/hledger · GitHub]
+(https://github.com/simonmichael/hledger/releases/tag/1.27.1#linux-x64)
+cd /usr/local/bin
+curl -LOC- https://github.com/simonmichael/hledger/releases/download/1.27.1/hledger-linux-x64.zip   # can rerun if interrupted
+unzip hledger-linux-x64.zip
+tar xvf hledger-linux-x64.tar
+rm hledger-linux-x64.{zip,tar}  # github workaround, preserves permissions
+cd -
+hledger --version  # should show the new version
+touch $HOME/.hledger.journal  # ensure a default journal file exists
+
+Or, you can build from source as described there, after cloning at tag 1.27.1:
+git clone https://github.com/simonmichael/hledger --depth 1 -b 1.27.1
+** ln -s /opt/hledger/hledger hledger
