@@ -105,50 +105,51 @@ verb regler
 # tempus och verbformerna
 {{{
 
-tempus						verbform							tiden är
+tempus					verbform			tiden är
+					verb1		+ verb2
 
-perfekt						presens		+ supinum				nuets dåtid
-presens						presens								nu (-ens nu)
-futurum						presens		+ infinitiv				framtid (nuets-)
+perfekt					presens		+ supinum	nuets dåtid
+presens					presens				nu (-ens nu)
+futurum					presens		+ infinitiv	framtid (nuets-)
 
-pluskvamperfekt				preteritum	+ supinum				dåtidens dåtid
-preteritum					preteritum							dåtid (-ens nu)
-futurum preteriti			preteritum	+ infinitiv				dåtidens framtid
+pluskvamperfekt				preteritum	+ supinum	dåtidens dåtid
+preteritum				preteritum			dåtid (-ens nu)
+futurum preteriti			preteritum	+ infinitiv	dåtidens framtid
 
 
 # verbformerna exempel
 
-verbform					tempus				exempel
+verbform				tempus				exempel
 
-presens		+ supinum		perfekt             Jag har ätit.
-presens						presens             Jag äter. Det regnar.
-presens		+ infinitiv		futurum             Jag vill äta.
+presens		+ supinum		perfekt             		Jag har ätit.
+presens					presens             		Jag äter. Det regnar.
+presens		+ infinitiv		futurum             		Jag vill äta.
 
-preteritum	+ supinum		pluskvamperfekt     Jag hade ätit.
-preteritum					preteritum          Jag åt.	Det regnade.
-preteritum	+ infinitiv		futurum preteriti   Igår när jag skulle äta.
+preteritum	+ supinum		pluskvamperfekt     		Jag hade ätit.
+preteritum				preteritum          		Jag åt.	Det regnade.
+preteritum	+ infinitiv		futurum preteriti   		Igår när jag skulle äta.
 
 
-verbform					tiden är            exempel
+verbform				tiden är            		exempel
 
-presens						framtid (nuets-)    Jag hämtar barnen efter jobbet.
-presens						alltid (generell)   Jag spelar fotboll på torsdagar.
+presens					framtid (nuets-)    		Jag hämtar barnen efter jobbet.
+presens					alltid (generell)   		Jag spelar fotboll på torsdagar.
 
 
 # när händer tempus?
 
-tempus						   händer i
-					dådå	dåtid	nutid	framtid
-preteritum					*
-presens								*
-futurum										*
+tempus				   händer i
+			dådå	dåtid	nutid	framtid
+preteritum			*
+presens					*
+futurum						*
 
 pluskvaperfekt		*------->
 perfekt						*------->
 futurum preteriti	*
 
-presens										*				framtid
-presens				*------->------->------->------->		alltid
+presens						*			framtid
+presens			*------->------->------->------->		alltid
 
 perfekt			är relevant för nu, eller fortsätter till nu
 presens			nu
@@ -2577,3 +2578,9 @@ kackla				pratar mycket
 
 den var det
 }}}
+
+
+ordfamiljer
+substatntiv	verb		adjektiv / particip
+(en/ett)	(att)		(är)
+spridning	sprida		spridd	   är spridd
