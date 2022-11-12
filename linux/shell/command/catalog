@@ -97,9 +97,9 @@ figlet -f 'mini' oxo  ## figchars
 find . -exec <command> {} \;
 find . -maxdepth 1 -name \*_ -type d -exec cp -r {} ~/test_/bu \;
 find . -maxdepth 1 -type d -exec du -sb {} \; | sort -g -k 1  ## directories sorted by size (bytes)
+find . -maxdepth 1 -type f -name "* *" -exec sh -c 'mv "$0" "${0// /_}"' {} \;  ## find filenames with spaces and replace with underscore
 find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks and copy without dereferencing
 find . -name filename_start__\*
-find . -print -exec cat {} \; -printf n
 find . -type f ! -newermt "2018-12-31" -delet3	## find and delete all files older (not newer) than date
 find . -type f -exec mv {} <dest> \;  ## find all files and move them to destination directory
 find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print
@@ -436,6 +436,8 @@ for (( i=1; i<=10; i++ )); do echo $i; done  ## for loop alternative structure
 select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
 while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure
 until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure
+break  ## current loop exit
+continue  ## current loop next item
 reset               # clear + reset internal terminal state + 1sec delay
 tput reset          # same as reset but without 1sec delay
 stty sane           # don't clear screen but reset some terminal options
