@@ -24,14 +24,15 @@ bluetoothctl connect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoo
 bluetoothctl disconnect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth disconnect
 bluetoothctl discoverable off	## bluetooth not broadcast radio device
 bluetoothctl power off && sudo systemctl stop bluetooth.service && sudo rfkill block bluetooth  ## bluetooth radio off
+brightnessctl set 50%  ## set brightness to 50% of the maximum
 cal -m -w -3 $(date -I)  ## calendar showing last, current and next month, week start on mondays, with weeknumbers
 cal -m -w -y $(date +%Y)  ## current year calendar
 cal -m -w 12 2022  ## calendar for december 2022
-cat ap.wifi | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
+cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
 cat -n <file>  ## line number cat
 cat -vE $file  ## prevent cat shell injection
 cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
-cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file (heredoc); strip leading tabs from mlt (-); EOF can be any unique limit string
+cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file (heredoc), strip leading tabs from mlt (-), EOF can be any unique limit string
 cd $(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)  ## fzf cd from $HOME, spacebar for info box
 cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
 cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
@@ -298,6 +299,8 @@ sed -i 's/<find>/<replace>/g' <file>  ## replace <find> with <replace> in <file>
 sed -i '/<find>/{n;s/.*/<replace>/}' <file>  ## find <find> and replace next line with <replace>
 sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' <file>  ## remove last 2 lines from <file>
 sed -i '/^find/ s/./#&/' <file>  ## comment out lines containing 'find'
+set -euo pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
+set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 setfont ter-v32n
 setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
 sh -xv file.sh  ## extra verbose debug output
@@ -361,6 +364,8 @@ tr -s " " < file_with_double_spaces > file_without_double_spaces  ## remove doub
 tr -d -c "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
 tr -d -c "[:graph:]" < /dev/random | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate passstring)
 tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b  ## translate 16 random streams in 32 specified characters (generate passstring)
+tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n
+fallocate -l 5M file  ## make file 5M size
 truncate -s 5M file  ## make file 5M size
 tree -n --charset=unicode  ## depth indented file listing
 type -a file or command  ## file or command interpretation; print all occurences in path
@@ -379,6 +384,7 @@ while read -r -u $fd l; do <commands>; done {fd}< <file>  ## read file line by l
 while read l; do <commands>; done < <file>  ## read file line by line into l
 whois -B 46.166.142.215  ## whois own public ip
 wl-paste >> /home/cytopyge/.config/qutebrowser/bookmark_urls  ## add to bookmark_urls
+read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
 wpa_supplicant -B -i wlp58s0 -c ~/keys/wl/mn.wifi
 xargs -r command  ## run command with stdin as argument, no-run if empty
 xxd -b -p <infile <outfile>> ## plain bits dump
@@ -443,5 +449,5 @@ tput reset          # same as reset but without 1sec delay
 stty sane           # don't clear screen but reset some terminal options
 echo -e "\033c"     # same as tput reset but hardcoded escape seq
 printf "\033c"      # same as tput reset but hardcoded escape seq
-setterm -reset      # same as tput reset, setterm has friendlier commands
+setterm -reset      # same as tput reset, setterm has more friendly commands
 print_entire_array() { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}" ; done }  ## print_entire_array arrayX
