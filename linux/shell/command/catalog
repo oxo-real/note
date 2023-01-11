@@ -355,6 +355,7 @@ tar -cv[j/z]f <archive.tar> -C <subdir> <files>  ## create tar archive [bzip2/gz
 tar -cv[j/z]f <archive.tar> <files>  ## create tar archive [bzip2/gzip compression (optional)]
 tar -tvf <archive.tar>  ## print contents of tar archive
 tar -xv[j/z]f <archive.tar>  ## extract tar archive [bzip2/gzip compression (optional)]
+tar -xv[j/z]f <archive.tar> <path/single.file>  ## extract single.file from tar archive [bzip2/gzip compression (optional)]
 tee -a file1 file2  ## append stdout to multiple files
 tmux attach-session -t 0
 tmux show-options -g
