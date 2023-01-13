@@ -70,6 +70,7 @@ df -h	## file system information human-readable
 dhcpcd -k wlp58s0  ## dhcp remove interface ip
 dhcpcd wlp58s0	## dhcp request for interface
 diff -Naur <lf> <rf> > patch_file  ## recursive diff from lf to rf with 3 lines of context (unified)
+diff <(echo $(pacman -Q linux | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) | tr -d '\n'  ## check if reboot required
 dig -x 89.39.107.195  ## reverse lookup own public ip
 dirname <filename>  ## print <filename> without last component
 du -sbh <directory>  ## total size of all content in directory
@@ -185,6 +186,7 @@ journalctl -o verbose
 journalctl -p 3 -x
 journalctl -u <unit>
 journalctl _<tab>
+jq '.data[0] | .ua' api.json  ## get ua from the first data item
 kill $(pidof <process_name>)
 ln -s <target> <link_name>  ## create sym<link_name> to <target>
 ln -s -f <target> <link_name>  ## replace sym<link_name> to <target>
