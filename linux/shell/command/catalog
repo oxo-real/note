@@ -70,7 +70,7 @@ df -h	## file system information human-readable
 dhcpcd -k wlp58s0  ## dhcp remove interface ip
 dhcpcd wlp58s0	## dhcp request for interface
 diff -Naur <lf> <rf> > patch_file  ## recursive diff from lf to rf with 3 lines of context (unified)
-diff <(echo $(pacman -Q linux | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) | tr -d '\n'  ## check if reboot required
+diff <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) <(echo $(pacman -Q linux | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) | tr -d '\n'  ## check if kernel reboot required
 dig -x 89.39.107.195  ## reverse lookup own public ip
 dirname <filename>  ## print <filename> without last component
 du -sbh <directory>  ## total size of all content in directory
