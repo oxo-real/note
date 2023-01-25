@@ -1,0 +1,28 @@
+error on ```mbsync -a```:
+Maildir error: duplicate UID 47.
+
+solution:
+1.
+% find . -name "*U=47:*" -exec ls -ilatr {} \;
+
+22163415 -rw------- 1 oxo wheel 9012 Dec  6  2020 './Archive/cur/1607275378.1350212_4999.tux,U=47:2,S'
+22154627 -rw------- 1 oxo wheel 9012 Dec  6  2020 './All Mail/cur/1607272453.1332216_27.tux,U=47:2,'	(problem)
+22154628 -rw------- 1 oxo wheel 9012 Dec  6  2020 './All Mail/cur/1607272453.1332216_27.tux,U=47:2,S'	(problem)
+22544498 -rw------- 1 oxo wheel 1702 Dec  6  2020 './Sent/cur/1607277238.1350212_9518.tux,U=47:2,S'
+
+2.
+
+22154627 -rw------- 1 oxo wheel 9012 Dec  6  2020 './All Mail/cur/1607272453.1332216_27.tux,U=47:2,'	(older)
+22154628 -rw------- 1 oxo wheel 9012 Dec  6  2020 './All Mail/cur/1607272453.1332216_27.tux,U=47:2,S'	(newer)
+
+deduplicate the newer file by remove 'U=47:2,S' from its name:
+% rename ',U=47:2,S' '' './All Mail/cur/1607272453.1332216_27.tux,U=47:2,S'
+
+on next run mbsync will assign new uid
+
+
+
+
+
+ls -lR cur | grep -o 'U=.*:' | sort | uniq -d
+% ls -ilatrR | grep -o 'U=.*:' | sort --numeric-sort | uniq -d

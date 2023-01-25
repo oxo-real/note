@@ -1,0 +1,8 @@
+* installation
+yay -Si rustup
+
+* configuration
+rustup default stable
+
+* create project
+cargo new project_name

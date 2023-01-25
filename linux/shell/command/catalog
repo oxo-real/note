@@ -227,6 +227,7 @@ notmuch address '*'  ## all mail addresses
 notmuch address --output=recipients --deduplicate=address date:year.. | fzf | wl-copy  ## 1. last years recipients
 notmuch search date:year.. $(wl-paste) | fzf | awk '{print $1}' | wl-copy  ## 2. last years threads from recipient
 notmuch show $(wl-paste)  ## 3. show specific thread content
+notmuch address --output=count --deduplicate=address date:year '*' | sort --numeric-sort --reverse | fzf | wl-copy  ## last years email addresses, most to least active
 nslookup server.com  ## get server ip address
 openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## openssl base64 encoded aes 256 bits galois counter mode decryption
 openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## openssl base64 encoded aes 256 bits galois counter mode encryption
@@ -276,6 +277,7 @@ readlink <file>  ## print resolved symbolic links or canonical file names
 readlink <symlink> | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change symlink to current users $HOME
 realpath file  ## return canonicalized absolute pathname
 reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 -l 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
+rename 'part' '' filepart  ## change 'part' in filename filepart with '' (remove part of filename)
 renice -19 $(pgrep <process_name>)  ## give <process_name> highest (-19) priority
 reset  ## reinitialize terminal state
 rev $file  ## reverse line characters

@@ -1,0 +1,43 @@
+upgrade uefi bios
+
+OR
+using fwupdmgr:
+
+nmconn
+
+yay -S fwupd
+yay -S udisks2
+
+download zip file from
+[Official Lenovo Laptop, Accessories & PC Support - Lenovo Support US]
+(https://pcsupport.lenovo.com/us/en)
+unzip cab files
+
+mount -o remount,rw /boot
+mount -o remount,rw /usr
+for reboot modify /etc/fstab root & usr: rw
+systemctl daemon-reload
+systemctl restart udisks2.service
+systemctl enable udisks2.service
+systemctl restart fwupd.service
+
+fwupdmgr get-devices
+fwupdmgr refresh
+fwupdmgr get-updates
+fwupdmgr update [deviceID]
+
+fwupdmgr install x.cab
+
+reboot
+
+
+OR
+flash bios with usb:
+using bootable cd
+i.e.: https://download.lenovo.com/pccbbs/mobiles/n3aur15w.iso
+dd iso to bootable usb device
+
+
+see also:
+[Thinkpad update firmware on Linux (X1 extreme/P1 gen2) - nixCraft]
+(https://www.cyberciti.biz/faq/thinkpad-update-firmware-on-linux-x1-extreme-p1-gen2/)
