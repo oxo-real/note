@@ -338,7 +338,7 @@ sudo -l  ## list allowed commands for user
 sudo -n echo >/dev/null 2>&1; echo $?  ## print sudo status
 sudo ip link set up && sudo dhcpcd  && ping -c 1 9.9.9.9 && ip a
 sudo iptables -A INPUT -s [ipaddr] -j DROP  ## add [ipaddr] to chain INPUT and drop all traffic
-sudo rfkill unblock bluetooth && pulseaudio --start && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off ## bluetooth radio on
+sudo rfkill unblock bluetooth && pulseaudio --start && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off  ## bluetooth radio on
 sudo systemctl start sshd
 swaymsg -t get_outputs
 swaymsg -t get_tree | jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.shell) | "\(.id) \(.pid) \(.app_id // .window_properties.class) \(.name)"' | fzf -m | cut -d ' ' -f 1 | xargs -I {} swaymsg '[con_id={}]' kill  ## kill sway nodes (windows / frames) with fzf
@@ -376,6 +376,8 @@ truncate -s 5M file  ## make file 5M size
 tree -n --charset=unicode  ## depth indented file listing
 type -a file or command  ## file or command interpretation; print all occurences in path
 umount -l <mountpoint>  ## umount busy targets (mountpoints)
+unset varfun  ## unset value and attribute of variable or function varfun
+unsetvar=  ## set variable unsetvar to ''
 uptime  ## uptime since boot
 < /proc/uptime | awk '{print $1}'  ## uptime in seconds
 usermod -a -G group_2_add user_2_add  ## add user to group
