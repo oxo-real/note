@@ -1,0 +1,2 @@
+# capture scrollback buffer
+C-S-space h v g y C-S space
