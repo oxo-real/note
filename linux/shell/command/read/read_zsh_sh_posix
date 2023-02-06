@@ -1,9 +1,15 @@
 # read command
+# check read version: which read
 
-## posix
+
+# posix or shell built-in command
+
 has only the option -r
+#### [read](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/read.html#tag_20_109)
 
-## bash
+
+# bash
+
 Syntax
       read [-ers] [-a aname]  [-d delim] [-i text] [-n nchars]
          [-N nchars] [-p prompt] [-r] [-s] [-t timeout] [-u fd]
@@ -51,7 +57,9 @@ Key
              If no names are supplied, the line read is assigned to the variable $REPLY.
 #### source: https://ss64.com/bash/read.html
 
-## zsh
+
+# zsh
+
 read [ -rszpqAclneE ] [ -t [ num ] ] [ -k [ num ] ] [ -d delim ]
 [ -u n ] [ name[?prompt] ] [ name ... ]
 Read one line and break it into fields using the characters in $IFS as separators, except as noted below. The first field is assigned to the first name, the second field to the second name, etc., with leftover fields assigned to the last name. If name is omitted then REPLY is used for scalars and reply for arrays.

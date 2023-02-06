@@ -93,6 +93,8 @@ faillock --user $USER --reset  ## remove sudo lockout for current user
 fc  ## edit last command in
 fc -l -n -1  ## last command entered, hide line number
 fc-list  ## list available fonts
+fd -u . | fzf --query=`wl-paste` | wl-copy  ## fzf search wl-paste file path and wl-paste (quick file search)
+ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
 fg [%n]  ## job [n] to foreground
 fg [id]  ## recall suspended command to foreground
 figlet -f 'mini' oxo  ## figchars
@@ -221,11 +223,13 @@ mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
 mount | grep ro,  ## find all ro mountpoints
 mpv --start=+00:00 --ytdl-format='best[filesize<300M]' --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --http-header-fields="User-Agent: $(head -n 1 $USER_AGENT)" $(wl-paste) ## stream movie verbose with mpv.conf cache_s profile
 mpv `echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\//'`  ## change yt url
+mpv --audio-display=no $file.mp3  ## play mp3 without albumart
 msgcat --color=test
 mv -t <target_dir> <source_dirs>  ## move source_dirs to target_dir
 notmuch address '*'  ## all mail addresses
-notmuch address --output=recipients --deduplicate=address date:year.. | fzf | wl-copy  ## 1. last years recipients
-notmuch search date:year.. $(wl-paste) | fzf | awk '{print $1}' | wl-copy  ## 2. last years threads from recipient
+notmuch address --output=recipients --deduplicate=address date:year | fzf | wl-copy  ## last years recipients
+notmuch address --deduplicate=address date:year | fzf | wl-copy  ## 1. last years email addresses
+notmuch search $(wl-paste) date:year | fzf | awk '{print $1}' | wl-copy  ## 2. last years threads from recipient
 notmuch show $(wl-paste)  ## 3. show specific thread content
 notmuch address --output=count --deduplicate=address date:year '*' | sort --numeric-sort --reverse | fzf | wl-copy  ## last years email addresses, most to least active
 nslookup server.com  ## get server ip address
@@ -282,11 +286,11 @@ rename 'part' '' filepart  ## change 'part' in filename filepart with '' (remove
 renice -19 $(pgrep <process_name>)  ## give <process_name> highest (-19) priority
 reset  ## reinitialize terminal state
 rev $file  ## reverse line characters
-rfkill  ## check hard and soft block status wireless radios
+rfkill list  ## check hard and soft block status wireless radios
 rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
 rfkill [un]block wlan  ## soft [un]block wifi radio
-rm -rf -- '-r'
-rmmod btusb
+rm -rf -- '-r'  ## remove entire directory starting with a '-'
+rmmod $module  ## remove $module from linux kernel
 rsync -aAXv --delete --exclude-from=<exclude_list> <source> <destination>
 rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exclude-from=/home/cytopyge/.config/settings/rsync/parvus_exclude_list / /dock/1/parvus
 rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exclude-from=/home/cytopyge/settings_/rsync/parvus_exclude_list -e ssh / admin@192.168.3.199:/share/backup/devices/dellxps13
@@ -309,8 +313,7 @@ set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset va
 setfont ter-v32n
 setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
 sh -xv file.sh  ## extra verbose debug output
-showkey  ## [-a(scii), -s(cancodes), -k(eycodes)] examine codes sent by the keyboard
-showkey -s
+showkey [-a|--ascii] [-s|--scancodes] [-k|--keycodes]  ## examine codes sent by the keyboard
 shred -v -z -n 3 -u <file>
 simple-mtpfs --device 1 <mountpoint>  ## mount android device
 sleep 3 && scrot -s
@@ -448,8 +451,11 @@ if [[ $i -eq 0 ]]; then; echo 0; elif [[ $i -lt 0 ]]; then; echo neg; else; echo
 for i in 1 2 3; do; echo $i; done  ## for loop basic structure
 for (( i=1; i<=10; i++ )); do echo $i; done  ## for loop alternative structure
 select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
-while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure
-until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure
+while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure upcount
+while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure upcount
+until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount
+while [[ $i -gt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure downcount
+until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure downcount
 break  ## current loop exit
 continue  ## current loop next item
 reset               # clear + reset internal terminal state + 1sec delay
