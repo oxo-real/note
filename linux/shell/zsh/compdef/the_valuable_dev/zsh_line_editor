@@ -1,0 +1,509 @@
+Menu
+
+[1] 
+
+  • [2]Home
+  • [3]All Articles
+  • [4]Let's Connect
+  • [5]Books
+  • [6]Support
+  • [7]About
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   
+    Categories
+
+  • [8]Complexity
+  • [9]Fundamentals
+  • [10]Mouseless
+  • [11]Vim
+  • [12]Soft Skills
+  • [13]Learning
+  • [14]Side Projects
+
+[15]  RSS
+[16]Close
+
+  • [17]What’s the Zsh Line Editor?
+  • [18]Zsh Keymaps
+  • [19]Binding Keystrokes to Zsh Widgets: the bindkey Command
+      □ [20]Managing the Bindings
+      □ [21]Using bindkey with Specific Keymaps
+  • [22]Binding All The Keys!
+      □ [23]Terminal and Escape Sequence
+      □ [24]A Common Terminal Interface
+      □ [25]Automatically Mapping Escape Sequences with zkbd
+      □ [26]Personal Configuration
+  • [27]The Zsh Widgets
+      □ [28]Built-in Widgets
+      □ [29]Widgets from Zsh User Contributions
+      □ [30]Writing your Own Widget
+  • [31]The Power of the Zsh Line Editor
+
+[32]The Valuable Dev
+
+  • [33]Let's Connect
+  • [34]Books
+  • [35]Support
+  • [36]About
+
+[37]☰  Menu [38] [39] [40] 
+[41][                    ]
+27 Feb 2022 [42]Twitter
+[43]#Tools [44]#Mouseless
+
+A Guide to the Zsh Line Editor with Examples
+
+The Zsh Line Editor ZLE
+
+This article is part of a series about Zsh:
+
+Becoming a zsh master
+
+ 1. [45]Configuring Zsh Without Dependencies
+ 2. [46]A Guide to Zsh Expansion with Examples
+ 3. [47]A Guide to the Zsh Completion with Examples
+ 4. [48]A Guide to the Zsh Line Editor with Examples
+
+Like every morning, you switch on your computer, launch your terminal, and begin to type weakly the first commands of the day. With a
+sigh of despair, you launch the 12938 docker containers of your 29374 coupled microservices with a simple docker compose up. Your misery
+accentuating your tiredness, you mistype the command three times, going back and forth between the NORMAL and INSERT Vi mode of your Zsh
+instance.
+
+Did you ever ask yourself how the Zsh editor was able to give you an Emacs or a Vi mode? Have you ever wonder how to customize the
+editor to ease your tedious work? Well, me neither, for a long time. But we’ll fix that together: in this article, we’ll explore the
+capabilities of the Zsh Line Editor (ZLE), and how to customize it to increase our efficiency.
+
+More precisely, we’ll see:
+
+  • What’s ZLE and its keymaps.
+  • How to bind any keystroke to any Zsh widget.
+  • A glimpse of the TTY subsystem and why binding special keys can be such a challenge.
+  • Some interesting Zsh built-in widgets.
+  • How to create your own widgets.
+
+I encourage you to fire Zsh while reading this article, and try the different commands we’ll discuss. It’s time: are you ready to
+uncover the veil of mystery surrounding the Zsh Line Editor?
+
+What’s the Zsh Line Editor?
+
+The Zsh Line Editor (ZLE) is simply your command prompt. It’s your interface to the shell interpreter, allowing you to write and edit
+your mind-blowing commands.
+
+It also allows you to use keystrokes to execute ZLE commands, more commonly called widgets. That’s great, because the term “command” is
+so overloaded that it doesn’t mean anything anymore. Like “scalable”, and of course “[49]daffodil”.
+
+We’ve already seen some of the ZLE built-in widgets in the [50]first part of this series of article, like vi-backward for example.
+
+Zsh Keymaps
+
+To understand how ZLE works, we first need to understand the concept of keymap.
+
+A keymap is a set of keystrokes executing ZLE widgets. For each keymap, the mapping of keystrokes to widgets can be completely
+different.
+
+Here are the most interesting keymaps available:
+
+  • emacs - Emacs emulation
+  • viins - Vi mode - INSERT mode
+  • vicmd - Vi mode - NORMAL mode (also confusingly called COMMAND mode)
+  • viopp - Vi mode - OPERATOR-PENDING mode
+  • visual - Vi mode - VISUAL mode
+
+For example, the ZLE widget vi-join (to join the current line with the next one) is bound to the keystroke CTRL+x CTRL+j in the emacs
+keymap, and to J in the vicmd keymap.
+
+When we use our prompt, we use the global keymap. This is the current keymap loaded, for us to use its delightful keystrokes. This
+global keymap is often aliased to the main keymap, which is the keymap Zsh load by default when it launches. If you didn’t specify any
+main keymap in your configuration, it will use the emacs one.
+
+As a Vim Missionary, I would qualify this choice as “unforgivable heresy”. Fortunately, We can alias this main keymap to viins (Vi
+INSERT mode) instead. We’ll see how below.
+
+Some other keymaps are sometimes used in specific Zsh modes. In that case, they are called local keymaps. For example, we’ve seen [51]in
+the first article of this series how to bind keystrokes to the local keymap menuselect. It’s only available when selecting something in
+a list, like selecting a completion for example.
+
+If we define the same keystroke both in a local and in a global keymap, the first overwrite the second.
+
+Binding Keystrokes to Zsh Widgets: the bindkey Command
+
+That’s nice to have many keymaps to choose from, but it’s not enough. How do we bind custom keystrokes to these Zsh widgets?
+
+Managing the Bindings
+
+To manage our custom keystrokes, we need to use the bindkey command. First, let’s see how we can display what was already bound by
+using:
+
+  • bindkey - Output all the key bindings for the global keymap.
+  • bindkey <keystroke> - Output the widgets bound to a specific keystroke <keystroke> in the global keymap. For example: bindkey '^l'.
+  • bindkey -r <keystroke> - Delete the binding mapped to the keystroke <keystroke>. For example: bindkey -r '^l'
+
+If you find that your keystroke is bound to the widget undefined-key, it means that it won’t have any effect. This widget is the
+incarnation of pure void. When you gaze long into the undefined-key, the undefined-key also gazes into you.
+
+The two keys CTRL and ALT are often used for keystrokes; therefore, it’s useful to know how to tell Zsh to use one or the other in our
+key binding:
+
+  • ^ - Represent the CTRL key. For example: ^c for CTRL+c.
+  • \e - Represent the ALT key. For example: \ec for ALT+c.
+
+Note that it’s true for most modern terminals out there, but not all. We’ll come back to the joys of the escape characters soon.
+
+One of the most common use of bindkey is, of course, to bind some custom keystrokes to some widget. To do so, you can follow this
+syntax:
+
+bindkey <keystroke> <widget>
+
+For example, if we want to clear the screen with CTRL+g, we would need to bind the widget clear-screen as follows:
+
+bindkey '^g' clear-screen
+
+We don’t have to bind keystrokes to widgets, however. We can bind them to whole series of keystrokes, as we were typing them in ZLE. To
+do so, we can use the bindkey’s option -s.
+
+For example, if we want to bind ALT+h to the series of keystrokes CTRL+L (which clear the screen by default) and then writes “hello”
+because we’re excessively polite, we can run the following:
+
+bindkey -s '\eh' '^l hello'
+
+How lovely!
+
+Using bindkey with Specific Keymaps
+
+What if you want to manage the bindings for precise keymaps? Here’s a bunch of commands to do so:
+
+  • bindkey -l - Output the list of all available keymaps.
+  • bindkey -M <keymap> - Output all the keybindings for the keymap <keymap>. For example: bindkey -M viins.
+  • bindkey -M <keymap> <keystroke> - Output the widget bound to the keystroke <keystroke> for the keymap <keymap>. For example: bindkey
+    -M vicmd u.
+  • bindkey -M <keymap> -r <keystroke> - Delete the binding mapped to the keystroke <keystroke> for the keymap <keymap>. For example:
+    bindkey -M vicmd -r '^l'
+
+What about aliasing the main keymap, for Zsh to launch with the one you want to use by default? Here are two handy commands you can use:
+
+  • bindkey -e - Alias the main keymap to the emacs keymap (the default).
+  • bindkey -v - Alias the main keymap to the viins keymap.
+
+These commands are aliases; they are respectively equivalent to the following commands:
+
+  • bindkey -A emacs main
+  • bindkey -A viins main
+
+Note that you can’t bind the main keymap to the vicmd keymap, the equivalent of Vi NORMAL mode.
+
+You can also uses bindkey -lL main to find out what keymap is aliased to the main one.
+
+Fun fact: the viins keymap (Vi INSERT mode) has the keystroke ESC bound to the widget vi-cmd-mode. In this context, when you hit ESC,
+you’ll switch the global keymap from viins to vicmd (Vi NORMAL mode). That’s how you get the Zsh Vi mode.
+
+Even funnier fact: the emacs keymap has also the keystroke CTRL+x CTRL+v (^X^V) bound to vi-cmd-mode. You can switch to Vi NORMAL mode
+from the emacs keymap! It finally proves, without any doubt, the superiority of Vi (and, by extension, Vim and Neovim) against Emacs.
+
+Binding All The Keys!
+
+We’ve seen quickly how to represent the special key CTRL or ALT to use them in our keystrokes. But what about the others?
+
+Terminal and Escape Sequence
+
+If you use the emacs keymap, you’ll have most special keys bound to some sensible widgets, like the HOME key bound to beginning-of-line,
+or the END key bound to end-of-line. But, if you’re a Vim Believer like I am, you’ll reject this keymap with all the strength of your
+soul.
+
+A question arise, then: how to bound these special keys to these widgets for the viins keymap? Or to other widgets, if we want to? How
+to represent these special keys in our configuration, for ZLE to know what we want to do?
+
+It’s where we enter the muddy swamp of the TTY subsystem. I don’t want to drown us into too many details, so I’ll try to keep it brief.
+You can always play with my sanity by asking me to write an article about that in the comment section, at the end of this article.
+
+When you type some special keys, like BACKSPACE, HOME, or ENTER for example, the terminal receives a [52]control character (or escape
+sequence). This is how the terminal “see” the key you’ve harshly hit.
+
+The good news: most modern terminal emulators out there will translate your keystrokes with the same control characters (or escape
+sequence), which mean that we could directly bind these representations to the widgets we want.
+
+In practice, for you to display these sequences and use them in your bindings, you can use CTRL+v in your terminal followed by the
+special key you want to bind. It will output verbatim the control character sent, without interpreting it.
+
+For example:
+
+ 1. When I hit CTRL+v in my terminal followed by the HOME key, I get the delightful escape sequence ^[[7~ (I would love to have that on
+    a T-shirt, by the way).
+ 2. I then bind it to the widget beginning-of-line for the keymap viins as follows: bindkey -M viins '^[[7~' beginning-of-line.
+
+Now, when I hit the HOME key in Zsh while using the viins keymap, my cursor moves at the beginning of the line. Incredible feat the
+world will remember!
+
+If you want to display multiple escape sequences without having to hit CTRL+v again and again, you can also run cat > /dev/null and hit
+whatever keystrokes you like.
+
+This approach has one major drawback. Even if it’s true that most modern terminal emulators receive the same escape sequences, the world
+is not only made with modern terminal emulators. These sequences might differ for:
+
+  • Your TTYs (what you open when you hit CTRL+ALT+<FKEY> in Linux, <FKEY> being the keys from F1 to F12).
+  • Your terminal multiplexer (like [53]tmux or screen).
+
+Because of these differences, there is another approach praised by many out there (even advised by the venerable [54]Arch Linux Wiki):
+using terminfo.
+
+A Common Terminal Interface
+
+This “terminfo” is a common database aimed to provide an unified interface between the different terminals available. It’s often used by
+CLIs to intercept the different escape sequences and perform some action. For example, Vi uses terminfo under the hood.
+
+There is a problem with this approach, however: to use terminfo, we need to switch ZLE to “application mode”, only used normally by some
+CLIs and TUIs running in the shell (but not all). Since the command line editor of ZSH does not run in application mode by default, we
+need to switch to it before using terminfo.
+
+It means that any CLI running in the terminal will run in this application mode too. If some of these CLIs are not meant to run in this
+mode, some keystrokes might not work.
+
+Because it feels more like a hack than a proper solution, I personally try to avoid this method.
+
+Automatically Mapping Escape Sequences with zkbd
+
+We can also use “zkbd” from Zsh contrib. You can do so by following this workflow:
+
+ 1. Autoload zkbd by adding autoload -Uz zkbd to your zshrc.
+ 2. Start a new Zsh process and run zkbd in your shell.
+ 3. Answer the questions.
+
+After answering all questions, zkbd will create a bunch of files with all the escape sequences bound to the good widgets. I never really
+used zkbd to be honest, but it might help to get you started.
+
+Personal Configuration
+
+[55]I’ve written a piece of configuration showing both solutions proposed above (the one involving terminfo is commented out because I
+don’t use it). You can try it, I’m pretty sure it will work quite well if you don’t use some exotic terminal.
+
+A last advice: if you use [56]tmux, make sure that you have the line set -g default-terminal "tmux-256color" in your tmux configuration
+file for this config to work.
+
+The Zsh Widgets
+
+We’ve spoken a lot about keymaps and keybindings. What about the other side of the equation, the Zsh widgets themselves?
+
+Built-in Widgets
+
+There are many built-in widgets you can bind with the keystrokes of your dreams. Here are the different ways to get a complete list of
+these widgets:
+
+ 1. You can run zle -la in your shell.
+ 2. You can look at the manual page for ZLE by running man zshzle. Search for “Standard Widgets”.
+ 3. You can install the package zsh-doc and use a command for each widget, to find out its powers. For example: info zsh
+    beginning-of-line.
+ 4. You can [57]look online.
+
+But reading is cheap, trying is the way to enlightenment. How to try a widget directly, to see what it does?
+
+To call the widget <widget>, we need to use the command zle <widget>. You can try to run zle end-of-line for example, to see that it
+doesn’t work. How deceitful!
+
+You’ll be indeed rewarded with a voluptuous zle: widgets can only be called when ZLE is active. It means that widgets can be called only
+when you write and edit your commands in the editor, not when you send them to your TTY by hitting ENTER.
+
+As a result, we can call widgets inside widgets, because widgets are always called when ZLE is available. And since we can call widgets
+using specific keystrokes, what about a widget which can run any widget? That’s exactly the purpose of execute-named-cmd. It’s bound by
+default to the keystrokes ESC x for the emacs keymap and : for the vicmd keymap (Vi NORMAL mode).
+
+If you hit the good keystrokes depending of the global keymap you’re using, a new prompt will appear. There, you can call any widget you
+want; they will act on whatever command you’ve began to type in your editor, if any. Even better: you can complete the widget’s name you
+want to run in this new prompt by using TAB, as always.
+
+Using execute-named-cmd, you can then run two other useful widgets if you want to know what widget is bound to what keystroke (and
+vice-versa):
+
+  • where-is - Open yet another prompt where you can type the name of a widget. It will then output its keybinding (if any).
+  • describe-key-briefly - Open yet another prompt where you can hit a keystroke. It will then output the widget bound to that keystroke
+    (if any).
+
+Widgets from Zsh User Contributions
+
+There are also more widgets available via Zsh contrib (man zshcontrib), like the wonderful edit-command-line, allowing you to edit your
+commands in [DEL:Vim:DEL] your favorite editor, or select-quoted, useful to create Vi text-object representing quoted substring. More on
+that below.
+
+I’ve covered many of these widgets in the [58]first article of this series. Don’t forget that you need to autoload them before using
+them. They are not always documented, but you can directly look at what you can use on the [59]Zsh mirror repository.
+
+For example, if you want to use the widget incarg from Zsh contrib to increment a number using a keystroke, you can add to your zshrc:
+
+autoload -Uz incarg
+zle -N incarg
+bindkey -M vicmd '^a' incarg
+
+Now, when your cursor is on a number and you hit CTRL+a, it will be incremented by the power of your spirit.
+
+Writing your Own Widget
+
+Using built-in widgets is definitely useful, but we can push the customization even further: what about widgets designed by your
+talented creativity?
+
+Executing A Command While Writing Another
+
+As we saw just above, we can create our own widget using zle -N <shell_function>. If an existing widget has already the same name, it
+will be overwritten. That’s why built-in widgets have two names: one with a dot . prefix, and one without. If you overwrite the built-in
+widget end-of-line for example, you can still access the original one by using .end-of-line. As a result, it’s considered good practice
+to never prefix your own widgets with a dot; it should be reserved to the most important widgets, the built-in ones.
+
+Enough rambling. Let’s build our first widget!
+
+We can imagine that you’re writing a command in your shell, and suddenly you wonder what you’ve modified in your project. The best would
+be to:
+
+ 1. Run git diff.
+ 2. Go back to the command you were writing.
+
+Here’s the widget:
+
+function _git-diff {
+    zle .kill-whole-line
+    zle -U "git diff
+$CUTBUFFER"
+}
+
+zle -N _git-diff
+bindkey '^Xd' _git-diff
+
+What happens in there?
+
+ 1. We use zle to run the widget .kill-whole-line (we use the dot-prefixed name in case kill-whole-line was overwritten somewhere else).
+    It will remove the command you were crafting with enthusiasm and love.
+ 2. We run zle -U. This command inserts some string in ZLE, exactly like you would type them in the editor.
+ 3. We declare the function _git-diff as a widget. We can run it in ZLE by hitting CTRL+x and then d.
+
+It’s worthwhile to explain further the second point:
+
+  • The character between git diff and $CUTBUFFER is actually a carriage return, the control character ^M. I’ve made it by hitting
+    CTRL+v and then ENTER.
+  • The variable $CUTBUFFER contains whatever was deleted when using a widget beginning with kill-. It allows us to bring back the
+    command previously deleted with .kill-whole-line.
+
+The underscore _ prefixing the function’s name indicates that the function is a widget. It’s just a personal convention to know what
+shell function is a widget, and what isn’t; you don’t have to do the same with your widgets.
+
+And voila! We’ve our first marvelous and useless little widget.
+
+It’s not the only implementation possible: we could try to run git diff first, and then bring back the command deleted as follows:
+
+zle -U "git diff"
+zle -U "$CUTBUFFER"
+
+I’m afraid I’ve to deceive you once again; at the point, it’s a miracle you’re sill reading this article. The commands above won’t do
+what we want them to do.
+
+In fact, zle -U put strings on the stack of ZLE, and pull them back in the editor when the widget terminates. And since it’s a stack
+(LIFO, Last In, First Out), $CUTBUFFER would be inserted in the editor before git diff! To fix that, you could swap the two declarations
+above, but it makes the widget more difficult to understand.
+
+Here’s another, cleaner solution:
+
+function _git-diff {
+    zle push-input
+    BUFFER="git diff"
+    zle accept-line
+}
+
+zle -N _git-diff
+bindkey '^Xd' _git-diff
+
+What happens there?
+
+ 1. We use the widget push-input. It pushes the command on the edit buffer stack, and pull it back the next time ZLE is available.
+ 2. We change the current buffer to git diff.
+ 3. We use the widget accept-line which runs whatever command written in ZLE (in that case, git diff).
+ 4. The widget push-input pull back the command from the buffer stack. It even keeps the cursor position!
+
+A Widget to Prefix Your Commands
+
+Let’s take another example. Let’s say that you want a widget to prepend “vim” to any command. A noble idea! Here’s a possible solution:
+
+function _vim {
+    [[ ! $BUFFER =~ '^vi.*' ]] && BUFFER="vim $BUFFER" && zle end-of-line
+}
+
+zle -N _vim
+bindkey -M vicmd '^Xv' _vim
+
+If the regular expression ^vi.* is not matched, it:
+
+ 1. Inserts vim at the beginning of the command.
+ 2. Moves the cursor to the end of the line.
+
+Quite easy, isn’t it?
+
+Managing Surrounding
+
+I mentioned, [60]in the first article of this series, a way to create new Vi text-objects and bind them to some specific widgets with
+the following commands:
+
+autoload -Uz select-bracketed select-quoted
+zle -N select-quoted
+zle -N select-bracketed
+for km in viopp visual; do
+  for c in {a,i}${(s..)^:-\'\"\`\|,./:;=+@}; do
+    bindkey -M $km -- $c select-quoted
+  done
+  for c in {a,i}${(s..)^:-'()[]{}<>bB'}; do
+    bindkey -M $km -- $c select-bracketed
+  done
+done
+
+We’re now able to understand what’s going on in there:
+
+ 1. We loop through the two keymaps viopp (Vi OPERATOR-PENDING mode) and visual (Vi VISUAL mode).
+ 2. We loop through a whole bunch of signs we want to consider as quotes (or brackets), and we add to each of them the prefix i or a
+    (for inside and around, respectively).
+ 3. We use the bindkey command to bind these new text-objects to both keymaps.
+
+If you’re not sure what’s the Vi OPERATOR-PENDING mode, I’ve written about it in [61]this article about Vim. It’s can be used to create
+new text-objects. Here are the ones we bind to the select-bracketed widget: a(,i(,a),i),a[,i[,a],i],a{,i{,a},i},a<,i<,a>,i>,ab,ib,aB,iB.
+
+If you want to know exactly what text-objects are created, you can add echo $c in both nested loops before the command bindkey.
+
+The Power of the Zsh Line Editor
+
+Well, that was quite a trip! Thanks to custom keybidings and widgets, the Zsh Line Editor is a valuable tool, allowing us to make our
+shell experience an effective one.
+
+What did we see in this article?
+
+  • The Zsh Line Editor (ZLE) is the command prompt where you can write and edit your commands.
+  • The main keymap is the set of keystrokes which is loaded by default when Zsh is launched.
+  • The global keymap is the one used to edit commands in Zsh. Local keymaps can be used in some specific Zsh modes, like selecting
+    elements in a list.
+  • A widget is a shell function which can be executed after hitting specific keystrokes. They can call other widgets, and they have
+    access to special variables to manipulate the line editor.
+  • We can look at the keystrokes already bound, and bind new ones to specific widgets with the bindkey command.
+  • The terminal will interpret special keys with specific escape sequences. We can map them directly to some widgets, or use terminfo
+    in application mode.
+  • We can create our own widgets to customize even more what we can do in ZLE.
+
+When you’re annoyed by some functionalities which should be implemented while typing your commands in Zsh, it’s a good opportunity to
+write a widget to answer your need. That’s how you create a [62]highly customized Mouseless Development Environment: by solving one
+little problem at a time.
+
+Related Sources
+
+  • [63]Zsh Line Editor - Zsh Documentation
+  • [64]ZLE Standard Widgets - Zsh Documentation
+  • [65]Zsh Keybindings - Zsh Wiki
+  • [66]terminfo and termcap - David S. Lawyer
+  • [67]User defined widgets - Zsh Documentation
+
+Let's Connect
+
+You'll receive each month the last article with additional resources and updates.
+
+[68][                    ] [70][I want more!]
+
+[71]Here's how it looks
+
+You can reply to any email if you have questions, problems, or feedback. I'll write back as soon as I can.
+
+Share Your Knowledge
+
+[72]A Vim Guide For Experts
+
+[73]Configuring i3 Window Manager: a Complete Guide
+
+The Valuable Dev All right reserved - 2021[74]   [75]   [76]   [77]   [78]   [79] Proudly generated by [80]HUGO

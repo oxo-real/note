@@ -1,0 +1,431 @@
+<!doctype html><html lang=en-us data-theme=dark><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://thevaluable.dev/images/2021/zsh_expansion/expand_happiness.jpg"><meta name=twitter:title content="A Guide to Zsh Expansion with Examples"><meta name=twitter:description content="Expanding files, parameters, or the history using Zsh is the fastest way to get quickly what you want, without writing boring scripts."><meta name=twitter:site content="@Cneude_Matthieu"><meta property="og:title" content="A Guide to Zsh Expansion with Examples"><meta property="og:site_name" content="The Valuable Dev"><meta property="og:url" content="https://thevaluable.dev/zsh-expansion-guide-example/"><meta property="og:description" content="Expanding files, parameters, or the history using Zsh is the fastest way to get quickly what you want, without writing boring scripts."><meta property="og:type" content="article"><meta property="article:published_time" content="2021-12-27T00:00:00Z"><meta property="article:tag" content="Tools"><meta property="article:tag" content="Mouseless"><title>A Guide to Zsh Expansion with Examples</title><meta name=description content="Expanding files, parameters, or the history using Zsh is the fastest way to get quickly what you want, without writing boring scripts."><meta name=HandheldFriendly content="True"><meta name=viewport content="width=device-width,initial-scale=1"><link rel="shortcut icon" href=https://thevaluable.dev/images/favicon.png><link rel=apple-touch-icon href=https://thevaluable.dev/images/apple-touch-icon.png><link rel=stylesheet class=light-theme href=https://thevaluable.dev/css/screen.min.5c85f9d4527987fa7a925afdf2d38a4cc61a3f06927734d8cbcf5aa42c4e0921.css integrity="sha256-XIX51FJ5h/p6klr98tOKTMYaPwaSdzTYy89apCxOCSE="><link rel=stylesheet class=light-theme href=https://thevaluable.dev/css/footer.min.e2cc02bae8873f6086361a606bf2a0b6b52be606c7ad95ae0952b61d2a0daafa.css integrity="sha256-4swCuuiHP2CGNhpga/KgtrUr5gbHrZWuCVK2HSoNqvo=" media=none onload='this.media="screen"'><link href=https://thevaluable.dev/index.xml rel=alternate type=application/rss+xml title="The Valuable Dev"><meta name=generator content="Hugo 0.109.0"><link rel=canonical href=https://thevaluable.dev/zsh-expansion-guide-example/><script type=application/ld+json>{"@context":"https://schema.org","@type":"Article","image":"https:\/\/thevaluable.dev\/images\/2021\/zsh_expansion\/expand_happiness.jpg","publisher":{"@type":"Organization","name":"Matthieu Cneude","logo":{"type":"ImageObject","url":"https:\/\/thevaluable.dev\/images\/author.jpg"}},"author":{"@type":"Person","name":"Matthieu Cneude"},"headline":"A Guide to Zsh Expansion with Examples","name":"A Guide to Zsh Expansion with Examples","wordCount":4411,"timeRequired":"PT21M","inLanguage":{"@type":"Language","alternateName":"en"},"url":"https:\/\/thevaluable.dev\/zsh-expansion-guide-example\/","datePublished":"2021-12-27T00:00Z","dateModified":"2021-12-27T00:00Z","keywords":"Tools, Mouseless","description":"Expanding files, parameters, or the history using Zsh is the fastest way to get quickly what you want, without writing boring scripts.","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/thevaluable.dev\/zsh-expansion-guide-example\/"}}</script><script>(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)})(window,document,"script","//www.google-analytics.com/analytics.js","ga"),ga("create","UA-46898153-4","auto"),ga("set","anonymizeIp",!0),ga("send","pageview")</script></head><body class=nav-closed><div class=nav><h3 class="nav-title nav-main-title">Menu</h3><a href=# class=nav-close><i class="la la-times-circle"></i></a><ul><li class=nav-opened role=presentation><a href=https://thevaluable.dev/>Home</a></li><li class=nav-opened role=presentation><a href=https://thevaluable.dev/post/>All Articles</a></li><li class=nav-opened role=presentation><a href=https://thevaluable.dev/page/newsletter/>Let's Connect</a></li><li class=nav-opened role=presentation><a href=https://thevaluable.dev/page/books/>Books</a></li><li class=nav-opened role=presentation><a href=https://thevaluable.dev/page/support/>Support</a></li><li class=nav-opened role=presentation><a href=https://thevaluable.dev/page/about>About</a></li><hr class=separation><h3 class="nav-title nav-sub">Categories</h3><li class=nav-opened role=presentation><a href=https://thevaluable.dev/tags/complexity>Complexity</a></li><li class=nav-opened role=presentation><a href=https://thevaluable.dev/tags/fundamentals>Fundamentals</a></li><li class=nav-opened role=presentation><a href=https://thevaluable.dev/tags/mouseless>Mouseless</a></li><li class=nav-opened role=presentation><a href=https://thevaluable.dev/tags/vim>Vim</a></li><li class=nav-opened role=presentation><a href=https://thevaluable.dev/tags/soft-skills>Soft Skills</a></li><li class=nav-opened role=presentation><a href=https://thevaluable.dev/tags/learning>Learning</a></li><li class=nav-opened role=presentation><a href=https://thevaluable.dev/tags/side-project>Side Projects</a></li></ul><a class=subscribe-button href=https://thevaluable.dev/index.xml><i class="la la-feed"></i>&nbsp;&nbsp;RSS</a></div></div><span class=nav-cover></span><div class=site-wrapper><aside class="table-of-content tob-closed"><a href=# class=tob-close><span class=hidden>Close</span></a><nav id=TableOfContents><ul><li><a href=#glob-operators>Glob Operators</a><ul><li><a href=#basic-glob-operators>Basic Glob Operators</a></li><li><a href=#character-classes>Character classes</a></li><li><a href=#grouping>Grouping</a></li><li><a href=#globbing-flags>Globbing Flags</a></li><li><a href=#recursive-globbing>Recursive Globbing</a></li><li><a href=#glob-qualifiers>Glob Qualifiers</a></li><li><a href=#expanding-a-precise-number-of-files>Expanding A Precise Number of Files</a></li><li><a href=#expanding-and-sorting>Expanding and Sorting</a></li><li><a href=#expanding-depending-on-a-predicate>Expanding Depending on a Predicate</a></li></ul></li><li><a href=#expanding-the-zsh-history>Expanding the Zsh History</a><ul><li><a href=#the-event-designators>The Event Designators</a></li><li><a href=#word-designators>Word Designators</a></li><li><a href=#history-modifiers>History Modifiers</a></li><li><a href=#the-substitution-modifier>The Substitution Modifier</a></li></ul></li><li><a href=#parameters-expansion>Parameters Expansion</a><ul><li><a href=#the-dollar-character>The Dollar Character</a></li><li><a href=#parameters-expansion-adding-braces>Parameters Expansion: Adding Braces</a></li></ul></li><li><a href=#you-can-now-become-a-zsh-godly-figure>You Can Now Become a Zsh Godly Figure</a></li></ul></nav></aside><span class=table-of-content-cover></span><header class="main-header post-head no-cover"><a class=blog-title href=https://thevaluable.dev/>The Valuable Dev</a><ul class=header-menu><li><a href=https://thevaluable.dev/page/newsletter><i class="la la-envelope"></i><span class=text>Let's Connect</span></a></li><li><a href=https://thevaluable.dev/page/books><i class="la la-book"></i><span class=text>Books</span></a></li><li><a href=https://thevaluable.dev/page/support><i class="la la-heart-o"></i><span class=text>Support</span></a></li><li><a href=https://thevaluable.dev/page/about><i class="la la-grin-wink"></i><span class=text>About</span></a></li></ul><nav class="page-nav clearfix"><a class=menu-button href=#>&#9776;&nbsp;&nbsp;Menu</a>
+<a id=light-button class="light-button icon-button" href=#><i class="la la-moon-o"></i></a>
+<a class="tob-button icon-button" href=#><i class="la la-list"></i></a>
+<a class="toggle-search icon-button" title=search><i class="la la-search"></i></a></nav></header><aside role=search><a href=# class="close toggle-search"><i class="la la-times-circle"></i></a><div class=search-wrapper><form class=search method=get><input type=search placeholder=search... disabled></form></div><div class="search-results list"></div></aside><main class=content role=main><article class="post post"><header class=post-header><section class=post-meta><div class=li-date><time class=post-date datetime=2021-12-27T00:00:00Z>27 Dec 2021</time>
+<a class="la la-twitter" style=font-size:1.4em href="https://twitter.com/share?text=A%20Guide%20to%20Zsh%20Expansion%20with%20Examples&nbsp;-&nbsp;The%20Valuable%20Dev&url=https%3a%2f%2fthevaluable.dev%2fzsh-expansion-guide-example%2f" onclick='return window.open(this.href,"twitter-share","width=550,height=235"),!1'><span class=hidden>Twitter</span></a></div><span class="post-tag small"><a href=https://thevaluable.dev/tags/tools/>#Tools</a></span>
+<span class="post-tag small"><a href=https://thevaluable.dev/tags/mouseless/>#Mouseless</a></span></section><h1 class=post-title>A Guide to Zsh Expansion with Examples</h1></header><section class=post-content><picture><source srcset=https://thevaluable.dev/images/2021/zsh_expansion/expand_happiness.webp type=image/webp><img width=780 height=520 src=https://thevaluable.dev/images/2021/zsh_expansion/expand_happiness.jpg alt="A Guide to Zsh Expansion with Examples"></picture><p>This article is part of a series about Zsh:</p><div class="notices note"><div class=header><i class="la la-sticky-note-o"></i> Becoming a zsh master</div><div class=body><ol><li><a href=https://thevaluable.dev/zsh-install-configure-mouseless/>Configuring Zsh Without Dependencies</a></li><li><a href=https://thevaluable.dev/zsh-expansion-guide-example/>A Guide to Zsh Expansion with Examples</a></li><li><a href=https://thevaluable.dev/zsh-completion-guide-examples/>A Guide to the Zsh Completion with Examples</a></li><li><a href=https://thevaluable.dev/zsh-line-editor-configuration-mouseless/>A Guide to the Zsh Line Editor with Examples</a></li></ol></div></div><p>What would we do if we couldn&rsquo;t use the wonderful <code>TAB</code> key to expand our commands, filenames, or variables in our lovely shell? Not much, I&rsquo;m afraid. We would still live in dark caves, hunting some dangerous Mammoth with knives made of stones!</p><p>Zsh is particularly powerful when you need some good old expansions. It supports common ones used by Bash too, and add many flags and modifiers on top. It comes in handy to manipulate quickly your commands without writing boring shell scripts.</p><p>We&rsquo;ll see, in this article, what we can do with Zsh expansions, and more specifically:</p><ul><li>How to use glob operators and globbing flags.</li><li>What glob qualifiers we can use to expand filenames.</li><li>How to expand the Zsh history and how to modify these expansions.</li><li>How to expand parameters, using modifiers and flags.</li></ul><p>In the examples of this article, the character <code>></code> represents the shell&rsquo;s prompt. If you want to run the commands in your terminal (which I warmly recommend you to do), don&rsquo;t copy these <code>></code> characters. Why not using the dollar character <code>$</code> for the prompt, like every other articles out there? Because it&rsquo;s my article, I do what I want.</p><p>There are many, many ways to expand your filenames, history entries, or parameters with Zsh. I won&rsquo;t cover everything here, only what I find the most useful. The amount of information can still be overwhelming, however; that&rsquo;s why I recommend the following:</p><ol><li>Take two or three useful tips from this article and try to apply them in your daily work.</li><li>When you&rsquo;re confident with your new knowledge, come back to this article and pick two or three more tips.</li><li>Rinse and repeat.</li></ol><p>Last bit of information before diving in: I used Zsh 5.8 and GNU Bash 5.1.8 for testing the different examples. With that out of the way, let&rsquo;s begin to expand our souls.</p><h2 id=glob-operators>Glob Operators</h2><p>We can&rsquo;t use regular expressions with Bash or Zsh to expand our filenames. Instead, we can use glob operators to expand various filenames.</p><p>If you use the shell for long enough, I&rsquo;m sure you&rsquo;re already familiar with some of them. Here&rsquo;s the list of glob operators for Zsh: <code>*</code>, <code>(</code>, <code>|</code>, <code>&lt;</code>, <code>[</code>, and <code>?</code>.</p><p>We&rsquo;ll see in this section how to use these glob operators. The examples given here follow this set of rules:</p><ol><li>The first line is the non-expanded version of the command.</li><li>The second line is the expanded version of the command, after typing the non-expanded version and hitting the <code>TAB</code> key.</li><li>Each example uses the following directory structure:</li></ol><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>.
+</span></span><span class=line><span class=cl>├── a_dir_with_a_file
+</span></span><span class=line><span class=cl>│   └── a_file
+</span></span><span class=line><span class=cl>├── A_FILE_WITH_UPPERCASE
+</span></span><span class=line><span class=cl>├── another_file
+</span></span><span class=line><span class=cl>├── empty_dir
+</span></span><span class=line><span class=cl>├── file_1
+</span></span><span class=line><span class=cl>└── file_2
+</span></span></code></pre></div><p>I encourage you to create the exact same file tree with these commands and try the examples in your shell:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>mkdir a_dir_with_a_file empty_dir <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span><span class=o>&amp;&amp;</span> touch a_dir_with_a_file/a_file A_FILE_WITH_UPPERCASE another_file file_1 file_2
+</span></span></code></pre></div><p>Trying by yourself will let you feel the power of Zsh under your fingertips. Nothing less!</p><h3 id=basic-glob-operators>Basic Glob Operators</h3><p>These two basic glob operators work in Bash and Zsh:</p><ul><li><code>*</code> - Matches any string.</li><li><code>?</code> - Matches any character.</li></ul><p>For example:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; cat fil*
+</span></span><span class=line><span class=cl>&gt; cat file_1 file_2
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; cat file_?
+</span></span><span class=line><span class=cl>&gt; cat file_1 file_2
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; ls ./*file*
+</span></span><span class=line><span class=cl>&gt; ls ./a_dir_with_a_file ./another_file ./file_1 ./file_2 
+</span></span></code></pre></div><h3 id=character-classes>Character classes</h3><p>Beyond the useful <code>*</code> and <code>?</code>, we can also use character classes in both Bash and Zsh:</p><ul><li><code>[]</code> - Matches one of the enclosed character, or a range of characters separated with <code>-</code>.</li><li><code>[:&lt;set>:]</code> - Matches a specific set of characters.</li><li><code>[^&lt;set>]</code> or <code>[!&lt;set>]</code> - Match any character which is <em>not</em> in the set <code>&lt;set></code>.</li></ul><p>For example:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Match every filename beginning with &#34;f&#34;, &#34;l&#34;, or &#34;e&#34;</span>
+</span></span><span class=line><span class=cl>&gt; ls <span class=o>[</span>fle<span class=o>]</span>*
+</span></span><span class=line><span class=cl>&gt; ls empty_dir file_1 file_2 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Match every filename not beginning with &#34;a&#34;</span>
+</span></span><span class=line><span class=cl>&gt; ls <span class=o>[</span>^a<span class=o>]</span>*
+</span></span><span class=line><span class=cl>&gt; ls A_FILE_WITH_UPPERCASE empty_dir file_1 file_2 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Match every filename beginning with &#34;a&#34;</span>
+</span></span><span class=line><span class=cl>&gt; ls <span class=o>[</span>a<span class=o>]</span>*
+</span></span><span class=line><span class=cl>&gt; ls a_dir_with_a_file another_file 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Match a filename beginning with any letter from &#34;a&#34; to &#34;z&#34;</span>
+</span></span><span class=line><span class=cl>&gt; ls <span class=o>[</span>a-z<span class=o>]</span>*
+</span></span><span class=line><span class=cl>&gt; ls a_dir_with_a_file another_file empty_dir file_1 file_2
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Match a filename beginning with lowercase, followed by an underscore, and any other character</span>
+</span></span><span class=line><span class=cl>&gt; ls <span class=o>[</span>^<span class=o>[</span>:upper:<span class=o>]]</span>_*
+</span></span><span class=line><span class=cl>&gt; ls a_dir_with_a_file
+</span></span></code></pre></div><h3 id=grouping>Grouping</h3><p>Grouping is only available in Zsh. To group, we can use the following characters:</p><ul><li><code>()</code> - Matches the enclosed pattern.</li><li><code>|</code> - Equivalent of the boolean operator &ldquo;OR&rdquo;. It needs to be used inside groups.</li></ul><p>For example:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Match any filename beginning with &#34;fi&#34; or &#34;an&#34;</span>
+</span></span><span class=line><span class=cl>&gt; ls <span class=o>(</span><span class=k>fi</span><span class=p>|</span>an<span class=o>)</span>*
+</span></span><span class=line><span class=cl>&gt; ls another_file file_1 file_2
+</span></span></code></pre></div><h3 id=globbing-flags>Globbing Flags</h3><p>Globbing flags are only available in Zsh. They need to be added before any glob operator, and they need to have this syntax: <code>(#&lt;flag>)</code>.</p><p>Here are the three most useful flags:</p><ul><li>i - Case insensitive.</li><li>I - Case sensitive.</li><li>l - Lowercase match lower case or uppercase; uppercase match only uppercase.</li></ul><p>For example:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; cat a*
+</span></span><span class=line><span class=cl>&gt; cat a_dir_with_a_file another_file
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; cat <span class=o>(</span><span class=c1>#i)a*</span>
+</span></span><span class=line><span class=cl>&gt; cat a_dir_with_a_file A_FILE_WITH_UPPERCASE another_file
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; cat <span class=o>(</span><span class=c1>#l)a*</span>
+</span></span><span class=line><span class=cl>&gt; cat a_dir_with_a_file A_FILE_WITH_UPPERCASE another_file 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; cat <span class=o>(</span><span class=c1>#l)A*</span>
+</span></span><span class=line><span class=cl>&gt; cat A_FILE_WITH_UPPERCASE
+</span></span></code></pre></div><h3 id=recursive-globbing>Recursive Globbing</h3><p>You can also use the recursive glob operator <code>**</code> to expand the files in the working directory (like <code>*</code>) <em>and</em> every file in every subdirectory, recursively.</p><p>For example:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Search filenames including the substring &#34;file&#34; in the working directory and its subdirectories</span>
+</span></span><span class=line><span class=cl>&gt; ls ./**/*file*
+</span></span><span class=line><span class=cl>&gt; ls ./a_dir_with_a_file ./a_dir_with_a_file/a_file ./another_file ./file_1 ./file_2
+</span></span></code></pre></div><p>The depth of the directory tree doesn&rsquo;t matter: Zsh will go through the whole tree and find whatever you want. You can also use the alternative glob operator <code>***</code> if you also want to parse symlink&rsquo;s targets.</p><p>The recursive glob operator can be used in Bash too, but it will only expand files on the first level below the working directory. If you want it to behave like its Zsh counterpart, you need to set the option <code>globstar</code> with the following command <code>shopt -s globstar</code>.</p><h3 id=glob-qualifiers>Glob Qualifiers</h3><p>Glob qualifiers are only available in Zsh. They are added after the glob operators to filter even further the filenames expanded. They are always between parenthesis.</p><p>You can use multiple qualifiers inside the parenthesis, separated with a colon <code>:</code>.</p><h4 id=basic-qualifiers>Basic Qualifiers</h4><p>Here are some basic qualifiers:</p><ul><li><code>^</code> - Negate all qualifiers following it.</li><li><code>-</code> - The qualifier works on the target of the symbolic link (and not the symbolic link itself).</li><li><code>[&lt;beginning>, &lt;end>]</code> - Choose what filenames should be expanded, depending on their positions. Can be negative to count from last match backward.</li></ul><p>For example:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ ls *
+</span></span><span class=line><span class=cl>$ ls a_dir_with_a_file A_FILE_WITH_UPPERCASE another_file empty_dir file_1 file_2 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Only expand the second and third file</span>
+</span></span><span class=line><span class=cl>&gt; ls *<span class=o>([</span>2,3<span class=o>])</span>
+</span></span><span class=line><span class=cl>&gt; ls A_FILE_WITH_UPPERCASE another_file 
+</span></span></code></pre></div><h4 id=directory-expansion>Directory Expansion</h4><p>These qualifiers will only expand to directories, except if they&rsquo;re negated with <code>^</code>.</p><ul><li><code>F</code> - Expand to non-empty directories.</li><li><code>^F</code> - Expand to empty directories and non-directories (plain files).</li><li><code>/^F</code> - Expand to empty directories.</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Only expand non-empty directory</span>
+</span></span><span class=line><span class=cl>&gt; ls *<span class=o>(</span>F<span class=o>)</span>
+</span></span><span class=line><span class=cl>&gt; ls a_dir_with_a_file
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Only expand plain files and empty directories</span>
+</span></span><span class=line><span class=cl>&gt; ls *<span class=o>(</span>^F<span class=o>)</span>
+</span></span><span class=line><span class=cl>&gt; ls A_FILE_WITH_UPPERCASE another_file empty_dir file_1 file_2 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Only expand empty directories</span>
+</span></span><span class=line><span class=cl>&gt; ls *<span class=o>(</span>/^F<span class=o>)</span>
+</span></span><span class=line><span class=cl>&gt; ls empty_dir
+</span></span></code></pre></div><h4 id=expanding-by-filetype>Expanding By Filetype</h4><p>We can also use qualifiers to expand specific file types (plain files or directory):</p><ul><li><code>.</code> - Expand to plain files</li><li><code>/</code> - Expand to directories</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Only expand plain files</span>
+</span></span><span class=line><span class=cl>&gt; cat *<span class=o>(</span>.<span class=o>)</span>
+</span></span><span class=line><span class=cl>&gt; cat A_FILE_WITH_UPPERCASE another_file file_1 file_2 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Only expand directories</span>
+</span></span><span class=line><span class=cl>&gt; ls *<span class=o>(</span>/<span class=o>)</span>
+</span></span><span class=line><span class=cl>&gt; ls a_dir_with_a_file empty_dir
+</span></span></code></pre></div><h4 id=expansions-depending-on-the-permissions>Expansions Depending On the Permissions</h4><p>To only expand files with specific permissions, we can use the following qualifiers:</p><p>Depending on the owner:</p><ul><li><code>*</code> - Expand to executable plain files.</li><li><code>r</code> - Expand to owner readable files.</li><li><code>w</code> - Expand to owner writable files.</li><li><code>x</code> - Expand to owner executable files.</li><li><code>U</code> - Expand to files or directories owned by the current user.</li></ul><p>Depending on the world:</p><ul><li><code>R</code> - Expand to world readable files.</li><li><code>W</code> - Expand to world writable files.</li><li><code>X</code> - Expand to world executable files></li></ul><p>Depending on the group:</p><ul><li><code>A</code> - Expand to group readable files</li><li><code>I</code> - Expand to group writable files</li><li><code>E</code> - Expand to group executable files</li><li><code>G</code> - File or directory owned by the current user&rsquo;s group.</li></ul><p>For even more control, we can specify the precise permissions:</p><ul><li><code>f&lt;spec></code> - Expand the files with access right matching the octal number <code>&lt;spec></code>. If <code>&lt;spec></code> is preceded by:<ul><li><code>=</code> (default when none given) - <code>&lt;spec></code> must match the exact file-mode.</li><li><code>+</code> - At least one bit needs to be in the file-mode.</li><li><code>-</code> - The bits must not be set.</li></ul></li></ul><p>For example:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Set the permissions for &#34;file_1&#34; to 777 (world can read, write, execute)</span>
+</span></span><span class=line><span class=cl>&gt; chmod <span class=m>777</span> file_1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand files the user can read</span>
+</span></span><span class=line><span class=cl>&gt; ls *<span class=o>(</span>w<span class=o>)</span>
+</span></span><span class=line><span class=cl>&gt; ls a_dir_with_a_file A_FILE_WITH_UPPERCASE another_file empty_dir file_1 file_2 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Only expand the files with permission 777</span>
+</span></span><span class=line><span class=cl>&gt; cat *<span class=o>(</span>f777<span class=o>)</span>
+</span></span><span class=line><span class=cl>&gt; cat file_1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Only expand files when the permissions are always more than executable:</span>
+</span></span><span class=line><span class=cl>&gt; cat *<span class=o>(</span>f-1<span class=o>)</span> 
+</span></span><span class=line><span class=cl>&gt; cat A_FILE_WITH_UPPERCASE another_file file_2
+</span></span></code></pre></div><h4 id=expansions-depending-on-date-or-size>Expansions Depending on Date or Size</h4><p>It&rsquo;s also possible to expand files depending on some dates:</p><ul><li><code>m&lt;unit>&lt;operator>&lt;n></code> - Expand to files modified <code>&lt;n></code> time ago.<ul><li>The <code>&lt;unit></code> can be <code>M</code> for month of 30 days, <code>w</code> for <code>w</code>eeks, <code>d</code> for <code>d</code>ays (default when nothing is given),<code>h</code> for <code>h</code>our, <code>m</code> for <code>m</code>inute, or <code>s</code> for <code>s</code>econd.</li><li>The <code>&lt;operator></code> can be:<ul><li><code>+</code> - Files accessed more than <code>&lt;n></code> <code>&lt;unit></code> ago</li><li><code>-</code> - Files accessed less than <code>&lt;n></code> <code>&lt;unit></code> ago.</li></ul></li></ul></li></ul><p>The qualifier to expand only files with a specific size is similar:</p><ul><li><code>L&lt;unit>&lt;operator>&lt;n></code> - Expand to file with a certain size <code>&lt;n></code>.<ul><li>The unit can be <code>K</code> (Kilobyte), <code>M</code> (Megabyte), <code>G</code> (gigabyte), <code>T</code> (terrabyte).</li><li>If <code>&lt;operator></code> is:<ul><li><code>+</code> - Files more than <code>&lt;n></code> bytes.</li><li><code>-</code> - Files less than <code>&lt;n></code> bytes.</li><li>To match exactly the size, don&rsquo;t give an <code>&lt;operator></code>.</li></ul></li></ul></li></ul><p>For example:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Delete every files greater than 1Gb recursively</span>
+</span></span><span class=line><span class=cl>&gt; rm **/*<span class=o>(</span>LG+1<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Delete all empty files recursively</span>
+</span></span><span class=line><span class=cl>&gt; rm **/*<span class=o>(</span>L0<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Delete all files modified in the last hour</span>
+</span></span><span class=line><span class=cl>&gt; rm **/*<span class=o>(</span>mh-1<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Delete all files modified more than one hour ago </span>
+</span></span><span class=line><span class=cl>&gt; rm **/*<span class=o>(</span>mh+1<span class=o>)</span>
+</span></span></code></pre></div><h3 id=expanding-a-precise-number-of-files>Expanding A Precise Number of Files</h3><p>Let&rsquo;s say that you had a vision: you <em>know</em> that you only want to expand a precise number of files. The following qualifier will grant your crazy wish:</p><ul><li><code>Y&lt;n></code> - Limit the expansion to <code>&lt;n></code> number of files</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Only expand two files</span>
+</span></span><span class=line><span class=cl>&gt; ls *<span class=o>(</span>Y2<span class=o>)</span>
+</span></span><span class=line><span class=cl>&gt; ls A_FILE_WITH_UPPERCASE empty_dir
+</span></span></code></pre></div><h3 id=expanding-and-sorting>Expanding and Sorting</h3><p>We can also sort our files if we want to:</p><ul><li><code>o&lt;sort></code> - Sort files depending on the value of <code>&lt;sort></code></li><li><code>O&lt;sort></code> - Like <code>o</code>, but sort in descending order</li></ul><p>The value of <code>&lt;sort></code> can be:</p><ul><li><code>n</code> - Sort by name (the default).</li><li><code>L</code> - Sort by size.</li><li><code>l</code> - Sort by number of links.</li><li><code>a</code> - Sort by last access.</li><li><code>m</code> - Sort by last modification.</li><li><code>c</code> - Sort by last inode change.</li><li><code>d</code> - Files in subdirectories appear before.</li><li><code>N</code> - Don&rsquo;t sort anything.</li></ul><p>For example:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Sort files from the smallest to the largest</span>
+</span></span><span class=line><span class=cl>&gt; ls *<span class=o>(</span>oL<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Sort files from the largest to the smallest</span>
+</span></span><span class=line><span class=cl>&gt; ls *<span class=o>(</span>OL<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Output the three biggest files (excluding directories) in the whole filetree</span>
+</span></span><span class=line><span class=cl>&gt; ls **/*<span class=o>(</span>.OL<span class=o>[</span>1,3<span class=o>])</span>
+</span></span></code></pre></div><h3 id=expanding-depending-on-a-predicate>Expanding Depending on a Predicate</h3><p>As far as I know, a predicate is not a dinosaur, but a command (or a function) returning a boolean. Here&rsquo;s a qualifier to filter the expansion depending on a predicate:</p><ul><li><code>e:'&lt;cmd>'</code> - The estring will filter the files depending on a command returning true or false. The filename being tested is available via the special variable REPLY. You can also change the value of REPLY to generate new filenames.</li></ul><p>Here are two examples to help you understand my complicated rambling:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Expand every file except the ones called &#34;file_2&#34;</span>
+</span></span><span class=line><span class=cl>&gt; cat *<span class=o>(</span>e:<span class=s1>&#39;[[ $REPLY != file_2 ]]&#39;</span>:<span class=o>)</span>
+</span></span><span class=line><span class=cl>&gt; cat a_dir_with_a_file A_FILE_WITH_UPPERCASE another_file empty_dir file_1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand only plain files (with the qualifier &#34;.&#34;), except the ones called &#34;file_2&#34;</span>
+</span></span><span class=line><span class=cl>&gt; cat *<span class=o>(</span>e:<span class=s1>&#39;[[ $REPLY != file_2 ]]&#39;</span>:.<span class=o>)</span>
+</span></span><span class=line><span class=cl>&gt; cat A_FILE_WITH_UPPERCASE another_file file_1 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand only plain files, and reassign the REPLY variable to expand even more files (even if they don&#39;t exist)</span>
+</span></span><span class=line><span class=cl>&gt; touch *<span class=o>(</span>e:<span class=s1>&#39;reply=(${REPLY}_{1..3})&#39;</span>:.<span class=o>)</span>
+</span></span><span class=line><span class=cl>&gt; touch A_FILE_WITH_UPPERCASE_1 A_FILE_WITH_UPPERCASE_2 A_FILE_WITH_UPPERCASE_3 another_file_1 another_file_2 another_file_3 file_1_1 file_1_2 file_1_3 file_2_1 file_2_2 file_2_3
+</span></span></code></pre></div><p>The form <code>e:'&lt;cmd>'</code> can take the form <code>+&lt;cmd></code> if you need to call a function instead of using a command.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Create the function &#34;condition&#34;</span>
+</span></span><span class=line><span class=cl>&gt; condition<span class=o>()</span> <span class=o>{</span> <span class=o>[[</span> <span class=nv>$REPLY</span> <span class=o>==</span> file_2 <span class=o>]]</span> <span class=o>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Only expand file named &#34;file_2&#34;</span>
+</span></span><span class=line><span class=cl>&gt; cat *<span class=o>(</span>+condition<span class=o>)</span>
+</span></span><span class=line><span class=cl>&gt; cat file_2
+</span></span></code></pre></div><p>That was quite a ride! Let&rsquo;s now abandon the glob operators, their flags, and their qualifiers, to focus on the history of Zsh.</p><h2 id=expanding-the-zsh-history>Expanding the Zsh History</h2><p>To me, the best way to manage the shell&rsquo;s history is to use a fuzzy finder like <a href=https://github.com/junegunn/fzf target=_blank rel=noopener>fzf</a>. That said, if you want to use vanilla Zsh to manipulate your history, you can use these three special characters:</p><ul><li><code>!</code> - The history character.</li><li><code>^</code> - The modification character.</li><li><code>#</code> - The command character.</li></ul><p>These characters are defined in the special variable <code>$HISTCHARS</code>.</p><p>It means that you can&rsquo;t use these three characters in your commands without properly escaping them. For example, If you run <code>echo hello!!</code> or <code>echo "hello!!"</code>, the shell will expand the <code>!!</code>. In that case, you would need to use simple quotes (<code>echo 'hello!!'</code>) or escaping the special characters with backslashes (<code>echo "hello\!\!"</code>).</p><h3 id=the-event-designators>The Event Designators</h3><p>The event designator is used to expand a command (or part of a command) from the history.</p><p>First, to display your shell&rsquo;s history, you can run the command <code>history</code>, or <code>history -&lt;number></code> (<code>&lt;number></code> indicating how many commands you want to output). For example,<code>history -100</code> will display the last 100 commands you&rsquo;ve executed in your shell.</p><p>Here are some nice and sweet event designators:</p><ul><li><code>!&lt;number></code> - Expand the <code>&lt;number></code>th entry from the history.</li><li><code>!-&lt;number></code> - Expand the <code>&lt;number></code>th entry from the history, beginning by the most recent command.</li><li><code>!!</code> - Expand the previous command executed.</li><li><code>!&lt;string></code> - Expand the most recent command executed, starting with <code>&lt;string></code>.</li><li><code>!#</code> - Expand to the current command you&rsquo;re typing.</li></ul><p>For example:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Expand the history&#39;s entry 123</span>
+</span></span><span class=line><span class=cl>&gt; !123
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand the second most recent command.</span>
+</span></span><span class=line><span class=cl>&gt; !-2
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Run a command for the following examples</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;first&#34;</span> <span class=s2>&#34;second&#34;</span> <span class=s2>&#34;third&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand to the last echo command executed</span>
+</span></span><span class=line><span class=cl>&gt; !echo
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;first&#34;</span> <span class=s2>&#34;second&#34;</span> <span class=s2>&#34;third&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand to the last command executed</span>
+</span></span><span class=line><span class=cl>&gt; !!
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;first&#34;</span> <span class=s2>&#34;second&#34;</span> <span class=s2>&#34;third&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># try to read install Neovim</span>
+</span></span><span class=line><span class=cl>&gt; pacman -S neovim
+</span></span><span class=line><span class=cl>error: you cannot perform this operation unless you are root.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Repeat the previous command with sudo (super handy!)</span>
+</span></span><span class=line><span class=cl>&gt; sudo !!
+</span></span><span class=line><span class=cl>&gt; sudo pacman -S neovim
+</span></span></code></pre></div><h3 id=word-designators>Word Designators</h3><p>Going down to the rabbit hole, we can add word designators to our event designator. The goal is to only expand parts of the command from the history.</p><p>The word designator needs to be separated from the event designator with a color <code>:</code>.</p><p>Here are my favorites:</p><ul><li><code>0</code> - Expand the first input word of the command.</li><li><code>&lt;number></code> - Expand the <code>&lt;number></code>th argument.</li><li><code>^</code> - Expand the first argument or option.</li><li><code>$</code> - Expand the last argument or option.</li><li><code>*</code> - Expand to all the arguments or options. If there is none, expand to the NULL value.</li></ul><p>You know what will follow? Yes! Examples! More of them!</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;first&#34;</span> <span class=s2>&#34;second&#34;</span> <span class=s2>&#34;third&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand to the first word of the last command</span>
+</span></span><span class=line><span class=cl>&gt; !!:0
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand to the second argument of the last command</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> !!:2
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;second&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand to the first argument of the last command</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> !!:^
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;first&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand to the last argument of the last command</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> !!:$
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;third&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand to all the arguments of the last command</span>
+</span></span><span class=line><span class=cl>&gt; print !!:*
+</span></span><span class=line><span class=cl>&gt; print <span class=s2>&#34;first&#34;</span> <span class=s2>&#34;second&#34;</span> <span class=s2>&#34;third&#34;</span>
+</span></span></code></pre></div><h3 id=history-modifiers>History Modifiers</h3><p>Believe it or not, there&rsquo;s more. Additionally, you can add some modifiers to the word designator, again separated with <code>:</code>.</p><p>As always, here are my favorites:</p><ul><li><code>a</code> - Transform a file name into an absolute path.</li><li><code>A</code> - Transform a file name into an absolute path and resolve the eventual symlinks.</li><li><code>h&lt;number></code> - Keep the <code>head</code> of the path: everything except the last component of the path. Use <code>&lt;number></code> to keep the <code>&lt;number></code> of component of the pathname. In absolute path, the root directory <code>/</code> is the first component.</li><li><code>t&lt;number></code> - Remove all leading path components except the final one (the tail). Add a <code>&lt;number></code> to keep a precise amount of trailing components.</li><li><code>r</code> - Remove the filename extension.</li><li><code>l</code> - Convert everything to lowercase.</li><li><code>u</code> - Convert everything to uppercase.</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Run a command</span>
+</span></span><span class=line><span class=cl>&gt; ls ~/a_dir_with_a_file/a_dir/a_file
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand to the absolute path</span>
+</span></span><span class=line><span class=cl>&gt; !!:^:a
+</span></span><span class=line><span class=cl>&gt; ls /home/user/a_dir_with_a_file/a_dir/a_file
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand only the head (delete the tail) - similar to dirname</span>
+</span></span><span class=line><span class=cl>&gt; !!:^:h
+</span></span><span class=line><span class=cl>&gt; a_dir_with_a_file/a_dir
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand only the first part of the head</span>
+</span></span><span class=line><span class=cl>&gt; !!:^:h1
+</span></span><span class=line><span class=cl>&gt; a_dir_with_a_file
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand only the tail (delete the head) - similar to basename</span>
+</span></span><span class=line><span class=cl>&gt; !!:^:t
+</span></span><span class=line><span class=cl>&gt; a_file
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand only the tail and one element before</span>
+</span></span><span class=line><span class=cl>&gt; !!:^:t2
+</span></span><span class=line><span class=cl>&gt; a_dir/a_file
+</span></span></code></pre></div><h3 id=the-substitution-modifier>The Substitution Modifier</h3><p>We can also substitute one substring with another using the substitution modifier:</p><ul><li><code>s/&lt;string>/&lt;replacement>/&lt;flag></code> - Substitute <code>&lt;string></code> with <code>&lt;replacement></code> using an optional <code>&lt;flag></code>.</li><li><code>gs/&lt;string>/&lt;replacement>/</code> or <code>s/&lt;string>/&lt;replacement>/:g</code> - Substitute globally.</li></ul><p>If we use the <a href=https://en.wikipedia.org/wiki/Metacharacter target=_blank rel=noopener>metacharacter</a> <code>&</code> in the replacement, it will be expanded with <code>&lt;string></code>. If you want to use the literal symbol <code>&</code> and not the metacharacter, you need to escape it with a backslash.</p><p>If the <code>&lt;string></code> is empty, it uses the previous <code>&lt;string></code> from the previous substitution.</p><p>For example:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;hello&#34;</span> <span class=s2>&#34;hello&#34;</span> <span class=s2>&#34;bonjour&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; !!:s/hello/bonjour
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;bonjour&#34;</span> <span class=s2>&#34;hello&#34;</span> <span class=s2>&#34;bonjour&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; !!:gs/hello/bonjour
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;bonjour&#34;</span> <span class=s2>&#34;bonjour&#34;</span> <span class=s2>&#34;bonjour&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; !!:gs/hello/<span class=p>&amp;</span> dear friend
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;hello dear friend&#34;</span> <span class=s2>&#34;hello dear friend&#34;</span> <span class=s2>&#34;bonjour&#34;</span>
+</span></span></code></pre></div><p>That&rsquo;s all for expanding the history. Next steps: expanding variables and parameters!</p><h2 id=parameters-expansion>Parameters Expansion</h2><p>Again, Zsh gives us many tools to expand variables and parameters.</p><h3 id=the-dollar-character>The Dollar Character</h3><p>As you probably know, the dollar character <code>$</code> is used for variable expansion in Bash and Zsh. For example, if you define a wonderful variable <code>var=hello</code>, you can expand its value with <code>$var</code>.</p><p>Zsh, unlike Bash, can also expand arrays using the good old dollar.</p><p>For example:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Create a variable &#34;var&#34; and assign the value &#34;hello&#34;. Spaces between `=` are not authorized (don&#39;t do &#34;var = hello&#34;).</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>var</span><span class=o>=</span>hello
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand the variable &#34;var&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=nv>$var</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> hello
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Create an array with three elements</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>array</span><span class=o>=(</span><span class=s2>&#34;one&#34;</span> <span class=s2>&#34;two&#34;</span> <span class=s2>&#34;three&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand the values of the array (only in Zsh)</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=nv>$array</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> one two three
+</span></span></code></pre></div><h3 id=parameters-expansion-adding-braces>Parameters Expansion: Adding Braces</h3><p>If the name of your variable is a substring of a word, you need to add braces to specify to the shell what&rsquo;s the name of the variable and what&rsquo;s some common string to display. For example:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Create a variable &#34;size&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>size</span><span class=o>=</span><span class=m>12</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># The shell tries to expand the variable &#34;sizeGb&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;This is </span><span class=nv>$sizeGb</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> This<span class=se>\ </span>is<span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>
+</span></span><span class=line><span class=cl><span class=c1># The shell knows that it needs to expand the variable &#34;size&#34; (and not &#34;sizeGb&#34;)</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;This is </span><span class=si>${</span><span class=nv>size</span><span class=si>}</span><span class=s2>Gb&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> This<span class=se>\ </span>is<span class=se>\ </span>12Gb
+</span></span></code></pre></div><p>That&rsquo;s not all: we can add modifiers to these braces, to manipulate the expansion of the variable (and not the value itself). Here&rsquo;s a list of the most useful ones, all available for Bash and Zsh :</p><ul><li><code>${var:-default}</code> - If <code>var</code> is not null, the value is expanded. Otherwise, <code>default</code> is expanded. Useful when you need a default value when the variable (or parameter) is empty.</li><li><code>${var:+default}</code> - If <code>var</code> is not null, <code>default</code> is expanded. Otherwise, nothing is expanded.</li><li><code>${var#pattern}</code> - If the pattern match the beginning of the value of <code>var</code>, the match is deleted and the rest is expanded. Use <code>##</code> to match larger matching pattern.</li><li><code>${var%pattern}</code> - If the pattern match the end of the value of <code>var</code>, the match is removed and the rest is expanded. Use <code>%%</code> to match larger matching pattern.</li><li><code>${var/&lt;pattern>/&lt;replacement>}</code> - Replace the first pattern in <code>var</code> with <code>replacement</code>.</li><li><code>${var//&lt;pattern>/&lt;replacement>}</code> - Replace all occurrences of <code>pattern</code> in <code>var</code> with <code>replacement</code>.</li></ul><p>You guessed it already: I like examples. So here you go:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Create a variable</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>var</span><span class=o>=</span>new-value
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Remove the prefix &#34;new&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>var</span><span class=p>#new</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> -value
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Change the value of the variable</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>var</span><span class=o>=</span><span class=s2>&#34;/home/user&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Delete the first slash and everything before</span>
+</span></span><span class=line><span class=cl>&gt; ls <span class=s2>&#34;</span><span class=si>${</span><span class=nv>var</span><span class=p>#*/</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>&gt; home/user
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Delete the last slash and everything before</span>
+</span></span><span class=line><span class=cl>&gt; ls <span class=s2>&#34;</span><span class=si>${</span><span class=nv>var</span><span class=p>##*/</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>&gt; ls user
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Create a new variable &#34;image&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>image</span><span class=o>=</span>file.png
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Delete everything after the first dot</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>image</span><span class=p>%.*</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> file
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Delete everything before the first dot</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>image</span><span class=p>#*.</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> png
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>var</span><span class=o>=</span><span class=s2>&#34;hello hello hello&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Replace the first word &#34;hello&#34; by &#34;bonjour&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>var</span><span class=p>/hello/bonjour</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> bonjour<span class=se>\ </span>hello<span class=se>\ </span>hello
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Replace every word &#34;hello&#34; by &#34;bonjour&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>var</span><span class=p>//hello/bonjour</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> bonjour<span class=se>\ </span>bonjour<span class=se>\ </span>bonjour
+</span></span></code></pre></div><p>The following ones are only available with Zsh:</p><ul><li><code>${var:/&lt;pattern>/&lt;replacement>}</code> - Substitute <code>&lt;pattern></code> with <code>&lt;replacement></code>. The substitution only happens when <code>pattern</code> match the whole value of <code>var</code>.</li><li><code>${^array}</code> - Substitute every element of the <code>array</code> with whatever comes before or after.</li><li><code>${=array}</code> - Split a string to an array using the internal field separators. These separators are the values of the variable <code>$IFS</code>, by default whitepaces (spaces, tabs, and new lines characters).</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># The pattern matches the entire value of the variable var, so everything is replaced with &#34;bonjour&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>var</span><span class=p>:/hello hello hello/bonjour</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> bonjour
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Create a new variable &#34;array&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>array</span><span class=o>=(</span><span class=s2>&#34;one&#34;</span> <span class=s2>&#34;two&#34;</span> <span class=s2>&#34;three&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand the whole array and add the suffix &#34;.png&#34; to the last element</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>array</span><span class=si>}</span><span class=s2>.png&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> one<span class=se>\ </span>two<span class=se>\ </span>three.png
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand every element of the array with the suffix &#34;.png&#34;.</span>
+</span></span><span class=line><span class=cl><span class=c1># This command needs to be executed, not expanded (pressing the key &#34;ENTER&#34;, not &#34;TAB&#34;).</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>^array</span><span class=si>}</span>.png
+</span></span><span class=line><span class=cl>one.png two.png three.png
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>var</span><span class=o>=</span><span class=s2>&#34;a big var&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Assign the whole value of var to the array</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>arr</span><span class=o>=(</span><span class=si>${</span><span class=nv>var</span><span class=si>}</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Expand the first element of the array</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=nv>$arr</span><span class=s2>[1]&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> a<span class=se>\ </span>big<span class=se>\ </span>var
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Cut the value of var and assign it to the array</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>arr</span><span class=o>=(</span><span class=si>${</span><span class=p>=var</span><span class=si>}</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=nv>$arr</span><span class=s2>[1]&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> a
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=nv>$arr</span><span class=s2>[2]&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> big
+</span></span></code></pre></div><p>It&rsquo;s also possible to nest the pair of braces. Everything will be expanded from in out.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; <span class=nv>var</span><span class=o>=</span><span class=s2>&#34;/home/user/woupi/&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 1. &#34;${var#/home}&#34; is expanded, output: &#34;/user/woupi&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1># 2. The output is expanded as follows: &#34;&lt;output&gt;%woupi/&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1># 3. The final output is &#34;/user/&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${${</span><span class=nv>var</span><span class=p>#/home</span><span class=si>}</span><span class=p>%woupi/</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> /user/
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>var</span><span class=o>=</span><span class=s2>&#34;prefix-image.png&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 1. &#34;${var#prefix-}&#34; is expanded, output: image.png </span>
+</span></span><span class=line><span class=cl><span class=c1># 2. &#34;${output%.*}&#34; is expanded, output: image</span>
+</span></span><span class=line><span class=cl><span class=c1># 3. &#34;.jpg&#34; is added to the output, final output: image.jpg</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${${</span><span class=nv>var</span><span class=p>#prefix-</span><span class=si>}</span><span class=p>%.*</span><span class=si>}</span><span class=s2>.jpg&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> image.jpg
+</span></span></code></pre></div><h4 id=flags>Flags</h4><p>You want more? That&rsquo;s not a problem. With Zsh, you can also add flags to parameter expansions. These flags are surrounded by parenthesis <code>()</code>, just after the opening curly braces <code>{</code>. You can use as many as you want, as your heart&rsquo;s content.</p><p>As always, here are the most interesting ones, with examples of course. For these examples, the expansion is not the result of hitting the key <code>TAB</code>, but by hitting the key <code>ENTER</code>.</p><ul><li><code>C</code> - Capitalise (first letter uppercase) every word.</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; <span class=nv>var</span><span class=o>=</span><span class=s2>&#34;hello i like zsh&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=p>(C)var</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>Hello I Like Zsh
+</span></span></code></pre></div><ul><li><code>f</code> - Join strings separated with newlines.</li><li><code>F</code> - Split array with each element separated with newline.</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># Assign all the files of the current directories and subdirectories to the variable &#34;files&#34;</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>files</span><span class=o>=</span><span class=k>$(</span>find<span class=k>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=nv>$files</span>
+</span></span><span class=line><span class=cl>.
+</span></span><span class=line><span class=cl>./file1
+</span></span><span class=line><span class=cl>./file2
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(f)files</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>. ./file1 ./file2
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nv>arr</span><span class=o>=(</span><span class=si>${</span><span class=p>(f)files</span><span class=si>}</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># First index of array is 1</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=nv>$arr</span><span class=o>[</span>1<span class=o>]</span>
+</span></span><span class=line><span class=cl>.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=nv>$arr</span><span class=o>[</span>2<span class=o>]</span>
+</span></span><span class=line><span class=cl>./file1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(F)arr</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>.
+</span></span><span class=line><span class=cl>./file1
+</span></span><span class=line><span class=cl>./file2
+</span></span></code></pre></div><ul><li><code>i</code> - Sort an array (case-insensitive).</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; <span class=nv>arr</span><span class=o>=(</span>file_02 file_01 B_FILE a_file 02_file 01_file<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(i)arr</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>01_file 02_file a_file file_01 file_02
+</span></span></code></pre></div><ul><li><code>O</code> - Sort an array in descending order. Useful when combined with <code>i</code>.</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; <span class=nv>arr</span><span class=o>=(</span>file_02 file_01 a_file 02_file 01_file<span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(Oi)arr</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>file_02 file_01 a_file 02_file 01_file
+</span></span></code></pre></div><ul><li><code>L</code> - Convert all letters to lowercase</li><li><code>U</code> - Convert all letters to uppercase</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; <span class=nv>var</span><span class=o>=</span><span class=s2>&#34;file_1 FILE_2&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(U)var</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>FILE_1 FILE_2
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(L)var</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>file_1 file_2
+</span></span></code></pre></div><ul><li><code>t</code> - Describe the type of the variable. It can be:<ul><li>scalar</li><li>array</li><li>integer</li><li>float</li><li>association</li></ul></li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; <span class=nv>arr</span><span class=o>=(</span><span class=s2>&#34;one&#34;</span> <span class=s2>&#34;two&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(t)arr</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>array
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Create an associative array</span>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>declare</span> -A <span class=nv>assoc</span><span class=o>=(</span><span class=s2>&#34;key&#34;</span> <span class=s2>&#34;value&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(t)assoc</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>association
+</span></span></code></pre></div><ul><li><code>u</code> - Only expand the unique words in an array, even if these words are repeated multiple times.</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; <span class=nv>arr</span><span class=o>=(</span><span class=s2>&#34;one&#34;</span> <span class=s2>&#34;two&#34;</span> <span class=s2>&#34;two&#34;</span> <span class=s2>&#34;three&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(u)arr</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>one two three
+</span></span></code></pre></div><ul><li><code>k</code> - Expand the keys instead of the values from an associative array.</li><li><code>v</code> - Used with k, expand both key and value from an associative array</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; <span class=nb>declare</span> -A <span class=nv>assoc</span><span class=o>=(</span><span class=s2>&#34;key&#34;</span> <span class=s2>&#34;value&#34;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=nv>assoc</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>value
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(k)assoc</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>key
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(kv)assoc</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>key value
+</span></span></code></pre></div><ul><li><code>S</code> - Adding this flag with <code>#</code>, <code>##</code>, <code>%</code>, or <code>%%</code> will match a substring.</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; <span class=nv>var</span><span class=o>=</span><span class=s2>&#34;/home/user/workspace/tvd&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>var</span><span class=p>#home*</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>/home/user/workspace/tvd
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=p>(S)var#home*</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>//user/workspace/tvd
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(S)var##home*</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>/
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(S)var%work*</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>/home/user/space/tvd
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=si>${</span><span class=p>(S)var%%work*</span><span class=si>}</span>
+</span></span><span class=line><span class=cl>/home/user/
+</span></span></code></pre></div><ul><li><code>M</code> - Adding this flag with <code>#</code>, <code>##</code>, <code>%</code>, or <code>%%</code> will output the matched portion.</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; <span class=nv>var</span><span class=o>=</span><span class=s2>&#34;/home/user&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>var</span><span class=p>#*/</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>home/user
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=p>(M)var#*/</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>/
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=nv>var</span><span class=p>##*/</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>user
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; <span class=nb>echo</span> <span class=s2>&#34;</span><span class=si>${</span><span class=p>(M)var##*/</span><span class=si>}</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>/home/
+</span></span></code></pre></div><h2 id=you-can-now-become-a-zsh-godly-figure>You Can Now Become a Zsh Godly Figure</h2><p>You can do many things with Zsh, even if it&rsquo;s not always easy to figure out what. With what we&rsquo;ve seen in this article, we&rsquo;re now able to manipulate our expansions in more straightforward ways. No need to use annoying for loops anymore!</p><p>To summarize:</p><ul><li>Glob operators can help you expand filenames, even recursively through a whole file tree. You can also add globbing qualifiers and flags to expand specific filenames.</li><li>Being able to run commands you&rsquo;ve run in the past is really useful. Being able to modify the expansion of these commands on the fly is even better.</li><li>With Zsh, we can also expand parameters and variables easily using the famous dollar <code>$</code>, curly braces <code>{}</code>, and flags.</li></ul><p>If it&rsquo;s not enough for you, I invite you to read the part of the Zsh&rsquo;s manual about expansion (<code>man zshexpn</code>). There&rsquo;s everything we&rsquo;ve covered here, and much more, if your brain can handle it. Mine was on a strike after going through it.</p><div class=related-sources><div class=h2>Related Sources</div><ul><li><code>man zshexpn</code></li><li><a href=https://zsh.sourceforge.io/Doc/Release/Expansion.html target=_blank rel=noopener>Zsh Documentation: Expansion</a></li><li><a href=https://zsh.sourceforge.io/Doc/Release/index-frame.html target=_blank rel=noopener>Zsh Documentation</a></li><li><a href=http://web.cs.elte.hu/zsh-manual/zsh_6.html target=_blank rel=noopener>Zsh Manual - expansion</a></li><li><a href=https://zsh.sourceforge.io/Guide/zshguide05.html#l140 target=_blank rel=noopener>Zsh guide: recursive globbing</a></li><li><a href=https://zsh.sourceforge.io/Guide/zshguide05.html#l141 target=_blank rel=noopener>Zsh guide: glob qualifiers</a></li><li><a href=https://www.refining-linux.org/archives/47-ZSH-Gem-13-Parameter-expansion.html target=_blank rel=noopener>Zsh Gem: Parameter Expansion</a></li></ul></div></section><footer class=post-footer><section class=newsletter><form action=https://buttondown.email/api/emails/embed-subscribe/thevaluabledev method=post target=popupwindow onsubmit='window.open("https://buttondown.email/thevaluabledev","popupwindow")' class=embeddable-buttondown-form><h3>Let's Connect</h3><p><label for=bd-email>You'll receive <b>each month</b> the last article with additional resources and updates.</label></p><input type=email name=email placeholder=your-email@example.com id=bd-email>
+<input type=hidden value=1 name=embed></input>
+<input type=submit value="I want more!"></input><p><a target=_blank title="Show me your newsletter!" href=https://buttondown.email/thevaluabledev/archive/the-valuable-dev-new-article-about-vim-and-many/>Here's how it looks</a></p><p>You can reply to any email if you have questions, problems, or feedback. I'll write back as soon as I can.</p></form></form></section><div class="h3 remark42">Share Your Knowledge</div><div id=remark42></div><script>for(var remark_config={host:"https://remark42.thevaluable.dev",site_id:"jadzD9w1sijz",components:["embed"],max_shown_comments:10},buttons=document.getElementsByClassName("light-button"),i=0;i<buttons.length;i++)buttons[i].addEventListener("click",()=>{let e=window.localStorage.getItem("theme");(e==null||e=="light")&&window.REMARK42!=void 0&&window.REMARK42.changeTheme("dark"),e=="dark"&&window.REMARK42!=void 0&&window.REMARK42.changeTheme("light")});(function(e){for(t=0;t<e.length;t++){var t,n=document,s=n.createElement("script");s.src=remark_config.host+"/web/"+e[t]+".js",s.defer=!0,window.addEventListener("scroll",function(){var e=window.localStorage.getItem("theme");e==null||e=="light"?remark_config.theme="light":remark_config.theme="dark",(n.head||n.body).appendChild(s)},{once:!0})}})(remark_config.components||["embed"])</script></footer></article></main><aside class=read-next id=read-next><a class=read-next-story style=background-image:url(/images/2017/vim-search/searching-lightsaber-vim.webp) href=https://thevaluable.dev/vim-search-find-replace/><section class=post><h2>Vim Search and Replace With Examples</h2></section></a><a class="read-next-story prev" style=background-image:url(/images/2019/vim-beginner/vim-hate.webp) href=https://thevaluable.dev/vim-commands-beginner/><section class=post><h2>Vim Commands: A Beginner Guide with Examples</h2></section></a></aside><footer class=site-footer><section class=copyright><a href>The Valuable Dev</a> All right reserved - 2021</section><section class=social><a class=bloglogo href=https://thevaluable.dev/page/newsletter target=_blank><span class="la la-envelope"></span></a>
+&nbsp;
+<a class=bloglogo href=https://github.com/phantas0s target=_blank><span class="la la-github"></span></a>
+&nbsp;
+<a class=bloglogo href=https://youtube.com/channel/UCoJtk2M8bme9KXTe6F3K-Yg target=_blank><span class="la la-youtube"></span></a>
+&nbsp;
+<a class=bloglogo href=https://twitter.com/Cneude_Matthieu target=_blank><span class="la la-twitter"></span></a>
+&nbsp;
+<a class=bloglogo href=https://www.linkedin.com/in/matthieu-cneude-28038182 target=_blank><span class="la la-linkedin"></span></a>
+&nbsp;
+<a class=bloglogo href=https://thevaluable.dev/index.xml target=blank><span class="la la-feed"></span></a></section><section class=poweredby>Proudly generated by <a class=icon-hugo href=http://gohugo.io>HUGO</a></section></footer></div><link rel=stylesheet href=https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css media=none onload='this.media="screen"'><script type=text/javascript src=https://thevaluable.dev/app.881bf33056625cefe0a3d47b272cef91c09a8403aed71fcc0bb589a2e3b23d3a.js integrity="sha256-iBvzMFZiXO/go9R7JyzvkcCahAOu1x/MC7WJouOyPTo=" media=screen></script></body></html>

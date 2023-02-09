@@ -1,0 +1,34 @@
+
+## man zshbuildins
+## autoload options:
+## -t flag, turn on execution tracing
+## -U flag, alias expansion is suppressed
+## -z mark the function to be autoloaded using the zsh style
+
+compinit options:
+## -i only run completions from $USER or ROOT
+
+
+zstyle: modify default settings of zsh scripts (modules, widgets, functions, ...)
+zstyle <pattern> <style> <values>
+
+List of styles for the completion system
+man zshcompsys - Search for “Standard Styles”
+
+General zstyle Patterns for Completion
+:completion:<function>:<completer>:<command>:<argument>:<tag>
+
+between colons are components
+components for the completion system are:
+completion - String acting as a namespace, to avoid pattern collisions with other scripts also using zstyle.
+<function> - Apply the style to the completion of an external function or widget.
+<completer> - Apply the style to a specific completer. We need to drop the underscore from the completer’s name here.
+<command> - Apply the style to a specific command, like cd, rm, or sed for example.
+<argument> - Apply the style to the nth option or the nth argument. It’s not available for many styles.
+<tag> - Apply the style to a specific tag.
+
+List of tags
+man zshcompsys - Search for “Standard Tags”
+
+# the completion menu
+zstyle ':completion:*' menu select
