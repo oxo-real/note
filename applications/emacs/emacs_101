@@ -1,4 +1,5 @@
 # dired rename open file
 C-x C-j	R q
 
-# zzz
+# create new.file
+C-x C-f new.file
