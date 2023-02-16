@@ -1,0 +1,21 @@
+# key
+accepts only keycodes, which are in:
+/usr/include/linux/input-event-codes.h
+
+find keycodes i.e. with:
+< /usr/include/linux/input-event-codes.h | fzf -m
+
+$KC:1 key pressed
+$KC:0 key released
+
+% ydotool key 29:1 42:1 57:1 57:0 42:0 29:0 35:1 35:0 47:1 47:0 34:1 34:0 21:1 21:0 29:1 42:1 57:1 57:0 42:0 29:0
+
+
+
+
+
+
+
+
+
+# for installation and configuring see systemd/ydotool
