@@ -1,9 +1,0 @@
-yay -Syu
-yay -S libpam-u2f
-
-mkdir $XDG_CONFIG_HOME/yk
-
-pamu2fcfg > $XDG_CONFIG_HOME/yk/u2f_keys
-
-sudo emacs /etc/pam.d/sudo
-

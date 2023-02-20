@@ -1,1 +1,3 @@
 ^.{3}$  ## select lines with exact three characters
+
+[Reference - What does this regex mean? - Stack Overflow](https://stackoverflow.com/questions/22937618/reference-what-does-this-regex-mean/22944075#22944075)

@@ -208,9 +208,8 @@ lspci -k -s <xx:xx.x> #[[[[<domain>]:]<bus>]:][<slot>][.[<func>]]
 lspci -kvvt
 lspci -vv  ## list pci devices, find kernel drivers
 man -k . | fzf | awk '{print $1}' | xargs -r env TERM=xterm man  ## fzf find and open manpage
+man ascii  ## 7-bits ascii tables
 man zshall  ## view the system reference manual for all zsh
-metar get
-metar set eham
 mkdir /dock/<1-4>
 nmcli connection add type ethernet con-name $con_name ifname $if_name
 nmcli connection modify $con_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual

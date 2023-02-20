@@ -1,20 +1,21 @@
 % yay -S pam-u2f
 $ mkdir ~/.config/yk
-$ pamu2fcfg > $XDG_CONFIG_HOME/yk/u2f_keys
+$ pamu2fcfg -o pam://hostname -i pam://hostname > $XDG_CONFIG_HOME/yk/u2f_keys
 ## append second yk
-$ pamu2fcfg -n >> $XDG_CONFIG_HOME/yk/u2f_keys
+$ pamu2fcfg -o pam://hostname -i pam://hostname -n >> $XDG_CONFIG_HOME/yk/u2f_keys
 
-$ emacs /etc/pam.d/sudo
 ## touch only if yk is present, else password
+## in: emacs /etc/pam.d/sudo
 ## add as first line:
 auth	sufficient	pam_u2f.so cue origin=pam://hostname appid=pam://hostname authfile=/home/$user/.config/yk/u2f_keys
 
 CAUTION! replace $user with username
 NOTICE:	 cue is optional
 
-## password with touch as second factor [TODO test]
+## password with touch as required second factor
+## in: emacs /etc/pam.d/sudo
 ## add after last line:
-auth	sufficient	pam_u2f.so cue origin=pam://hostname appid=pam://hostname authfile=/home/$user/.config/yk/u2f_keys
+auth	required	pam_u2f.so cue origin=pam://hostname appid=pam://hostname authfile=/home/$user/.config/yk/u2f_keys
 
 CAUTION! replace $user with username
 NOTICE:	 cue is optional
