@@ -400,6 +400,9 @@ xargs -r command  ## run command with stdin as argument, no-run if empty
 xxd -b -p <infile <outfile>> ## plain bits dump
 xxd -p <infile <outfile>> ## plain hexdump
 xxd -r -p <infile <outfile>> ## reverse plain hexdump
+xz -d  ## decompress .xz file
+xz -l  ## list .xz file
+xz -z  ## compress .xz file
 yay --gendb  ## generate developement package database
 yay --show -w -w
 yay -Gd $(yay -Qqm)  ## download package builds from installed aur packages
