@@ -1,0 +1,71 @@
+# tables
+
+
+## METAR WX codes
+ Type		Abbr 	Meaning 		Abbr 	Meaning
+ Intensity 	- 	Light intensity 	blank 	Moderate intensity
+ Intensity 	+ 	Heavy intensity 	VC 	In the vicinity
+ Descriptor 	MI 	Shallow (Mince) 	PR 	Partial
+ Descriptor 	BC 	Patches (Bancs) 	DR 	Low drifting
+ Descriptor 	BL 	Blowing 		SH 	Showers
+ Descriptor 	TS 	Thunderstorm 		FZ 	Freezing
+ Precipitation 	RA 	Rain 			DZ 	Drizzle
+ Precipitation 	SN 	Snow 			SG 	Snow Grains
+ Precipitation 	IC 	Ice Crystals 		PL 	Ice Pellets
+ Precipitation 	GR 	Hail (Grêle)	 	GS 	Snow Pellets (Grésil)
+ Precipitation 	UP 	Unknown Precipitation
+ Obscuration 	FG 	Fog 			VA 	Volcanic Ash
+ Obscuration 	BR 	Mist (Brume) 		HZ 	Haze
+ Obscuration 	DU 	Widespread Dust 	FU 	Smoke (Fumée)
+ Obscuration 	SA 	Sand 			PY 	Spray
+ Other 		SQ 	Squall			PO 	Dust Whirls (Poussière)
+ Other 		DS 	Duststorm 		SS 	Sandstorm
+ Other 		FC 	Funnel Cloud
+ Time 		B 	Began At Time 		E 	Ended At Time
+ Time 		2 dgts	Minutes of curr hour 	4 dgts 	Hour/Minutes Zulu Time
+----------
+ https://en.wikipedia.org/wiki/METAR#Information_contained_in_a_METAR
+
+
+ Wind speed table for Conversion of Knots, Beaufort, m/s and km/h.
+ Bft 	Knots 	m/s 		km/h 	mph 	Label
+  0 	1 	0 - 0.2 	1 	1 	Calm
+  1 	1-3 	0.3-1.5 	1-5 	1-3 	Light Air
+  2 	4-6 	1.6-3.3 	6-11 	4-7 	Light Breeze
+  3 	7-10 	3.4-5.4 	12-19 	8-12 	Gentle Breeze
+  4 	11-15 	5.5-7.9 	20-28 	13-17 	Moderate Breeze
+  5 	16-21 	8.0-10.7 	29-38 	18-24 	Fresh Breeze
+  6 	22-27 	10.8-13.8 	39-49 	25-30 	strong Breeze
+  7 	28-33 	13.9-17.1 	50-61 	31-38 	Near Gale
+  8 	34-40 	17.2-20.7 	62-74 	39-46 	Gale
+  9 	41-47 	20.8-24.4 	75-88 	47-54 	Severe Gale
+ 10 	48-55 	24.5-28.4 	89-102 	55-63 	Strong storm
+ 11 	56-63 	28.5-32.6 	103-117	64-73 	Violent Storm
+ 12 	64-71 	>32.7 		>118 	>74 	Hurricane
+----------
+ https://www.windfinder.com/wind/windspeed.htm
+ 1 kt = 0.51444444 ms-1
+ 1 kt = 1.852 kmh-1
+ 1 kt = 1 mph
+
+
+ Wind speed impact on land and sea
+ Wind speed (Knots) 	Label 	Effect on sea 	Effects on land
+ 1 	Calm 	Sea like a mirror 	Calm. Smoke rises vertically.
+ 1-3 	Light Air 	Ripples with the appearance of scales are formed, but without foam crests 	Wind motion visible in smoke.
+ 4-6 	Light Breeze 	Small wavelets, still short, but more pronounced. Crests have a glassy appearance and do not break. 	Wind felt on exposed skin. Leaves rustle.
+ 7-10 	Gentle Breeze 	Large wavelets. Crests begin to break. Foam of glassy appearance. Perhaps scattered white horses. 	Leaves and smaller twigs in constant motion.
+ 11-15 	Moderate Breeze 	Small waves, becoming larger; fairly frequent white horses. 	Dust and loose paper raised. Small branches begin to move.
+ 16-21 	Fresh Breeze 	Moderate waves, taking a more pronounced long form; many white horses are formed. Chance of some spray. 	Branches of a moderate size move. Small trees begin to sway.
+ 22-27 	strong Breeze 	Large waves begin to form; the white foam crests are more extensive everywhere. Probably some spray. 	Large branches in motion. Whistling heard in overhead wires. Umbrella use becomes difficult. Empty plastic garbage cans tip over.
+ 28-33 	Near Gale 	Sea heaps up and white foam from breaking waves begins to be blown in streaks along the direction of the wind. 	Whole trees in motion. Effort needed to walk against the wind. Swaying of skyscrapers may be felt, especially by people on upper floors.
+ 34-40 	Gale 	Moderately high waves of greater length; edges of crests begin to break into spindrift. The foam is blown in well-marked streaks along the direction of the wind. 	Twigs broken from trees. Cars veer on road.
+ 41-47 	Severe Gale 	High waves. Dense streaks of foam along the direction of the wind. Crests of waves begin to topple, tumble and roll over. Spray may affect visibility. 	Larger branches break off trees, and some small trees blow over. Construction/temporary signs and barricades blow over. Damage to circus tents and canopies.
+ 48-55 	Strong storm 	Very high waves with long over-hanging crests. The resulting foam, in great patches, is blown in dense white streaks along the direction of the wind. On the whole the surface of the sea takes on a white appearance. The 'tumbling' of the sea becomes heavy and shock-like. Visibility affected. 	Trees are broken off or uprooted, saplings bent and deformed, poorly attached asphalt shingles and shingles in poor condition peel off roofs.
+ 56-63 	Violent Storm 	Exceptionally high waves (small and medium-size ships might disappear behind the waves). The sea is completely covered with long white patches of foam flying along the direction of the wind. Everywhere the edges of the wave crests are blown into froth. Visibility affected. 	Widespread vegetation damage. More damage to most roofing surfaces, asphalt tiles that have curled up and/or fractured due to age may break away completely.
+ 64-71 	Hurricane 	The air is filled with foam and spray. Sea completely white with driving spray; visibility very seriously affected. 	Considerable and widespread damage to vegetation, a few windows broken, structural damage to mobile homes and poorly constructed sheds and barns. Debris may be hurled about.
+----------
+ https://www.windfinder.com/wind/windspeed.htm
+ 1 kt = 0.51444444 ms-1
+ 1 kt = 1.852 kmh-1
+ 1 kt = 1 mph
