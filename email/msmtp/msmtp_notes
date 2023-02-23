@@ -11,4 +11,22 @@ cp /usr/share/doc/msmtp/msmtpqueue /usr/local/bin
 
 # Chris Gianniotis msmtpq
 # http://futurile.net/resources/msmtp-a-simple-mail-transfer-agent/#configure-mutt-to-use-msmtp
-#
+
+
+# neomutt error on send attempt:
+Output of the delivery process (all)
+msmtp: TLS certificate verification failed: The certificate is NOT trusted. The certificate issuer is unknown.
+msmtp: could not send mail (account protonmail_$acount_name from /home/oxo/.config/msmtp/config)
+
+## do: TODO
+msmtp -Sd --account=protonmail_$account_name
+# to check error log
+
+# Export the TLS certificate used by the Bridge
+protonmail-bridge --cli
+export-tls
+# to
+/usr/share/ca-certificates/trust-source/anchors/
+update-ca-trust
+# as described in: /usr/share/ca-certificates/trust-source/README
+# update-ca-trust(8) manual page for additional information
