@@ -223,6 +223,7 @@ mount | grep ro,  ## find all ro mountpoints
 mpv --start=+00:00 --ytdl-format='best[filesize<300M]' --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --http-header-fields="User-Agent: $(head -n 1 $USER_AGENT)" $(wl-paste) ## stream movie verbose with mpv.conf cache_s profile
 mpv `echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\//'`  ## change yt url
 mpv --audio-display=no $file.mp3  ## play mp3 without albumart
+mpv /dev/video4  ## livestream local webcam
 msgcat --color=test
 mv -t <target_dir> <source_dirs>  ## move source_dirs to target_dir
 notmuch address '*'  ## all mail addresses
@@ -340,7 +341,7 @@ sudo -l  ## list allowed commands for user
 sudo -n echo >/dev/null 2>&1; echo $?  ## print sudo status
 sudo ip link set up && sudo dhcpcd  && ping -c 1 9.9.9.9 && ip a
 sudo iptables -A INPUT -s [ipaddr] -j DROP  ## add [ipaddr] to chain INPUT and drop all traffic
-sudo rfkill unblock bluetooth && pulseaudio --start && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off  ## bluetooth radio on
+sudo rfkill unblock bluetooth && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off  ## bluetooth radio on
 sudo systemctl start sshd
 swaymsg -t get_outputs
 swaymsg -t get_tree | jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.shell) | "\(.id) \(.pid) \(.app_id // .window_properties.class) \(.name)"' | fzf -m | cut -d ' ' -f 1 | xargs -I {} swaymsg '[con_id={}]' kill  ## kill sway nodes (windows / frames) with fzf
@@ -394,6 +395,8 @@ while read -r -u $fd l; do <commands>; done {fd}< <file>  ## read file line by l
 while read l; do <commands>; done < <file>  ## read file line by line into l
 whois -B 46.166.142.215  ## whois own public ip
 wl-paste >> /home/cytopyge/.config/qutebrowser/bookmark_urls  ## add to bookmark_urls
+wf-recorder -g "$(slurp)"  ## video capture part of screen
+wf-recorder --audio --file=recording_with_audio.webm  ## video and audio capture whole screen
 read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
 wpa_supplicant -B -i wlp58s0 -c ~/keys/wl/mn.wifi
 xargs -r command  ## run command with stdin as argument, no-run if empty
