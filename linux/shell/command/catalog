@@ -390,7 +390,7 @@ watch -n 1 'ls -ilatr'
 wev  ## show wayland events i.e. keypresses keynames
 wget -rv -l 0 -nd http://proxpn.com/locations
 which -a <command>  ## show path of all <command> (from $PATH)
-while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk {print $1})" ## which package from Qm is in /v/c/p/p
+while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk '{print $1}')"  ## which package from Qm is in /v/c/p/p
 while read -r -u $fd l; do <commands>; done {fd}< <file>  ## read file line by line into l (with stdin redirection)
 while read l; do <commands>; done < <file>  ## read file line by line into l
 whois -B 46.166.142.215  ## whois own public ip
