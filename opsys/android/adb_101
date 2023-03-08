@@ -1,0 +1,18 @@
+yay -S adb-tools
+
+adb devices
+
+adb shell
+
+adb shell 'ls /sdcard/DCIM/Camera' | tr -d '\r' | xargs -n 1 adb pull
+
+--------------------------------------------------------------------------------
+
+yay -S adbfs-rootless-git
+
+adbfs -h
+
+adbfs $HOME/dock/android
+
+rsync -aAXv $HOME/dock/android/sdcard/
+
