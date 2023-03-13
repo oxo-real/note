@@ -1,0 +1,91 @@
+# filter keys
+pw-dump | jq '.[].info.name'
+OR
+jq '.[].info.name' pw-dump-file.json
+OR
+\cat pw-dump-file.json | jq '.[].info.name'
+
+# raw output (w/o quotes)
+jq -r OR jq --raw-output
+
+# filter values
+## give back data for id = 1
+pw-dump | jq '.[] | select(.id==1)'
+
+## give back unique values in "name"
+pw-dump | jq '.[].info.name' | sed '/^null$/d' | sort
+
+## put result in an array
+pw-dump | jq '[.[].info.name]' | sed '/^null$/d' | sort
+
+
+# openlibrary data example
+curl -s "https://openlibrary.org/search.json?q=json" > open_lib.json
+## all data is under docs
+head open_lib.json
+
+## get all top level keys
+< open_lib.json | jq '. |= keys'
+
+## all docs that contain a title
+jq '.docs[] | {title}'
+
+iteration transformation filter
+## sorted by publish_year
+### get publish_year out of its array
+jq '.docs[] | {title, year: .publish_year[0]}'
+## no null value in year
+jq '.docs[] | {title, year: .publish_year[0]} | select(.year != null)'
+## then sort by year (fails because sort_by needs array as input)
+jq '.docs[] | {title, year: .publish_year[0]} | select(.year != null) | sort_by(.year)'
+## with array as input for sort_by
+jq '[.docs[] | {title, year: .publish_year[0]} | select(.year != null) | sort_by(.year)'
+## sort in reverse order
+jq '[.docs[] | {title, year: .publish_year[0]} | select(.year != null) | sort_by(.year) | reverse'
+
+## count list elements
+jq '[.docs[] | {title, year: .publish_year[0]} | select(.year != null) | sort_by(.year) | reverse | length'
+
+## limit to 3 elements (first 3 elements)
+jq '[.docs[] | {title, year: .publish_year[0]} | select(.year != null) | sort_by(.year) | reverse | limit(3;.[])'
+## create an array of the limit
+jq '[.docs[] | {title, year: .publish_year[0]} | select(.year != null) | sort_by(.year) | reverse | [limit(3;.[])]'
+
+# transformation
+jq '.[] | select(...) | {field_new_name1:.key1, field_new_name2:.key2, field_new_name3:.key3}'
+
+# how many titles per year?
+## group by year
+## creates an array with arrays where every element is accosiated with the same author (not a useful format)
+jq '[.docs[] | {title, year: .publish_year[0]} | select(.year != null)] | group_by(.year)' open_lib_json.json
+## creating a more useful format, OR extract years from the nested arrays
+### iterating over every array .[]
+### and then apply a transformation {}: year from the first element .[0].year
+jq '[.docs[] | {title, year: .publish_year[0]} | select(.year != null)] | group_by(.year) \
+.[] | {year: .[0].year}' open_lib_json.json
+## show titles per year (under count)
+jq '[.docs[] | {title, year: .publish_year[0]} | select(.year != null)] | group_by(.year) \
+.[] | {year: .[0].year, count: .}' open_lib_json.json
+## number of titles per year
+jq '[.docs[] | {title, year: .publish_year[0]} | select(.year != null)] | group_by(.year) \
+.[] | {year: .[0].year, count: . | length}' open_lib_json.json
+## in an array
+jq '[.docs[] | {title, year: .publish_year[0]} | select(.year != null)] | group_by(.year) \
+[.[] | {year: .[0].year, count: . | length}]' open_lib_json.json
+### now we have a list of objects
+### which we can sort by count and show the top 3
+jq '[.docs[] | {title, year: .publish_year[0]} | select(.year != null)] | group_by(.year) \
+[.[] | {year: .[0].year, count: . | length}] | sort_by(.count) | reverse | [limit(3;.[])]' open_lib_json.json
+
+
+
+
+# prettify json
+
+## with python
+curl "https://website_with_data.json" | python -m json.tool
+cat file.json | python -m json.tool
+
+## with jq
+curl "https://website_with_data.json" | jq .
+cat file.json | jq .
