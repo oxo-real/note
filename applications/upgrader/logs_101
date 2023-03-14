@@ -1,0 +1,7 @@
+# get upgrade history of $package
+grep -rin $package $XDG_LOGS_HOME/upgrader/$HOST/package_lists/*_dQ
+
+# get latest upgrades
+## diff package lists before and after upgrade
+< ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q
+

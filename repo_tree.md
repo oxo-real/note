@@ -87,6 +87,8 @@
 │   │   └── tmux_resurrect_2018-03-27T18:51:32.txt
 │   ├── transmission
 │   │   └── transmission
+│   ├── upgrader
+│   │   └── logs_101
 │   ├── vbox
 │   │   ├── arch_guest
 │   │   ├── arch_host
@@ -801,5 +803,5 @@
 └── zzz_deprecated
     └── xab
 
-152 directories, 649 files
+153 directories, 650 files
 ```
