@@ -1,3 +1,13 @@
+# jq essentials
+.	identity
+.foo 	identifier
+.[2]	array index
+.[bar]	generic object index
+.[]	object iterator
+,	separator
+|	pipe
+.[2:4]	array slice
+
 # filter keys
 pw-dump | jq '.[].info.name'
 OR
@@ -89,3 +99,31 @@ cat file.json | python -m json.tool
 ## with jq
 curl "https://website_with_data.json" | jq .
 cat file.json | jq .
+
+
+# example files
+cd ~/.local/share/c/git/note/parsers/json/example_data
+## two_items_list.json
+
+### get all first level keys
+jq '. |= keys' two_items_list.json
+gives back 0 and 1, because at the highest level are no keys defined
+
+jq '.[] |= keys' two_items_list.json
+iterates over whole json gives back all the keys it encounters
+
+### get all firstnames
+jq '.[].first_name' two_items_list.json
+
+### get all firstnames and ages
+jq '.[].first_name, .[].age' two_items_list.json
+
+### get all firstnames with their respective ages in key-value pairs
+jq '.[] | {.first_name: .age}' two_items_list.json
+
+### get all firstnames with their respective ages in key-value pairs as an array
+### an array is i.e. needed for sorting or grouping
+jq '[.[] | {.first_name: .age}]' two_items_list.json
+
+### get all firstnames with their respective ages in key-value pairs as an array groupede by gender
+jq '[.[] | {.first_name: .age}] | group_by(.gender)' two_items_list.json
