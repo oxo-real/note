@@ -1,7 +1,115 @@
-# kvm qemu libvirt virt-manager
-## install & config
 
-yay -S qemu virt-manager bridge-utils dnsmasq libguestfs vde2 qemu-arch-extra openbsd-netcat ebtables
+# INSTALLATION
+================================================================================
+# kvm
+[KVM - ArchWiki](https://wiki.archlinux.org/title/KVM)
+
+## check if bios has virtualization enabled
+
+% LC_ALL=C lscpu | grep Virtualization
+Virtualization:                  VT-x
+OR
+% grep -E -c '(vmx|svm)' /proc/cpuinfo
+32
+if not; change settings in bios setup
+
+## check kernel support
+% zgrep CONFIG_KVM /proc/config.gz
+% lsmod | grep kvm
+
+
+================================================================================
+# qemu
+[QEMU - ArchWiki](https://wiki.archlinux.org/title/QEMU)
+
+## install qemu
+yay -S qemu-full
+
+
+================================================================================
+# libvirt & libvirt client
+[Virtual Machine Manager](https://virt-manager.org/)
+[libvirt - ArchWiki](https://wiki.archlinux.org/title/Libvirt#Installation)
+
+## graphical frontend for qemu
+20230317 iptables-nft instead of ebtables (https://wiki.archlinux.org/title/Libvirt#Client)
+
+## server side
+yay -S libvirt
+### networking
+yay -S iptables-nft dnsmasq
+
+## client side
+yay -S virt-manager
+
+# user interface for interacting with the graphical display of virtualized guest OS
+yay -S virt-viewer
+
+# cli tool for creating new KVM container guest using the libvirt hypervisor
+yay -S virt-install
+
+
+# CONFIGURATION
+================================================================================
+# libvirt
+[libvirt - ArchWiki](https://wiki.archlinux.org/title/Libvirt#Configuration)
+
+## reboot
+after installation reboot
+
+## authentication
+### via user group
+sudo usermod -a -G kvm,libvirt $USER
+
+## if custom pool storage location (not: /var/lib/libvirt/images)
+## then edit user and group privileges in qemu.conf manually or:
+sudo cp $XDG_CONFIG_HOME/libvirt/qemu.conf /etc/libvirt/qemu.conf
+
+
+# RUNNING
+================================================================================
+## starting the daemon
+sudo systemctl start libvirtd.service
+sudo systemctl start virtlogd.service
+
+## run the virtual machine manager
+virt-manager
+
+
+# CREATE VMs
+================================================================================
+
+virt-manager > qemu/kvm > detail > storage
+
+
+
+================================================================================
+CAUTION! Data below is possibly deprecated!
+================================================================================
+
+
+
+
+[How To Install & Use QEMU/KVM/VirtManager in Linux | SETUP Virtual Machine With QEMU/KVM 2022 - Invidious](https://y.com.sb/watch?v=YUCDUPg9LFc)
+bridge-utils libguestfs
+
+iptables-nft bridge-utils dnsmasq libguestfs
+# kvm qemu libvirt virt-manager
+
+
+
+[QEMU/Images - Wikibooks, open books for an open world](https://en.wikibooks.org/wiki/QEMU/Images)
+
+
+
+
+
+
+
+
+
+
+
 
 edk2-ovmf	# amd64 uef bios
 edk2-armvirt	# arm64 uefi bios

@@ -33,6 +33,7 @@ cat -n <file>  ## line number cat
 cat -vE $file  ## prevent cat shell injection
 cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
 cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file (heredoc), strip leading tabs from mlt (-), EOF can be any unique limit string
+cat /etc/group  ## list all user groups
 cd $(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)  ## fzf cd from $HOME, spacebar for info box
 cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
 cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
