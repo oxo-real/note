@@ -82,6 +82,20 @@ virt-manager
 virt-manager > qemu/kvm > detail > storage
 
 
+sharing storage locations:
+vm > open > memory > details > enable shared memory
+     	  > add hardware > filesystem > details
+	    		   	      > drivervirtio-9p
+	    		   	      > source path (browse local)
+	    		   	      > target path i.e.: oxo
+	    		   	      > readonly mount
+xml i.e.:
+<filesystem type="mount" accessmode="mapped">
+  <source dir="/home/oxo"/>
+  <target dir="oxo"/>
+  <readonly/>
+</filesystem>
+
 
 ================================================================================
 CAUTION! Data below is possibly deprecated!
