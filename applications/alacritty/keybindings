@@ -1,0 +1,4 @@
+       key: U
+  - { key: Escape,  mods: Control,		          action: ToggleViMode   }
+  - { key: Y, 	    mods: Control, 			  chars: "yank_buffer \x0D"  }
+  - { key: Y, 	    mods: Shift|Control, 		  chars: "yank_buffer all \x0D"  }

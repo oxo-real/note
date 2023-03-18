@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+dump_file="$XDG_DATA_HOME/c/git/note/applications/keybindings/global_list"
+
+## alacritty
+grep '^[[:blank:]]*[^[:blank:]#;]' $XDG_CONFIG_HOME/alacritty/alacritty.yml | grep 'key:' | sort > $dump_file
+
+## sway
+grep bindsym $XDG_CONFIG_HOME/sway/config | sort >> $dump_file
+
+## zsh
+grep bindkey $XDG_CONFIG_HOME/zsh/.zshrc | sort >> $dump_file

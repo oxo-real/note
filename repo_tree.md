@@ -4,7 +4,8 @@
 │   ├── abook
 │   │   └── abook
 │   ├── alacritty
-│   │   └── buffer_capture
+│   │   ├── buffer_capture
+│   │   └── keybindings
 │   ├── audio_prod
 │   │   └── audio_prod_install
 │   ├── base16
@@ -38,7 +39,11 @@
 │   │   └── imagemagick
 │   ├── json
 │   │   └── processing
+│   ├── keybindings
+│   │   ├── get_keybindings
+│   │   └── global_list
 │   ├── kvm
+│   │   └── kvm_101
 │   ├── ledger
 │   │   ├── csv_import_guide
 │   │   └── hledger
@@ -226,6 +231,8 @@
 │   ├── dtpenv
 │   │   ├── gsettings
 │   │   │   └── gsettings
+│   │   ├── sway
+│   │   │   └── keybindings
 │   │   ├── wayland
 │   │   │   ├── backlight
 │   │   │   ├── mako
@@ -809,5 +816,5 @@
 └── zzz_deprecated
     └── xab
 
-155 directories, 654 files
+158 directories, 658 files
 ```

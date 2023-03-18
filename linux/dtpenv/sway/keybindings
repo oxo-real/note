@@ -1,0 +1,126 @@
+    bindsym$
+bindsym $mod+$down	        focus down$
+bindsym $mod+$left		focus left$
+bindsym $mod+$right		focus right$
+bindsym $mod+$up		focus up$
+bindsym $mod+0		    workspace $ws0$
+bindsym $mod+1		    workspace $ws1$
+bindsym $mod+2		    workspace $ws2$
+bindsym $mod+3		    workspace $ws3$
+bindsym $mod+4		    workspace $ws4$
+bindsym $mod+5		    workspace $ws5$
+bindsym $mod+6		    workspace $ws6$
+bindsym $mod+7		    workspace $ws7$
+bindsym $mod+8		    workspace $ws8$
+bindsym $mod+9		    workspace $ws9$
+#bindsym $mod+a		focus parent$
+bindsym $mod+a		layout toggle splith splitv stacking tabbed$
+bindsym $mod+backslash	split toggle$
+bindsym $mod+b			bar mode toggle$
+# # bindsym $mod+b		    exec killall -SIGUSR1 waybar$
+#bindsym $mod+bracketleft	workspace prev$
+#bindsym $mod+bracketright	workspace next$
+bindsym $mod+c		focus child$
+bindsym $mod+Control+$da	resize grow height 10 px or 10 ppt$
+bindsym $mod+Control+$di	resize grow height 1 px or 1 ppt$
+bindsym $mod+Control+$down	resize grow height 5 px or 5 ppt$
+bindsym $mod+Control+$la	resize shrink width 10 px or 10 ppt$
+bindsym $mod+Control+$left	resize shrink width 5 px or 5 ppt$
+bindsym $mod+Control+$li	resize shrink width 1 px or 1 ppt$
+bindsym $mod+Control+$ra	resize grow width 10 px or 10 ppt$
+bindsym $mod+Control+$right	resize grow width 5 px or 5 ppt$
+bindsym $mod+Control+$ri	resize grow width 1 px or 1 ppt$
+bindsym $mod+Control+$ua	resize shrink height 10 px or 10 ppt$
+bindsym $mod+Control+$ui	resize shrink height 1 px or 1 ppt$
+bindsym $mod+Control+$up	resize shrink height 5 px or 5 ppt$
+bindsym $mod+Control+b 	exec $XDG_CONFIG_HOME/i3blocks/cycle$
+bindsym $mod+Control+Return	exec $term --class="term_float"$
+bindsym $mod+Control+Shift+d	exec $XDG_CONFIG_HOME/code/sway/dimr swaylock_disable$
+bindsym $mod+Control+Shift+e	exec $XDG_CONFIG_HOME/code/sway/dimr swaylock_enable$
+bindsym $mod+Control+Shift+r	exec $term --class="float_spicules" -e \$
+bindsym $mod+Control+space	floating toggle$
+bindsym $mod+Control+s	sticky toggle$
+bindsym $mod+Ctrl+bracketleft	gaps inner current plus 5$
+bindsym $mod+Ctrl+bracketright	gaps inner current minus 5$
+bindsym $mod+Ctrl+p		gaps inner current set 0; gaps outer current set 0$
+bindsym $mod+d			exec $term --class="float_fzf_run" -e \$
+bindsym $mod+Equal	    workspace $ws=$
+bindsym $mod+F9			exec grim -g "$(slurp -p)" -t ppm - | \$
+bindsym $mod+f		fullscreen toggle$
+bindsym $mod+grave		exec $term --class="float_spicules" -e \$
+#bindsym $mod+i		focus child$
+bindsym $mod+Minus	    workspace $ws-$
+bindsym $mod+o			workspace next$
+bindsym $mod+p		focus parent$
+bindsym $mod+Return	exec $term$
+bindsym $mod+Shift+$da		move down 30 px or 30 ppt$
+bindsym $mod+Shift+$di		move down 1 px or 1 ppt$
+bindsym $mod+Shift+$down	move down$
+bindsym $mod+Shift+$la		move left 30 px or 30 ppt$
+bindsym $mod+Shift+$left	move left$
+bindsym $mod+Shift+$li		move left 1 px or 1 ppt$
+bindsym $mod+Shift+$ra		move right 30 px or 30 ppt$
+bindsym $mod+Shift+$right	move right$
+bindsym $mod+Shift+$ri		move right 1 px or 1 ppt$
+bindsym $mod+Shift+$ua		move up 30 px or 30 ppt$
+bindsym $mod+Shift+$ui		move up 1 px or 1 ppt$
+bindsym $mod+Shift+$up		move up$
+bindsym $mod+Shift+0	    move container to workspace $ws0$
+bindsym $mod+Shift+1	    move container to workspace $ws1$
+bindsym $mod+Shift+2	    move container to workspace $ws2$
+bindsym $mod+Shift+3	    move container to workspace $ws3$
+bindsym $mod+Shift+4	    move container to workspace $ws4$
+bindsym $mod+Shift+5	    move container to workspace $ws5$
+bindsym $mod+Shift+6	    move container to workspace $ws6$
+bindsym $mod+Shift+7	    move container to workspace $ws7$
+bindsym $mod+Shift+8	    move container to workspace $ws8$
+bindsym $mod+Shift+9	    move container to workspace $ws9$
+bindsym $mod+Shift+c		reload$
+bindsym $mod+Shift+Equal    move container to workspace $ws=$
+bindsym $mod+Shift+Minus    move container to workspace $ws-$
+bindsym $mod+Shift+q		kill$
+bindsym $mod+Shift+Return	exec $XDG_CONFIG_HOME/code/sway/spawn_term_pwd$
+bindsym $mod+Shift+s		exec $XDG_CONFIG_HOME/code/sway/screen_onf$
+bindsym $mod+Shift+Slash	exec $XDG_CONFIG_HOME/code/sway/dimr screen_off$
+bindsym $mod+Shift+space    input $touchpad \$
+#bindsym $mod+Shift+Tab		floating toggle$
+bindsym $mod+Shift+x		exec $term --class="float_spicules" -e \$
+bindsym $mod+Shift+z		exec $XDG_CONFIG_HOME/code/sway/dimr swaylock$
+#bindsym $mod+s		layout stacking$
+bindsym $mod+s		layout toggle split$
+bindsym $mod+space	focus mode_toggle$
+bindsym $mod+tab		workspace back_and_forth$
+bindsym $mod+t		layout toggle stacking tabbed$
+#bindsym $mod+t		split toggle$
+bindsym $mod+y			workspace prev$
+bindsym $mod+z			exec $term --class="float_spicules" -e \$
+#bindsym Control+b 	exec $term --class="term_float_inv" -e \$
+#bindsym Control+b		exec $XDG_CONFIG_HOME/code/bar_blocks/cycle$
+bindsym Control+Shift+p		exec $term --class="float_spicules" -e \$
+bindsym Control+Shift+r		exec $term --class="float_spicules" -e \$
+bindsym Control+Shift+y		exec $XDG_CONFIG_HOME/code/sway/fzf_cpbd add$
+bindsym F9			exec wpctl set-mute	@DEFAULT_AUDIO_SOURCE@ toggle$
+bindsym Mod1+Print		exec grim \$
+bindsym Print			exec grim -o $(swaymsg -t get_outputs \$
+bindsym --release Shift+Print	exec grim -g "$(slurp)" \$
+bindsym Shift+Control+0		exec echo -n '' | wl-copy && notify-send 'clipboard cleared'$
+bindsym Shift+Control+Print	exec grim -g "$(slurp)" | wl-copy && \$
+#bindsym Shift+Control+s	wl-copy -o -n && exec notify-send 'secure copy is in DEV'$
+#bindsym XF86AudioLowerVolume	exec amixer sset Master 2%-$
+bindsym XF86AudioLowerVolume 	exec wpctl set-volume	@DEFAULT_AUDIO_SINK@ 5%-$
+bindsym XF86AudioMicMute 	exec wpctl set-mute	@DEFAULT_AUDIO_SOURCE@ toggle$
+#bindsym XF86AudioMute		exec amixer sset Master toggle && \$
+#bindsym XF86AudioMute		exec amixer sset Master toggle$
+bindsym XF86AudioMute 		exec wpctl set-mute	@DEFAULT_AUDIO_SINK@ toggle$
+#bindsym XF86AudioNext		exec lmc next$
+bindsym XF86AudioNext 		exec playerctl next$
+#bindsym XF86AudioPlay		exec lmc toggle$
+bindsym XF86AudioPlay 		exec playerctl play-pause$
+#bindsym XF86AudioPrev		exec lmc prev$
+bindsym XF86AudioPrev 		exec playerctl previous$
+#bindsym XF86AudioRaiseVolume	exec amixer sset Master 2%+$
+bindsym XF86AudioRaiseVolume	exec wpctl set-volume	@DEFAULT_AUDIO_SINK@ 5%+$
+#bindsym XF86AudioStop		exec lmc toggle$
+bindsym XF86MonBrightnessDown	exec brightnessctl set 5%-$
+bindsym XF86MonBrightnessUp	exec brightnessctl set 5%+$
+bindsym XF86Search 		exec $menu$

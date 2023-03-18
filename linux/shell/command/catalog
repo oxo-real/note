@@ -147,6 +147,7 @@ gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk 'BEGIN{CACHED=0} /^S/ 
 grep "\sro[\s,]" /proc/mounts
 grep -riIl 'text' [directory]  ## find files (no binary) containing text recursively in directory
 grep -riIn 'text' [directory]  ## find files (no binary) containing text recursively in directory with linenumbers
+grep '^[[:blank:]]*[^[:blank:]#;]' $file  ## only lines not (2nd ^) starting (1st ^) with # or ; uncommented lines from file
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
 history -d <history_id>
