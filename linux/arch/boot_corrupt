@@ -1,21 +1,26 @@
 problem:	kernel panic at boot
+
 cause:		kernel images got corrupt due to update failure
+
 solution:	boot with archiso
-			cryptsetup open /dev/nvmeX cryptlvm
-			mount /dev/mapper/vg0-lv_root /mnt
-			mount /dev/sdY /mnt/boot
-			mount /dev/mapper/vg0-lv_usr /mnt/usr
-			mount /dev/mapper/vg0-lv_var /mnt/var
-			mount /dev/mapper/vg0-lv_home /mnt/home
-			arch-chroot /mnt
+		OR
+		boot into other kernel
 
-			# with internet connection
-			sh $HOME/_git/code/hajime/0init.sh
-			yay -S linux linux-lts
+    then:	cryptsetup open /dev/nvmeX cryptlvm
+		mount /dev/mapper/vg0-lv_root /mnt
+		mount /dev/sdY /mnt/boot
+		mount /dev/mapper/vg0-lv_usr /mnt/usr
+		mount /dev/mapper/vg0-lv_var /mnt/var
+		mount /dev/mapper/vg0-lv_home /mnt/home
+		arch-chroot /mnt
 
-			# without internet connection
-			[TODO]
+		# with internet connection
+		sh $HOME/_git/code/hajime/0init.sh
+		yay -S linux linux-lts
 
-			# other solutions
-			[TODO] point mkinitcpio directly to newer kernel image directory?
+		# without internet connection
+		[TODO]
+
+		# other solutions
+		[TODO] point mkinitcpio directly to newer kernel image directory?
 

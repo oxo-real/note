@@ -1,6 +1,6 @@
 #!/usr/bin/env bash  ## search $path for bash
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
-< ${$(get_newest_file $XDG_LOGS_HOME/updater/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file
+< ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (last upgrades)
 < /home/cytopyge/.config/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
 echo hello 1> $file  ## redirect stdout write to $file
 echo hello 2>> $file   ## redirect stderr append to $file
@@ -179,8 +179,10 @@ ipset add blocklist [ipaddrs]  ## add [ipaddrs] to blocklist
 ipset create blocklist hash:ip  ## create ip blocklist
 iw dev [wl_interface] scan | grep SSID | sort | uniq  ## received SSID list
 jobs  ## list background processes
+journalctl --disk-usage  ## show total disk usage
+journalctl --flush --rotate  ## flush all journal data from /run to /var and request immediate rotation of the journal files
+journalctl --vacuum-files=2  ## leave 2 journal files (--vacuum-size, --vacuum-time)
 journalctl --list-boots
-journalctl --vacuum-size=500M
 journalctl -b, --boot[ID]
 journalctl -e
 journalctl -f, --follow

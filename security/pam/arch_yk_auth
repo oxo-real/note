@@ -11,6 +11,9 @@ auth	sufficient	pam_u2f.so cue origin=pam://hostname appid=pam://hostname authfi
 
 CAUTION! replace $user with username
 NOTICE:	 cue is optional
+	 cue_prompt is optional
+	 e.g.:
+	 auth            sufficient      pam_u2f.so cue [cue_prompt==|o|] origin=pam://hostname appid=pam://hostname authfile=/home/oxo/.config/yk/u2f_keys
 
 ## password with touch as required second factor
 ## in: emacs /etc/pam.d/sudo
