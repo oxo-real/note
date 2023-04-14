@@ -1,0 +1,48 @@
+# Linux Filesystem Hierarchy System (FHS)
+
+The linux main root directory (/) contains the following directories:
+
+dir	purpose
+---------------
+/bin	directory for storing core programs
+
+/boot	directory for storing required files on Linux boot, including Linux core image and initrd file system image
+
+/dev	directory for storage of device nodes / files
+
+/etc	directory for storing configuration files
+
+/home	directory for storing for system users' home directories
+
+/lib	directory for storing programs libraries
+
+/lib64	directory for storing programs libraries, that support 64-bit software
+
+/media	directory for storage of mounted media (floppy, cdrom, etc.)
+
+/mnt	directory for storing temporarily installed devices (e.g. USB)
+
+/opt	directory for storing second-tier software packages installed by system users
+
+/proc	a virtual file system stores information about kernel-controlled processes
+
+/root	home directory for user root
+
+/run	this directory stores information about users, that are currently logged on and running daemons
+
+/sbin	directory for storing core programs
+
+/sys	this directory stores data about devices and some of the functions performed by the kernel
+
+/tmp	directory for storing temporary files
+
+/usr	second basic part of file system
+
+/var	the storage directory for files that contain variable content (for example, system logs)
+
+source:
+Filesystem Hierarchy Standard
+LSB Workgroup, The Linux Foundation
+Version 3.0, March 19, 2015
+Chapter 3. The Root Filesystem
+https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03.html

@@ -242,6 +242,7 @@
 │   │   └── xorg
 │   │       ├── xinit_notes
 │   │       └── xorg
+│   ├── filesystem_hierarchy_standard_fhs
 │   ├── format_specifiers
 │   ├── lvm
 │   │   └── resize
@@ -489,6 +490,7 @@
 │   │   │   │   └── find
 │   │   │   ├── iconv
 │   │   │   ├── ifs
+│   │   │   ├── man
 │   │   │   ├── mount
 │   │   │   ├── mount_cifs
 │   │   │   ├── nmcli
@@ -816,5 +818,5 @@
 └── zzz_deprecated
     └── xab
 
-158 directories, 658 files
+158 directories, 660 files
 ```

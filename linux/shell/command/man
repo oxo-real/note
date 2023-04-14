@@ -1,0 +1,22 @@
+# manual section numbers
+
+s	type of documentation
+-	---------------------
+
+1	executable programs or shell commands
+
+2	system calls			(functions provided by the kernel)
+
+3	library calls			(functions within program libraries)
+
+4	special files			(usually found in /dev)
+
+5	file formats and conventions    (e.g. /etc/passwd)
+
+6	games
+
+7	miscellaneous			(including macro packages and conventions)
+
+8	system administration commands  (usually only for root)
+
+9	kernel routines
