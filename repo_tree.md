@@ -69,6 +69,8 @@
 │   │   ├── pacman
 │   │   ├── pacman_arch_wiki
 │   │   └── pacman_arch_wiki_tips
+│   ├── qgis
+│   │   └── 101
 │   ├── suckless
 │   │   ├── dwm
 │   │   │   ├── config.def.h
@@ -818,5 +820,5 @@
 └── zzz_deprecated
     └── xab
 
-158 directories, 660 files
+159 directories, 661 files
 ```
