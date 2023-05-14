@@ -1,22 +1,44 @@
 https://en.wikipedia.org/wiki/Regular_expression#Character_classes
 
-POSIX 	Non-standard 	Perl/Tcl 	Vim 	Java 	ASCII 	Description
-[:ascii:]				\p{ASCII} 	[\x00-\x7F] 	ASCII characters
-[:alnum:] 				\p{Alnum} 	[A-Za-z0-9] 	Alphanumeric characters
-[:word:] 	\w 	\w 	\w			[A-Za-z0-9_] 	Alphanumeric characters plus "_"
-		\W 	\W 	\W			[^A-Za-z0-9_] 	Non-word characters
-[:alpha:] 			\a 	\p{Alpha} 	[A-Za-z] 	Alphabetic characters
-[:blank:] 			\s 	\p{Blank} 	[ \t]		Space and tab
-		\b 	\< \> 	\b 	(?<=\W)(?=\w)|(?<=\w)(?=\W) 	Word boundaries
-				\B 	(?<=\W)(?=\W)|(?<=\w)(?=\w) 	Non-word boundaries
-[:cntrl:] 				\p{Cntrl} 	[\x00-\x1F\x7F] Control characters
-[:digit:] 		\d 	\d 	\p{Digit} or \d [0-9]		Digits
-		\D 	\D 	\D			[^0-9]		Non-digits
-[:graph:] 				\p{Graph} 	[\x21-\x7E] 	Visible characters
-[:lower:] 			\l 	\p{Lower} 	[a-z]		Lowercase letters
-[:print:] 			\p 	\p{Print} 	[\x20-\x7E] 	Visible characters and the space character
-[:punct:] 				\p{Punct} 	[][!"#$%&'()*+,./:;<=>?@\^_`{|}~-] 	Punctuation characters
-[:space:] 		\s 	\_s 	\p{Space} or \s 	[ \t\r\n\v\f] 	Whitespace characters
-		\S 	\S 	\S 	[^ \t\r\n\v\f]			Non-whitespace characters
-[:upper:] 			\u 	\p{Upper} 	[A-Z]		Uppercase letters
-[:xdigit:] 			\x 	\p{XDigit} 	[A-Fa-f0-9] 	Hexadecimal digits
+Character classes
+The character class is the most basic regex concept after a literal match. It makes one small sequence of characters match a larger set of characters.
+For example, [A-Z] could stand for any uppercase letter in the English alphabet, and \d could mean any digit. Character classes apply to both POSIX levels.
+
+When specifying a range of characters, such as [a-Z] (i.e. lowercase a to uppercase Z), the computer's locale settings determine the contents by the numeric ordering of the character encoding. They could store digits in that sequence, or the ordering could be abc…zABC…Z, or aAbBcC…zZ. So the POSIX standard defines a character class, which will be known by the regex processor installed. Those definitions are in the following table:
+
+|----------------------+------------+----------+-------+--------------+-----------------|
+| Description          | POSIX      | Perl/Tcl | Vim   | Java         | ASCII           |
+|----------------------+------------+----------+-------+--------------+-----------------|
+| Uppercase letters    | [:upper:]  |          | \u    | \p{Upper}    | [A-Z]           |
+| Lowercase letters    | [:lower:]  |          | \l    | \p{Lower}    | [a-z]           |
+| Alphabetic chars     | [:alpha:]  |          | \a    | \p{Alpha}    | [A-Za-z]        |
+| Digits               | [:digit:]  | \d       | \d    | \p{Digit} \d | [0-9]           |
+| Hexadecimal digits   | [:xdigit:] |          | \x    | \p{XDigit}   | [A-Fa-f0-9]     |
+| Alphanum chars       | [:alnum:]  |          |       | \p{Alnum}    | [A-Za-z0-9]     |
+| Alphanum chars + '_' |            | \w       | \w    | \w           | [A-Za-z0-9_]    |
+| Space and tab        | [:blank:]  |          | \s    | \p{Blank}    | [\t]            |
+| Control characters   | [:cntrl:]  |          |       | \p{Cntrl}    | [\x00-\x1F\x7F] |
+| ASCII characters     |            |          |       | \p{ASCII}    | [\x00-\x7F]     |
+| Visible characters   | [:graph:]  |          |       | \p{Graph}    | [\x21-\x7E]     |
+| Vis chars + space    | [:print:]  |          | \p    | \p{Print}    | [\x20-\x7E]     |
+| Punctuation chars    | [:punct:]  |          |       | \p{Punct}    | see (1)         |
+| Whitespace chars     | [:space:]  | \s       | \_s   | \p{Space} \s | [ \t\r\n\v\f]   |
+|                      |            |          |       |              |                 |
+| Word boundaries      |            | \b       | \< \> | \b           | see (2)         |
+| Non-word boundaries  |            |          |       | \b           | see (3)         |
+|                      |            |          |       |              |                 |
+| Non-digits           |            | \D       | \D    | \D           | [^0-9]          |
+| Non-word chars       |            | \W       | \W    | \W           | [^A-Za-z0-9_]   |
+| Non-whitespace chars |            | \S       | \S    | \S           | [^ \t\r\n\v\f]  |
+|----------------------+------------+----------+-------+--------------+-----------------|
+
+^---------
+(1) [][!"#$%&'()*+,./:;<=>?@\^_`{|}~-]
+(2) (?<=\W)(?=\w)|(?<=\w)(?=\W)
+(3) (?<=\W)(?=\W)|(?<=\w)(?=\w)
+
+POSIX character classes can only be used within bracket expressions. For example, [[:upper:]ab] matches the uppercase letters and lowercase "a" and "b".
+
+An additional non-POSIX class understood by some tools is [:word:], which is usually defined as [:alnum:] plus underscore. This reflects the fact that in many programming languages these are the characters that may be used in identifiers. The editor Vim further distinguishes word and word-head classes (using the notation \w and \h) since in many programming languages the characters that can begin an identifier are not the same as those that can occur in other positions: numbers are generally excluded, so an identifier would look like \h\w* or [[:alpha:]_][[:alnum:]_]* in POSIX notation.
+
+Note that what the POSIX regex standards call character classes are commonly referred to as POSIX character classes in other regex flavors which support them. With most other regex flavors, the term character class is used to describe what POSIX calls bracket expressions.

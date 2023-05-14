@@ -62,10 +62,13 @@ cryptsetup open /dev/sdX cryptroot --debug  ## which keyslot is used for passphr
 curl $(wl-paste) | zathura -  ## stream a copied (qb ;y) pdf url
 curl -4 https://ident.me  ## external ip address
 curl -O https://mirror.i3d.net/pub/archlinux/iso/2018.04.01/archlinux-2018.04.01-x86_64.iso | sudo dd of=/dev/sdX  ## download arch linux iso and write to device
+curl -O https://file.location -C - -o file.location.txt_part  ## start or resume downloading file.location to file.location.txt_part
+curl -O $(wl-paste) -C -  ## start or resume downloading copied location
 cut -d , -f 5 --complement file.csv  ## remove column 5 from file.csv
 date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
-date +%s  ## epoch current date
-read epoch; date -d @"$epoch" +%Y%m%d_%H%M%S_%N_%z_%Z_%V  ## convert epoch to date time
+date -d 'May 4 08:11' +%s  ## convert date to linux epoch
+date -d @'1234567890' +%Y%m%d_%H%M%S_%N_%z_%Z_%V  ## convert linux epoch to date time
+date +%s  ## linux epoch current date
 date -u  ## current zulu time
 dd if=/dev/sdX of=/dev/sdY bs=4M status=progress oflag=sync  ## dd copy sdX to sdY
 df -h	## file system information human-readable
@@ -109,13 +112,14 @@ find . -maxdepth 1 -type f -name "* *" -exec sh -c 'mv "$0" "${0// /_}"' {} \;  
 find . -maxdepth 1 -type f -mtime $n  ## data modified less than (-n), more than (+n) or exactly n*24 hours (days) ago
 find . -maxdepth 1 -type f -cmin $n  ## file status changed less than (-n), more than (+n) or exactly n minutes ago
 find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks and copy without dereferencing
-find . -type f ! -newermt "2018-12-31" -delet3	## find and delete all files older (not newer) than date
+find . -type f ! -newermt "2018-12-31" -delet3  ## find and delete all files older (not newer) than date
 find . -type f -exec mv {} $dest \;  ## find all files and move them to $dest directory
 find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print  ## find broken symbolic links
 find . | sed -e 's;[^/]*/;|____;g;s;____|; |;g'  ## similar to: find . | tree
 find . -iname $file  ## case_insensitive find
 find /<directory> -name '<search-string>' 2>/dev/null
 find /<directory> -type f -exec shred -v -z -n 3 -u {} \;
+for file in *.html; do mv "$file" "${file%.html}.txt"; done  ## change file extension (*.html to *.txt)
 for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
 for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
 for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
@@ -390,6 +394,7 @@ vlock -a  ## console lock all sessions
 watch -d -n 1 -t lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk
 watch -n 1 'ls -ilatr'  ## watch ls -ilatr
 wev  ## show wayland events i.e. keypresses keynames
+wget https://file.location -c -O file.location.txt_part  ## resume downloading file.location to file.location.txt_part
 which -a <command>  ## show path of all <command> (from $PATH)
 while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk '{print $1}')"  ## which package from Qm is in /v/c/p/p
 while read -r -u $fd l; do <commands>; done {fd}< <file>  ## read file line by line into l (with stdin redirection)
