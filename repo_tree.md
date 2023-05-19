@@ -70,7 +70,9 @@
 │   │   ├── pacman_arch_wiki
 │   │   └── pacman_arch_wiki_tips
 │   ├── qgis
-│   │   └── 101
+│   │   ├── 101
+│   │   ├── garmin_sd
+│   │   └── nav_terms
 │   ├── suckless
 │   │   ├── dwm
 │   │   │   ├── config.def.h
@@ -820,5 +822,5 @@
 └── zzz_deprecated
     └── xab
 
-159 directories, 661 files
+159 directories, 663 files
 ```

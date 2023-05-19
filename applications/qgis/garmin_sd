@@ -1,0 +1,4 @@
+garmin gpsmap micro sd card
+32Gb x 16Gb v
+
+mkfs.fat -F32 -n MAPS /dev/sdX

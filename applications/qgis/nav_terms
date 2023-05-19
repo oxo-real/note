@@ -1,0 +1,55 @@
+# heading (hdg)
+
+heading: direction of aim in relation to north
+
+where the nose of the airplane or bow of the vessel is pointing
+
+
+# course (crs)
+
+course: actual direction of movement in relation to north
+
+crosswind = 0 --> heading = course
+
+
+# true bearing (brg)
+
+reference point is geographical north
+
+bearing: angle between geographical north and the direction of destination
+
+
+# magnetic bearing (brgm)
+
+angle between magnetic north and the direction of destination
+
+reference point is magnetic north
+most relevant for navigation and for others looking to find you
+with to fixed object bearings you can triangulate your position
+
+
+# relative bearing (brgr)
+
+(navigational bearing)
+
+angle between heading and destination
+reference point is heading
+0 degrees if heading = course
+
+a lookout on a boat always directs a relative bearing
+bow of the vessel == 0 degrees
+aft of the vessel == 180 degrees
+
+most relevant to the crew of the boat
+
+
+# track (trk)
+track: actual course history
+
+
+# formulas
+
+true bearing = heading + relative bearing
+brg=hdg+brgr
+
+geographical north + declination = magnetic north
