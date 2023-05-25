@@ -390,6 +390,7 @@ unsetvar=  ## set variable unsetvar to ''
 uptime  ## uptime since boot
 < /proc/uptime | awk '{print $1}'  ## uptime in seconds
 usermod -a -G group_2_add user_2_add  ## add user to group
+var="${var_1:-$default_var}"  ## var is $default_var if var_1 is unset or null
 vlock -a  ## console lock all sessions
 watch -d -n 1 -t lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk
 watch -n 1 'ls -ilatr'  ## watch ls -ilatr

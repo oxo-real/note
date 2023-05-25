@@ -1,0 +1,17 @@
+# record audio
+
+## run wf-recorder
+## use pwgraph to set wiring
+## i.e. from microphone to wf-recorder
+
+## set recording source
+% pactl set-source-port $use_tab_to_select_source_device \[In\]\ Mic1
+
+## set recording volume
+% pactl set-source-volume $use_tab_to_select_source_device 100%
+
+## unmute recording source
+% pactl set-source-mute $use_tab_to_select_source_device false
+
+## wf-recorder
+% wf-recorder --audio --file=recording_with_audio.mkv

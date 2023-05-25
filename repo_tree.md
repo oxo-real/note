@@ -6,8 +6,9 @@
 │   ├── alacritty
 │   │   ├── buffer_capture
 │   │   └── keybindings
-│   ├── audio_prod
-│   │   └── audio_prod_install
+│   ├── audio
+│   │   ├── audio_prod_install
+│   │   └── pipewire
 │   ├── base16
 │   │   └── vimrc_background
 │   ├── browser
@@ -822,5 +823,5 @@
 └── zzz_deprecated
     └── xab
 
-159 directories, 663 files
+159 directories, 664 files
 ```
