@@ -10,10 +10,12 @@ $XDG_DATA_HOME/c	(current)
 $XDG_DATA_HOME/b	(backup)
 ### static
 $XDG_DATA_HOME/a	(archive)
+### external
+$XDG_DATA_HOME/d	(device)
 
 ## system data
 ## installation
-			(repo)
+$RECOV			(repo)
 ## configuration
 $XDG_CONFIG_HOME	(config)
 ## logs

@@ -1,5 +1,89 @@
-# dired rename open file
+# dired
+
+## rename open file
 C-x C-j	R q
 
-# create new.file
+## change file name
+i > rename file or directory > :w
+
+## create new.file
 C-x C-f new.file
+(doomemacs: SPC-.)
+
+## create new directory
+S-=  /  '+'
+
+## select file for deletion
+S-d  /  'D'
+
+## execute operation
+x
+
+## select current file or directory
+m
+
+## unselect current file or directory
+u
+
+## selecting all directories
+*-/
+
+## invert selection
+t
+
+## unselect all
+S-u  /  'U'
+
+## modify file mode
+S-m  /  'M'
+u-w (user remove write)
+g+x (group add execute)
+o+r (owner add read)
+ -x (all remove execute)
+comma separate combinations
+
+## modify owner
+S-o  /  'O'
+
+## toggle simple view
+S-9  /  '('
+
+## toggle sort name date
+o
+
+## quit dired buffer
+q
+
+## navigation
+hjkl
+defaults:
+- updir
+enter indir
+
+## split window
+C-w v
+
+## copy to other window
+# probably only doom
+S-c  /  'C'
+
+## move to other window
+# probably only doom
+S-R  /  'R'
+
+## mark files
+% m
+
+## temporarily hide (kill) unselected items
+k
+## does not work
+https://y.com.sb/g6YA4tiW1eQ?t=134
+
+## new frame aside
+C-x 5 2
+
+## select buffer in new frame aside
+C-x 5 b
+
+## select dired buffer in new frame aside
+C-x 5 d

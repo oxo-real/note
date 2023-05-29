@@ -72,6 +72,7 @@
 │   │   └── pacman_arch_wiki_tips
 │   ├── qgis
 │   │   ├── 101
+│   │   ├── fit2gpx
 │   │   ├── garmin_sd
 │   │   └── nav_terms
 │   ├── suckless
@@ -780,6 +781,8 @@
 │   │   └── test
 │   ├── perl
 │   │   └── perl_101
+│   ├── python
+│   │   └── normal_site_packages
 │   └── rust
 │       └── oxo_101
 ├── radio
@@ -823,5 +826,5 @@
 └── zzz_deprecated
     └── xab
 
-159 directories, 664 files
+160 directories, 666 files
 ```

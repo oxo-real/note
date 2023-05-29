@@ -1,57 +1,58 @@
+#!/usr/bin/env bash
+
 # example
 
 optstring=":s:th"
 
-while getopts $optstring arg; do
+while getopts $optstring opt; do
 
-	case $arg in
+    case $opt in
 
-		s)
-		    ## compulsory argument
-		    ## station ID
-		    ## -ids <IDs>
-		    ids=${OPTARG}
-		    #exit 0
-		    ;;
-		t)
-		    ## optional argument
-		    ## -t
-		    ## include TAF
-		    #t=${OPTARG}
-		    taf=1
-		    #exit 0
-		    ;;
-		h)
-		    ## -h display help text
-		    printf "$script_name usage: $script_usage"
-		    exit 0
-		    ;;
-		\?)
-		    printf "$script_name ${RED}invalid option: -${OPTARG}${NOC}"
-		    exit 1
-		    ;;
-		:)
-		    ## display help
-		    printf "$script_name: ${RED}option -${OPTARG} requires an argument${NOC}"
-		    exit 1
-		    ;;
+	s)
+	    ## station ID
+	    ## -ids <IDs>
+	    ids=${OPTARG}
+	    ;;
 
-	esac
+	t)
+	    ## include TAF
+	    ## -t
+	    taf=1
+	    ;;
+
+	h)
+	    ## -h display help text
+	    printf "$script_name usage: $script_usage"
+	    exit 26
+	    ;;
+
+	\?)
+	    printf "$script_name ${RED}invalid option: -${OPTARG}${NOC}"
+	    exit 31
+	    ;;
+
+	:)
+	    ## display help
+	    printf "$script_name: ${RED}option -${OPTARG} requires an argument${NOC}"
+	    exit 37
+	    ;;
+
+    esac
 
 done
 
 
 # explanation
 
-h   flag without value
-    check if flag is used
+:   colon at the beginning of the optstring
+unspecified flags are send to ?
 
 s:  flag with value
-    value is send to $OPTARG
-    i.e.: if: -s 1  then: OPTARG=1
+value is send to $OPTARG
+i.e.: if: -s 1  then: OPTARG=1
 
-:   colon at the beginning of the optstring
-    unspecified flags are send to ?
+h   flag without value
+check if flag is used
 
 
 ## more:
@@ -59,24 +60,24 @@ first line defines the 'optstring'
 this is a list of arguments expected in the input
 
 if the whole optstring starts with a colon
-    the shell variable OPTARG is set to the option character found,
-    but no output is written to standard error; otherwise,
-    the shell variable OPTARG is unset and
-    a diagnostic message is written to standard error
+   the shell variable OPTARG is set to the option character found,
+   but no output is written to standard error; otherwise,
+   the shell variable OPTARG is unset and
+   a diagnostic message is written to standard error
 
-If a optstring letter is followed by a colon,
-    the option is expected to have an argument, or group of arguments,
-    which must be separated from it by white space.
-    a leading colon in optstring to specify that you check for and handle errors in your code;
-    when getopts finds an invalid option, it sets varname (from our syntax) to ?
-    and OPTARG to the option letter.
-    When getopts finds an option that is missing an argument,
-    it sets varname to : and OPTARG to the option lacking an argument.
+   If a optstring letter is followed by a colon,
+   the option is expected to have an argument, or group of arguments,
+   which must be separated from it by white space.
+   a leading colon in optstring to specify that you check for and handle errors in your code;
+   when getopts finds an invalid option, it sets varname (from our syntax) to ?
+   and OPTARG to the option letter.
+   When getopts finds an option that is missing an argument,
+   it sets varname to : and OPTARG to the option lacking an argument.
 
-: (the first colon) means that 'the shell variable specified by name shall be
+   : (the first colon) means that 'the shell variable specified by name shall be
 set to the <colon> character and the shell variable OPTARG shall be set to the
 option character found' (see manpage)
 
-s: means that the s flags has to be followed by a value
+   s: means that the s flags has to be followed by a value
 
-h (without any colons) means just check if this flag is used
+   h (without any colons) means just check if this flag is used

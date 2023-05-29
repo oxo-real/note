@@ -1,0 +1,2 @@
+# error: defaulting to user installation because normal site-packages is not writeable
+% pip install --user package

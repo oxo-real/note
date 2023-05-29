@@ -1,0 +1,52 @@
+#!/bin/sh
+
+## convert all $indir/*.fit files to $out_dir/*.gpx
+## eaxample
+## fit2gpx -i file.fit -o file.gpx
+
+optstring=":i:o:h"
+while getopts $optstring opt; do
+
+    case $opt in
+
+	i)
+	    ## indir
+	    in_dir="${OPTARG}"
+	    ;;
+
+	o)
+	    ## outdir
+	    out_dir="${OPTARG}"
+	    ;;
+
+	h)
+	    ## -h display help text
+	    printf "$script_name usage: $script_usage"
+	    exit 26
+	    ;;
+
+	\?)
+	    printf "$script_name ${RED}invalid option: -${OPTARG}${NOC}"
+	    exit 31
+	    ;;
+
+	:)
+	    ## display help
+	    printf "$script_name: ${RED}option -${OPTARG} requires an argument${NOC}"
+	    exit 37
+	    ;;
+
+    esac
+
+done
+
+printf "DEV43 indir: $in_dir\n"
+printf "DEV43 outdir: $out_dir\n"
+
+for fit_file in $(ls $in_dir/*.fit); do
+
+    in_file=$(realpath $fit_file)
+    out_file="$out_dir/$(filename($fit_file).gpx)"
+    gpsbabel -i garmin_fit -f "$in_file" -o gpx -F "$out_file"
+
+done
