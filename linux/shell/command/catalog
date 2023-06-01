@@ -108,7 +108,7 @@ figlet -f 'mini' oxo  ## figchars
 find . -exec $command {} \;  ## find exec structure
 find . -maxdepth 1 -name \*_ -type d -exec cp -r {} ~/test_/bu \;  ## find all dirs ending with _ and copy them (NOTICE: '\*_')
 find . -maxdepth 1 -type d -exec du -sb {} \; | sort -g -k 1  ## directories sorted by size (bytes)
-find . -maxdepth 1 -type f -name "* *" -exec sh -c 'mv "$0" "${0// /_}"' {} \;  ## find filenames with spaces and replace with underscore
+find . -maxdepth 1 -type f -name "* *" -exec sh -c 'mv "$0" "${0// /_}"' {} \;  ## replace filename spaces with underscores
 find . -maxdepth 1 -type f -mtime $n  ## data modified less than (-n), more than (+n) or exactly n*24 hours (days) ago
 find . -maxdepth 1 -type f -cmin $n  ## file status changed less than (-n), more than (+n) or exactly n minutes ago
 find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks and copy without dereferencing

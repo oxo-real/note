@@ -1,8 +1,13 @@
 #!/bin/sh
 
 ## convert all $indir/*.fit files to $out_dir/*.gpx
-## eaxample
-## fit2gpx -i file.fit -o file.gpx
+
+## usage:
+### single fit file
+#### fit2gpx -i file.fit [-o file.gpx]
+### all fit files in directory
+#### fit2gpx -i $in_dir [-o $out_dir]
+
 
 optstring=":i:o:h"
 while getopts $optstring opt; do
@@ -10,12 +15,12 @@ while getopts $optstring opt; do
     case $opt in
 
 	i)
-	    ## indir
+	    ## in_dir
 	    in_dir="${OPTARG}"
 	    ;;
 
 	o)
-	    ## outdir
+	    ## out_dir
 	    out_dir="${OPTARG}"
 	    ;;
 
@@ -40,13 +45,43 @@ while getopts $optstring opt; do
 
 done
 
-printf "DEV43 indir: $in_dir\n"
-printf "DEV43 outdir: $out_dir\n"
+# without -o $out_dir export to $in_dir
+if [[ -z $out_dir ]]; then
 
-for fit_file in $(ls $in_dir/*.fit); do
+    out_dir="$in_dir"
 
-    in_file=$(realpath $fit_file)
-    out_file="$out_dir/$(filename($fit_file).gpx)"
-    gpsbabel -i garmin_fit -f "$in_file" -o gpx -F "$out_file"
+fi
 
-done
+# TODO DEV if in_dir is a .fit file then only convert this file
+[[ -f $in_dir ]] && indir_isfile=1
+
+case $indir_isfile in
+
+    1)
+	# in_dir is file
+	in_file=$(realpath "$in_dir")
+	out_file="$out_dir"
+
+        # convert single file
+	gpsbabel -i garmin_fit -f "$in_file" -o gpx -F "$out_file"
+        ;;
+
+    *)
+	# in_dir is directory
+
+	# $in_dir replace filename spaces with underscores
+	find $in_dir -maxdepth 1 -type f -name "* *" -exec sh -c 'mv "$0" "${0// /_}"' {} \;
+
+	# convert $in_dir/*.fit to $out_dir/*.gpx
+	for fit_file in $(ls $in_dir/*.fit); do
+
+	    in_file=$(realpath $fit_file)
+	    out_file="$out_dir/$(basename $fit_file).gpx"
+
+	    # convert current file
+	    gpsbabel -i garmin_fit -f "$in_file" -o gpx -F "$out_file"
+
+	done
+	;;
+
+esac

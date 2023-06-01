@@ -50,6 +50,8 @@
 │   │   └── hledger
 │   ├── less
 │   │   └── less
+│   ├── lf
+│   │   └── lf
 │   ├── markdown
 │   │   ├── cheatsheet
 │   │   ├── rmarkdown
@@ -826,5 +828,5 @@
 └── zzz_deprecated
     └── xab
 
-160 directories, 666 files
+161 directories, 667 files
 ```

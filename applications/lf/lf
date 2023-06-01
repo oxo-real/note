@@ -1,0 +1,7 @@
+# lf keybinds
+
+zh		show hidden files
+:delete	  	delete file
+spacebar	select item
+y		copy selection
+p		paste
