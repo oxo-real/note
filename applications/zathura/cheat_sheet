@@ -4,3 +4,4 @@ R	rotate 90 ccw
 0	zoom default
 -	zoom out
 +	zoom in
+d	dual view
