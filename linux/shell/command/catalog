@@ -12,13 +12,14 @@ echo hello 2>&1 | tee -a logfile  ## no redirection; append stdout and stderr to
 ((i--))  ## decrement i by one (i.e. in a loop)
 amixer info  ## info about alsamixer device
 amixer scontrols  ## list of alsamixer controls
-amixer set Capture toggle	## alsamixer set
-amixer set Capture volume 0 nocap
-amixer set Internal Mic Capture volume 0 nocap
-amixer set Master playback volume 30 unmute
+amixer set Capture toggle  ## alsamixer toggle mic
+amixer set Capture volume 0 nocap  ## alsamixer mute mic
+amixer set Internal Mic Capture volume 0 nocap  ## alsamixer mute mic
+amixer set Master playback volume 30 unmute  ## alsamixer unmute playback volume 30
 apropos keyword  ## search man page names and descriptions
 awk '!($1="")' <file>  ## remove column 1
-basename <pathname>  ## print <pathname> without any leading directory components
+awk 'NF{NF-=1};1'  ## remove last column
+basename $filepath  ## print filename without any leading directory components
 bindkey  ## zsh bound keys
 blkid /dev/sda128 | awk '{print $3}' | cut -d '"' -f 2  ## get uuid from /dev/sd
 bluetoothctl connect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth connect
@@ -38,7 +39,7 @@ cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
 cd $(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)  ## fzf cd from $HOME, spacebar for info box
 cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
 cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
-cd /usr/lib/modules/$(uname -r)
+cd /usr/lib/modules/$(uname -r)  ## active os kernel modules
 cd /var/lib/pacman/local  ## pacman install directory
 chattr -R +i $directory  ## add 'i' attribute: files in $directory cannot be modified
 chmod --reference=ref_file target  ## make target file mode bits same as ref_file
@@ -199,7 +200,7 @@ journalctl -p 3 -x
 journalctl -u <unit>
 journalctl _<tab>
 jq '.data[0] | .ua' api.json  ## get ua from the first data item
-kill $(pidof <process_name>)
+kill $(pidof <process_name>)  ## kill pid of process
 ln -s <target> <link_name>  ## create sym<link_name> to <target>
 ln -s -f <target> <link_name>  ## replace sym<link_name> to <target>
 losetup -l -a  ## list all loop devices
@@ -362,7 +363,6 @@ systemctl isolate graphical.target
 systemctl isolate multi-user.target
 systemctl list-unit-files
 systemctl list-units
-systemctl start vboxdrv vboxpci vboxnetadp vboxnetflt
 systemd-analyze
 tail -f /var/log/{messages,kernel,dmesg,syslog}
 tac $file  ## concatenate and print file lines in reverse
@@ -374,6 +374,7 @@ tar -xv[j/z]f <archive.tar> <path/single.file>  ## extract single.file from tar 
 tee -a file1 file2  ## append stdout to multiple files
 tmux attach-session -t 0
 tmux show-options -g
+touch --date=2000/01/01 filename  ## create file in time
 tput reset  ## reinitialize terminal state
 tr -d '[:blank:]\t\r\n'  ## remove all whitespace
 tr -s " " < file_with_double_spaces > file_without_double_spaces  ## remove double spaces
@@ -386,6 +387,7 @@ truncate -s 5M file  ## make file 5M size
 tree -n --charset=unicode  ## depth indented file listing
 type -a file or command  ## file or command interpretation; print all occurences in path
 umount -l <mountpoint>  ## umount busy targets (mountpoints)
+unlink $link  ## remove link (i.e. symlink)
 unset varfun  ## unset value and attribute of variable or function varfun
 unsetvar=  ## set variable unsetvar to ''
 uptime  ## uptime since boot
@@ -446,7 +448,7 @@ yay -Syu --devel --timeupdate  ## update, also check AUR developement packages (
 yay -Tv  ## check dependencies; show file paths
 yay -U <package>  ## remove then upgrade or add package
 ykman otp static --no-enter --keyboard-layout US 2 'string' ## assign string to yk slot 2
-zbarcam --oneshot --raw /dev/video4 | wl-copy -o -n
+zbarcam --oneshot --raw /dev/video4 | wl-copy -o -n  ## read qr from video4
 zsh --no-rcs  ## zsh terminal without run command script
 chmod 0000	## ---------- 		ugo -	no permissions
 chmod 0111	## ---x--x--x 		ugo x				execute
