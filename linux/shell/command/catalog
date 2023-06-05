@@ -67,12 +67,12 @@ curl -O https://file.location -C - -o file.location.txt_part  ## start or resume
 curl -O $(wl-paste) -C -  ## start or resume downloading copied location
 cut -d , -f 5 --complement file.csv  ## remove column 5 from file.csv
 date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
-date -d 'May 4 08:11' +%s  ## convert date to linux epoch
-date -d @'1234567890' +%Y%m%d_%H%M%S_%N_%z_%Z_%V  ## convert linux epoch to date time
-date +%s  ## linux epoch current date
-date -u  ## current zulu time
+date +'%s'  ## current linux epoch (same as 'now' for oxo)
+date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day on pi time) to linux epoch
+date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
+date -d '@1234567890' +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert specific linux epoch to oxo extensive time format
 dd if=/dev/sdX of=/dev/sdY bs=4M status=progress oflag=sync  ## dd copy sdX to sdY
-df -h	## file system information human-readable
+df -h  ## human-readable file system space usage
 dhcpcd -k wlp58s0  ## dhcp remove interface ip
 dhcpcd wlp58s0	## dhcp request for interface
 diff --side-by-side --left-column $lf $rf  ## print $lf; $rf diffs in right column (-y --left-column)

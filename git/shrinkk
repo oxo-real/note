@@ -32,7 +32,7 @@ git repack -a -d --depth=250 --window=250
 
 [TESTED]
 
-git checkout --orphan 'new_branch'
+git checkout --orphan $new_branch $from_commit
 
 git add .
 
