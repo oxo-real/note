@@ -1,0 +1,13 @@
+Already installed cursor themes can be viewed with the command:
+
+find /usr/share/icons ~/.local/share/icons ~/.icons -type d -name "cursors"
+
+~/.icons/default/index.theme
+[icon theme]
+Inherits=Adwaita
+
+ln -s /usr/share/icons/Adwaita/cursors/cursorr ~/.icons/default/cursors
+
+[KDE - ArchWiki](https://wiki.archlinux.org/title/KDE#Plasma_cursor_sometimes_shown_incorrectly)
+[Arch Linux: Change Mouse Cursor Icon HOWTO (easy tutorial) - Invidious](https://yewtu.be/watch?v=Dj7co2R7RKw)
+[Cursor themes - ArchWiki](https://wiki.archlinux.org/title/Cursor_themes)

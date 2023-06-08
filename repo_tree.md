@@ -234,8 +234,12 @@
 │   ├── arch
 │   │   ├── arch-chroot
 │   │   ├── boot_corrupt
+│   │   ├── icons
+│   │   │   └── readme
 │   │   ├── pacstrap
-│   │   └── structure_needs_cleaning
+│   │   ├── structure_needs_cleaning
+│   │   └── xremap
+│   │       └── xremap_101
 │   ├── dtpenv
 │   │   ├── gsettings
 │   │   │   └── gsettings
@@ -828,5 +832,5 @@
 └── zzz_deprecated
     └── xab
 
-161 directories, 667 files
+163 directories, 669 files
 ```
