@@ -660,6 +660,7 @@
 │   ├── number_theory.ms
 │   ├── number_theory.ms.pdf
 │   ├── route_plotting
+│   ├── sides.org
 │   ├── test2.mom
 │   ├── test2.mom.pdf
 │   ├── test.ms
@@ -832,5 +833,5 @@
 └── zzz_deprecated
     └── xab
 
-163 directories, 669 files
+163 directories, 670 files
 ```

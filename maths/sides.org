@@ -1,0 +1,55 @@
+direction designation with color codes
+
+(facing target)
+|------+-----+---+-------+--------+---+-------+-------|
+|      |     |   |       |        |   |       |       |
+|      |     |   | zenit | blue   |   |       |       |
+|      |     |   | above | blue   |   |       |       |
+|      |     |   | roof  | blue   |   |       |       |
+|      |     |   |       |        |   |       |       |
+|      |     |   | front | white  |   |       |       |
+|      |     |   | north | white  |   |       |       |
+|      |     |   |       |        |   |       |       |
+| left | red |   |       |        |   | right | green |
+| port | red |   |       |        |   | starb | green |
+| east | red |   |       |        |   | west  | green |
+|      |     |   |       |        |   |       |       |
+|      |     |   | rear  | black  |   |       |       |
+|      |     |   | south | black  |   |       |       |
+|      |     |   |       |        |   |       |       |
+|      |     |   | nadir | orange |   |       |       |
+|      |     |   | below | orange |   |       |       |
+|      |     |   | floor | orange |   |       |       |
+|      |     |   |       |        |   |       |       |
+|------+-----+---+-------+--------+---+-------+-------|
+
+(target side view)
+
+'  |-----BLU------|
+'  |              |
+'  |              |
+'  |              |
+'  |------O-------|
+multiple sides
+add counter
+
+(top view)
+
+'  |-------BLK--------|
+'  |                  |
+'  |                 G5
+'  |                  |
+'  |                  |
+'  |                  |--G4---|
+'  R                         G3
+'  |    |---W3---|    |--G2---|
+'  |    |        |    |
+'  |    |        |    |
+'  |   W2       W4   G1
+'  |    |        |    |
+'  |-W1-|        |-W5-|
+
+              .
+             / \
+              |
+              |
