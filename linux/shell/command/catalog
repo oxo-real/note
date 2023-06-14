@@ -15,6 +15,7 @@ amixer scontrols  ## list of alsamixer controls
 amixer set Capture toggle  ## alsamixer toggle mic
 amixer set Capture volume 0 nocap  ## alsamixer mute mic
 amixer set Internal Mic Capture volume 0 nocap  ## alsamixer mute mic
+amixer set Capture toggle && amixer get Capture | grep '\[off\]' && notify-send "MIC switched OFF" || notify-send "MIC switched ON"  ## mute mic with visual status update
 amixer set Master playback volume 30 unmute  ## alsamixer unmute playback volume 30
 apropos keyword  ## search man page names and descriptions
 awk '!($1="")' <file>  ## remove column 1
