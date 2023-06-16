@@ -302,11 +302,11 @@ rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
 rfkill [un]block wlan  ## soft [un]block wifi radio
 rm -rf -- '-r'  ## remove entire directory starting with a '-'
 rmmod $module  ## remove $module from linux kernel
-rsync -aAXv --delete --info=progress2 $source/ $destination
-rsync -aAXv --delete --info=progress2 --exclude-from=$exclude.list $source/ $destination
-rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exclude-from=/home/oxo/.config/settings/rsync/parvus_exclude_list / /dock/1/parvus
-rsync -aAXv --delete --stats --progress --info=progress2 --modify-window=1 --exclude-from=/home/oxo/.config/settings/rsync/parvus_exclude_list -e ssh / admin@192.168.3.199:/share/backup/devices/dellxps13
-rsync -aAXv --dry-run --delete --info=progress2 $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## backup_c2b
+rsync -aAXv --delete --info=progress2,ststs --progress $source/ $destination  ## basic oxo rsync
+rsync -aAXv --dry-run --delete --info=progress2,stats --progresss $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## dry run backup_c2b
+rsync -aAXv --delete --info=progress2,stats --progress --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
+rsync -aAXv --delete --info=progress2,stats --progress --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w files from patterns
+rsync -aAXv --delete --info=progress2,stats --progress --rsh=ssh $source user@192.168.3.199:/directory  ## basic oxo rsync w remote ssh shell
 script; command; exit  ## make typescript of command
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove history last line
