@@ -91,6 +91,7 @@ echo $(( 1 ^ 2 ))  ## decimal value of xor 1 and 2 (xor 01 and 10 = 11)
 echo -n $string | base64  ## base64 encoding
 echo $?  ## print exit code of the last executed command
 echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
+echo $RANDOM  ## returns pseudorandom integer (0-32767)
 wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
 wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
 emacsclient --daemon[=$server_name]  ## start emacs daemon
@@ -158,8 +159,11 @@ grep -riIn 'text' [directory]  ## find files (no binary) containing text recursi
 grep '^[[:blank:]]*[^[:blank:]#;]' $file  ## only lines not (2nd ^) starting (1st ^) with # or ; uncommented lines from file
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
-history -d <history_id>
-history -t +%Y%m%d_%H%M%S
+head -n -3 $file  ## show all but 3 last lines (hide last three lines from $file)
+head -n -3 $file > $file  ## remove 3 last lines from $file
+head -n -2 $HISTFILE > $HISTFILE  ## remove history last command (2 last lines from $HISTFILE)
+history -t +%Y%m%d_%H%M%S -d $history_id  ## command history from $history_id (id time cmd)
+history -t +%Y%m%d_%H%M%S -d -3  ## last 3 commands from history (id time cmd)
 hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 host -t A <ip_addr/domain>  ## dns lookup A record
 host -v -t ANY <ip_addr/domain>  ## dns lookup any type verbose output
@@ -293,7 +297,7 @@ readlink <symlink> | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ##
 realpath file  ## return canonicalized absolute pathname
 realpath $dir_in_home | sed "s|$HOME||"  ## remove $HOME from $dir_in_home
 reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 -l 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
-rename 'part' '' filepart  ## change 'part' in filename filepart with '' (remove part of filename)
+rename 'part' '' $filepart  ## change 'part' in filename $filepart with '' (remove part of filename)
 renice -19 $(pgrep <process_name>)  ## give <process_name> highest (-19) priority
 reset  ## reinitialize terminal state
 rev $file  ## reverse line characters
@@ -307,9 +311,9 @@ rsync -aAXv --dry-run --delete --info=progress2,stats --progresss $XDG_DATA_HOME
 rsync -aAXv --delete --info=progress2,stats --progress --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
 rsync -aAXv --delete --info=progress2,stats --progress --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w files from patterns
 rsync -aAXv --delete --info=progress2,stats --progress --rsh=ssh $source user@192.168.3.199:/directory  ## basic oxo rsync w remote ssh shell
-script; command; exit  ## make typescript of command
+script; $command; exit  ## make typescript of $command
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
-sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove history last line
+sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove history last command
 sed -i '$d' <file>  ## remove last line from <file>
 sed -i '/pttrn/d' file  ## delete all lines in file that contain 'pttrn'
 sed -i '2,$d' <file>  ## remove all lines from line 2 from <file>
@@ -325,7 +329,7 @@ setfont ter-v32n  ## set console font
 setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
 sh -xv file.sh  ## extra verbose debug output
 showkey [-a|--ascii] [-s|--scancodes] [-k|--keycodes]  ## examine codes sent by the keyboard
-shred -v -z -n 3 -u <file>
+shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 simple-mtpfs --list-devices  ## list mountable mtp devices
 simple-mtpfs -o allow_other --device 1 $HOME/dock/mobile  ## mount mtp device 1
 echo 'string2sort' | grep -o . | sort | tr -d "\n"  ## sort chars in string
