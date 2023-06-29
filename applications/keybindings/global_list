@@ -53,6 +53,7 @@ bindsym $mod+F9			exec grim -g "$(slurp -p)" -t ppm - | \
 bindsym $mod+f		fullscreen toggle
 bindsym $mod+grave		exec $term --class="float_spicules" -e \
 #bindsym $mod+i		focus child
+bindsym $mod+m			exec $term --class="float_spicules" -e \
 bindsym $mod+Minus	    workspace $ws-
 bindsym $mod+o			workspace next
 bindsym $mod+p		focus parent
@@ -109,7 +110,7 @@ bindsym Print			exec grim -o $(swaymsg -t get_outputs \
 bindsym --release Shift+Print	exec grim -g "$(slurp)" \
 bindsym Shift+Control+0		exec echo -n '' | wl-copy && notify-send 'clipboard cleared'
 bindsym Shift+Control+Print	exec grim -g "$(slurp)" | wl-copy && \
-#bindsym Shift+Control+s	wl-copy -o -n && exec notify-send 'secure copy is in DEV'
+#bindsym Shift+Control+y	wl-copy -o -n && exec notify-send 'secure copy is in DEV'
 #bindsym XF86AudioLowerVolume	exec amixer sset Master 2%-
 bindsym XF86AudioLowerVolume 	exec wpctl set-volume	@DEFAULT_AUDIO_SINK@ 5%-
 bindsym XF86AudioMicMute 	exec wpctl set-mute	@DEFAULT_AUDIO_SOURCE@ toggle
@@ -128,9 +129,11 @@ bindsym XF86AudioRaiseVolume	exec wpctl set-volume	@DEFAULT_AUDIO_SINK@ 5%+
 bindsym XF86MonBrightnessDown	exec brightnessctl set 5%-
 bindsym XF86MonBrightnessUp	exec brightnessctl set 5%+
 bindsym XF86Search 		exec $menu
+# TODO DEV bindsym Control+Shift+o	secure copy (wl-copy -o)
 bindkey -a "^[[3~" delete-char
 bindkey -a "^?" backward-delete-char
-bindkey "^a" git_add_commit
+bindkey "^a" insert_appn
+bindkey "^A" insert_pacmanqq
 bindkey "^e" insert_epoch
 bindkey "^f" fzf_ins_home
 bindkey "^g" fzf_ins_root
@@ -144,5 +147,6 @@ bindkey '^_' mountr_widget
 bindkey -M vicmd 's' sudo_toggle
 bindkey -M viins "^[[3~" delete-char
 bindkey '^p' ins_pwd
+bindkey "^q" git_add_commit
 bindkey -v
 bindkey '^Z' foreground

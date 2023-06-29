@@ -36,6 +36,10 @@
 │   │   │   └── mbsync
 │   │   └── protonmail_bridge
 │   │       └── bridge
+│   ├── espeak
+│   │   └── installation_101
+│   ├── festival
+│   │   └── install
 │   ├── imagemagick
 │   │   └── imagemagick
 │   ├── json
@@ -124,6 +128,9 @@
 │   │       ├── plugin
 │   │       │   └── xterm-color-table.vim
 │   │       └── README.markdown
+│   ├── vtx
+│   │   ├── nerd-dictation
+│   │   └── nerd-dictation_2
 │   ├── weechat
 │   │   └── weechat
 │   ├── yay
@@ -833,5 +840,5 @@
 └── zzz_deprecated
     └── xab
 
-163 directories, 670 files
+166 directories, 674 files
 ```

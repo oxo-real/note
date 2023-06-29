@@ -1,0 +1,40 @@
+# install nerd-dictation
+
+[GitHub - ideasman42/nerd-dictation: Simple, hackable offline speech to text - using the VOSK-API.]
+(https://github.com/ideasman42/nerd-dictation)
+
+yay -S python-vosk ydotool
+
+usermod -a -G input $USER
+
+systemctl start ydotool.service
+
+git clone https://github.com/ideasman42/nerd-dictation.git
+
+
+# getting the vosk models
+
+[VOSK Models](https://alphacephei.com/vosk/models)
+
+## english
+curl -O https://alphacephei.com/kaldi/models/vosk-model-small-en-us-0.15.zip -C - -o /home/oxo/.local/share/c/livework/202306__stt/model/en/vosk-model-small-en-us-0.15.zip
+
+## swedish
+curl -O https://alphacephei.com/kaldi/models/vosk-model-small-sv-rhasspy-0.15 -C - -o /home/oxo/.local/share/c/livework/202306__stt/model/sv/vosk-model-small-sv-rhasspy-0.15.zip
+
+## dutch
+curl -O https://alphacephei.com/vosk/models/vosk-model-nl-spraakherkenning-0.6-lgraph.zip -o /home/oxo/.local/share/c/livework/202306__stt/model/vosk-model-nl-spraakherkenning-0.6-lgraph.zip
+
+
+# running nerd-dictation
+
+## english
+130% /home/oxo/.cache/test/nerd-dictation/nerd-dictation begin --simulate-input-tool STDOUT --vosk-model-dir /home/oxo/.local/share/c/livework/202306__stt/model/en/vosk-model-small-en-us-0.15 --verbose 2
+
+## swedish
+130% /home/oxo/.cache/test/nerd-dictation/nerd-dictation begin --simulate-input-tool STDOUT --vosk-model-dir /home/oxo/.local/share/c/livework/202306__stt/model/sv/vosk-model-small-sv-rhasspy-0.15 --verbose 2
+
+## dutch
+130% /home/oxo/.cache/test/nerd-dictation/nerd-dictation begin --simulate-input-tool STDOUT --vosk-model-dir /home/oxo/.local/share/c/livework/202306__stt/model/nl/vosk-model-nl-spraakherkenning-0.6-lgraph --verbose 2
+
+[Nerd Dictation using vosk! - Invidious](https://y.com.sb/watch?v=msC7KNzqClU)

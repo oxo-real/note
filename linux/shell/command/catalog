@@ -1,5 +1,6 @@
 #!/usr/bin/env bash  ## search $path for bash
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
+:%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
 < $file  ## less $file (oxos zshrc)
 < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (last upgrades)
 < $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
@@ -98,6 +99,7 @@ emacsclient --daemon[=$server_name]  ## start emacs daemon
 emacsclient -c  ## start emacs client
 emacsclient -e "(kill-emacs)" -s server  ## kill emacs server
 env  ## print current environment variables and their values
+espeak -s 80 -p 70 -v mb-us1 'hello'  ## espeak hello speed 80% pitch 70% voice us1
 eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concatenate arguments, add ssh_key
 faillock --user $USER --reset  ## remove sudo lockout for current user
 fc  ## edit last command in
@@ -157,6 +159,9 @@ grep "\sro[\s,]" /proc/mounts
 grep -riIl 'text' [directory]  ## find files (no binary) containing text recursively in directory
 grep -riIn 'text' [directory]  ## find files (no binary) containing text recursively in directory with linenumbers
 grep '^[[:blank:]]*[^[:blank:]#;]' $file  ## only lines not (2nd ^) starting (1st ^) with # or ; uncommented lines from file
+grep '^[[:blank:]]*[^[:blank:]#;]' $XDG_CONFIG_HOME/alacritty/alacritty.yml | grep 'key:'  ## alacritty active (no outcommented) keybindings
+grep bindsym $XDG_CONFIG_HOME/sway/config  ## sway keybinding related lines
+grep bindkey $XDG_CONFIG_HOME/zsh/.zshrc  ## zsh keybinding related lines
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
 head -n -3 $file  ## show all but 3 last lines (hide last three lines from $file)
@@ -241,6 +246,7 @@ mpv `echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\/
 mpv --audio-display=no $file.mp3  ## play mp3 without albumart
 mpv /dev/video4  ## livestream local webcam
 mv -t <target_dir> <source_dirs>  ## move source_dirs to target_dir
+neofetch --ascii_distro arch_small --gtk3 off --gtk2 off --colors 3 3 3 7 3 4 --separator '     \t'  ## neat system info
 nl -w 3 -s ' '  ## add line numbers with number width 3 and separator string ' '
 notmuch address '*'  ## all mail addresses
 notmuch address --output=recipients --deduplicate=address date:year | fzf | wl-copy  ## last years recipients
@@ -260,10 +266,16 @@ output=$(printf $input | openssl dgst -sha512 -hmac $hmac | sed 's/^.*= //') ## 
 pacman-key --delete <pub_key>
 pacman-key --finger <pub_key>
 pacman-key --lsign-key <pub_key>
-pactree -r [package]  ## show [package] dependant tree, reverse depedencies, packages that depend on [package]
-pactree <package>  ## show [package] dependency tree
-patch -p0 < patch_file ##  apply patch_file (see diff)
-pim2fa=$(printf $input | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //') ## zz4
+pactl list sinks | grep -A 1 Name  ## list of sink devices (audio output)
+pactl list sources | grep -A 1 Name  ## list of source devices (audio input)
+pactl set-source-port $device_name $port_name  ## set audio source (use tab to autocomplete)
+pactl set-source-volume $device_name 100%  ## set audio source volume 100% (use tab to autocomplete)
+pactl set-source-mute $device_name false  ## set audio source mute status false (use tab to autocomplete)
+pactl list sources | grep -B 1 'Webcam C310 Mono' | head -n 1 | awk '{print $2}'  ## get audio source name from description (for wf-recorder --audio)
+pactree -r $package  ## show $package dependant tree, reverse depedencies, packages that depend on $package
+pactree $package  ## show $package dependency tree
+patch -p0 < $patch_file  ## apply $patch_file (see diff)
+pim2fa=$(printf $input | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
 pim=$(printf $input | xxd -p)  ## zz4_OLD
 ping -D -i 10 -c 5 9.9.9.9
 pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0
