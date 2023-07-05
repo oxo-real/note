@@ -165,8 +165,6 @@ grep bindkey $XDG_CONFIG_HOME/zsh/.zshrc  ## zsh keybinding related lines
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
 head -n -3 $file  ## show all but 3 last lines (hide last three lines from $file)
-head -n -3 $file > $file  ## remove 3 last lines from $file
-head -n -2 $HISTFILE > $HISTFILE  ## remove history last command (2 last lines from $HISTFILE)
 history -t +%Y%m%d_%H%M%S -d $history_id  ## command history from $history_id (id time cmd)
 history -t +%Y%m%d_%H%M%S -d -3  ## last 3 commands from history (id time cmd)
 hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2

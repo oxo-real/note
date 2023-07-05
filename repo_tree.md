@@ -242,6 +242,7 @@
 │   │   ├── arch-chroot
 │   │   ├── boot_corrupt
 │   │   ├── icons
+│   │   │   ├── cursor_how_to
 │   │   │   └── readme
 │   │   ├── pacstrap
 │   │   ├── structure_needs_cleaning
@@ -840,5 +841,5 @@
 └── zzz_deprecated
     └── xab
 
-166 directories, 674 files
+166 directories, 675 files
 ```

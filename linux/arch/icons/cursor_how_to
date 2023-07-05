@@ -1,0 +1,35 @@
+--------------------------------
+
+# install xcursorgen
+yay -S xorg-xcursorgen
+
+# cursor image
+create new mouse x by x pixels cursor image: pilot.png
+
+# get image dimensions
+file pilot.png
+
+# cursor configuration
+echo "$x $hotx $hoty pilot.png" > pilot.cursor
+
+# create an X11 cursor file
+xcursorgen pilot.cursor pilot
+
+# place the X11 cursor file pilot in the right directory
+check default theme in: /usr/share/icons/default/index.theme
+goto default theme cursor directory:
+cd /usr/share/icons/Adwaita/cursors
+copy pilot here
+change the necessary symlink if needed
+to see what the cursor images look like:
+https://github.com/GNOME/adwaita-icon-theme/tree/master/src/cursors/pngs/96x96
+i.e. change the text cursor to pilot
+# backup (maybe; if text is a cursor)
+cp text text_old
+# symlink text to (co)pilot
+sudo ln -s -f pilot text
+sudo ln -s -f copilot default
+sudo ln -s -f copilot left_ptr
+sudo ln -s -f copilot hand2
+
+NOTICE: most applications have to be restarted
