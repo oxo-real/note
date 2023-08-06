@@ -21,15 +21,35 @@ goto default theme cursor directory:
 cd /usr/share/icons/Adwaita/cursors
 copy pilot here
 change the necessary symlink if needed
-to see what the cursor images look like:
+
+# to see what the cursor images look like:
 https://github.com/GNOME/adwaita-icon-theme/tree/master/src/cursors/pngs/96x96
-i.e. change the text cursor to pilot
+x11 cursor files can be opened by gimp
+
+# if you want to change the text cursor to pilot:
 # backup (maybe; if text is a cursor)
 cp text text_old
 # symlink text to (co)pilot
 sudo ln -s -f pilot text
+
+# oxo config
+sudo ln -s -f pilot text
+sudo ln -s -f pilot xterm
 sudo ln -s -f copilot default
 sudo ln -s -f copilot left_ptr
 sudo ln -s -f copilot hand2
 
-NOTICE: most applications have to be restarted
+# procedure adjusting existing cursor with new cursor image
+1. cd $XDG_CONFIG_HOME/icons/cursors/source
+2, adjust existing.png (i.e. with gimp)
+3. export to transparent image file new.png
+4, cp existing.cursor new.cursor
+5. vim new.cursor # change existing.png to new.png
+6. xcursorgen new.cursor new # create X11 cursorfile 'new'
+7. if you want to keep the old cursor in /usr/...
+   cp /usr/share/icons/Adwaita/cursors/existing /usr/share/icons/Adwaita/cursors/existing_old
+8. cp new /usr/share/icons/Adwaita/cursors/existing # replace exixting X11 cursor file in /usr
+
+NOTICE: most applications have to be restarted after cursor change.
+
+
