@@ -609,6 +609,7 @@
 │   │       │       └── zsh_wo_dependencies.html
 │   │       ├── last_command_get
 │   │       ├── multiline_comment
+│   │       ├── oxo_bindkey
 │   │       ├── shell_buildin_commands
 │   │       ├── shell_types
 │   │       ├── zle_zsh_line_editor.html
@@ -841,5 +842,5 @@
 └── zzz_deprecated
     └── xab
 
-166 directories, 675 files
+166 directories, 676 files
 ```

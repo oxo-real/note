@@ -3,7 +3,7 @@
 ## ! execution is immediate
 ## source: $HISTFILE
 
-!!			last command get full command
+!!		last command get full command
 
 !* or !:*	last command get all arguments
 

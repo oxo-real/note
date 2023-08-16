@@ -230,6 +230,7 @@ man -k . | fzf | awk '{print $1}' | xargs -r env TERM=xterm man  ## fzf find and
 man ascii  ## 7-bit ascii tables
 man zshall  ## view the system reference manual for all zsh
 mkdir $HOME/dock/{1-4}  ## make multiple directories
+tmp=$(mktemp); printf "$tmp\n"; head -c 1b </dev/urandom >"$tmp"  ## create a temporary file with 1b random data
 nmcli connection add type ethernet con-name $con_name ifname $if_name
 nmcli connection modify $con_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual
 modprobe -r <driver>  ## remove driver from kernel
@@ -293,7 +294,7 @@ ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list process
 ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom AIX format descriptors, sort high to low cpu usage
 pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
 pushd $directory  ## cd to $directory and add $directory to dirs stack[0]
-qbns -s content.canvas_reading true -s content.webgl true -s colors.webpage.darkmode.enabled false windy.com &
+qbns -s content.canvas_reading true -s content.webgl true -s colors.webpage.darkmode.enabled false $(wl-paste) &  ## qutebrowser new session open copied url unsafe
 qrencode -t utf8  ## create qr from stdin
 qutebrowser -s content.canvas_reading true ## qb for windy
 rankmirrors -n 10 /etc/pacman.d/mirrorlist | grep -w 'Server =' >> mirrorlist.ranked
@@ -337,7 +338,7 @@ set -euo pipefail  ## exit on: -e command error, -u unset variable expansion err
 set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 setfont ter-v32n  ## set console font
 setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
-sh -xv file.sh  ## extra verbose debug output
+PS4='${LINENO}: ' sh -xv file.sh  ## extra verbose debug output with linenumbers
 showkey [-a|--ascii] [-s|--scancodes] [-k|--keycodes]  ## examine codes sent by the keyboard
 shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 simple-mtpfs --list-devices  ## list mountable mtp devices
