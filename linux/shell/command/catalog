@@ -2,7 +2,7 @@
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
 < $file  ## less $file (oxos zshrc)
-< ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (last upgrades)
+< ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
 < $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
 echo hello 1> $file  ## redirect stdout write to $file
 echo hello 2>> $file   ## redirect stderr append to $file
