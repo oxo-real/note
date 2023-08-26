@@ -79,7 +79,7 @@ dhcpcd -k wlp58s0  ## dhcp remove interface ip
 dhcpcd wlp58s0	## dhcp request for interface
 diff --side-by-side --left-column $lf $rf  ## print $lf; $rf diffs in right column (-y --left-column)
 diff --new-file --text --unified=3 --recursive $lf $rf > $patch_file  ## create recursive $patch-file unified with 3 lines of context from $lf to $rf (-Naur)
-diff <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) <(echo $(pacman -Q linux | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) | tr -d '\n'  ## check if kernel reboot required
+diff <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) <(echo $(pacman -Q linux | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) | tr -d '\n'  ## kernel upgrade requires reboot ($? != 0)
 dig -x 89.39.107.195  ## reverse lookup own public ip
 dirname $filename  ## print <filename> without last component
 du -sbh $directory  ## total size of all content in directory
@@ -322,7 +322,8 @@ rsync -aAXv --dry-run --delete --info=progress2,stats --progresss $XDG_DATA_HOME
 rsync -aAXv --delete --info=progress2,stats --progress --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
 rsync -aAXv --delete --info=progress2,stats --progress --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w files from patterns
 rsync -aAXv --delete --info=progress2,stats --progress --rsh=ssh $source user@192.168.3.199:/directory  ## basic oxo rsync w remote ssh shell
-script; $command; exit  ## make typescript of $command
+script; $command; exit  ## $command execution typescript user log
+script; sh -x $command; exit  ## $sommand execution typescript developer debug log
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove history last command
 sed -i '$d' <file>  ## remove last line from <file>
