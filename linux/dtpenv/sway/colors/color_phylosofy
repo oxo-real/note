@@ -1,0 +1,12 @@
+# display info
+green active variable , measured values
+blue inactive variable, selected values	(pulled)
+magenta			managed values	(pushed)
+
+# button switch lights
+amber	failed system
+red	failure that requires immediate action
+green	normal operation
+blue	normal operation tempo system
+white	abnormal operation
+blank	ok

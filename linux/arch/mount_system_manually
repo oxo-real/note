@@ -1,0 +1,28 @@
+# manually entering luks encrypted archlinux system
+
+# boot archiso
+
+# make system directories
+mkdir /mnt/boot
+mkdir /mnt/home
+mkdir /mnt/usr
+mkdir /mnt/var
+
+# mount plain boot partition
+mount $boot_part /mnt/boot
+
+# decrypt lvm container
+crytsetup open $lvm_part cryptlvm
+
+# mount the decrypted partitions
+mount /dev/mapper/vg0-lv_root /mnt
+mount /dev/mapper/vg0-lv_home /mnt/home
+mount /dev/mapper/vg0-lv_usr /mnt/usr
+mount /dev/mapper/vg0-lv_var /mnt/var
+
+# switch into installation environment
+arch-chroot /mnt
+
+# execute commands in installation environment
+# i.e.:
+arch-chroot /mnt ls -ila .

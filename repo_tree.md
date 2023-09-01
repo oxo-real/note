@@ -81,6 +81,7 @@
 │   │   ├── fit2gpx
 │   │   ├── garmin_sd
 │   │   └── nav_terms
+│   ├── qrencode
 │   ├── suckless
 │   │   ├── dwm
 │   │   │   ├── config.def.h
@@ -244,6 +245,7 @@
 │   │   ├── icons
 │   │   │   ├── cursor_how_to
 │   │   │   └── readme
+│   │   ├── mount_system_manually
 │   │   ├── pacstrap
 │   │   ├── structure_needs_cleaning
 │   │   └── xremap
@@ -252,6 +254,10 @@
 │   │   ├── gsettings
 │   │   │   └── gsettings
 │   │   ├── sway
+│   │   │   ├── colors
+│   │   │   │   ├── color_palette
+│   │   │   │   ├── color_phylosofy
+│   │   │   │   └── colortest
 │   │   │   └── keybindings
 │   │   ├── wayland
 │   │   │   ├── backlight
@@ -842,5 +848,5 @@
 └── zzz_deprecated
     └── xab
 
-166 directories, 676 files
+168 directories, 680 files
 ```
