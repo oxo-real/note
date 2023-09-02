@@ -278,7 +278,8 @@ patch -p0 < $patch_file  ## apply $patch_file (see diff)
 pim2fa=$(printf $input | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
 pim=$(printf $input | xxd -p)  ## zz4_OLD
 ping -D -i 10 -c 5 9.9.9.9
-pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0
+pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0  ## end internet connection
+pkill -SIGRTMIN+4 i3blocks  ## send signal=4 to i3blocks
 printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
 printf "%03d%s" "2"  ## print leading zeros
 printf "%3d%s" "2"  ## print leading spaces

@@ -255,8 +255,8 @@
 │   │   │   └── gsettings
 │   │   ├── sway
 │   │   │   ├── colors
+│   │   │   │   ├── color_filosophy
 │   │   │   │   ├── color_palette
-│   │   │   │   ├── color_phylosofy
 │   │   │   │   └── colortest
 │   │   │   └── keybindings
 │   │   ├── wayland

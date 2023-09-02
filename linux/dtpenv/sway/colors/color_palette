@@ -14,6 +14,8 @@ active_window_box_bg		#005577
 cursor_pink			#ff73fd
 time_yellow			#ffffd3
 urgent_magenta			#770055
+needs_info_dark_moerate_red	#b36200
+
 
 
 # base16-shell (https://github.com/chriskempson/base16-shell)
