@@ -521,6 +521,7 @@
 │   │   │   ├── mount_cifs
 │   │   │   ├── nmcli
 │   │   │   ├── printf
+│   │   │   ├── pwd
 │   │   │   ├── read
 │   │   │   │   ├── filedescriptor
 │   │   │   │   ├── read_into_array
@@ -848,5 +849,5 @@
 └── zzz_deprecated
     └── xab
 
-168 directories, 680 files
+168 directories, 681 files
 ```

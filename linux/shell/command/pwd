@@ -1,0 +1,13 @@
+# pwd
+## meaning: print working directory
+## command: echo $PWD
+
+# $PWD
+## meaning: present working directory
+## environment variable: $PWD
+
+# cwd
+## concept; current working directory
+## RIGHT: In the cwd there is the file.
+## WRONG! In the pwd there is the file.
+## WRONG! In the $PWD there is the file.
