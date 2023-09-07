@@ -246,6 +246,7 @@ mpv `echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\/
 mpv --audio-display=no $file.mp3  ## play mp3 without albumart
 mpv /dev/video4  ## livestream local webcam
 mv -t <target_dir> <source_dirs>  ## move source_dirs to target_dir
+nerd-dictation begin --config $config_file --simulate-input-tool STDOUT --numbers-min-value 10 --numbers-as-digits --numbers-no-suffix --vosk-model-dir $model_dir  ## speech-to-text
 neofetch --ascii_distro arch_small --gtk3 off --gtk2 off --colors 3 3 3 7 3 4 --separator '     \t'  ## neat system info
 nl -w 3 -s ' '  ## add line numbers with number width 3 and separator string ' '
 notmuch address '*'  ## all mail addresses
