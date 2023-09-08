@@ -1,10 +1,13 @@
 # example of registering ydotool.service to systemd daemon
 
+## NOTICE: for nerd-dictation use dotool
+
 #yay -S ydotool
 
 # set suid bit for any user
 #[TODO] check difference with +x (for current user?)
 #sudo chmod +s /usr/local/bin/ydotool
+#sudo chmod +s $(which ydotool)
 
 #sudo ln -s /usr/lib/systemd/user/ydotool.service /etc/systemd/system/ydotool.service
 

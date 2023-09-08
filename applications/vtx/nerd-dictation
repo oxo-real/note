@@ -3,11 +3,7 @@
 [GitHub - ideasman42/nerd-dictation: Simple, hackable offline speech to text - using the VOSK-API.]
 (https://github.com/ideasman42/nerd-dictation)
 
-yay -S python-vosk ydotool
-
-usermod -a -G input $USER
-
-systemctl start ydotool.service
+yay -S python-vosk dotool
 
 git clone https://github.com/ideasman42/nerd-dictation.git
 
@@ -32,12 +28,12 @@ unzip $output_dir/$model -d ~/.config/nerd-dictation/model
 # running nerd-dictation
 
 ## english
-130% /home/oxo/.cache/test/nerd-dictation/nerd-dictation begin --simulate-input-tool STDOUT --vosk-model-dir /home/oxo/.local/share/c/livework/202306__stt/model/en/vosk-model-small-en-us-0.15 --verbose 2
+130% /home/oxo/.cache/test/nerd-dictation/nerd-dictation begin --simulate-input-tool DOTOOL --vosk-model-dir /home/oxo/.local/share/c/livework/202306__stt/model/en/vosk-model-small-en-us-0.15 --verbose 2
 
 ## swedish
-130% /home/oxo/.cache/test/nerd-dictation/nerd-dictation begin --simulate-input-tool STDOUT --vosk-model-dir /home/oxo/.local/share/c/livework/202306__stt/model/sv/vosk-model-small-sv-rhasspy-0.15 --verbose 2
+130% /home/oxo/.cache/test/nerd-dictation/nerd-dictation begin --simulate-input-tool DOTOOL --vosk-model-dir /home/oxo/.local/share/c/livework/202306__stt/model/sv/vosk-model-small-sv-rhasspy-0.15 --verbose 2
 
 ## dutch
-130% /home/oxo/.cache/test/nerd-dictation/nerd-dictation begin --simulate-input-tool STDOUT --vosk-model-dir /home/oxo/.local/share/c/livework/202306__stt/model/nl/vosk-model-nl-spraakherkenning-0.6-lgraph --verbose 2
+130% /home/oxo/.cache/test/nerd-dictation/nerd-dictation begin --simulate-input-tool DOTOOL --vosk-model-dir /home/oxo/.local/share/c/livework/202306__stt/model/nl/vosk-model-nl-spraakherkenning-0.6-lgraph --verbose 2
 
 [Nerd Dictation using vosk! - Invidious](https://y.com.sb/watch?v=msC7KNzqClU)

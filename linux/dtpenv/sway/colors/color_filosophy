@@ -1,3 +1,4 @@
+airbus
 # display info
 green active variable , measured values
 blue inactive variable, selected values	(pulled)
@@ -5,8 +6,30 @@ magenta			managed values	(pushed)
 
 # button switch lights
 amber	failed system
-red	failure that requires immediate action
-green	normal operation
-blue	normal operation tempo system
+red	failure that may requires immediate action
+green	applicable system status, normal operation (green avail)
+blue	normal operation tempo system (blue on)
 white	abnormal operation
-blank	ok
+white	abnormal operation (normally active but off; white off light / normally off, but active; white arm light)
+blank	ok, the system is fit to fly
+
+https://y.com.sb/watch?v=WQsSXolcHus&list=PL91baicFu7lqeSSbQYchNABZ1YgnHqSpH&index=62
+ecam colors
+white
+blue
+green	normal condition
+amber 	abnormal condition (no immediate action required)
+red	warning may require    immediate action
+
+
+https://y.com.sb/watch?v=wUFNSNTywkM
+normal operation configuration	   no light showing
+abnormal	 		   amber fault light
+
+light out concept
+need to see concept; right information at right time
+less paper concept
+
+lockheed martin
+     hdg
+spd	alt

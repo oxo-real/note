@@ -25,6 +25,8 @@ mkdir -p ~/.config/nerd-dictation
 mv ./model ~/.config/nerd-dictation
 
 
+# NOTICE: use dotool
+
 
 what I did:
 1% yay -Si nerd-dictation-git
