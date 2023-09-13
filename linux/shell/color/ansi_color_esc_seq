@@ -1,0 +1,86 @@
+[terminal - List of ANSI color escape sequences - Stack Overflow](https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences)
+
+The ANSI escape sequences you're looking for are the Select Graphic Rendition subset. All of these have the form
+
+\033[XXXm
+where XXX is a series of semicolon-separated parameters.
+
+To say, make text red, bold, and underlined (we'll discuss many other options below) in C you might write:
+
+printf("\033[31;1;4mHello\033[0m");
+In C++ you'd use
+
+std::cout<<"\033[31;1;4mHello\033[0m";
+In Python3 you'd use
+
+print("\033[31;1;4mHello\033[0m")
+and in Bash you'd use
+
+echo -e "\033[31;1;4mHello\033[0m"
+where the first part makes the text red (31), bold (1), underlined (4) and the last part clears all this (0).
+
+As described in the table below, there are a large number of text properties you can set, such as boldness, font, underlining, &c.
+
+Font Effects
+Code	Effect	Note
+0	Reset / Normal	all attributes off
+1	Bold or increased intensity
+2	Faint (decreased intensity)	Not widely supported.
+3	Italic	Not widely supported. Sometimes treated as inverse.
+4	Underline
+5	Slow Blink	less than 150 per minute
+6	Rapid Blink	MS-DOS ANSI.SYS; 150+ per minute; not widely supported
+7	[[reverse video]]	swap foreground and background colors
+8	Conceal	Not widely supported.
+9	Crossed-out	Characters legible, but marked for deletion. Not widely supported.
+10	Primary(default) font
+11–19	Alternate font	Select alternate font n-10
+20	Fraktur	hardly ever supported
+21	Bold off or Double Underline	Bold off not widely supported; double underline hardly ever supported.
+22	Normal color or intensity	Neither bold nor faint
+23	Not italic, not Fraktur
+24	Underline off	Not singly or doubly underlined
+25	Blink off
+27	Inverse off
+28	Reveal	conceal off
+29	Not crossed out
+30–37	Set foreground color	See color table below
+38	Set foreground color	Next arguments are 5;<n> or 2;<r>;<g>;<b>, see below
+39	Default foreground color	implementation defined (according to standard)
+40–47	Set background color	See color table below
+48	Set background color	Next arguments are 5;<n> or 2;<r>;<g>;<b>, see below
+49	Default background color	implementation defined (according to standard)
+51	Framed
+52	Encircled
+53	Overlined
+54	Not framed or encircled
+55	Not overlined
+60	ideogram underline	hardly ever supported
+61	ideogram double underline	hardly ever supported
+62	ideogram overline	hardly ever supported
+63	ideogram double overline	hardly ever supported
+64	ideogram stress marking	hardly ever supported
+65	ideogram attributes off	reset the effects of all of 60-64
+90–97	Set bright foreground color	aixterm (not in standard)
+100–107	Set bright background color	aixterm (not in standard)
+
+## 2-bit Colours
+You've got this already!
+
+## 4-bit Colours
+The standards implementing terminal colours began with limited (4-bit) options.
+fg: 30-37 bg 40-47
+
+## 8-bit (256) colours
+Technology advanced, and tables of 256 pre-selected colours became available, as shown below
+
+% for code in {000..255}; do print -P -- "%F{$code}$code%f"; done
+
+The 8-bit colours are arranged like so:
+
+0x00-0x07:  standard colors (same as the 4-bit colours)
+0x08-0x0F:  high intensity colors
+0x10-0xE7:  6 × 6 × 6 cube (216 colors): 16 + 36 × r + 6 × g + b (0 ≤ r, g, b ≤ 5)
+0xE8-0xFF:  grayscale from black to white in 24 steps
+
+

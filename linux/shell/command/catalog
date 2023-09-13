@@ -431,7 +431,7 @@ wf-recorder -g "$(slurp)"  ## video capture part of screen
 wf-recorder --audio --file=recording_with_audio.webm  ## video and audio capture whole screen
 read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
 wpa_supplicant -B -i wlp58s0 -c ~/keys/wl/mn.wifi
-xargs -r command  ## run command with stdin as argument, no-run if empty
+xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
 xxd -b -p <infile <outfile>> ## plain bits dump
 xxd -p <infile <outfile>> ## plain hexdump
 xxd -r -p <infile <outfile>> ## reverse plain hexdump

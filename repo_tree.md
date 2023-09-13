@@ -41,6 +41,10 @@
 │   ├── festival
 │   │   └── install
 │   ├── imagemagick
+│   │   ├── fred
+│   │   │   ├── frosted
+│   │   │   ├── pixelize
+│   │   │   └── url
 │   │   └── imagemagick
 │   ├── json
 │   │   └── processing
@@ -76,11 +80,6 @@
 │   │   ├── pacman
 │   │   ├── pacman_arch_wiki
 │   │   └── pacman_arch_wiki_tips
-│   ├── qgis
-│   │   ├── 101
-│   │   ├── fit2gpx
-│   │   ├── garmin_sd
-│   │   └── nav_terms
 │   ├── qrencode
 │   ├── suckless
 │   │   ├── dwm
@@ -286,7 +285,10 @@
 │   │   │   ├── 16m_color_capability
 │   │   │   ├── 16m_color_table
 │   │   │   ├── 256_color_table
+│   │   │   ├── ansi_color_esc_seq
+│   │   │   ├── bash_colors
 │   │   │   ├── colorr
+│   │   │   ├── ECMA-48_5th_edition_june_1991.pdf
 │   │   │   ├── from_hex
 │   │   │   └── to_hex
 │   │   ├── command
@@ -682,6 +684,10 @@
 │   ├── test.ms
 │   ├── test.ms.pdf
 │   └── WIAB.pdf
+├── navigation
+│   ├── fit2gpx
+│   ├── garmin_sd
+│   └── nav_terms
 ├── network
 │   ├── bluetooth
 │   │   ├── bluetoothctl
@@ -849,5 +855,5 @@
 └── zzz_deprecated
     └── xab
 
-168 directories, 681 files
+169 directories, 686 files
 ```

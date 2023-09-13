@@ -4,12 +4,15 @@ heading: direction of aim in relation to north
 
 where the nose of the airplane or bow of the vessel is pointing
 
+navigation display (nd) or primary flight display (pfd): yellow line
 
 # course (crs)
 
 course: actual direction of movement in relation to north
 
 crosswind = 0 --> heading = course
+
+navigation display (nd) or primary flight display (pfd): ?cyan triangle?
 
 
 # true bearing (brg)
@@ -44,7 +47,9 @@ most relevant to the crew of the boat
 
 
 # track (trk)
-track: actual course history
+track: actual course (history)
+groundtrack (gndtrk)
+navigation display (nd) or primary flight display (pfd): green diamond (◇)
 
 
 # formulas
