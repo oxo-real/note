@@ -1,4 +1,5 @@
 # error
+
 while installing (building packages):
 
 :: Importing keys with gpg...
@@ -34,6 +35,7 @@ gpg --recv-keys 7DCB12A7
 
 
 # error
+
 gpg: WARNING: unsafe permissions on homedir
 
 ## solution (see also separate bash script)
@@ -48,3 +50,12 @@ find $GNUPGHOME -type f -exec chmod 600 {} \;
 find $GNUPGHOME -type d -exec chmod 700 {} \;
 ```
 
+
+# error
+gpg: selecting card failed: No such device
+
+## solution
+pkill gpg-agent
+OR
+WARNING! not tested
+gpg-connect-agent reloadagent /bye
