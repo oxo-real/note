@@ -20,7 +20,7 @@ amixer set Capture toggle && amixer get Capture | grep '\[off\]' && notify-send 
 amixer set Master playback volume 30 unmute  ## alsamixer unmute playback volume 30
 apropos keyword  ## search man page names and descriptions
 arecord audio.wav  ## record wave audio
-awk '!($1="")' <file>  ## remove column 1
+awk '!($1="")' $file  ## remove column 1
 awk 'NF{NF-=1};1'  ## remove last column
 basename $filepath  ## print filename without any leading directory components
 bindkey  ## zsh bound keys
@@ -34,7 +34,7 @@ cal -m -w -3 $(date -I)  ## calendar showing last, current and next month, week 
 cal -m -w -y $(date +%Y)  ## current year calendar
 cal -m -w 12 2022  ## calendar for december 2022
 cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
-cat -n <file>  ## line number cat
+cat -n $file  ## line number cat
 cat -vE $file  ## prevent cat shell injection
 cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
 #cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file (heredoc), strip leading tabs from mlt (-), EOF can be any unique limit string
@@ -60,7 +60,7 @@ cryptsetup luksAddKey --key-slot 7 $file  ## add luks key to slot 7 of $file
 cryptsetup luksRemoveKey --key-slot 7 $file  ## remove luks key from slot 7 of $file
 cryptsetup luksDump file  ## dump header information
 cryptsetup luksChangeKey file  ## change a key
-cryptsetup luksUUID <luks_container> | wl-copy -o -n  ## get luks container id
+cryptsetup luksUUID $luks_container | wl-copy -o -n  ## get luks container id
 cryptsetup open /dev/sdX cryptlvm  ## open /dev/sdX to cryptlvm
 cryptsetup open /dev/sdX cryptroot --debug  ## which keyslot is used for passphrase
 curl $(wl-paste) | zathura -  ## stream a copied (qb ;y) pdf url
@@ -82,7 +82,7 @@ diff --side-by-side --left-column $lf $rf  ## print $lf; $rf diffs in right colu
 diff --new-file --text --unified=3 --recursive $lf $rf > $patch_file  ## create recursive $patch-file unified with 3 lines of context from $lf to $rf (-Naur)
 diff <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) <(echo $(pacman -Q linux | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) | tr -d '\n'  ## kernel upgrade requires reboot ($? != 0)
 dig -x 89.39.107.195  ## reverse lookup own public ip
-dirname $filename  ## print <filename> without last component
+dirname $filename  ## print $filename without last component
 du -sbh $directory  ## total size of all content in directory
 e2label /dev/X  ## read device label
 e2label /dev/X $label  ## write device label
@@ -123,17 +123,17 @@ find . -type f -exec mv {} $dest \;  ## find all files and move them to $dest di
 find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print  ## find broken symbolic links
 find . | sed -e 's;[^/]*/;|____;g;s;____|; |;g'  ## similar to: find . | tree
 find . -iname $file  ## case_insensitive find
-find /<directory> -name '<search-string>' 2>/dev/null
-find /<directory> -type f -exec shred -v -z -n 3 -u {} \;
+find /$directory -name '$search_string' 2>/dev/null
+find /$directory -type f -exec shred -v -z -n 3 -u {} \;
 for file in *.html; do mv "$file" "${file%.html}.txt"; done  ## change file extension (*.html to *.txt)
 for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
 for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
 for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
 for i in {0..7}; do; printf "\033[0;3${i}mcolor$i\n"; done  ## print 8 colors
 free -m  ## free and used memory in system
-fuser -vmM <file[system]>  ## display PIDs using file / file(system) (filesystem in mount)
+fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem in mount)
 fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
-getent ahosts <url>  ## get ip address from name service switch library database ahost
+getent ahosts $url  ## get ip address from name service switch library database ahost
 git config --show-scope --show-origin --list  ## origin and scope of git configuration
 git log --oneline  ## list of commits
 git reset --hard 2db93df  ## back to a previous commit
@@ -142,7 +142,7 @@ gpg --armor --export ID > ID.puk.gpg  ## export public key ascii armored id
 gpg --detach-sign --local-user 0x12345678 $file  ## sign $file with specific secret key
 gpg --edit-key ID >  ## edit public key
 gpg --export ID > ID.puk.gpg  ## export public key binary
-gpg --fingerprint | grep -i -B 1 <uid/email> | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
+gpg --fingerprint | grep -i -B 1 $uid_email | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
 gpg --expert --full-generate-key  ## generate new keypair
 gpg --import ID >  ## import public key
 gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 1 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list
@@ -150,7 +150,7 @@ gpg --output ID.puk.asc --armor --export ID >  ## export public key ascii armore
 gpg --output file --decrypt file.gpg >  ## decrypt file.gpg asymmetric using private key
 gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetric using public key ID
 gpg --output file.gpg --symmetric file >  ## encrypt file symmetric
-gpg -e -a -r <id> file ## encrypt file armored for recipient <id> (like pass)
+gpg -e -a -r $id file ## encrypt file armored for recipient $id (like pass)
 gpg --output revoke.asc --gen-revoke ID  ## generate revocation certificate
 gpg -vv public_key.asc
 gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
@@ -169,45 +169,45 @@ head -n -3 $file  ## show all but 3 last lines (hide last three lines from $file
 history -t +%Y%m%d_%H%M%S -d $history_id  ## command history from $history_id (id time cmd)
 history -t +%Y%m%d_%H%M%S -d -3  ## last 3 commands from history (id time cmd)
 hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
-host -t A <ip_addr/domain>  ## dns lookup A record
-host -v -t ANY <ip_addr/domain>  ## dns lookup any type verbose output
+host -t A $ip_addr_domain  ## dns lookup A record
+host -v -t ANY $ip_addr_domain  ## dns lookup any type verbose output
 hwclock --set --date='01/01/2010 00:00:00'; sudo hwclock --hctosys  ## set date and time
 id -u [$USER]  ## show effective user id
 id -g [$USER]  ## show effective group id
 id -un [$USER]  ## show effective user name
 id -gn [$USER]  ## show effective group name
 id [$USER]  ## show both real and effective uid & gid
-iftop -i <interface> ## display bandwith usage of interface
+iftop -i $interface ## display bandwith usage of interface
 info  ## advanced manual system primarily for gnu programs
-insmod <filename> [args]  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
-ip a add 192.168.1.200/255.255.255.0 dev <interface>	## assign ip address to interface
-ip a add <ip>/<subnet_mask> broadcast <broadcast_ip> dev <interface>
-ip a del 192.168.1.200/24 dev <interface>	## remove ip address from interface
-ip a flush <interface>	## remove all ip addresses from interface
-ip link set <interface> {down/up}   ## change interface state
-ip link set dev [interface] address [mac]  ## assign [mac] address to [interface]
-ip link set dev [interface] down  ## disconnect from the network by disable interface
-ip n show	## show neighbour / arp cache
+insmod $file [$args]  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
+ip a add 192.168.1.200/255.255.255.0 dev $interface	## assign ip address to interface
+ip a add $ip_subnet_mask broadcast $broadcast_ip dev $interface
+ip a del 192.168.1.200/24 dev $interface	## remove ip address from interface
+ip a flush $interface	## remove all ip addresses from interface
+ip link set $interface {down/up}  ## change interface state
+ip link set dev [$interface] address [$mac]  ## assign [mac] address to [interface]
+ip link set dev [$interface] down  ## disconnect from the network by disable interface
+ip n show  ## show neighbour / arp cache
 ip link show $enp | grep link | awk '{print $2}'  ## print $enp mac address
 ip route add default via $default_gateway
 ip route flush dev $interface
-ipset add blocklist [ipaddrs]  ## add [ipaddrs] to blocklist
+ipset add blocklist [$ipaddrs]  ## add [ipaddrs] to blocklist
 ipset create blocklist hash:ip  ## create ip blocklist
-iw dev [wl_interface] scan | grep SSID | sort | uniq  ## received SSID list
+iw dev [$wl_interface] scan | grep SSID | sort | uniq  ## received SSID list
 jobs  ## list background processes
 journalctl --disk-usage  ## show total disk usage
 journalctl --flush --rotate  ## flush all journal data from /run to /var and request immediate rotation of the journal files
 journalctl --vacuum-files=2  ## leave 2 journal files (--vacuum-size, --vacuum-time)
 journalctl --list-boots
-journalctl -b, --boot[ID]
+journalctl -b, --boot [$id]
 journalctl -e
 journalctl -f, --follow
 journalctl -k
 journalctl -o json-pretty
 journalctl -o verbose
 journalctl -p 3 -x
-journalctl -u <unit>
-journalctl _<tab>
+journalctl -u $unit
+journalctl _<TAB>
 jq '.data[0] | .ua' api.json  ## get ua from the first data item
 kill $(pidof <process_name>)  ## kill pid of process
 ln -s $target $link_name  ## create symlink $link_name to $target
@@ -220,11 +220,11 @@ lsblk -o fsuse%,path,fsused,size | grep '%' | awk 'NR == 1; NR > 1 {print $0 | "
 lscpu  ## display cpu architecture
 lshw  ## list hardware configuration
 lsmod  ## list drivers currently added to kernel
-lsof +f -- [path/1 path/2]  ## list open files in paths opened by processes
-lsof -p [PID]  ## list open files for PID
+lsof +f -- [$path1 $path2]  ## list open files in paths opened by processes
+lsof -p [$pid]  ## list open files for PID
 lspci  ## list pci devices
-lspci -k -d #[<vendor>]:[<device>][:<class>]
-lspci -k -s <xx:xx.x> #[[[[<domain>]:]<bus>]:][<slot>][.[<func>]]
+lspci -k -d #[$vendor]:[$device][:$class]
+lspci -k -s xx:xx.x #[[$domain]:]$bus]:][$slot][.[$func]]
 lspci -kvvt
 lspci -vv  ## list pci devices, find kernel drivers
 man -k . | fzf | awk '{print $1}' | xargs -r env TERM=xterm man  ## fzf find and open manpage
@@ -234,8 +234,8 @@ mkdir $HOME/dock/{1-4}  ## make multiple directories
 tmp=$(mktemp); printf "$tmp\n"; head -c 1b </dev/urandom >"$tmp"  ## create a temporary file with 1b random data
 nmcli connection add type ethernet con-name $con_name ifname $if_name
 nmcli connection modify $con_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual
-modprobe -r <driver>  ## remove driver from kernel
-modprobe <driver>  ## add driver to kernel
+modprobe -r $driver  ## remove driver from kernel
+modprobe $driver  ## add driver to kernel
 mount -L $label $mountpoint  ## mount device with $label to $mountpoint
 mount -o remount,rw /dev/sdY1 /boot  ## remount rw existing mountpoint
 mount -o uid=$(id -u $USER),gid=$(id -g $USER) /dev/sdX dock/1  ## mount as current user
@@ -245,7 +245,7 @@ mpv --start=+00:00 --ytdl-format='best[filesize<300M]' --profile=cache_xs --demu
 mpv `echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\//'`  ## change yt url
 mpv --audio-display=no $file.mp3  ## play mp3 without albumart
 mpv /dev/video4  ## livestream local webcam
-mv -t <target_dir> <source_dirs>  ## move source_dirs to target_dir
+mv -t $target_dir $source_dirs  ## move source_dirs to target_dir
 nerd-dictation begin --config $config_file --simulate-input-tool STDOUT --numbers-min-value 10 --numbers-as-digits --numbers-no-suffix --vosk-model-dir $model_dir  ## speech-to-text
 neofetch --ascii_distro arch_small --gtk3 off --gtk2 off --colors 3 3 3 7 3 4 --separator '     \t'  ## neat system info
 nl -w 3 -s ' '  ## add line numbers with number width 3 and separator string ' '
@@ -264,9 +264,9 @@ openssl s_client -connect $server_ip:443 -servername $server_name -showcerts  ##
 openssl x509 -in cert.pem -noout -text  ## print x509 public key certificate from file cert.pem as text to stdout
 openvpn --config openvpn/udp-ams1_udp.ovpn
 output=$(printf $input | openssl dgst -sha512 -hmac $hmac | sed 's/^.*= //') ## zz3
-pacman-key --delete <pub_key>
-pacman-key --finger <pub_key>
-pacman-key --lsign-key <pub_key>
+pacman-key --delete $pub_key
+pacman-key --finger $pub_key
+pacman-key --lsign-key $pub_key
 pactl list sinks | grep -A 1 Name  ## list of sink devices (audio output)
 pactl list sources | grep -A 1 Name  ## list of source devices (audio input)
 pactl set-source-port $device_name $port_name  ## set audio source (use tab to autocomplete)
@@ -310,13 +310,13 @@ read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o; unset input  
 read -er input | base64 | wl-copy -n -o; unset input  ## input base64 translation
 read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'; input=; unset input  ## secure sha3-512 hash from stdin (verify pwgn)
 read -er script_name && printf '%s%s' "$(figlet "$script_name")" "$(figlet -f mini "$USER")" | wl-copy  ## script header
-readlink <file>  ## print resolved symbolic links or canonical file names
-readlink <symlink> | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change symlink to current users $HOME
+readlink $file  ## print resolved symbolic links or canonical file names
+readlink $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change symlink to current users $HOME
 realpath file  ## return canonicalized absolute pathname
 realpath $dir_in_home | sed "s|$HOME||"  ## remove $HOME from $dir_in_home
 reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 -l 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
 rename 'part' '' $filepart  ## change 'part' in filename $filepart with '' (remove part of filename)
-renice -19 $(pgrep <process_name>)  ## give <process_name> highest (-19) priority
+renice -19 $(pgrep $process_name)  ## give $process_name highest (-19) priority
 reset  ## reinitialize terminal state
 rev $file  ## reverse line characters
 rfkill list  ## check hard and soft block status wireless radios
@@ -334,15 +334,15 @@ script; sh -x $command; exit  ## $sommand execution typescript developer debug l
 script --command 'sh -x $command' --log-io "$(now).log" --log-timing "$(now).log"  ## $sommand execution typescript developer debug log_2
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove history last command
-sed -i '$d' <file>  ## remove last line from <file>
+sed -i '$d' $file  ## remove last line from $file
 sed -i '/pttrn/d' file  ## delete all lines in file that contain 'pttrn'
-sed -i '2,$d' <file>  ## remove all lines from line 2 from <file>
-sed -i '2,3 d' <file>  ## remove line 2 and 3 from <file>
-sed -i 'ni insert this into line n of file' <file>
-sed -i 's/<find>/<replace>/g' <file>  ## replace <find> with <replace> in <file>
-sed -i '/<find>/{n;s/.*/<replace>/}' <file>  ## find <find> and replace next line with <replace>
-sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' <file>  ## remove last 2 lines from <file>
-sed -i '/^find/ s/./#&/' <file>  ## comment out lines containing 'find'
+sed -i '2,$d' $file  ## remove all lines from line 2 from $file
+sed -i '2,3 d' $file  ## remove line 2 and 3 from $file
+sed -i 'ni insert this into line n of file' $file
+sed -i 's/$find/$replace/g' $file  ## replace $find with $replace in $file
+sed -i '/$find/{n;s/.*/$replace/}' $file  ## find $find and replace next line with $replace
+sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
+sed -i '/^find/ s/./#&/' $file  ## comment out lines containing 'find'
 set -euo pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 setfont ter-v32n  ## set console font
@@ -364,9 +364,9 @@ sqlite3 -header -separator " " $XDG_DATA_HOME/qutebrowser/history.sqlite "select
 ssh-keygen -t ed25519-sk -C $key_id -f $key_file  ## generate openssh key
 ssh-keygen -R 192.168.0.195  ## remove cached key for ip on the local machine
 ssh-keyscan -t ecdsa 192.168.x.y >> ~/.ssh/known_hosts  ## update ecdsa key for ip on local machine
-stat -c %A <file>  ## display file access rights in human readable format
-stat -c %a <file>  ## display file access rights in octal format
-stat <file>  ## display file or file system status
+stat -c %A $file  ## display file access rights in human readable format
+stat -c %a $file  ## display file access rights in octal format
+stat $file  ## display file or file system status
 stty -a  ## print all terminal line settings (human readable)
 stty -g  ## print all tty settings (stty readable)
 stty $(head -n 1 $XDG_CONFIG_HOME/tty/default)  ## (re)set default tty settings
@@ -394,15 +394,15 @@ systemctl list-units
 systemd-analyze
 tail -f /var/log/{messages,kernel,dmesg,syslog}
 tac $file  ## concatenate and print file lines in reverse
-tar -cv[j/z]f <archive.tar> -C <subdir> <files>  ## create tar archive [bzip2/gzip compression (optional)] files in archive relative to <subdir>
-tar -cv[j/z]f <archive.tar> <files>  ## create tar archive [bzip2/gzip compression (optional)]
-tar -tvf <archive.tar>  ## print contents of tar archive
-tar -xv[j/z]f <archive.tar>  ## extract tar archive [bzip2/gzip compression (optional)]
-tar -xv[j/z]f <archive.tar> <path/single.file>  ## extract single.file from tar archive [bzip2/gzip compression (optional)]
-tee -a file1 file2  ## append stdout to multiple files
+tar -cv[j/z]f $archive.tar -C $subdir $files  ## create tar archive [bzip2/gzip compression (optional)] files in archive relative to $subdir
+tar -cv[j/z]f $archive.tar $files  ## create tar archive [bzip2/gzip compression (optional)]
+tar -tvf $archive.tar  ## print contents of tar archive
+tar -xv[j/z]f $archive.tar  ## extract tar archive [bzip2/gzip compression (optional)]
+tar -xv[j/z]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip compression (optional)]
+tee -a $file1 $file2  ## append stdout to multiple files
 tmux attach-session -t 0
 tmux show-options -g
-touch --date=2000/01/01 filename  ## create file in time
+touch --date=2000/01/01 $file  ## create file in time
 tput reset  ## reinitialize terminal state
 tr -d '[:blank:]\t\r\n'  ## remove all whitespace
 tr -s " " < file_with_double_spaces > file_without_double_spaces  ## remove double spaces
@@ -414,7 +414,7 @@ fallocate -l 5M file  ## create file 5M size
 truncate -s 5M file  ## create file 5M size
 tree -n --charset=unicode  ## depth indented file listing
 type -a file or command  ## file or command interpretation; print all occurences in path
-umount -l <mountpoint>  ## umount busy targets (mountpoints)
+umount -l $mountpoint  ## umount busy targets (mountpoints)
 unlink $link_name  ## remove $link_name (i.e. symlink)
 unset varfun  ## unset value and attribute of variable or function varfun
 unsetvar=  ## set variable unsetvar to ''
@@ -427,10 +427,10 @@ watch -d -n 1 -t lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,lab
 watch -n 1 'ls -ilatr'  ## watch ls -ilatr
 wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
 wget https://file.location -c -O file.location.txt_part  ## resume downloading file.location to file.location.txt_part
-which -a <command>  ## show path of all <command> (from $PATH)
+which -a $command  ## show path of all $command (from $PATH)
 while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk '{print $1}')"  ## which package from Qm is in /v/c/p/p
-while read -r -u $fd l; do <commands>; done {fd}< <file>  ## read file line by line into l (with stdin redirection)
-while read l; do <commands>; done < <file>  ## read file line by line into l
+while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line by line into l (with stdin redirection)
+while read l; do $commands; done < $file  ## read file line by line into l
 whois -B 46.166.142.215  ## whois own public ip
 wl-paste >> /home/cytopyge/.config/qutebrowser/bookmark_urls  ## add to bookmark_urls
 wf-recorder -g "$(slurp)"  ## video capture part of screen
@@ -438,9 +438,9 @@ wf-recorder --audio --file=recording_with_audio.webm  ## video and audio capture
 read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
 wpa_supplicant -B -i wlp58s0 -c ~/keys/wl/mn.wifi
 xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
-xxd -b -p <infile <outfile>> ## plain bits dump
-xxd -p <infile <outfile>> ## plain hexdump
-xxd -r -p <infile <outfile>> ## reverse plain hexdump
+xxd -b -p $infile $outfile  ## plain bits dump
+xxd -p $infile $outfile  ## plain hexdump
+xxd -r -p $infile $outfile  ## reverse plain hexdump
 xz -d  ## decompress .xz file
 xz -l  ## list .xz file
 xz -z  ## compress .xz file
@@ -451,20 +451,20 @@ yay -P  ## show (is a yay specific [no pacman] option)
 yay -Ps && yay --show -w && yay -Syu && yay -Rns $(yay -Qtdq) && yay -c && paccache -rv
 yay -Pw  ## show news
 yay -Q  ## query package database; display installed packages with version (Q=Qd+Qe=Qm+Qn)
-yay -Qc <file>	## query package database; display changelog <file>
+yay -Qc $file	## query package database; display changelog $file
 yay -Qd  ## (--deps) query package database; display packages installed as dependencies
 yay -Qdt  ## query package database; display unrequired deps
 yay -Qe  ## (--explicit) query package database; display explicitly installed packages
 yay -Qent  ## query package database; display explicitly installed (no dependencies), not required packages that are in the package database
-yay -Qg $group  ## query package database; display packages that are member of <group>
-yay -Qi $package  ## query package database; display package infoos that are member of <group>cman
+yay -Qg $group  ## query package database; display packages that are member of $group
+yay -Qi $package  ## query package database; display package infoos that are member of $groupcman
 yay -Qk $package  ## query package database; display number of total and missing files, check that all files of the package are present on the system
 yay -Ql $package  ## query package database; display package file list
 yay -Qm  ## (--foreign) query package database; display packages that are not in the sync database
 yay -Qmq  ## (--foreign) query package database; display packages that are not in the sync database no version
 yay -Qn  ## (--native) query package database; display packages that are in the sync database
 yay -Qnq | yay -S -  ## reinstall native packages
-yay -Qo $file	## query package database; display which package owns <file>
+yay -Qo $file	## query package database; display which package owns $file
 yay -Qq ## query package database; display installed packages (raw)
 yay -Qql $package  ## query package database; display package file list (raw)
 yay -R $package || $group  ## remove [package] OR [group]
@@ -476,7 +476,7 @@ yay -Sw $package  ## synchronize package only download, not install
 yay -Syu --devel --timeupdate  ## update, also check AUR developement packages (git), timeupdate (instead of version number)
 yay -Tv  ## check dependencies; show file paths
 yay -U $package  ## remove then upgrade or add package
-ykman otp static --no-enter --keyboard-layout US 2 'string' ## assign string to yk slot 2
+ykman otp static --no-enter --keyboard-layout US 2 'string'  ## assign string to yk slot 2
 zbarcam --oneshot --raw /dev/video4 | wl-copy -o -n  ## read qr from video4
 zsh --no-rcs  ## zsh terminal without run command script
 chmod 0000	## ---------- 		ugo -	no permissions
