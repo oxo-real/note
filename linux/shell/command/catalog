@@ -1,7 +1,7 @@
-#!/usr/bin/env bash  ## search $path for bash
+#! /usr/bin/env bash  ## search $path for bash
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
-< $file  ## less $file (oxos zshrc)
+< $file  ## less $file (oxo zshrc)
 < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
 < $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
 echo hello 1> $file  ## redirect stdout write to $file
@@ -9,8 +9,8 @@ echo hello 2>> $file   ## redirect stderr append to $file
 echo hello &> /dev/null  ## redirect stdout and stderr write to devnull; silent execution
 echo hello > /dev/null 2>&1  ## redirect stdout write to devnull and stderr write to sdtout; silent execution
 echo hello 2>&1 | tee -a logfile  ## no redirection; append stdout and stderr to logfile
-((i++))  ## increment i by one (i.e. in a loop)
-((i--))  ## decrement i by one (i.e. in a loop)
+((i++))  ## increase i by one (i.e. in a loop)
+((i--))  ## decrease i by one (i.e. in a loop)
 amixer info  ## info about alsamixer device
 amixer scontrols  ## list of alsamixer controls
 amixer set Capture toggle  ## alsamixer toggle mic
@@ -428,6 +428,7 @@ watch -n 1 'ls -ilatr'  ## watch ls -ilatr
 wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
 wget https://file.location -c -O file.location.txt_part  ## resume downloading file.location to file.location.txt_part
 which -a $command  ## show path of all $command (from $PATH)
+optstring=":i:h"; while getopts $optstring opt; do; case $opt in i) var="${OPTARG}";; h) echo help_text;; \?) echo 'no opt';; :) echo 'hlp txt';; esac; done  ## command options (-i arg or -h)
 while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk '{print $1}')"  ## which package from Qm is in /v/c/p/p
 while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line by line into l (with stdin redirection)
 while read l; do $commands; done < $file  ## read file line by line into l
