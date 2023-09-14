@@ -297,10 +297,14 @@ ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list process
 ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom AIX format descriptors, sort high to low cpu usage
 pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
 pushd $directory  ## cd to $directory and add $directory to dirs stack[0]
+qalc '-18.5458 to latitude'  ## convert decimal geographic position value to sexagesimal N/S notation
+qalc '64.8587 to longitude'  ## convert decimal geographic position value to sexagesimal E/W notation
+qalc '18°32′44.88″W to degrees'  ## convert sexagesimal value to decimal geographic position notation
+qalc -s 'exp engineering' '1700000000'  ## convert value to engineering notation
 qbns -s content.canvas_reading true -s content.webgl true -s colors.webpage.darkmode.enabled false $(wl-paste) &  ## qutebrowser new session open copied url unsafe
 qrencode -t utf8  ## create qr from stdin
-qutebrowser -s content.canvas_reading true ## qb for windy
-rankmirrors -n 10 /etc/pacman.d/mirrorlist | grep -w 'Server =' >> mirrorlist.ranked
+qutebrowser -s content.canvas_reading true  ## qb for windy
+rankmirrors -n 10 /etc/pacman.d/mirrorlist | grep -w 'Server =' >> mirrorlist.ranked  ## update mirrorlist
 read input  ## zz1
 read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o; unset input  ## input base64 translation without EOL
 read -er input | base64 | wl-copy -n -o; unset input  ## input base64 translation
@@ -366,6 +370,7 @@ stat <file>  ## display file or file system status
 stty -a  ## print all terminal line settings (human readable)
 stty -g  ## print all tty settings (stty readable)
 stty $(head -n 1 $XDG_CONFIG_HOME/tty/default)  ## (re)set default tty settings
+ts="$(now)"; stty_bu="$XDG_CONFIG_HOME/tty/"$ts"_sttyrc"; stty --save > $stty_bu && stty -all >> $stty_bu  ## backup terminal characteristics
 sudo -k  ## invalidate cached credentials
 sudo -l  ## list allowed commands for user
 sudo -n echo >/dev/null 2>&1; echo $?  ## print sudo status
@@ -405,8 +410,8 @@ tr -d -c "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 3
 tr -d -c "[:graph:]" < /dev/random | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate passstring)
 tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b  ## translate 16 random streams in 32 specified characters (generate passstring)
 tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n
-fallocate -l 5M file  ## make file 5M size
-truncate -s 5M file  ## make file 5M size
+fallocate -l 5M file  ## create file 5M size
+truncate -s 5M file  ## create file 5M size
 tree -n --charset=unicode  ## depth indented file listing
 type -a file or command  ## file or command interpretation; print all occurences in path
 umount -l <mountpoint>  ## umount busy targets (mountpoints)
@@ -488,7 +493,7 @@ chmod 0770	## -rwxrwx--- 		u	rwx	g	rwx	o	-
 case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## case statement basic structure
 if [[ $i -eq 0 ]]; then; echo 0; elif [[ $i -lt 0 ]]; then; echo neg; else; echo pos; fi  ## if elif else statement basic structure
 for i in 1 2 3; do; echo $i; done  ## for loop basic structure
-for (( i=1; i<=10; i++ )); do echo $i; done  ## for loop alternative structure
+for (( i=1; i<=3; i++ )); do echo $i; done  ## for loop alternative structure
 select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
 while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure upcount
 while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure upcount
