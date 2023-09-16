@@ -23,6 +23,7 @@ arecord audio.wav  ## record wave audio
 awk '!($1="")' $file  ## remove column 1
 awk 'NF{NF-=1};1'  ## remove last column
 basename $filepath  ## print filename without any leading directory components
+bind '"\e[0n": "$string"'; printf '\e[5n'  ## inject $string to bash stdin
 bindkey  ## zsh bound keys
 blkid /dev/sda128 | awk '{print $3}' | cut -d '"' -f 2  ## get uuid from /dev/sd
 bluetoothctl connect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth connect
@@ -281,6 +282,7 @@ pim=$(printf $input | xxd -p)  ## zz4_OLD
 ping -D -i 10 -c 5 9.9.9.9  ## TODO decription
 pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0  ## end internet connection
 pkill -SIGRTMIN+4 i3blocks  ## send signal=4 to i3blocks
+print -z $string  ## inject $string to zsh stdin
 printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
 printf "%03d%s" "2"  ## print leading zeros
 printf "%3d%s" "2"  ## print leading spaces
@@ -310,8 +312,8 @@ read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o; unset input  
 read -er input | base64 | wl-copy -n -o; unset input  ## input base64 translation
 read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'; input=; unset input  ## secure sha3-512 hash from stdin (verify pwgn)
 read -er script_name && printf '%s%s' "$(figlet "$script_name")" "$(figlet -f mini "$USER")" | wl-copy  ## script header
-readlink $file  ## print resolved symbolic links or canonical file names
-readlink $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change symlink to current users $HOME
+readlink $symlink  ## print resolved symbolic links or canonical file names
+readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonicalized symlink to current users $HOME (NOTICE realpath is preferred)
 realpath file  ## return canonicalized absolute pathname
 realpath $dir_in_home | sed "s|$HOME||"  ## remove $HOME from $dir_in_home
 reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 -l 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
