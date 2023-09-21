@@ -59,3 +59,11 @@ pkill gpg-agent
 OR
 WARNING! not tested
 gpg-connect-agent reloadagent /bye
+
+
+# error
+gpg: bad passphrase hangs terminal
+
+## solution
+pkill gpg-agent
+
