@@ -789,7 +789,9 @@
 │   │   │   ├── map_markers.json
 │   │   │   └── two_items_list.json
 │   │   ├── jq
-│   │   │   └── jq_101
+│   │   │   ├── filter.jq
+│   │   │   ├── jq_101
+│   │   │   └── sway_nodes.jq
 │   │   └── prettify
 │   ├── xml
 │   │   └── xml_prettify
@@ -855,5 +857,5 @@
 └── zzz_deprecated
     └── xab
 
-169 directories, 686 files
+169 directories, 688 files
 ```
