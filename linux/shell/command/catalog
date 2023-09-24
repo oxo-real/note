@@ -451,7 +451,7 @@ yay --gendb  ## generate developement package database
 yay --show -w -w  ## TODO decription
 yay -Gd $(yay -Qqm)  ## download package builds from installed aur packages
 yay -P  ## show (is a yay specific [no pacman] option)
-yay -Ps && yay --show -w && yay -Syu && yay -Rns $(yay -Qtdq) && yay -c && paccache -rv  ## TODO decription
+yay -Ps && yay --show -w && yay -Syu && yay -Rns $(yay -Qtdq) && paccache -rv  ## system upgrade and cleanup
 yay -Pw  ## show news
 yay -Q  ## query package database; display installed packages with version (Q=Qd+Qe=Qm+Qn)
 yay -Qc $file	## query package database; display changelog $file  ## TODO decription
