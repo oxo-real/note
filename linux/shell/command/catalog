@@ -472,6 +472,7 @@ yay -Qq  ## query package database; display installed packages (raw)
 yay -Qql $package  ## query package database; display package file list (raw)
 yay -R $package || $group  ## remove [package] OR [group]
 yay -Rns $package  ## remove [package] including not required and not explicitly installed dependencies, no pacsave
+yay -Rns $(yay -Qdtq)  ## remove unrequired dependencies including not required and not explicitly installed dependencies, no pacsave
 yay -S $package  ## synchronize package; download and install
 yay -Sc $package  ## remove all cached packages that are currently not installed (more agressive than paccache)
 yay -Scc $package  ## remove all cached packages (far more agressive than paccache, will prevent downgrading or reinstalling without downloading)
