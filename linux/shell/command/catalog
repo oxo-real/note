@@ -336,7 +336,8 @@ script; $command; exit  ## $command execution typescript user log
 script; sh -x $command; exit  ## $sommand execution typescript developer debug log
 script --command 'sh -x $command' --log-io "$(now).log" --log-timing "$(now).log"  ## $sommand execution typescript developer debug log_2
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
-sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove history last command
+sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove $HISTORY last line
+sed -i '$d' $HISTFILE; sed -e ':t;N;$!bt; s/\(\n[^\n]*\)\{1\}$/\n     deleted:&/' $HISTFILE | tail; sed -i '$d' $HISTFILE  ## remove $HISTORY last line and show result
 sed -i '$d' $file  ## remove last line from $file
 sed -i '/pttrn/d' file  ## delete all lines in file that contain 'pttrn'
 sed -i '2,$d' $file  ## remove all lines from line 2 from $file
