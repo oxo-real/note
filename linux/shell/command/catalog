@@ -361,6 +361,7 @@ sort $HISTFILE | uniq -c | sort -k1,1nr -k2 >> history_freq  ## create history f
 sort < $file | sort -nr > $file_sort_freq  ## reverse numerical sort
 sort < $file | uniq -u > $file_uniq  ## unique lines
 sort $file | uniq -c | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
+source $function_text_appearance; printf "$(FHX ffbf00)$(BHX 0040ff)%s${NOC}\n" "$text"  ## hexadecimal 24 bit color codes in printf (fore- & background)
 split $file -b N  ## split $file into files with N bytes
 split $file -l N  ## split $file into files with N lines
 split $file -n N  ## split $file into N files
