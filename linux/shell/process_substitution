@@ -1,0 +1,43 @@
+child process is born with its own environment and cannot affect the variables of its parent. If you set a variable in a child process, then the value of the variable in the parent is not affected. These are actually two different variables which just happen to have the same name.
+
+The second thing to understand is when bash runs a command as a child process. There are two cases relevant to the question:
+
+Each process connected by a pipe | is a child of the current shell.
+Running a single builtin command with a redirection (e.g. <) will not spawn a child process.
+Here is a simple session which demonstrates these ideas:
+
+$ somevar=initial
+$ echo test1 | read somevar
+
+$ echo $somevar
+initial
+
+
+
+$ read somevar < <(echo test2)
+
+$ echo $somevar
+test2
+
+The first read is a child process and therefore somevar in the main shell does not change. The second read is executed by the main shell itself and hence somevar is updated.
+
+This means that your code will work as you expect unless you add a pipe in front of or after the for loop, i.e. this works as you want it to:
+
+# DEFINE HERE
+SOMEVAR=0
+DAEMON_COUNT=10
+
+for i in `seq 0 ${DAEMON_COUNT}`;
+do
+        if [ ! -d "data$i" ]; then
+# SET HERE
+                SOMEVAR=10
+                echo "data$i does not exist. Creating...";
+                mkdir data$i
+        fi
+done
+
+# TEST AND USE HERE
+echo ${SOMEVAR}     # This displays 10
+
+[scripting - Bash setting a global variable inside a loop and retaining its value -- Or process substituion for dummies - Stack Overflow](https://stackoverflow.com/questions/9012841/bash-setting-a-global-variable-inside-a-loop-and-retaining-its-value-or-proce)

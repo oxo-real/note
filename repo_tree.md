@@ -592,6 +592,7 @@
 │   │   ├── here_strings
 │   │   ├── locale
 │   │   ├── password_policy
+│   │   ├── process_substitution
 │   │   ├── pure-sh-bible.html
 │   │   ├── quotation
 │   │   ├── standard_streams
@@ -862,5 +863,5 @@
 └── zzz_deprecated
     └── xab
 
-171 directories, 691 files
+171 directories, 692 files
 ```
