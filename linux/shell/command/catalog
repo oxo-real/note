@@ -430,7 +430,7 @@ uptime  ## uptime since boot
 usermod -a -G group_2_add user_2_add  ## add user to group
 var="${var_1:-$default_var}"  ## var is $default_var if var_1 is unset or null
 vlock -a  ## console lock all sessions
-watch -d -n 1 -t lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk
+env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
 watch -n 1 'ls -ilatr'  ## watch ls -ilatr
 wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
 wget https://file.location -c -O file.location.txt_part  ## resume downloading file.location to file.location.txt_part
