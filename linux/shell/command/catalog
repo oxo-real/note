@@ -433,6 +433,7 @@ vlock -a  ## console lock all sessions
 env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
 watch -n 1 'ls -ilatr'  ## watch ls -ilatr
 wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
+wf-recorder --audio --codec libx264 --file $video.mp4  ## recording video for odyssee
 wget https://file.location -c -O file.location.txt_part  ## resume downloading file.location to file.location.txt_part
 which -a $command  ## show path of all $command (from $PATH)
 optstring=":i:h"; while getopts $optstring opt; do; case $opt in i) var="${OPTARG}";; h) echo help_text;; \?) echo 'no opt';; :) echo 'hlp txt';; esac; done  ## command options (-i arg or -h)
