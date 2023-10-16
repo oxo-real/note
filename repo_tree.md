@@ -24,6 +24,9 @@
 │   ├── docker
 │   │   ├── docker_commands
 │   │   └── docker_help
+│   ├── dotool
+│   │   ├── keys
+│   │   └── wo_root
 │   ├── emacs
 │   │   ├── cheatsheet.org
 │   │   ├── emacs_101
@@ -863,5 +866,5 @@
 └── zzz_deprecated
     └── xab
 
-171 directories, 692 files
+172 directories, 694 files
 ```

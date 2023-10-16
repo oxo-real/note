@@ -86,6 +86,7 @@ diff --new-file --text --unified=3 --recursive $lf $rf > $patch_file  ## create 
 diff <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) <(echo $(pacman -Q linux | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) | tr -d '\n'  ## kernel upgrade requires reboot ($? != 0)
 dig -x 89.39.107.195  ## reverse lookup own public ip
 dirname $filename  ## print $filename without last component
+dotool --list-x-keys  ## show xkb keys
 du -sbh $directory  ## total size of all content in directory
 e2label /dev/X  ## read device label
 e2label /dev/X $label  ## write device label
@@ -354,7 +355,7 @@ set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset va
 setfont ter-v32n  ## set console font
 setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
 PS4='${LINENO}: ' sh -xv file.sh  ## extra verbose debug output with linenumbers
-showkey [-a|--ascii] [-s|--scancodes] [-k|--keycodes]  ## examine codes sent by the keyboard
+showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 simple-mtpfs --list-devices  ## list mountable mtp devices
 simple-mtpfs -o allow_other --device 1 $HOME/dock/mobile  ## mount mtp device 1
