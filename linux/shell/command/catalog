@@ -47,6 +47,7 @@ cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network block
 cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
 cd /usr/lib/modules/$(uname -r)  ## active os kernel modules
 cd /var/lib/pacman/local  ## pacman install directory
+cd $(printf '%s\n' "$PWD" | sed "s|$HOME/b|$HOME/c|")  ## move parrallel to the same cwd, but in another parent directory
 chattr -R +i $directory  ## add 'i' attribute: files in $directory cannot be modified
 chmod --reference=ref_file target  ## make target file mode bits same as ref_file
 chown -R $USER:$GROUP $target  ## recursive set target ownership to current user & group

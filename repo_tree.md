@@ -49,6 +49,7 @@
 │   │   ├── fred
 │   │   │   ├── frosted
 │   │   │   ├── pixelize
+│   │   │   ├── screeneffects
 │   │   │   └── url
 │   │   └── imagemagick
 │   ├── json
@@ -866,5 +867,5 @@
 └── zzz_deprecated
     └── xab
 
-172 directories, 694 files
+172 directories, 695 files
 ```
