@@ -629,6 +629,7 @@
 │   │       ├── last_command_get
 │   │       ├── multiline_comment
 │   │       ├── oxo_bindkey
+│   │       ├── print
 │   │       ├── shell_buildin_commands
 │   │       ├── shell_types
 │   │       ├── zle_zsh_line_editor.html
@@ -867,5 +868,5 @@
 └── zzz_deprecated
     └── xab
 
-172 directories, 695 files
+172 directories, 696 files
 ```
