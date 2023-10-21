@@ -291,10 +291,13 @@
 │   │   │   ├── 16m_color_capability
 │   │   │   ├── 16m_color_table
 │   │   │   ├── 256_color_table
+│   │   │   ├── 256_color_xterm_table
+│   │   │   ├── 8bits.png
 │   │   │   ├── ansi_color_esc_seq
 │   │   │   ├── bash_colors
 │   │   │   ├── colorr
 │   │   │   ├── ECMA-48_5th_edition_june_1991.pdf
+│   │   │   ├── esc_seq_test
 │   │   │   ├── from_hex
 │   │   │   └── to_hex
 │   │   ├── command
@@ -868,5 +871,5 @@
 └── zzz_deprecated
     └── xab
 
-172 directories, 696 files
+172 directories, 699 files
 ```
