@@ -11,6 +11,7 @@ echo hello > /dev/null 2>&1  ## redirect stdout write to devnull and stderr writ
 echo hello 2>&1 | tee -a logfile  ## no redirection; append stdout and stderr to logfile
 ((i++))  ## increase i by one (i.e. in a loop)
 ((i--))  ## decrease i by one (i.e. in a loop)
+alacritty msg config font.size=18  ## current alacritty instance font size 18 (for screencasting)
 amixer info  ## info about alsamixer device
 amixer scontrols  ## list of alsamixer controls
 amixer set Capture toggle  ## alsamixer toggle mic
