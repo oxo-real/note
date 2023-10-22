@@ -389,6 +389,9 @@ sudo iptables -A INPUT -s [ipaddr] -j DROP  ## add [ipaddr] to chain INPUT and d
 sudo rfkill unblock bluetooth && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off  ## bluetooth radio on
 sudo systemctl start sshd  ## TODO decription
 swaymsg -t get_outputs  ## TODO decription
+swaymsg -t get_tree | jq -r '.nodes[].nodes[] | select(.type=="workspace").name'  ## list sway workspaces
+swaymsg -t get_tree | jq -r '.nodes[].nodes[].nodes[] | select(.type=="con").name'  ## list sway containers
+swaymsg -t get_tree | jq -r '.nodes[].nodes[].floating_nodes[].name'  ## list sway floating containers
 swaymsg -t get_tree | jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.shell) | "\(.id) \(.pid) \(.app_id // .window_properties.class) \(.name)"' | fzf -m | cut -d ' ' -f 1 | xargs -I {} swaymsg '[con_id={}]' kill  ## kill sway nodes (windows / frames) with fzf
 swaymsg -t get_tree | jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.shell) | "\(.id) \(.pid) \(.app_id // .window_properties.class) \(.name)"' | fzf | cut -d ' ' -f 1 | xargs -I {} swaymsg '[con_id={}]' focus  ## focus sway node (window / frame) with fzf
 swaymsg -t get_tree | jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.shell) | "\(.id) \(.pid) \(.app_id // .window_properties.class) \(.name)"' | grep float | cut -d ' ' -f 1 | xargs -I {} swaymsg '[con_id={}]' kill  ## kill all nodes whose name containing 'float'
