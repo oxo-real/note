@@ -299,7 +299,9 @@
 │   │   │   ├── ECMA-48_5th_edition_june_1991.pdf
 │   │   │   ├── esc_seq_test
 │   │   │   ├── from_hex
-│   │   │   └── to_hex
+│   │   │   ├── to_hex
+│   │   │   ├── truecolor_fix76cols
+│   │   │   └── truecolor_termcols
 │   │   ├── command
 │   │   │   ├── alias
 │   │   │   ├── awk
@@ -636,6 +638,7 @@
 │   │       ├── shell_buildin_commands
 │   │       ├── shell_types
 │   │       ├── zle_zsh_line_editor.html
+│   │       ├── zsh_acc_array
 │   │       ├── zsh_bindkey
 │   │       ├── zsh_config_example
 │   │       └── zsh_git_prompt
@@ -871,5 +874,5 @@
 └── zzz_deprecated
     └── xab
 
-172 directories, 699 files
+172 directories, 702 files
 ```

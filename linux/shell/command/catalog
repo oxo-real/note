@@ -100,6 +100,10 @@ echo -n $string | base64  ## base64 encoding
 echo $?  ## print exit code of the last executed command
 echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
 echo $RANDOM  ## returns pseudorandom integer (0-32767)
+echo ${HOME#*/}  ## remove shortest matching pattern from head, until 1st instance ('home/oxo')
+echo ${HOME##*/}  ## remove longest matching pattern from head, until last instance ('oxo')
+echo ${HOME%/*}  ## remove shortest matching pattern from tail, from last instance ('/home')
+echo ${HOME%%/*}  ## remove longest matching pattern from tail, from first instance ('')
 wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
 wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
 emacsclient --daemon[=$server_name]  ## start emacs daemon

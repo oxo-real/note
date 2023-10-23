@@ -1,0 +1,61 @@
+
+typeset -A color
+declare -A color
+
+color[key]=value
+color[red]=ff6c60
+color[green]=a8ff60
+color[blue]=96cbfe
+
+
+# extract data from associative array
+
+% printf '%s ' ${(kv)color}
+key value blue 96cbfe red ff6c60 green a8ff60 %
+
+% printf '%s ' ${(k)color}
+key blue red green %
+
+% printf '%s ' ${(v)color}
+% printf '%s ' ${color}
+value 96cbfe ff6c60 a8ff60 %
+
+
+# number of keys
+
+% printf '%s ' ${#color}
+4
+
+
+# getting value from key
+
+% printf '%s ' ${color[red]}
+ff6c60 %
+
+
+# getting key from value (reverse lookup)
+
+% printf '%s ' color('value', $color)
+key %
+
+
+# loop through key-value pairs
+
+for color hexvalue in ${(kv)color}; do
+
+    printf '%s - %s\n' "$color" "$hexvalue"
+
+done
+
+
+# change value
+
+color[key]=new_value
+
+# change key
+
+
+
+# NOTICE
+# Shell scripting was never designed for complex data structures.
+# When you encounter these limitations, you should move up to a higher level language.
