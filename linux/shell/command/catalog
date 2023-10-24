@@ -307,6 +307,7 @@ ps -eFly  ## list every process on the system
 ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list processes custom AIX format descriptors, sort low to high elapsed time since process was started
 ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom AIX format descriptors, sort high to low cpu usage
 pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
+PS4=':${BASH_SOURCE[0]:-$0} $(printf %4d%s "${LINENO}") ${FUNCNAME[0]:+${FUNCNAME[0]}(): }' sh -xv script.sh  ## extra verbose debug output stream
 pushd $directory  ## cd to $directory and add $directory to dirs stack[0]
 qalc '-18.5458 to latitude'  ## convert decimal geographic position value to sexagesimal N/S notation
 qalc '64.8587 to longitude'  ## convert decimal geographic position value to sexagesimal E/W notation
@@ -360,7 +361,6 @@ set -euo pipefail  ## exit on: -e command error, -u unset variable expansion err
 set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 setfont ter-v32n  ## set console font
 setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
-PS4='${LINENO}: ' sh -xv file.sh  ## extra verbose debug output with linenumbers
 showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 simple-mtpfs --list-devices  ## list mountable mtp devices
