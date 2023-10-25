@@ -109,6 +109,7 @@ wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four 
 emacsclient --daemon[=$server_name]  ## start emacs daemon
 emacsclient -c  ## start emacs client
 emacsclient -e "(kill-emacs)" -s server  ## kill emacs server
+(set-face-attribute 'default nil :height 180)  ## ' emacs set font size 18pt (for screencasting)
 env  ## print current environment variables and their values
 espeak -s 80 -p 70 -v mb-us1 'hello'  ## espeak hello speed 80% pitch 70% voice us1
 eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concatenate arguments, add ssh_key

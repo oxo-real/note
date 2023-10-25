@@ -45,6 +45,8 @@
 │   │   └── install
 │   ├── ffmpeg
 │   │   └── repair_mp4
+│   ├── i3blocks
+│   │   └── 101
 │   ├── imagemagick
 │   │   ├── fred
 │   │   │   ├── frosted
@@ -204,6 +206,11 @@
 │   └── symmetric
 │       ├── openssl_aes_256_cbc
 │       └── symmetric
+├── data_formats
+│   ├── comparison
+│   ├── json
+│   ├── toml
+│   └── yaml
 ├── email
 │   ├── mailcap
 │   ├── mbsync_101
@@ -874,5 +881,5 @@
 └── zzz_deprecated
     └── xab
 
-172 directories, 702 files
+174 directories, 707 files
 ```

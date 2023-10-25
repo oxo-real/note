@@ -1,0 +1,52 @@
+# standard text appearance block
+
+## full text
+echo $second
+
+## short text
+echo
+
+## color
+if [[ $(( second % 2 )) -eq 0 ]]; then
+
+    ## text
+    echo "#999999"
+
+    ## background
+    echo
+
+    ## border
+    echo
+
+else
+
+    ## text
+    echo "#777777"
+
+    ## background
+    echo
+
+    ## border
+    echo
+
+fi
+
+
+
+[man i3blocks (1): A flexible scheduler for your i3bar blocks](https://manpages.org/i3blocks#options)
+
+The standard output of the command line is used to update the block content. Each non-empty line of the output will overwrite the corresponding property:
+
+1.
+full_text
+2.
+short_text
+3.
+color
+For example, this script sets the full_text in blue but no short_text:
+
+echo "Here's my label"
+echo
+echo \#0000FF
+
+If the command line returns 0 or 33, the block is updated. Otherwise, it is considered a failure and the first line (if any) is still displayed. Note that stderr is ignored. A return code of 33 will set the urgent flag to true.
