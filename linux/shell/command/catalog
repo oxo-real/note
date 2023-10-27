@@ -121,6 +121,7 @@ fd -u . | fzf --query=`wl-paste` | wl-copy  ## fzf search wl-paste file path and
 ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
 fg [%n]  ## job [n] to foreground
 fg [id]  ## recall suspended command to foreground
+figlet -d $XDG_CONFIG_HOME/figlet  ## change default font directory
 figlet -f 'mini' oxo  ## figchars
 find . -exec $command {} \;  ## find exec structure
 find . -maxdepth 1 -name \*_ -type d -exec cp -r {} ~/test_/bu \;  ## find all dirs ending with _ and copy them (NOTICE: '\*_')
@@ -428,6 +429,7 @@ tr -d -c "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 3
 tr -d -c "[:graph:]" < /dev/random | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate passstring)
 tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b  ## translate 16 random streams in 32 specified characters (generate passstring)
 tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## TODO decription
+trap "tput cnorm; return 1" SIGINT; while true; do tput civis; echo; figlet -f banner3 $(date +'%H%M%S'); sleep 1; for i in {1..8}; do tput el; tput cuu1; done; done  ## figlet clock (screencast)
 fallocate -l 5M file  ## create file 5M size
 truncate -s 5M file  ## create file 5M size
 tree -n --charset=unicode  ## depth indented file listing
