@@ -106,11 +106,12 @@ echo ${HOME%/*}  ## remove shortest matching pattern from tail, from last instan
 echo ${HOME%%/*}  ## remove longest matching pattern from tail, from first instance ('')
 wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
 wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
-emacsclient --daemon[=$server_name]  ## start emacs daemon
-emacsclient -c  ## start emacs client
-emacsclient -e "(kill-emacs)" -s server  ## kill emacs server
+emacs --daemon  ## start emacs daemon
+emacsclient $file  ## open $file with client in current window
+emacsclient --create-frame --alternate-editor="" & ## open $file with client in new window
+emacsclient -e '(kill-emacs)'  ## stop emacs daemon outside running instance
 (set-face-attribute 'default nil :height 180)  ## ' emacs set font size 18pt (for screencasting)
-env  ## print current environment variables and their values
+printenv  ## print values of environment variables
 espeak -s 80 -p 70 -v mb-us1 'hello'  ## espeak hello speed 80% pitch 70% voice us1
 eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concatenate arguments, add ssh_key
 faillock --user $USER --reset  ## remove sudo lockout for current user
