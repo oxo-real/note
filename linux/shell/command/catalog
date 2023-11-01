@@ -144,6 +144,7 @@ for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## pri
 for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
 for i in {0..7}; do; printf "\033[0;3${i}mcolor$i\n"; done  ## print 8 colors
 free -m  ## free and used memory in system
+sudo -k; free -h; echo; for i in {1..3}; do; sudo sysctl -w vm.drop_caches="$i"; sudo sync; echo "$i" | sudo tee /proc/sys/vm/drop_caches; done; free -h  ## free mwmory (pagecache, dentries and inodes)
 fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem in mount)
 fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 getent ahosts $url  ## get ip address from name service switch library database ahost
