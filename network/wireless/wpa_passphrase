@@ -1,0 +1,31 @@
+network={
+        ssid="hidden_network"
+        scan_ssid=1
+        psk="password"
+}
+
+network={
+        ssid="public_open"
+        key_mgmt=NONE
+        priority=100
+}
+
+a common configuration for password-authenticated networks
+network={
+        ssid="WLANSSID"
+        key_mgmt=IEEE8021X
+        eap=PEAP
+        phase2="auth=MSCHAPV2"
+        identity="login"
+        password="password"
+}
+
+network={
+        ssid="broken_wep"
+        key_mgmt=NONE
+        wep_key0="12345"  # or 13 characters, or a hexkey starting with 0x
+        wep_tx_keyidx=0
+}
+WARNING WEP is the weakest of current 802.11 encryption solutions. It is known to be completely broken!
+NOTICE Note that you don't have to use wpa_supplicant to configure WEP -- you can also simply use ifconfig(8):
+ifconfig ath0 ssid broken_wep nwkey 12345

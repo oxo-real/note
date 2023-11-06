@@ -88,6 +88,7 @@ diff --new-file --text --unified=3 --recursive $lf $rf > $patch_file  ## create 
 diff <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) <(echo $(pacman -Q linux | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) | tr -d '\n'  ## kernel upgrade requires reboot ($? != 0)
 dig -x 89.39.107.195  ## reverse lookup own public ip
 dirname $filename  ## print $filename without last component
+dotfbu restore $XDG_DATA_HOME/c/git/dotf $XDG_CONFIG_HOME  ## restore oxo configuration
 dotool --list-x-keys  ## show xkb keys
 du -sbh $directory  ## total size of all content in directory
 e2label /dev/X  ## read device label

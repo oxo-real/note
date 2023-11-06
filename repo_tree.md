@@ -783,17 +783,19 @@
 │   ├── uri
 │   ├── urls
 │   │   └── search_uris
-│   └── vpn
-│       ├── fortisslvpn
-│       │   └── fortisslvpn
-│       ├── openvpn
-│       │   └── openvpn
-│       └── protonvpn
-│           ├── native_client
-│           ├── openvpn_client
-│           ├── protonvpn
-│           ├── protonvpn-cli
-│           └── protonvpn_cli
+│   ├── vpn
+│   │   ├── fortisslvpn
+│   │   │   └── fortisslvpn
+│   │   ├── openvpn
+│   │   │   └── openvpn
+│   │   └── protonvpn
+│   │       ├── native_client
+│   │       ├── openvpn_client
+│   │       ├── protonvpn
+│   │       ├── protonvpn-cli
+│   │       └── protonvpn_cli
+│   └── wireless
+│       └── wpa_passphrase
 ├── opsys
 │   ├── android
 │   │   ├── adb_101
@@ -881,5 +883,5 @@
 └── zzz_deprecated
     └── xab
 
-174 directories, 707 files
+175 directories, 708 files
 ```
