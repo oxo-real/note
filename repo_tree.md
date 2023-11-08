@@ -282,6 +282,8 @@
 │   │       └── xorg
 │   ├── filesystem_hierarchy_standard_fhs
 │   ├── format_specifiers
+│   ├── gnu
+│   │   └── coreutils.txt
 │   ├── lvm
 │   │   └── resize
 │   ├── shell
@@ -883,5 +885,5 @@
 └── zzz_deprecated
     └── xab
 
-175 directories, 708 files
+176 directories, 709 files
 ```

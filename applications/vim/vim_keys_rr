@@ -202,6 +202,10 @@ X		remove character before cursor
 
 g&		repeat last :s on all lines
 
+dlp		swap current character with next
+dawwP		swap current word with next
+ddp		swap current line with next
+
 }}}
 
 # vim commands
