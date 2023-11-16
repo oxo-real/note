@@ -269,7 +269,8 @@
 │   │   │   ├── colors
 │   │   │   │   ├── color_filosophy
 │   │   │   │   ├── color_palette
-│   │   │   │   └── colortest
+│   │   │   │   ├── colortest
+│   │   │   │   └── tmux_color_test
 │   │   │   └── keybindings
 │   │   ├── wayland
 │   │   │   ├── backlight
@@ -885,5 +886,5 @@
 └── zzz_deprecated
     └── xab
 
-176 directories, 709 files
+176 directories, 710 files
 ```

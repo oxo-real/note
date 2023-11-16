@@ -518,8 +518,8 @@ chmod 0740  ## -rwxr----- 	u	rwx	g	r	o	-
 chmod 0770  ## -rwxrwx--- 	u	rwx	g	rwx	o	-
 case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## case statement basic structure
 if [[ $i -eq 0 ]]; then; echo 0; elif [[ $i -lt 0 ]]; then; echo neg; else; echo pos; fi  ## if elif else statement basic structure
-for i in 1 2 3; do; echo $i; done  ## for loop basic structure
-for (( i=1; i<=3; i++ )); do echo $i; done  ## for loop alternative structure
+for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded list values
+for (( i=$in; i<=$ix; i++ )); do echo $i; done  ## for loop alternative structure; variable list values
 select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
 while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure upcount
 while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure upcount
