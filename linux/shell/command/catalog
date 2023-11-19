@@ -336,6 +336,7 @@ reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Ne
 rename 'part' '' $filepart  ## change 'part' in filename $filepart with '' (remove part of filename)
 renice -19 $(pgrep $process_name)  ## give $process_name highest (-19) priority
 reset  ## reinitialize terminal state
+return $code  ## exit function with optional $code or failure
 rev $file  ## reverse line characters
 rfkill list  ## check hard and soft block status wireless radios
 rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
