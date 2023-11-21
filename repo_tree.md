@@ -28,8 +28,8 @@
 │   │   ├── keys
 │   │   └── wo_root
 │   ├── emacs
-│   │   ├── cheatsheet.org
-│   │   ├── emacs_101
+│   │   ├── dired
+│   │   ├── emacs_101.org
 │   │   ├── evil_mode
 │   │   ├── non_m_elpa_packages
 │   │   ├── org

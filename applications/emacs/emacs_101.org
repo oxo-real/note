@@ -1,12 +1,15 @@
-#+TITLE: emacs cheat sheet
-#+AUTHOR: cytopyge
+#+TITLE: emacs cheatsheet
+#+AUTHOR: oxo
 * font
 *** size
     text-scale-adjust C-c C--
     text-scale-adjust C-c C-+
-* packages 
+* packages
 ** update local repository
    M-x package-list-packages
    RET
    U update
    x execute
+* keybinds
+** toggle comment line
+   C-c C-;

@@ -521,12 +521,14 @@ case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## case st
 if [[ $i -eq 0 ]]; then; echo 0; elif [[ $i -lt 0 ]]; then; echo neg; else; echo pos; fi  ## if elif else statement basic structure
 for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded list values
 for (( i=$in; i<=$ix; i++ )); do echo $i; done  ## for loop alternative structure; variable list values
+for i in $space_sep_string; do; echo $i; done  ## for loop through space separated string
 select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
+while read line; do; echo $line; done <<< "$variable"  ## while loop through lines in $variable (heredoc)
 while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure upcount
 while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure upcount
 until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount
 while [[ $i -gt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure downcount
-until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure downcount
+until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure downcount
 break  ## current loop exit
 continue  ## current loop next item
 reset  ## clear + reset internal terminal state + 1sec delay
