@@ -241,10 +241,15 @@
 │   │   ├── installation
 │   │   └── no_ide
 │   ├── lenovo
-│   │   └── bios
-│   │       └── upgrade_101
+│   │   ├── bios
+│   │   │   └── upgrade_101
+│   │   └── x1c
+│   │       └── g10
+│   │           └── bios
+│   │               ├── 20220629
+│   │               │   └── readme
+│   │               └── update_url
 │   ├── nfc
-│   ├── nfc~
 │   └── usb
 │       ├── general
 │       ├── onyx_boox
@@ -886,5 +891,5 @@
 └── zzz_deprecated
     └── xab
 
-176 directories, 710 files
+180 directories, 711 files
 ```
