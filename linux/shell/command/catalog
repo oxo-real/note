@@ -1,4 +1,4 @@
-#! /usr/bin/env sh  ## search $PATH for sh
+#! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
 < $file  ## less $file (oxo zshrc)
