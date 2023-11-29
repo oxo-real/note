@@ -758,6 +758,7 @@
 │   │   └── adblocking_etc_hosts~
 │   ├── internet
 │   │   ├── ipv6
+│   │   ├── network_init.sh
 │   │   └── user_agent
 │   ├── iptables
 │   │   └── cytopyge_fw_rules.sh
@@ -891,5 +892,5 @@
 └── zzz_deprecated
     └── xab
 
-180 directories, 711 files
+180 directories, 712 files
 ```

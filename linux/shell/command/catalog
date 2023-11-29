@@ -343,11 +343,14 @@ rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
 rfkill [un]block wlan  ## soft [un]block wifi radio
 rm -rf -- '-r'  ## remove entire directory starting with a '-'
 rmmod $module  ## remove $module from linux kernel
-rsync -aAXv --delete --info=progress2,ststs --progress $source/ $destination  ## basic oxo rsync
+rsync --recursive $src $dst  ## create intervening directory $dst/$src; with all content of $src
+rsync --recursive $src/ $dst  ## copy $src content 'flat' into $dst (like cp $src/.) NOTICE rsync trailing slash caveat
+rsync -aAXv --delete --info=progress2,stats --progress $source/ $destination  ## basic oxo rsync
 rsync -aAXv --dry-run --delete --info=progress2,stats --progresss $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## dry run backup_c2b
 rsync -aAXv --delete --info=progress2,stats --progress --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
 rsync -aAXv --delete --info=progress2,stats --progress --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w files from patterns
-rsync -aAXv --delete --info=progress2,stats --progress --rsh=ssh $source user@192.168.3.199:/directory  ## basic oxo rsync w remote ssh shell
+rsync -aAXv --delete --info=progress2,stats --progress --rsh=ssh $source $user@$host:/directory  ## basic oxo rsync w remote ssh shell
+rsync -aAXv --hard-links --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/var/lib/dhcpcd/*","/lost+found","$dst/*"} / $dst  ## full system backup
 script; $command; exit  ## $command execution typescript user log
 script; sh -x $command; exit  ## $sommand execution typescript developer debug log
 script --command 'sh -x $command' --log-io "$(now).log" --log-timing "$(now).log"  ## $sommand execution typescript developer debug log_2
