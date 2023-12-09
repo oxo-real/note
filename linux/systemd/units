@@ -1,3 +1,7 @@
+# units
+resources that can be managed by systemd
+i.e. services, timers and (auto)mounts, ...
+
 # list units
 
 ## all

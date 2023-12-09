@@ -1,0 +1,6 @@
+fn main()
+{
+    # comment?
+    // comment!
+
+}

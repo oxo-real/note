@@ -256,6 +256,7 @@ mount -o remount,rw /dev/sdY1 /boot  ## remount rw existing mountpoint
 mount -o uid=$(id -u $USER),gid=$(id -g $USER) /dev/sdX dock/1  ## mount as current user
 mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
 mount | grep ro,  ## find all ro mountpoints
+export PWGN_OFF=1; mountr  ## run mountr without pwgn
 mpv --start=+00:00 --ytdl-format='best[filesize<300M]' --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --http-header-fields="User-Agent: $(head -n 1 $USER_AGENT)" $(wl-paste)  ## stream movie verbose with mpv.conf cache_s profile
 mpv $(echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\//')  ## change yt url
 mpv --audio-display=no $file.mp3  ## play mp3 without albumart
