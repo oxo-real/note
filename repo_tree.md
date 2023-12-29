@@ -299,6 +299,7 @@
 │   │   │   ├── pipefail
 │   │   │   ├── README.html
 │   │   │   └── ref_sheet
+│   │   ├── block_size
 │   │   ├── byte_order
 │   │   ├── char_classes
 │   │   ├── coding_standards
@@ -537,8 +538,11 @@
 │   │   │   │   ├── zip
 │   │   │   │   ├── zoneadm
 │   │   │   │   └── zsh
+│   │   │   ├── dd
+│   │   │   │   └── dd_bs_test.sh
 │   │   │   ├── doas
-│   │   │   │   └── make_doas_conf
+│   │   │   │   ├── make_doas_conf.sh
+│   │   │   │   └── nopass_example
 │   │   │   ├── feh
 │   │   │   ├── find
 │   │   │   │   └── find
@@ -900,5 +904,5 @@
 └── zzz_deprecated
     └── xab
 
-185 directories, 715 files
+186 directories, 718 files
 ```

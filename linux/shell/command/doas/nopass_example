@@ -1,0 +1,7 @@
+# doas configuration file rules format
+# permit|deny [options] identity [as target] [cmd command [args ...]]
+
+# example nopass; no password needed for command 'yay -Syu'
+# add to doas.conf:
+
+# permit nopass :wheel as root cmd yay args -Syu

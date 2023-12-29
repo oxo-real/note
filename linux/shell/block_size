@@ -1,0 +1,75 @@
+
+# [Block size (GNU Coreutils 9.4)](https://www.gnu.org/software/coreutils/manual/html_node/Block-size.html)
+
+The following suffixes are defined. Large sizes like 1Q may be rejected by your computer due to limitations of its arithmetic.
+
+‘kB’
+kilobyte: 10^3 = 1000.
+
+‘k’
+‘K’
+‘KiB’
+kibibyte: 2^{10} = 1024. ‘K’ is special: the SI prefix is ‘k’ and the ISO/IEC 80000-13 prefix is ‘Ki’, but tradition and POSIX use ‘k’ to mean ‘KiB’.
+
+‘MB’
+megabyte: 10^6 = 1,000,000.
+
+‘M’
+‘MiB’
+mebibyte: 2^{20} = 1,048,576.
+
+‘GB’
+gigabyte: 10^9 = 1,000,000,000.
+
+‘G’
+‘GiB’
+gibibyte: 2^{30} = 1,073,741,824.
+
+‘TB’
+terabyte: 10^{12} = 1,000,000,000,000.
+
+‘T’
+‘TiB’
+tebibyte: 2^{40} = 1,099,511,627,776.
+
+‘PB’
+petabyte: 10^{15} = 1,000,000,000,000,000.
+
+‘P’
+‘PiB’
+pebibyte: 2^{50} = 1,125,899,906,842,624.
+
+‘EB’
+exabyte: 10^{18} = 1,000,000,000,000,000,000.
+
+‘E’
+‘EiB’
+exbibyte: 2^{60} = 1,152,921,504,606,846,976.
+
+‘ZB’
+zettabyte: 10^{21} = 1,000,000,000,000,000,000,000
+
+‘Z’
+‘ZiB’
+zebibyte: 2^{70} = 1,180,591,620,717,411,303,424.
+
+‘YB’
+yottabyte: 10^{24} = 1,000,000,000,000,000,000,000,000.
+
+‘Y’
+‘YiB’
+yobibyte: 2^{80} = 1,208,925,819,614,629,174,706,176.
+
+‘RB’
+ronnabyte: 10^{27} = 1,000,000,000,000,000,000,000,000,000.
+
+‘R’
+‘RiB’
+robibyte: 2^{90} = 1,237,940,039,285,380,274,899,124,224.
+
+‘QB’
+quettabyte: 10^{30} = 1,000,000,000,000,000,000,000,000,000,000.
+
+‘Q’
+‘QiB’
+quebibyte: 2^{100} = 1,267,650,600,228,229,401,496,703,205,376.
