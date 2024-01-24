@@ -386,6 +386,7 @@ source $function_text_appearance; printf "$(FHX ffbf00)$(BHX 0040ff)%s${NOC}\n" 
 split $file -b N  ## split $file into files with N bytes
 split $file -l N  ## split $file into files with N lines
 split $file -n N  ## split $file into N files
+sqlitebrowser $XDG_DATA_HOME/qutebrowser/history.sqlite  ## view qb history
 sqlite3 -header -separator " " $XDG_DATA_HOME/qutebrowser/history.sqlite "select * from History;" | fzf --header-lines=1  ## fzf qb history
 ssh-keygen -t ed25519-sk -C $key_id -f $key_file  ## generate openssh key
 ssh-keygen -R 192.168.0.195  ## remove cached key for ip on the local machine

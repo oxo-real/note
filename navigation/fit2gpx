@@ -8,6 +8,9 @@
 ### all fit files in directory
 #### fit2gpx -i $in_dir [-o $out_dir]
 
+# example:
+# rsync -aAXv --recursive --info=progress2 --files-from=$XDG_CONFIG_HOME/rsync/garmin_gpsmap_67_files_from_list $HOME/dock/gps/Internal\ Storage/GARMIN/ $XDG_DATA_HOME/d/gps/garmin/gpsmap/67
+# sh /home/oxo/c/git/note/navigation/fit2gpx -i $XDG_DATA_HOME/d/gps/garmin/gpsmap/67/Activities -o $XDG_DATA_HOME/d/gps/garmin/gpsmap/67/Activities
 
 optstring=":i:o:h"
 while getopts $optstring opt; do
