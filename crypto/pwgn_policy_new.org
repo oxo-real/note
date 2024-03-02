@@ -1,15 +1,22 @@
 * pwgn
 sh $XDG_DATA_HOME/git/code/tool/pwgn
 
+** input
+master_key
+
+** output
+pwgn(master_key)
+
 ** master_key entry
 manual (keyboard input)
-visual (optical input)
+optical (pwgn --optical)
 
 ** pwgn synopsis
 pwgn(master_key)
 sha3-512		text_block_01 &	qr_code_block
 dynamic truncate	text_block_02
 
+*** output example
 9ece  086e  9bac  491f  ac5c  1d10  46ca  11d7
 37b9  2a2b  2ebd  93f0  05d7  b710  110c  0a67
 8288  166e  7fbe  7968  83a4  f2e9  b3ca  9f48
@@ -44,20 +51,20 @@ c5e9  41f3  5e12  678f  9bfd  45be  74e5  3aad
 
 default 128 bits; else 64, 32, 16, 8 or 4 bits
 
-** interpretation legend
+** general output interpretation legend
 |-----|---|
 | pim |   |
 |-----|---|
 |     | < |
 |-----|---|
 
-** pwgn(master_key)
+** specific output interpretation legend
 |--------+-------------------------------|
 | pim r1 | first four digits             |
 |        |                               |
 | d<l r8 | last digit                    |
 |        |                               |
-| blocks | (r,c)	  (r,c)              |
+| blocks | (r,c)	      (r,c)          |
 | ------ | -------------- -------------- |
 | center | pwgn(3,4 ..##) pwgn(3,5 ##..) |
 |        | pwgn(4,4 ..##) pwgn(4,5 ##..) |
@@ -82,10 +89,11 @@ default 128 bits; else 64, 32, 16, 8 or 4 bits
 |---------------+-------------------|
 
 * password input levels
-passphrase  =	read(input)
+passphrase  = master_key = read(input)
 passbase64  =	base64(passphrase)
 
 * synthesize password levels
+** elements
 |----------+--------+------------+---+------+--------+----+----+------|
 |          | _      | P          | A | SS   | W      | O  | R  | D    |
 |----------+--------+------------+---+------+--------+----+----+------|
@@ -109,6 +117,11 @@ passbase64  =	base64(passphrase)
 |          |        |            |   |      |        |    |    |      |
 | _d       | s      |            |   |      |        |    |    | yks1 |
 |----------+--------+------------+---+------+--------+----+----+------|
+** $x-str (salt)
+S-x S-\ \ x
+
+** $y-str (pepper)
+S-y S-\ \ y
 
 * cryptr
 pwgn(passbase64)
@@ -127,21 +140,20 @@ cipher_cascade03: chacha20  aes-256-ctr	aes-256-cbc
 * generate yk string
 ** yks1
 % pwgn $(passr pi100 userid)
-# skip when promted for: 'decode video input (QR-code)'
 # paste (C-S-v) when prompted for: '🔐  (press TAB for no echo)'
-% wl-paste | head -c 12 | printf "$p_str"
+% wl-paste | head -c 12
+# add salt
+# $x-str (p)
 
 ** yks2
 % pwgn $(passr e100 userid)
-# skip when promted for: 'decode video input (QR-code)'
 # paste (C-S-v) when prompted for: '🔐  (press TAB for no echo)'
-% wl-paste | head -c 12 | printf "$e_str"
+% wl-paste | head -c 12
+# add salt
+# $x-str (e)
 
 * password examples
 vault passwd
 passr pass
 boot  _pss
 login _d
-
-* $x-str
-S-x S-\ \ x

@@ -723,7 +723,8 @@
 ├── navigation
 │   ├── fit2gpx
 │   ├── garmin_sd
-│   └── nav_terms
+│   ├── nav_terms
+│   └── tan_deg_table
 ├── network
 │   ├── bluetooth
 │   │   ├── bluetoothctl
@@ -904,5 +905,5 @@
 └── zzz_deprecated
     └── xab
 
-186 directories, 718 files
+186 directories, 719 files
 ```

@@ -79,6 +79,7 @@ date +'%s'  ## current linux epoch (same as 'now' for oxo)
 date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day on pi time) to linux epoch
 date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
 date -d '@1234567890' +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert specific linux epoch to oxo extensive time format
+date -d @$(wl-paste) +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert copied specific linux epoch to oxo extensive time format
 dd if=$src of=$dst bs=256k iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## physical copy $src to $dst
 dd if=/dev/zero of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 bytes as zeros to $dst
 dd if=/dev/urandom of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 random bytes to $dst
@@ -87,7 +88,7 @@ dhcpcd -k wlp58s0  ## dhcp remove interface ip
 dhcpcd wlp58s0  ## dhcp request for interface
 diff --side-by-side --left-column $lf $rf  ## print $lf; $rf diffs in right column (-y --left-column)
 diff --new-file --text --unified=3 --recursive $lf $rf > $patch_file  ## create recursive $patch-file unified with 3 lines of context from $lf to $rf (-Naur)
-diff <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) <(echo $(pacman -Q linux | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) | tr -d '\n'  ## kernel upgrade requires reboot ($? != 0)
+diff <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) <(echo $(pacman -Q linux | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) | tr -d '\n'; echo  ## kernel upgrade requires reboot ($? != 0)
 dig -x 89.39.107.195  ## reverse lookup own public ip
 dirname $filename  ## print $filename without last component
 dotfbu restore $XDG_DATA_HOME/c/git/dotf $XDG_CONFIG_HOME  ## restore oxo configuration
@@ -304,6 +305,7 @@ printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a num
 printf "%03d%s" "2"  ## print leading zeros
 printf "%3d%s" "2"  ## print leading spaces
 printf "%d\n" \'A  ## character (A) to ascii value (65)
+printf "${fg_black}$(BGx aaaaaa)%s${st_def}\n" 'text_appearance'  ## printf 24 bit hex color code; NOTICE dependency: oxo source function text_appearance
 printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-Transfer-Encoding: 7bit; Subject: <subject>\n; <body>" | msmtp -v -C <msmtp_config> -a <profile_name> -- destination@mail.com  ## send email
 printf "\x$(printf %x 65)"  ## ascii value (65) to character (A)
 printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -  ## space every 4th character (with fold)
