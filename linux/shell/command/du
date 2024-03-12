@@ -1,0 +1,8 @@
+# neat sorted list based on du command
+## change '.' into "$1" if you want to make a command
+#
+## only files
+dir='.'; wk1=$(du --bytes --separate-dirs --total "$dir" | tail -n 1 | awk '{print $1}' | wc -c); du --bytes --separate-dirs "$dir" | sort -k 2 | awk -v wk1="$wk1" '{ printf("%'"$wk1"'s ", $1); printf("%s\n", $2); }'
+
+## all files and subdirs
+dir='.'; wk1=$(du --bytes --separate-dirs --total "$dir" | tail -n 1 | awk '{print $1}' | wc -c); du --bytes --separate-dirs --all "$dir" | sort -k 2 | awk -v wk1="$wk1" '{ printf("%'"$wk1"'s ", $1); printf("%s\n", $2); }' | wc -l

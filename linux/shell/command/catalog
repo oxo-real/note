@@ -93,7 +93,11 @@ dig -x 89.39.107.195  ## reverse lookup own public ip
 dirname $filename  ## print $filename without last component
 dotfbu restore $XDG_DATA_HOME/c/git/dotf $XDG_CONFIG_HOME  ## restore oxo configuration
 dotool --list-x-keys  ## show xkb keys
-du -sbh $directory  ## total size of all content in directory
+du -sbh $directory  ## directory usage; total size of all content in directory
+du --bytes --si --human-readable --separate-dirs --max-depth=0 $directory | awk '{print $1}'  ## directory usage; total si size of all files in current $directory
+du --bytes --si --human-readable --separate-dirs --total $directory | tail --lines 1 | awk '{print $1}'  ## directory usage; total si size of all files and subdirectories
+du --bytes --si --human-readable --separate-dirs $directory | sort -k 2  ## directory usage; list of all subdirectories with sizes (size sort -h -k 1)
+du --bytes --si --human-readable --separate-dirs --total --all $directory | sort -k 2  ## directory usage; list of files and subdirectories with sizes (size sort -h -k 1)
 e2label /dev/X  ## read device label
 e2label /dev/X $label  ## write device label
 echo "obase=02; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to binary conversion

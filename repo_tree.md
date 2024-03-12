@@ -543,6 +543,7 @@
 │   │   │   ├── doas
 │   │   │   │   ├── make_doas_conf.sh
 │   │   │   │   └── nopass_example
+│   │   │   ├── du
 │   │   │   ├── feh
 │   │   │   ├── find
 │   │   │   │   └── find
@@ -905,5 +906,5 @@
 └── zzz_deprecated
     └── xab
 
-186 directories, 719 files
+186 directories, 720 files
 ```
