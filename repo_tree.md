@@ -5,7 +5,8 @@
 │   │   └── abook
 │   ├── alacritty
 │   │   ├── buffer_capture
-│   │   └── keybindings
+│   │   ├── keybindings
+│   │   └── msg
 │   ├── audio
 │   │   ├── audio_prod_install
 │   │   └── pipewire
@@ -906,5 +907,5 @@
 └── zzz_deprecated
     └── xab
 
-186 directories, 720 files
+186 directories, 721 files
 ```

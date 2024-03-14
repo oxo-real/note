@@ -23,6 +23,7 @@ apropos keyword  ## search man page names and descriptions
 arecord --vumeter stereo audio.wav  ## record wave audio
 awk '!($1="")' $file  ## remove column 1
 awk 'NF{NF-=1};1'  ## remove last column
+awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, not the first header line
 basename $filepath  ## print filename without any leading directory components
 bind '"\e[0n": "$string"'; printf '\e[5n'  ## inject $string to bash stdin
 bindkey  ## zsh bound keys
@@ -188,8 +189,8 @@ grep bindkey $XDG_CONFIG_HOME/zsh/.zshrc  ## zsh keybinding related lines
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
 head -n -3 $file  ## show all but 3 last lines (hide last three lines from $file)
-history -t +%Y%m%d_%H%M%S -d $history_id  ## command history from $history_id (id time cmd)
-history -t +%Y%m%d_%H%M%S -d -3  ## last 3 commands from history (id time cmd)
+history -t %Y%m%d_%H%M%S -d -D $history_id  ## command history from $history_id (id time-start -elapsed cmd)
+history -t %Y%m%d_%H%M%S -d -D -3  ## last 3 commands from history (id time-start -elapsed cmd)
 hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 host -t A $ip_addr_domain  ## dns lookup A record
 host -v -t ANY $ip_addr_domain  ## dns lookup any type verbose output

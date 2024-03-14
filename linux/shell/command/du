@@ -6,3 +6,7 @@ dir='.'; wk1=$(du --bytes --separate-dirs --total "$dir" | tail -n 1 | awk '{pri
 
 ## all files and subdirs
 dir='.'; wk1=$(du --bytes --separate-dirs --total "$dir" | tail -n 1 | awk '{print $1}' | wc -c); du --bytes --separate-dirs --all "$dir" | sort -k 2 | awk -v wk1="$wk1" '{ printf("%'"$wk1"'s ", $1); printf("%s\n", $2); }' | wc -l
+
+### NOTICE
+### symlinks are also files. eza does not show their sizes,
+### but du also takes symlinks into the calculation
