@@ -313,9 +313,13 @@
 │   │   │   ├── ansi_color_esc_seq
 │   │   │   ├── bash_colors
 │   │   │   ├── colorr
+│   │   │   ├── dircolors
 │   │   │   ├── ECMA-48_5th_edition_june_1991.pdf
 │   │   │   ├── esc_seq_test
 │   │   │   ├── from_hex
+│   │   │   ├── grep_colors
+│   │   │   ├── ls_colors
+│   │   │   ├── man_5_dir_colors
 │   │   │   ├── to_hex
 │   │   │   ├── truecolor_fix76cols
 │   │   │   └── truecolor_termcols
@@ -907,5 +911,5 @@
 └── zzz_deprecated
     └── xab
 
-186 directories, 721 files
+186 directories, 725 files
 ```

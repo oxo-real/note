@@ -84,3 +84,21 @@ The 8-bit colours are arranged like so:
 0xE8-0xFF:  grayscale from black to white in 24 steps
 
 
+Color	Example	Text	Background	Bright Text	Bright Background
+Black	Black	30	40		90		100
+Red	Red	31	41		91		101
+Green	Green	32	42		92		102
+Yellow	Yellow	33	43		93		103
+Blue	Blue	34	44		94		104
+Magenta	Magenta	35	45		95		105
+Cyan	Cyan	36	46		96		106
+White	White	37	47		97		107
+Default		39	49		99		109
+
+Effect		On	Off	Example
+Bold		1	21
+Dim		2	22
+Underline	4	24
+Blink		5	25
+Reverse		7	27
+Hide		8	28

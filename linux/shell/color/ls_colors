@@ -1,0 +1,83 @@
+The LS_COLORS has data in key-value pair separated by a colon (:). If the value has more than one part, they are separated by a semicolon (;).
+
+The key is usually predefined. The value part represents the colors.
+
+So, if it says ln=01;36, it means for symbolic links, the font is bold and the color (36) is cyan.
+
+0 is for normal, 1 is for bold, 4 is for underlined. 31 is for red, 32 is for green etc. The color codes follow the ANSI escape code.
+
+Another example. or=40;31;01 means that link to a non-existent file (key is or) uses black background (color code 40), red color and bold font (code 01).
+
+I think the order doesn't matter because the codes don't overlap. 31 is the code for the foreground red color and 41 is the color for the background red color. So if 41 is used, you know it is for the background color.
+
+
+from man zshall (ZLS_COLORS):
+   Colored completion listings
+       Whenever  one of the parameters ZLS_COLORS or ZLS_COLOURS is set and the zsh/com‐
+       plist module is loaded or linked into the shell, completion lists  will  be  col‐
+       ored.  Note, however, that complist will not automatically be loaded if it is not
+       linked in:  on systems with dynamic loading, ‘zmodload zsh/complist' is required.
+
+       The  parameters  ZLS_COLORS and ZLS_COLOURS describe how matches are highlighted.
+       To turn on highlighting an empty value suffices, in which case  all  the  default
+       values  given below will be used.  The format of the value of these parameters is
+       the same as used by the GNU version of the ls command: a colon-separated list  of
+       specifications  of  the  form ‘name=value'.  The name may be one of the following
+       strings, most of which specify file types for which the value will be used.   The
+       strings and their default values are:
+
+       no 0   for normal text (i.e. when displaying something other than a matched file)
+
+       fi 0   for regular files
+
+       di 32  for directories
+
+       ln 36  for  symbolic links.  If this has the special value target, symbolic links
+              are dereferenced and the target file used to determine the display format.
+
+       pi 31  for named pipes (FIFOs)
+
+       so 33  for sockets
+
+       bd 44;37
+              for block devices
+
+       cd 44;37
+              for character devices
+
+       or none
+              for a symlink to nonexistent file (default is the value defined for ln)
+
+       mi none
+              for a non-existent file (default is the value defined for fi); this code is currently not used
+
+       su 37;41
+              for files with setuid bit set
+
+       sg 30;43
+              for files with setgid bit set
+
+       tw 30;42
+              for world writable directories with sticky bit set
+
+       ow 34;43
+              for world writable directories without sticky bit set
+
+       sa none
+              for files with an associated suffix alias; this is only tested after specific suffixes, as described below
+
+       st 37;44
+              for directories with sticky bit set but not world writable
+
+       ex 35  for executable files
+
+       lc \e[ for the left code (see below)
+
+       rc m   for the right code
+
+       tc 0   for the character indicating the file type  printed after filenames if the LIST_TYPES option is set
+
+       sp 0   for the spaces printed after matches to align the next column
+
+       ec none
+              for the end code
