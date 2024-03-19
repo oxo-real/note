@@ -1,3 +1,7 @@
+to set ls colors to dircolors execute:
+
+eval dircolors [dircolors_bu]
+
 The LS_COLORS has data in key-value pair separated by a colon (:). If the value has more than one part, they are separated by a semicolon (;).
 
 The key is usually predefined. The value part represents the colors.
