@@ -578,6 +578,7 @@
 │   │   │   ├── stat
 │   │   │   ├── sudo
 │   │   │   ├── tar
+│   │   │   ├── tldr
 │   │   │   ├── tput
 │   │   │   │   └── tput
 │   │   │   ├── tr
@@ -912,5 +913,5 @@
 └── zzz_deprecated
     └── xab
 
-186 directories, 726 files
+186 directories, 727 files
 ```
