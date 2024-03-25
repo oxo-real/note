@@ -1,0 +1,2 @@
+# Garmin GPSMAP 67 (skip mtp-probe)
+ATTR{idVendor}=="091e", ATTR{idProduct}=="0003", GOTO="libmtp_rules_end"

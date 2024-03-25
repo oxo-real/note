@@ -1,0 +1,1 @@
+Mar 25 05:09:38 x1c systemd-udevd[628]: /usr/lib/udev/rules.d/51-garmin.rules:2 GOTO="libmtp_rules_end" has no matching label, ignoring.

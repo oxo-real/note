@@ -631,6 +631,7 @@
 │   │   ├── process_substitution
 │   │   ├── pure-sh-bible.html
 │   │   ├── quotation
+│   │   ├── root
 │   │   ├── standard_streams
 │   │   ├── std_cmd_flags
 │   │   ├── string_manipulation
@@ -732,7 +733,10 @@
 │   ├── fit2gpx
 │   ├── garmin_sd
 │   ├── nav_terms
-│   └── tan_deg_table
+│   ├── tan_deg_table
+│   └── usr_lib_udev_rules.d
+│       ├── 51-garmin.rules
+│       └── journalctl-b_error
 ├── network
 │   ├── bluetooth
 │   │   ├── bluetoothctl
@@ -913,5 +917,5 @@
 └── zzz_deprecated
     └── xab
 
-186 directories, 727 files
+187 directories, 730 files
 ```

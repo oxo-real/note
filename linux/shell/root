@@ -1,0 +1,5 @@
+get oxo config in su terminal
+
+ln -s /home/oxo/.config /root/.config
+
+zsh
