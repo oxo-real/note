@@ -1,0 +1,39 @@
+if remote has to be reset:
+1. remove remote repository
+#TODO howto from cli?
+via remote repo portal
+
+2. make new remote repository:
+
+% git push --set-upstream gitlab main
+
+Username for 'https://gitlab.com': cytopyge
+Password for 'https://cytopyge@gitlab.com': [peacto]
+Enumerating objects: 10100, done.
+Counting objects: 100% (10100/10100), done.
+Delta compression using up to 16 threads
+Compressing objects: 100% (5228/5228), done.
+Writing objects: 100% (10100/10100), 192.99 MiB | 974.00 KiB/s, done.
+Total 10100 (delta 5313), reused 6062 (delta 4113), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (5313/5313), done.
+remote:
+remote:
+remote: The private project cytopyge/dotf was successfully created.
+remote:
+remote: To configure the remote, run:
+remote:   git remote add origin https://gitlab.com/cytopyge/dotf.git
+remote:
+remote: To view the project, visit:
+remote:   https://gitlab.com/cytopyge/dotf
+remote:
+remote:
+remote:
+To https://gitlab.com/cytopyge/dotf.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'gitlab/main'.
+232890 109560 150300
+
+
+gitlab defaults to private visibility
+3. make repo public via remote repo portal
+https://docs.gitlab.com/ee/user/public_access.html#change-project-visibility

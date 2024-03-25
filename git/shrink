@@ -24,8 +24,26 @@ for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master`; do
     git branch --track ${branch##*/} $branch
 done
 
-
-
 git gc --agressive --prune
 
 git repack -a -d --depth=250 --window=250
+
+--------------------------------
+
+[TESTED]
+
+git checkout --orphan $new_branch $from_commit
+
+git add .
+
+git commit -m 'initial commit'
+
+git branch -D old_branch
+
+git branch -m master
+
+git reflog expire --expire=all --all
+
+git gc --prune=now --aggressive
+
+git push -f origin master

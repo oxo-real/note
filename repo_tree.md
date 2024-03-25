@@ -234,8 +234,8 @@
 │   ├── git_errors
 │   ├── gitignore
 │   ├── rebase
+│   ├── reset_remote
 │   ├── shrink
-│   ├── shrinkk
 │   └── simple_guide
 ├── hardware
 │   ├── arduino
