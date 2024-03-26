@@ -111,10 +111,10 @@ p	    =	pwgn(r5r6)
 Hdvp='$HOME/dock/vlt/pass'
 H.lsgct='$XDG_DATA_HOME/git/code/tool'
 H.lskpv='$XDG_DATA_HOME/keys/pass/vlt_pass'
-% sudo cryptsetup luksUUID $H.lskpv | wl-copy -n -o
-% sh $H.lsgct/vault open $H.lskpv $Hdvp		    (password)
-% sh $H.lsgct/pwgn				    (pass_key)
-% sh $H.lsgct/passget [$file] [$item]		    (passwd)
+
+% sh $H.lsgct/pwgn(sudo cryptsetup luksUUID $H.lskpv) | wl-copy -n -o
+% sh $H.lsgct/vault open $H.lskpv $Hdvp		    (passwd)
+% sh $H.lsgct/passr [object] [element]		    (pass)
 
 
 ## cryptr sequence
@@ -128,14 +128,6 @@ cipher_cascade02: aes256	twofish		cast5
 ### openssl
 cipher_cascade03: chacha20	aes-256-ctr	aes-256-cbc
 
-## generate yk secure string
-ykss1 = yss1 & ykss2 = yss2
-### ykss1
-% pwgn $(passr pi100 userid)
-# skip when promted for: 'decode video input (QR-code)'
-# paste (C-S-v) when prompted for: '🔐  (press TAB for no echo)'
-% wl-paste | head -c 16
-
-## ykss2
-yss2	pwgn(p100)
-yss2	wc -c	64
+## generate yk secure string (yss)
+% yss1=$(pwgn $(passr e100 userid) | head -c 12)
+% yss2=$(pwgn $(passr pi100 userid) | head -c 12)
