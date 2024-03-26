@@ -579,6 +579,8 @@
 │   │   │   ├── sudo
 │   │   │   ├── tar
 │   │   │   ├── tldr
+│   │   │   ├── tool
+│   │   │   │   └── cryptr
 │   │   │   ├── tput
 │   │   │   │   └── tput
 │   │   │   ├── tr
@@ -917,5 +919,5 @@
 └── zzz_deprecated
     └── xab
 
-187 directories, 730 files
+188 directories, 731 files
 ```

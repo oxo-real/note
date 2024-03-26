@@ -1,0 +1,29 @@
+
+arg1 is -d
+     explicit decrypt arg2 to [arg3]
+     scenarios:
+     arg2 is existing filelocation;
+     	  else errorexit
+     arg2 is valid tarx file;
+     	  else errorexit
+     no arg3 then arg3 is PWD
+     arg3 is existing filelocation; then error exit
+     arg3 is existing dirname; then ask overwrite to arg3
+     arg3 is non existing dirname; then ask create arg3
+
+arg1 is -e
+     explicit encrypt arg2 [argn-1] to [argn]
+     scenarios:
+     arg2 [to arg(n-1)] (sources) is/are existing filelocations OR existing dirnames;
+     	  else errorexit
+     argn is non existing filelocation and non existing dirname; then ask create dest file argn;
+     	  else argn is PWD
+
+arg1 is existing dirname
+     encrypt arg1 [to arg2]
+
+arg1 is existing filelocation
+     scenarios:
+     arg1 is valid tarx file;
+     	  then arg1 is -d; shift  ## nested tarx with arg1 is -e
+     	  else arg1 is -e; shift

@@ -342,6 +342,7 @@ read -er input  ## zz1; variable is not assigned
 read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o  ## input base64 translation without EOL
 read -er input | base64 | wl-copy -n -o  ## input base64 translation
 read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'  ## secure sha3-512 hash from stdin (verify pwgn)
+read -er input | base64 | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf; gacp_all  ## backup oxo configuration and remote push
 read -r script_name; printf '%s%s' "$(figlet "$script_name")" "$(figlet -f mini "$USER")" | wl-copy  ## script header
 readlink $symlink  ## print resolved symbolic links or canonical file names
 readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonicalized symlink to current users $HOME (NOTICE realpath is preferred)
