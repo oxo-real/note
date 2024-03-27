@@ -132,8 +132,8 @@ fc -l -n -1  ## last command entered, hide line number
 fc-list  ## list available fonts (fontconfig)
 fd -u . | fzf --query=`wl-paste` | wl-copy  ## fzf search wl-paste file path and wl-paste (quick file search)
 ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
-fg [%n]  ## job [n] to foreground
-fg [id]  ## recall suspended command to foreground
+fg  ## recall last suspended command to foreground
+fg %n  ## jobs item n to foreground
 figlet -d $XDG_CONFIG_HOME/figlet  ## change default font directory
 figlet -f 'mini' oxo  ## figchars
 find . -exec $command {} \;  ## find exec structure
@@ -236,7 +236,8 @@ journalctl -p 3 -x  ## TODO decription
 journalctl -u $unit  ## TODO decription
 journalctl _<TAB>  ## TODO decription
 jq '.data[0] | .ua' api.json  ## get ua from the first data item
-kill $(pidof <process_name>)  ## kill pid of process
+kill $(pidof $process_name)  ## kill pid of process
+kill -STOP %n  ## suspend jobs item n (background process)
 ln -s $target $link_name  ## create symlink $link_name to $target
 ln -s -f $target $link_name  ## replace symlink $link_name to $target
 losetup -l -a  ## list all loop devices
