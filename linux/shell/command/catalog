@@ -194,6 +194,7 @@ gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -
 head -n -3 $file  ## show all but 3 last lines (hide last three lines from $file)
 history -t %Y%m%d_%H%M%S -d -D $history_id  ## command history from $history_id (id time-start -elapsed cmd)
 history -t %Y%m%d_%H%M%S -d -D -3  ## last 3 commands from history (id time-start -elapsed cmd)
+history | tail -n 1 | tr -s ' ' | cut -d ' ' -f 3-  ## last command from history (removing counter)
 hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 host -t A $ip_addr_domain  ## dns lookup A record
 host -v -t ANY $ip_addr_domain  ## dns lookup any type verbose output

@@ -18,3 +18,20 @@ sed 's/^0*//g'
 
 ## remove all before first slash
 sed 's/[^\/]*//'
+
+## remove everything outside left and rightborder
+sed 's/^.*\(leftborder.*rightborder\).*$/\1/'
+# see 1.
+
+1.
+[shell script - How can I delete everything until a pattern and everything after another pattern from a line? - Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/243207/how-can-i-delete-everything-until-a-pattern-and-everything-after-another-pattern)
+Decoded the sed s/find/replace/ syntax:
+
+s/^.* -- substitute starting at the beginning of the line (^) followed by anything (.*) up to...
+\( - start a named block
+consectetuer.*elit\. - match the first word, everything (.*) up to the last word (in this case, including the trailing (escaped)dot) you want to match
+\) - end the named block
+match everything else (.*) to the end of the line ($)
+/ - end the substitute find section
+\1 - replace with the name block between the \( and the \) above
+/ - end the replace
