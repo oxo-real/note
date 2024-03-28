@@ -236,8 +236,9 @@ journalctl -p 3 -x  ## TODO decription
 journalctl -u $unit  ## TODO decription
 journalctl _<TAB>  ## TODO decription
 jq '.data[0] | .ua' api.json  ## get ua from the first data item
-kill $(pidof $process_name)  ## kill pid of process
-kill -STOP %n  ## suspend jobs item n (background process)
+kill -l  ## list of signal names (/usr/include/linux/signal.h) that can be send to process
+kill -STOP %n  ## stop background process jobs item number n
+kill $(pidof $process_name)  ## terminate pid of process
 ln -s $target $link_name  ## create symlink $link_name to $target
 ln -s -f $target $link_name  ## replace symlink $link_name to $target
 losetup -l -a  ## list all loop devices
