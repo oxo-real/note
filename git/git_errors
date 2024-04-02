@@ -3,9 +3,27 @@ error:
 error: RPC failed; curl 92 HTTP/2 stream 0 was not closed cleanly: PROTOCOL_ERROR (err 1)
 
 solution:
-git config --global http.version HTTP/1.1
-git push
-git config --global http.version HTTP/2
+% git config --global http.version HTTP/1.1
+% git push
+% git config --global http.version HTTP/2
 
 source:
 https://gist.github.com/daofresh/0a95772d582cafb202142ff7871da2fc
+
+
+error:
+fatal: The remote end hung up unexpectedly
+
+solution:
+increase postBuffer for single repository:
+go into dir of affected repository
+% git config http.postBuffer 524288000
+% git push [remote_name]
+after push is complete you can remove http line from .git/config
+
+or
+
+globally increase postbuffer:
+% git config --global http.postBuffer 524288000
+
+see also: [github - Git, fatal: The remote end hung up unexpectedly - Stack Overflow](https://stackoverflow.com/questions/15240815/git-fatal-the-remote-end-hung-up-unexpectedly)
