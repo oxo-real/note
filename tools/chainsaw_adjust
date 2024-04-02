@@ -1,0 +1,16 @@
+let engine run
+    for 20 secs
+dump blade 90 degs from hz to vt
+    if engine stalls
+       turn L (low) in
+rpm up to max
+    if difficult
+       engine receives too little gas
+       turn L (low) out
+max rpm for 5 secs
+    if engine screams
+       engine receives too little gas
+       turn H (high) out
+chain
+    if no stop on idle
+       turn LA (idle) in

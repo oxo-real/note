@@ -63,11 +63,11 @@ cp -pv  ## copy and preserve mode, ownership and timestamps, verbose
 cryptsetup --cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 --verify-passphrase open --type=plain /dev/sdX lvm
 cryptsetup --cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 key-file=/dev/sdZ open --type=plain /dev/sdX lvm
 cryptsetup --cipher=serpent-xts-plain -hash=sha512 --key-size=512 --iter-time=4096 --use-random --verify-passphrase luksFormat /dev/sdX
-cryptsetup luksAddKey --key-slot 7 $file  ## add luks key to slot 7 of $file
-cryptsetup luksRemoveKey --key-slot 7 $file  ## remove luks key from slot 7 of $file
-cryptsetup luksDump file  ## dump header information
-cryptsetup luksChangeKey file  ## change a key
-cryptsetup luksUUID $luks_container | wl-copy -o -n  ## get luks container id
+cryptsetup luksAddKey --key-slot 7 $vault  ## add luks key to slot 7 of $vault
+cryptsetup luksRemoveKey $vault  ## remove luks key from $vault slot 7
+cryptsetup luksDump $vault  ## dump $vault header information
+cryptsetup luksChangeKey $vault  ## change a key for $vault
+cryptsetup luksUUID $luks_container | wl-copy -o -n  ## get $luks_container id
 cryptsetup open /dev/sdX cryptlvm  ## open /dev/sdX to cryptlvm
 cryptsetup open /dev/sdX cryptroot --debug  ## which keyslot is used for passphrase
 curl $(wl-paste) | zathura -  ## stream a copied (qb ;y) pdf url
@@ -168,6 +168,12 @@ gpg --armor --export ID > ID.puk.gpg  ## export public key ascii armored id
 gpg --detach-sign --local-user 0x12345678 $file  ## sign $file with specific secret key
 gpg --edit-key ID >  ## edit public key
 gpg --export ID > ID.puk.gpg  ## export public key binary
+gpg --export --export-options backup --output public_keys.gpg  ## step 1 backup gpg identity (public keys)
+gpg --export-secret-keys --export-options backup --output private_keys.gpg  ## step 2 backup gpg identity (private keys)
+gpg --export-ownertrust > trust_db.gpg  ## step 3 backup gpg identity (trust database)
+gpg --import public_keys.gpg  ## step 1 restore gpg identity (public keys)
+gpg --import private_keys.gpg  ## step 2 restore gpg identity (private keys)
+gpg --import-ownertrust trust_db.gpg  ## step 3 restore gpg identity (trust database)
 gpg --fingerprint | grep -i -B 1 $uid_email | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
 gpg --expert --full-generate-key  ## generate new keypair
 gpg --import ID >  ## import public key

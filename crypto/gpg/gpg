@@ -147,11 +147,32 @@ chown -R cytopyge $XDG_CONFIG_HOME/gnupg
 find $XDG_CONFIG_HOME/gnupg -type f -exec chmod 600 {} \;
 find $XDG_CONFIG_HOME/gnupg -type d -exec chmod 700 {} \;
 
+The contents of $GNUPGHOME are:
 
-# full gpg backup
+openpgp-revocs.d: This subdirectory contains your revocation certificate. You'll need this if your private key ever becomes common knowledge or otherwise compromised. Your revocation certificate is used in the process of retiring your old keys and adopting new keys.
+private-keys-v1.d: This subdirectory stores your private keys.
+pubring.kbx: An encrypted file. It contains public keys, including yours, and some metadata about them.
+pubring.kbx~: This is a backup copy of "pubring.kbx." It is updated just before changes are made to "pubring.kbx."
+trustdb.gpg: This holds the trust relationships you have established for your own keys and for any accepted public keys belonging to other people.
+
+
+# full gpg identity backup
 
 ## copy the entire gpg homedir
 tar -cvzf gpg_backup.tar $GNUPGHOME
+
+## more granulated
+[How to Back Up and Restore Your GPG Keys on Linux](https://www.howtogeek.com/816878/how-to-back-up-and-restore-gpg-keys-on-linux/#the-gnupg-directory)
+
+### backup
+gpg --export --export-options backup --output public_keys.gpg
+gpg --export-secret-keys --export-options backup --output private_keys.gpg
+gpg --export-ownertrust > trust_db.gpg
+
+### restore
+gpg --import public_keys.gpg
+gpg --import private_keys.gpg
+gpg --import-ownertrust trust_db.gpg
 
 
 # search online
