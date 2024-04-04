@@ -528,7 +528,7 @@ yay -Rns $(yay -Qdtq)  ## remove unrequired dependencies including not required 
 yay -S $package  ## synchronize package; download and install
 yay -Sc $package  ## remove all cached packages that are currently not installed (more agressive than paccache)
 yay -Scc $package  ## remove all cached packages (far more agressive than paccache, will prevent downgrading or reinstalling without downloading)
-yay -Sii $package  ## reverse dependencies; package required by
+yay -Sii $package  ## extended package info; reverse dependencies; package required by
 yay -Sw $package  ## synchronize package only download, not install
 yay -Syu --devel --timeupdate  ## update, also check AUR developement packages (git), timeupdate (instead of version number)
 yay -Tv  ## check dependencies; show file paths
