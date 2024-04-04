@@ -4,11 +4,12 @@
 < $file  ## less $file (oxo zshrc)
 < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
 < $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
-echo hello 1> $file  ## redirect stdout write to $file
-echo hello 2>> $file   ## redirect stderr append to $file
-echo hello &> /dev/null  ## redirect stdout and stderr write to devnull; silent execution
-echo hello > /dev/null 2>&1  ## redirect stdout write to devnull and stderr write to sdtout; silent execution
-echo hello 2>&1 | tee -a logfile  ## no redirection; append stdout and stderr to logfile
+echo hello 1> $file  ## stdout redirect to $file
+echo hello 2>> $file   ## stderr redirect append to $file
+echo hello > /dev/null 2>&1  ## stdout redirect devnull; stderr redirect to stdout; silent execution
+echo hello &> /dev/null  ## stdout redirect devnull; stderr redirect to stdout; silent execution (shorthand notation)
+echo hello 2>&1 | tee -a $logfile  ## stderr redirect to stdout; append both to $logfile
+echo hello &| tee -a $logfile  ## stderr redirect to stdout; append both to $logfile (shorthand notation)
 ((i++))  ## increase i by one (i.e. in a loop)
 ((i--))  ## decrease i by one (i.e. in a loop)
 alacritty msg config font.size=18  ## current alacritty instance font size 18 (for screencasting)
@@ -42,7 +43,6 @@ cat -vE $file  ## prevent cat shell injection
 cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
 cat <(ls)  ## process substitution reading from list <() (?without subshell?); same as ls | cat  (piping ?with subshell?)
 echo hello > >(sha512sum > file_with_hello_sha512.hash)  ## process substitution (instead of filename) writing to list <()
-#cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file (heredoc), strip leading tabs from mlt (-), EOF can be any unique limit string
 < /etc/group  ## list all user groups
 cd $(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)  ## fzf cd from $HOME, spacebar for info box
 cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
@@ -528,6 +528,7 @@ yay -Rns $(yay -Qdtq)  ## remove unrequired dependencies including not required 
 yay -S $package  ## synchronize package; download and install
 yay -Sc $package  ## remove all cached packages that are currently not installed (more agressive than paccache)
 yay -Scc $package  ## remove all cached packages (far more agressive than paccache, will prevent downgrading or reinstalling without downloading)
+yay -Sii $package  ## reverse dependencies; package required by
 yay -Sw $package  ## synchronize package only download, not install
 yay -Syu --devel --timeupdate  ## update, also check AUR developement packages (git), timeupdate (instead of version number)
 yay -Tv  ## check dependencies; show file paths
@@ -549,7 +550,7 @@ chmod 0770  ## -rwxrwx--- 	u	rwx	g	rwx	o	-
 case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## case statement basic structure
 if [[ $i -eq 0 ]]; then; echo 0; elif [[ $i -lt 0 ]]; then; echo neg; else; echo pos; fi  ## if elif else statement basic structure
 for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded list values
-for (( i=$in; i<=$ix; i++ )); do echo $i; done  ## for loop alternative structure; variable list values
+for (( i=$in; i<=$ix; i++ )); do echo $i; done  ## for loop alternative mathematic structure; variable list values (in to ix step i++)
 for i in $space_sep_string; do; echo $i; done  ## for loop through space separated string
 select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
 while read line; do; echo $line; done <<< "$variable"  ## while loop through lines in $variable (heredoc)
@@ -565,5 +566,6 @@ tput reset  ## same as reset but without 1sec delay
 stty sane  ## don't clear screen but reset some terminal options
 echo -e "\033c"  ## same as tput reset but hardcoded escape seq
 printf "\033c"  ## same as tput reset but hardcoded escape seq
-setterm -reset  ## same as tput reset, setterm has more friendly commands
+setterm -reset  ## same as tput reset, setterm has more user friendly commands
 print_entire_array() { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}" ; done }  ## print_entire_array arrayX
+cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file (heredoc), strip leading tabs from mlt (-), EOF can be any unique limit string
