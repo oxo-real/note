@@ -1,0 +1,66 @@
+: '
+
+
+# example of prompt elements
+
+#--------------------------------------------------------------------
+
+~
+oxo@x1c% cd /home/oxo/.cache/test/
+                                                      > 160634
+~/.cache/test main                         ∑ 21  6.5  4.3  2.1
+
+.h_dir1  .h_dir4   dir1  dir4  link1     .h_file2  file2
+.h_dir2  .h_dir5   dir2  dir5  link2     .h_file3  file3
+.h_dir3  .h_link1  dir3  dir6  .h_file1  file1     file4
+                                              57 101649 160634
+~/.cache/test
+oxo@x1c% I                                081712 585216 160656
+
+#--------------------------------------------------------------------
+
+
+# explanation of items
+
+after several commands the command time column
+builds up on the right side of the terminal buffer
+
+oxo@x1c  user and hostname (reversed) at remote server,
+	 can be preceeded by previous command exit code
+	 and number of background jobs
+	 (resp. if not null and if more than null)
+
+%	 unpriviledged user, otherwise #
+
+> 160634 command execution start time (cd command)
+
+~/.cache.test present working directory
+
+main 	 git branch (main) and status (clean)
+
+on cd directory statistics are shown and an ls
+∑ 21     21 items in current working directory:
+
+6.5      6 directories and 5 hidden directories;
+
+4.3      4 files and 3 hidden files;
+
+2.1      2 links and 1 hidden link
+
+57       command execution time in ms
+
+101649   command history ID
+
+160634   command execution end time
+
+I        actual cursor position
+
+actual time line (updated every 3s, hides when start typing)
+081712   day of the month and actual epochs first 4 numbers
+
+585216   actual epochs last 6 numbers
+
+160656   actual time
+
+
+# '

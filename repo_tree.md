@@ -664,6 +664,7 @@
 │   │       ├── last_command_get
 │   │       ├── multiline_comment
 │   │       ├── oxo_bindkey
+│   │       ├── oxo_prompt
 │   │       ├── print
 │   │       ├── shell_buildin_commands
 │   │       ├── shell_types
@@ -921,5 +922,5 @@
 └── zzz_deprecated
     └── xab
 
-189 directories, 732 files
+189 directories, 733 files
 ```
