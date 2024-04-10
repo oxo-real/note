@@ -295,6 +295,7 @@
 │   │   └── resize
 │   ├── shell
 │   │   ├── arithmatic
+│   │   ├── ascii_table
 │   │   ├── bash
 │   │   │   ├── associative_array
 │   │   │   ├── pipefail
@@ -922,5 +923,5 @@
 └── zzz_deprecated
     └── xab
 
-189 directories, 733 files
+189 directories, 734 files
 ```

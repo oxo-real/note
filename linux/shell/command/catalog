@@ -262,7 +262,7 @@ lspci -k -d #[$vendor]:[$device][:$class]  ## TODO decription
 lspci -k -s xx:xx.x #[[$domain]:]$bus]:][$slot][.[$func]]  ## TODO decription
 lspci -kvvt  ## TODO decription
 lspci -vv  ## list pci devices, find kernel drivers
-man -k . | fzf | awk '{print $1}' | xargs -r env TERM=xterm man  ## fzf find and open manpage
+man -k . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage
 man ascii  ## 7-bit ascii tables
 man zshall  ## view the system reference manual for all zsh
 mkdir $HOME/dock/{1-4}  ## make multiple directories
