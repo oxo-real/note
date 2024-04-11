@@ -834,7 +834,6 @@
 │   └── windows
 │       └── of_course_nothing_here
 ├── osint
-│   ├── cd
 │   ├── intelligence
 │   └── phone_number
 ├── parsers
@@ -923,5 +922,5 @@
 └── zzz_deprecated
     └── xab
 
-189 directories, 734 files
+189 directories, 733 files
 ```
