@@ -12,6 +12,44 @@ fuser -kim /address  # kill any processes accessing file
 https://stackoverflow.com/questions/7878707/how-to-unmount-a-busy-device
 
 
+## FAT f-, d- and umask
+
+fmask and dmask are mount options for the FAT filesystem, based on fstab.
+
+   umask=value
+          Set the umask (the bitmask  of  the  permissions  that  are  not
+          present).  The default is the umask of the current process.  The
+          value is given in octal.
+
+   dmask=value
+          Set the umask applied to directories only.  The default  is  the
+          umask of the current process.  The value is given in octal.
+
+   fmask=value
+          Set the umask applied to regular files only.  The default is the
+          umask of the current process.  The value is given in octal.
+
+The mask permissions are not like the octal permission codes passed to the chmod command,
+however this table is really helpful understanding how the masks permissions work:
+
+    0   1   2   3   4   5   6   7
+r   +   +   +   +   -   -   -   -
+w   +   +   -   -   +   +   -   -
+x   +   -   +   -   +   -   +   -
+
+It works as the normal octal permissions but subtracted from 7, and use the absolute value.
+For instance if you want to set the permissions to 0777 you will need to set it 0000 in the
+umask (e.g. umask=0000), if you want to set it to 0755 you will set it to 0022.
+
+The first character represents that it are octal permissions
+The second is for the owner
+The third is the group
+The fourth is for other, i.e any other user
+
+
+#
+
+
 chown: changing ownership of `test/': Operation not permitted
 ##
 on vfat fs ownership and permissions are defined at mount time
