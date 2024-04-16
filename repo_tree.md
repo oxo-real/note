@@ -556,6 +556,7 @@
 │   │   │   │   └── find
 │   │   │   ├── iconv
 │   │   │   ├── ifs
+│   │   │   ├── make
 │   │   │   ├── man
 │   │   │   ├── mount
 │   │   │   ├── mount_cifs
@@ -922,5 +923,5 @@
 └── zzz_deprecated
     └── xab
 
-189 directories, 733 files
+189 directories, 734 files
 ```

@@ -1,7 +1,7 @@
 #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
-< $file  ## less $file (oxo zshrc)
+< $file  ## less $file (via READNULLCMD)
 < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
 < $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
 echo hello 1> $file  ## stdout redirect to $file
@@ -162,6 +162,7 @@ fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 getent ahosts $url  ## get ip address from name service switch library database ahost
 git config --show-scope --show-origin --list  ## origin and scope of git configuration
 git log --oneline  ## list of commits
+git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  ## git hist
 git reset --hard 2db93df  ## back to a previous commit
 gnutls-cli -d 1 grc.com -p 443  ## get certificate info
 gpg --armor --export ID > ID.puk.gpg  ## export public key ascii armored id

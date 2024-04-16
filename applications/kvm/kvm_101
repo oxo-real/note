@@ -100,6 +100,12 @@ xml i.e.:
 # TROUBLESHOOTING
 ================================================================================
 
+## virsh
+install vi
+sudo virsh net-list --all
+command sudo EDITOR=vi virsh edit archlinux
+
+
 ## network default not active
 "Error starting domain: Requested operation is not valid: network 'default' is not active"
 [How to fix "network 'default' is not active" error in libvirt](https://www.xmodulo.com/network-default-is-not-active.html)
