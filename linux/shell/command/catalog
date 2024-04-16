@@ -3,7 +3,7 @@
 :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
 < $file  ## less $file (via READNULLCMD)
 < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
-< $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get from bookmark_urls
+< $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get url from bookmark_urls
 echo hello 1> $file  ## stdout redirect to $file
 echo hello 2>> $file   ## stderr redirect append to $file
 echo hello > /dev/null 2>&1  ## stdout redirect devnull; stderr redirect to stdout; silent execution
@@ -24,7 +24,7 @@ apropos keyword  ## search man page names and descriptions
 arecord --vumeter stereo audio.wav  ## record wave audio
 awk '!($1="")' $file  ## remove column 1
 awk 'NF{NF-=1};1'  ## remove last column
-awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, not the first header line
+awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
 basename $filepath  ## print filename without any leading directory components
 bind '"\e[0n": "$string"'; printf '\e[5n'  ## inject $string to bash stdin
 bindkey  ## zsh bound keys
@@ -41,8 +41,8 @@ cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode 
 cat -n $file  ## line number cat
 cat -vE $file  ## prevent cat shell injection
 cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
-cat <(ls)  ## process substitution reading from list <() (?without subshell?); same as ls | cat  (piping ?with subshell?)
-echo hello > >(sha512sum > file_with_hello_sha512.hash)  ## process substitution (instead of filename) writing to list <()
+cat <(ls)  ## process substitution reading from list <() (?without subshell?); same as ls | cat  (piping ?with subshell?) #DEV
+echo hello > >(sha512sum > file_with_hello_sha512.hash)  ## process substitution (instead of filename) writing to list >()
 < /etc/group  ## list all user groups
 cd $(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)  ## fzf cd from $HOME, spacebar for info box
 cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
@@ -87,8 +87,8 @@ dd if=/dev/zero of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notru
 dd if=/dev/urandom of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 random bytes to $dst
 df -h  ## human-readable file system space usage
 df --si --exclude-type devtmpfs --exclude-type tmpfs --exclude-type efivarfs | awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## file system disk free space
-dhcpcd -k wlp58s0  ## dhcp remove interface ip
-dhcpcd wlp58s0  ## dhcp request for interface
+dhcpcd -k $interface  ## dhcp remove interface ip
+dhcpcd $interface  ## dhcp request for interface
 diff --side-by-side --left-column $lf $rf  ## print $lf; $rf diffs in right column (-y --left-column)
 diff --new-file --text --unified=3 --recursive $lf $rf > $patch_file  ## create recursive $patch-file unified with 3 lines of context from $lf to $rf (-Naur)
 diff <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) <(echo $(pacman -Q linux | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) | tr -d '\n'; echo  ## kernel upgrade requires reboot ($? != 0)
@@ -130,7 +130,7 @@ faillock --user $USER --reset  ## remove sudo lockout for current user
 fc  ## edit last command in
 fc -l -n -1  ## last command entered, hide line number
 fc-list  ## list available fonts (fontconfig)
-fd -u . | fzf --query=`wl-paste` | wl-copy  ## fzf search wl-paste file path and wl-paste (quick file search)
+fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search wl-paste file path and wl-paste (quick file search)
 ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
 fg  ## recall last suspended command to foreground
 fg %n  ## jobs item n to foreground

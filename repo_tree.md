@@ -1,6 +1,6 @@
 ```
 /home/oxo/.local/share/c/git/note
-├── applications
+├── application
 │   ├── abook
 │   │   └── abook
 │   ├── alacritty
@@ -11,6 +11,7 @@
 │   │   ├── audio_prod_install
 │   │   └── pipewire
 │   ├── base16
+│   │   ├── base16_switcher.sh
 │   │   └── vimrc_background
 │   ├── browser
 │   │   ├── firefox
@@ -207,7 +208,7 @@
 │   └── symmetric
 │       ├── openssl_aes_256_cbc
 │       └── symmetric
-├── data_formats
+├── data_format
 │   ├── comparison
 │   ├── json
 │   ├── toml
@@ -837,7 +838,7 @@
 ├── osint
 │   ├── intelligence
 │   └── phone_number
-├── parsers
+├── parser
 │   ├── json
 │   │   ├── example_data
 │   │   │   ├── addresses.json
@@ -923,5 +924,5 @@
 └── zzz_deprecated
     └── xab
 
-189 directories, 734 files
+189 directories, 735 files
 ```
