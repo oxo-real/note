@@ -246,6 +246,7 @@ jq '.data[0] | .ua' api.json  ## get ua from the first data item
 kill -l  ## list of signal names (/usr/include/linux/signal.h) that can be send to process
 kill -STOP %n  ## stop background process jobs item number n
 kill $(pidof $process_name)  ## terminate pid of process
+ln -s $HOME/dock/vlt/pass $HOME/.password-store  ## pass vault symlink
 ln -s $target $link_name  ## create symlink $link_name to $target
 ln -s -f $target $link_name  ## replace symlink $link_name to $target
 losetup -l -a  ## list all loop devices
@@ -352,14 +353,14 @@ read -er input  ## zz1; variable is not assigned
 read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o  ## input base64 translation without EOL
 read -er input | base64 | wl-copy -n -o  ## input base64 translation
 read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'  ## secure sha3-512 hash from stdin (verify pwgn)
-read -er input | base64 | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf; gacp_all  ## backup oxo configuration and remote push
+read -er input | base64 | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf; gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
 read -r script_name; printf '%s%s' "$(figlet "$script_name")" "$(figlet -f mini "$USER")" | wl-copy  ## script header
 readlink $symlink  ## print resolved symbolic links or canonical file names
 readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonicalized symlink to current users $HOME (NOTICE realpath is preferred)
 realpath file  ## return canonicalized absolute pathname
 realpath $dir_in_home | sed "s|$HOME||"  ## remove $HOME from $dir_in_home
 reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 -l 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
-rename 'part' '' $filepart  ## change 'part' in filename $filepart with '' (remove part of filename)
+rename 'part' 'name' filepart  ## replace 'part' with 'name' in filepart (filepart -> filename)
 renice -19 $(pgrep $process_name)  ## give $process_name highest (-19) priority
 reset && zsh  ## reinitialize terminal state and z-shel
 return $code  ## exit function with optional $code or failure

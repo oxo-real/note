@@ -910,8 +910,6 @@
 │   │   ├── manpage
 │   │   └── pass
 │   └── yubikey
-│       ├── arch_yk_auth -> ../pam/arch_yk_auth
-│       ├── yk_linux -> ../pam/yk_linux
 │       ├── ykman
 │       ├── yk_u2f
 │       └── yubikey4
@@ -924,5 +922,5 @@
 └── zzz_deprecated
     └── xab
 
-189 directories, 735 files
+189 directories, 733 files
 ```
