@@ -1,0 +1,29 @@
+bindkey -a "^?" backward-delete-char
+bindkey -a "^[[3~" delete-char
+bindkey -M viins "^[[3~" delete-char
+bindkey -v
+bindkey -v "^?" backward-delete-char
+#bindkey -v "^H" backward-delete-char
+# CAUTION! bindkey ^V is occupied -> find zsh keycodes with C-v $key;
+bindkey "^[[A" up-line-or-beginning-search # up arrow
+bindkey "^[[B" down-line-or-beginning-search # down arrow
+# bindkey -l (zsh keymaps)
+# bindkey -M <keymap>
+bindkey "^A" insert_pacmanqq
+bindkey "^a" insert_appn
+bindkey "^@" insert_date_time
+bindkey "^e" insert_epoch
+bindkey "^q" git_add_commit
+bindkey "^k" up_dir
+bindkey "^h" last_dir
+bindkey '^p' ins_pwd
+bindkey "^o" fzf_ins_pwd
+bindkey "^f" fzf_ins_home
+bindkey "^g" fzf_ins_root
+bindkey -M vicmd 's' sudo_toggle
+bindkey -M vicmd 'q' sh-x_toggle
+bindkey '^Z' foreground
+bindkey '^j' lfcd
+#bindkey -s '^j' 'lfcd\n'
+#bindkey -s '^j' "lfcd\n"
+# clear current line (oxo bindkey note)  ## via vicmd; M > cc

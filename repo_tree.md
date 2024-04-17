@@ -122,7 +122,6 @@
 │   │   └── vbox_keybindings
 │   ├── vim
 │   │   ├── block_select
-│   │   ├── color_match
 │   │   ├── copy_paste_scenarios
 │   │   ├── devhints_vim
 │   │   ├── folding
@@ -337,7 +336,14 @@
 │   │   │   ├── bc
 │   │   │   │   └── floating_point_arithmatic
 │   │   │   ├── case
+│   │   │   ├── catal
 │   │   │   ├── catalog
+│   │   │   │   ├── bash
+│   │   │   │   ├── editor
+│   │   │   │   └── key
+│   │   │   │       ├── alacritty
+│   │   │   │       ├── sway
+│   │   │   │       └── zsh
 │   │   │   ├── cheatsheet
 │   │   │   │   ├── 7z
 │   │   │   │   ├── aaa_source
@@ -922,5 +928,5 @@
 └── zzz_deprecated
     └── xab
 
-189 directories, 733 files
+191 directories, 737 files
 ```
