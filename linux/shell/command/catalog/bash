@@ -78,7 +78,7 @@ curl -O $(wl-paste) -C -  ## start or resume downloading copied location
 cut -d , -f 5 --complement file.csv  ## remove column 5 from file.csv
 date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
 date +'%s'  ## current linux epoch (same as 'now' for oxo)
-date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day on pi time) to linux epoch
+date -d 'June 28 03:14' +'%s'  ## convert specific date (pi time on tau day) to linux epoch
 date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
 date -d '@1234567890' +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert specific linux epoch to oxo extensive time format
 date -d @$(wl-paste) +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert copied specific linux epoch to oxo extensive time format
@@ -478,7 +478,7 @@ uptime  ## uptime since boot
 usermod -a -G group_2_add user_2_add  ## add user to group
 var="${var_1:-$default_var}"  ## var is $default_var if var_1 is unset or null
 vlock -a  ## console lock all sessions
-env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
+env TERM=xterm; watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
 watch -n 1 'ls -ilatr'  ## watch ls -ilatr
 wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
 wf-recorder --audio --codec libx264 --file $video.mp4  ## recording video for odyssee
