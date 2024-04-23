@@ -65,4 +65,6 @@ list_conc_sort=$(printf '%s' "$list_conc" | sed '/^$/d' | sort)
 
 #printf '%s\n' "$list_conc_sort" | fzf
 
+chmod 0666 "$dst_file"
 printf '%s' "$list_conc_sort" > "$dst_file"
+chmod 0555 "$dst_file"
