@@ -1,0 +1,1 @@
+(set-face-attribute 'default nil :height 180)  ## ' emacs set font size 18pt (for screencasting)

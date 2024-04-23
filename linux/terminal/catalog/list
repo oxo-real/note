@@ -1,0 +1,770 @@
+emcs :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
+lisp (set-face-attribute 'default nil :height 180)  ## ' emacs set font size 18pt (for screencasting)
+sh   < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
+sh   < $file  ## less $file (via READNULLCMD)
+sh   < $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get url from bookmark_urls
+sh   alacritty msg config font.size=18  ## current alacritty instance font size 18 (for screencasting)
+sh   amixer info  ## info about alsamixer device
+sh   amixer scontrols  ## list of alsamixer controls
+sh   amixer set Capture toggle  ## alsamixer toggle mic
+sh   amixer set Capture toggle && amixer get Capture | grep '\[off\]' && notify-send "MIC switched OFF" || notify-send "MIC switched ON"  ## mute mic with visual status update
+sh   amixer set Capture volume 0 nocap  ## alsamixer mute mic
+sh   amixer set Internal Mic Capture volume 0 nocap  ## alsamixer mute mic
+sh   amixer set Master playback volume 30 unmute  ## alsamixer unmute playback volume 30
+sh   apropos keyword  ## search man page names and descriptions
+sh   arecord --vumeter stereo audio.wav  ## record wave audio
+sh   awk '!($1="")' $file  ## remove column 1
+sh   awk 'NF{NF-=1};1'  ## remove last column
+sh   awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
+sh   basename $filepath  ## print filename without any leading directory components
+sh   bind '"\e[0n": "$string"'; printf '\e[5n'  ## inject $string to bash stdin
+sh   bindkey  ## zsh bound keys
+sh   blkid /dev/sda128 | awk '{print $3}' | cut -d '"' -f 2  ## get uuid from /dev/sd
+sh   bluetoothctl connect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth connect
+sh   bluetoothctl disconnect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth disconnect
+sh   bluetoothctl discoverable off	## bluetooth not broadcast radio device
+sh   bluetoothctl power off && sudo systemctl stop bluetooth.service && sudo rfkill block bluetooth  ## bluetooth radio off
+sh   break  ## current loop exit
+sh   brightnessctl set 50%  ## set brightness to 50% of the maximum
+sh   cal -m -w 12 2022  ## calendar for december 2022
+sh   cal -m -w -3 $(date -I)  ## calendar showing last, current and next month, week start on mondays, with weeknumbers
+sh   cal -m -w -y $(date +%Y)  ## current year calendar
+sh   case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## case statement basic structure
+sh   cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
+sh   cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
+sh   cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file (heredoc), strip leading tabs from mlt (-), EOF can be any unique limit string
+sh   cat <(ls)  ## process substitution reading from list <() (?without subshell?); same as ls | cat  (piping ?with subshell?) #DEV
+sh   cat -n $file  ## line number cat
+sh   cat -vE $file  ## prevent cat shell injection
+sh   cd $(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)  ## fzf cd from $HOME, spacebar for info box
+sh   cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
+sh   cd $(printf '%s\n' "$PWD" | sed "s|$HOME/b|$HOME/c|")  ## move parrallel to the same cwd, but in another parent directory
+sh   cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
+sh   cd /usr/lib/modules/$(uname -r)  ## active os kernel modules
+sh   cd /var/lib/pacman/local  ## pacman install directory
+sh   chattr -R +i $directory  ## add 'i' attribute: files in $directory cannot be modified
+sh   chmod 0000  ## ---------- 	ugo -	no permissions
+sh   chmod 0111  ## ---x--x--x 	ugo x				execute
+sh   chmod 0222  ## --w--w--w- 	ugo w			write
+sh   chmod 0333  ## --wx-wx-wx 	ugo wx			write	execute
+sh   chmod 0444  ## -r--r--r-- 	ugo r	read
+sh   chmod 0555  ## -r-xr-xr-x 	ugo xr	read			execute
+sh   chmod 0666  ## -rw-rw-rw- 	ugo	rw	read	write
+sh   chmod 0700  ## -rwx------ 	u	rwx	g	-	o	-
+sh   chmod 0740  ## -rwxr----- 	u	rwx	g	r	o	-
+sh   chmod 0770  ## -rwxrwx--- 	u	rwx	g	rwx	o	-
+sh   chmod 0777  ## -rwxrwxrwx 	ugo	rwx	read	write	execute
+sh   chmod --reference=ref_file target  ## make target file mode bits same as ref_file
+sh   chown :group file  ## set group ownership
+sh   chown -R $USER:$GROUP $target  ## recursive set target ownership to current user & group
+sh   chown user: file  ## set user ownership
+sh   clear  ## shift current line to top of screen
+sh   cmp $lf $rf  ## byte compare files, boolean output
+sh   command $command  ## run native $command, no alias or function, \command
+sh   continue  ## current loop next item
+sh   cp -prv --attributes-only  ## copy no content, but only mode, ownership and timestamps, verbose
+sh   cp -pv  ## copy and preserve mode, ownership and timestamps, verbose
+sh   cryptsetup --cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 key-file=/dev/sdZ open --type=plain /dev/sdX lvm
+sh   cryptsetup --cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 --verify-passphrase open --type=plain /dev/sdX lvm
+sh   cryptsetup --cipher=serpent-xts-plain -hash=sha512 --key-size=512 --iter-time=4096 --use-random --verify-passphrase luksFormat /dev/sdX
+sh   cryptsetup luksAddKey --key-slot 7 $vault  ## add luks key to slot 7 of $vault
+sh   cryptsetup luksChangeKey $vault  ## change a key for $vault
+sh   cryptsetup luksDump $vault  ## dump $vault header information
+sh   cryptsetup luksRemoveKey $vault  ## remove luks key from $vault slot 7
+sh   cryptsetup luksUUID $luks_container | wl-copy -o -n  ## get $luks_container id
+sh   cryptsetup open /dev/sdX cryptlvm  ## open /dev/sdX to cryptlvm
+sh   cryptsetup open /dev/sdX cryptroot --debug  ## which keyslot is used for passphrase
+sh   curl $(wl-paste) | zathura -  ## stream a copied (qb ;y) pdf url
+sh   curl -4 https://ident.me  ## external ip address
+sh   curl -O $(wl-paste) -C -  ## start or resume downloading copied location
+sh   curl -O https://file.location -C - -o file.location.txt_part  ## start or resume downloading file.location to file.location.txt_part
+sh   curl -O https://mirror.i3d.net/pub/archlinux/iso/2018.04.01/archlinux-2018.04.01-x86_64.iso | sudo dd of=/dev/sdX  ## download arch linux iso and write to device
+sh   cut -d , -f 5 --complement file.csv  ## remove column 5 from file.csv
+sh   date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
+sh   date -d @$(wl-paste) +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert copied specific linux epoch to oxo extensive time format
+sh   date -d '@1234567890' +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert specific linux epoch to oxo extensive time format
+sh   date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day on pi time) to linux epoch
+sh   date +'%s'  ## current linux epoch (same as 'now' for oxo)
+sh   date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
+sh   dd if=$src of=$dst bs=256k iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## physical copy $src to $dst
+sh   dd if=/dev/urandom of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 random bytes to $dst
+sh   dd if=/dev/zero of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 bytes as zeros to $dst
+sh   df -h  ## human-readable file system space usage
+sh   df --si --exclude-type devtmpfs --exclude-type tmpfs --exclude-type efivarfs | awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## file system disk free space
+sh   dhcpcd $interface  ## dhcp request for interface
+sh   dhcpcd -k $interface  ## dhcp remove interface ip
+sh   diff <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) <(echo $(pacman -Q linux | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t\r\n')) | tr -d '\n'; echo  ## kernel upgrade requires reboot ($? != 0)
+sh   diff --new-file --text --unified=3 --recursive $lf $rf > $patch_file  ## create recursive $patch-file unified with 3 lines of context from $lf to $rf (-Naur)
+sh   diff --side-by-side --left-column $lf $rf  ## print $lf; $rf diffs in right column (-y --left-column)
+sh   dig -x 89.39.107.195  ## reverse lookup own public ip
+sh   dircolors --print-ls-colors  ## evaluate $LS_COLORS colors
+sh   dirname $filename  ## print $filename without last component
+sh   dotfbu restore $XDG_DATA_HOME/c/git/dotf $XDG_CONFIG_HOME  ## restore oxo configuration
+sh   dotool --list-x-keys  ## show xkb keys
+sh   du --bytes --si --human-readable --separate-dirs $directory | sort -k 2  ## directory usage; list of all subdirectories with sizes (size sort -h -k 1)
+sh   du --bytes --si --human-readable --separate-dirs --max-depth=0 $directory | awk '{print $1}'  ## directory usage; total si size of all files in current $directory
+sh   du --bytes --si --human-readable --separate-dirs --total $directory | tail --lines 1 | awk '{print $1}'  ## directory usage; total si size of all files and subdirectories
+sh   du --bytes --si --human-readable --separate-dirs --total --all $directory | sort -k 2  ## directory usage; list of files and subdirectories with sizes (size sort -h -k 1)
+sh   du -sbh $directory  ## directory usage; total size of all content in directory
+sh   e2label /dev/X $label  ## write device label
+sh   e2label /dev/X  ## read device label
+sh   echo $(( 1 ^ 2 ))  ## decimal value of xor 1 and 2 (xor 01 and 10 = 11)
+sh   echo ${HOME##*/}  ## remove longest matching pattern from head, until last instance ('oxo')
+sh   echo ${HOME%%/*}  ## remove longest matching pattern from tail, from first instance ('')
+sh   echo ${HOME#*/}  ## remove shortest matching pattern from head, until 1st instance ('home/oxo')
+sh   echo ${HOME%/*}  ## remove shortest matching pattern from tail, from last instance ('/home')
+sh   echo $?  ## print exit code of the last executed command
+sh   echo $RANDOM  ## returns pseudorandom integer (0-32767)
+sh   echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
+sh   echo '1' | sudo tee /proc/sys/kernel/sysrq  ## # obtain full sysrq priviledges
+sh   echo -e "\033c"  ## same as tput reset but hardcoded escape seq
+sh   echo hello 1> $file  ## stdout redirect to $file
+sh   echo hello 2>> $file   ## stderr redirect append to $file
+sh   echo hello 2>&1 | tee -a $logfile  ## stderr redirect to stdout; append both to $logfile
+sh   echo hello > /dev/null 2>&1  ## stdout redirect devnull; stderr redirect to stdout; silent execution
+sh   echo hello &> /dev/null  ## stdout redirect devnull; stderr redirect to stdout; silent execution (shorthand notation)
+sh   echo hello > >(sha512sum > file_with_hello_sha512.hash)  ## process substitution (instead of filename) writing to list >()
+sh   echo hello &| tee -a $logfile  ## stderr redirect to stdout; append both to $logfile (shorthand notation)
+sh   echo -n $string | base64  ## base64 encoding
+sh   echo "obase=02; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to binary conversion
+sh   echo "obase=10; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to decimal conversion
+sh   echo "obase=16; ibase=10; $dec" | bc  ## bc dec (10) to hex (16) conversion
+sh   echo 'string2sort' | grep -o . | sort | tr -d "\n"  ## sort chars in string
+sh   emacsclient --create-frame --alternate-editor="" $file &  ## client open $file in new gui window
+sh   emacsclient -e '(kill-emacs)'  ## stop emacs daemon outside running instance
+sh   emacsclient --tty $file &  ## client open $file in current terminal window
+sh   emacs --daemon  ## start emacs daemon
+sh   env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
+sh   espeak -s 80 -p 70 -v mb-us1 'hello'  ## espeak hello speed 80% pitch 70% voice us1
+sh   < /etc/group  ## list all user groups
+sh   eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concatenate arguments, add ssh_key
+sh   export PWGN_OFF=1; mountr  ## disable oxo pwgn
+sh   faillock --user $USER --reset  ## remove sudo lockout for current user
+sh   fallocate -l 5M file  ## create file 5M size
+sh   fc  ## edit last command in
+sh   fc-list  ## list available fonts (fontconfig)
+sh   fc -l -n -1  ## last command entered, hide line number
+sh   fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search wl-paste file path and wl-paste (quick file search)
+sh   ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
+sh   fg %n  ## jobs item n to foreground
+sh   fg  ## recall last suspended command to foreground
+sh   figlet -d $XDG_CONFIG_HOME/figlet  ## change default font directory
+sh   figlet -f 'mini' oxo  ## figchars
+sh   find $directory -name '$search_string' 2>/dev/null  ## find quiet
+sh   find $directory -type f -exec shred -v -z -n 3 -u {} \;  ## shred found files
+sh   find . -exec $command {} \;  ## find exec structure
+sh   find . -iname $file  ## case_insensitive find
+sh   find . -maxdepth 1 -name \*_ -type d -exec cp -r {} ~/test_/bu \;  ## find all dirs ending with _ and copy them (NOTICE: '\*_')
+sh   find . -maxdepth 1 -type d -exec du -sb {} \; | sort -g -k 1  ## directories sorted by size (bytes)
+sh   find . -maxdepth 1 -type f -cmin $n  ## file status changed less than (-n), more than (+n) or exactly n minutes ago
+sh   find . -maxdepth 1 -type f -mtime $n  ## data modified less than (-n), more than (+n) or exactly n*24 hours (days) ago
+sh   find . -maxdepth 1 -type f -name "* *" -exec sh -c 'mv "$0" "${0// /_}"' {} \;  ## replace filename spaces with underscores
+sh   find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks and copy without dereferencing
+sh   find . | sed -e 's;[^/]*/;|____;g;s;____|; |;g'  ## similar to: find . | tree
+sh   find . -type f -exec mv {} $dest \;  ## find all files and move them to $dest directory
+sh   find . -type f ! -newermt "2018-12-31" -delet3  ## find and delete all files older (not newer) than date
+sh   find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print  ## find broken symbolic links
+sh   for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
+sh   for file in *.html; do mv "$file" "${file%.html}.txt"; done  ## change file extension (*.html to *.txt)
+sh   for (( i=$in; i<=$ix; i++ )); do echo $i; done  ## for loop alternative mathematic structure; variable list values (in to ix step i++)
+sh   for i in $space_sep_string; do; echo $i; done  ## for loop through space separated string
+sh   for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
+sh   for i in {0..7}; do; printf "\033[0;3${i}mcolor$i\n"; done  ## print 8 colors
+sh   for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded list values
+sh   for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
+sh   free -m  ## free and used memory in system
+sh   fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
+sh   fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem in mount)
+sh   getent ahosts $url  ## get ip address from name service switch library database ahost
+sh   git config --show-scope --show-origin --list  ## origin and scope of git configuration
+sh   git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  ## git hist
+sh   git log --oneline  ## list of commits
+sh   git reset --hard 2db93df  ## back to a previous commit
+sh   gnutls-cli -d 1 grc.com -p 443  ## get certificate info
+sh   gpg --armor --export ID > ID.puk.gpg  ## export public key ascii armored id
+sh   gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk 'BEGIN{CACHED=0} /^S/ {if($7==1){CACHED=1}} END{if($0!=""){print CACHED} else {print "0"}}'  ## gpg cache status (1=cached)
+sh   gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
+sh   gpg --detach-sign --local-user 0x12345678 $file  ## sign $file with specific secret key
+sh   gpg -e -a -r $id file  ## encrypt file armored for recipient $id (like pass)
+sh   gpg --edit-key ID >  ## edit public key
+sh   gpg --expert --full-generate-key  ## generate new keypair
+sh   gpg --export --export-options backup --output public_keys.gpg  ## step 1 backup gpg identity (public keys)
+sh   gpg --export ID > ID.puk.gpg  ## export public key binary
+sh   gpg --export-ownertrust > trust_db.gpg  ## step 3 backup gpg identity (trust database)
+sh   gpg --export-secret-keys --export-options backup --output private_keys.gpg  ## step 2 backup gpg identity (private keys)
+sh   gpg --fingerprint | grep -i -B 1 $uid_email | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
+sh   gpg --import ID >  ## import public key
+sh   gpg --import-ownertrust trust_db.gpg  ## step 3 restore gpg identity (trust database)
+sh   gpg --import private_keys.gpg  ## step 2 restore gpg identity (private keys)
+sh   gpg --import public_keys.gpg  ## step 1 restore gpg identity (public keys)
+sh   gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 1 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list
+sh   gpg --output file --decrypt file.gpg >  ## decrypt file.gpg asymmetric using private key
+sh   gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetric using public key ID
+sh   gpg --output file.gpg --symmetric file >  ## encrypt file symmetric
+sh   gpg --output ID.puk.asc --armor --export ID >  ## export public key ascii armored
+sh   gpg --output revoke.asc --gen-revoke ID  ## generate revocation certificate
+sh   gpg -vv $pub_key.asc  ## verbose info on $pub_key.asc
+sh   gpsbabel -i garmin_fit -f $in_fit -o gpx -F $out_gpx  ## fit2gpx conversion
+sh   grep bindkey $XDG_CONFIG_HOME/zsh/.zshrc  ## zsh keybinding related lines
+sh   grep bindsym $XDG_CONFIG_HOME/sway/config  ## sway keybinding related lines
+sh   grep '^[[:blank:]]*[^[:blank:]#;]' $file  ## only lines not (2nd ^) starting (1st ^) with # or ; uncommented lines from file
+sh   grep '^[[:blank:]]*[^[:blank:]#;]' $XDG_CONFIG_HOME/alacritty/alacritty.yml | grep 'key:'  ## alacritty active (no outcommented) keybindings
+sh   grep -riIl 'text' [directory]  ## find files (no binary) containing text recursively in directory
+sh   grep -riIn 'text' [directory]  ## find files (no binary) containing text recursively in directory with linenumbers
+sh   grep "\sro[\s,]" /proc/mounts  ## show read only mountpoints
+sh   gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
+sh   gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
+sh   head -n -3 $file  ## show all but 3 last lines (hide last three lines from $file)
+sh   history | tail -n 1 | tr -s ' ' | cut -d ' ' -f 3-  ## last command from history (removing counter)
+sh   history -t %Y%m%d_%H%M%S -d -D $history_id  ## command history from $history_id (id time-start -elapsed cmd)
+sh   history -t %Y%m%d_%H%M%S -d -D -3  ## last 3 commands from history (id time-start -elapsed cmd)
+sh   hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
+sh   host -t A $ip_addr_domain  ## dns lookup A record
+sh   host -v -t ANY $ip_addr_domain  ## dns lookup any type verbose output
+sh   hwclock --set --date='01/01/2010 00:00:00'; sudo hwclock --hctosys  ## set date and time
+sh   id [$USER]  ## show both real and effective uid & gid
+sh   ((i--))  ## decrease i by one (i.e. in a loop)
+sh   id -g [$USER]  ## show effective group id
+sh   id -gn [$USER]  ## show effective group name
+sh   id -u [$USER]  ## show effective user id
+sh   id -un [$USER]  ## show effective user name
+sh   if [[ $i -eq 0 ]]; then; echo 0; elif [[ $i -lt 0 ]]; then; echo neg; else; echo pos; fi  ## if elif else statement basic structure
+sh   iftop -i $interface ## display bandwith usage of interface
+sh   ((i++))  ## increase i by one (i.e. in a loop)
+sh   info  ## advanced manual system primarily for gnu programs
+sh   insmod $file [$args]  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
+sh   ip a add $ip_subnet_mask broadcast $broadcast_ip dev $interface  ## TODO desription
+sh   ip a add 192.168.1.200/255.255.255.0 dev $interface  ## assign ip address to interface
+sh   ip a del 192.168.1.200/24 dev $interface  ## remove ip address from interface
+sh   ip a flush $interface  ## remove all ip addresses from interface
+sh   ip link set $interface {down/up}  ## change interface state
+sh   ip link set dev [$interface] address [$mac]  ## assign [mac] address to [interface]
+sh   ip link set dev [$interface] down  ## disconnect from the network by disable interface
+sh   ip link show $enp | grep link | awk '{print $2}'  ## print $enp mac address
+sh   ip n show  ## show neighbour / arp cache
+sh   ip route add default via $default_gateway  ## TODO description
+sh   ip route flush dev $interface  ## TODO description
+sh   ipset add blocklist [$ipaddrs]  ## add [ipaddrs] to blocklist
+sh   ipset create blocklist hash:ip  ## create ip blocklist
+sh   iw dev [$wl_interface] scan | grep SSID | sort | uniq  ## received SSID list
+sh   jobs  ## list background processes
+sh   journalctl -b, --boot [$id]  ## TODO decription
+sh   journalctl --disk-usage  ## show total disk usage
+sh   journalctl -e  ## TODO decription
+sh   journalctl -f, --follow  ## TODO decription
+sh   journalctl --flush --rotate  ## flush all journal data from /run to /var and request immediate rotation of the journal files
+sh   journalctl -k  ## TODO decription
+sh   journalctl --list-boots  ##  ## TODO decription
+sh   journalctl -o json-pretty  ## TODO decription
+sh   journalctl -o verbose  ## TODO decription
+sh   journalctl -p 3 -x  ## TODO decription
+sh   journalctl _<TAB>  ## TODO decription
+sh   journalctl -u $unit  ## TODO decription
+sh   journalctl --vacuum-files=2  ## leave 2 journal files (--vacuum-size, --vacuum-time)
+sh   jq '.data[0] | .ua' api.json  ## get ua from the first data item
+sh   kill $(pidof $process_name)  ## terminate pid of process
+sh   kill -l  ## list of signal names (/usr/include/linux/signal.h) that can be send to process
+sh   kill -STOP %n  ## stop background process jobs item number n
+sh   ln -s $HOME/dock/vlt/pass $HOME/.password-store  ## pass vault symlink
+sh   ln -s $target $link_name  ## create symlink $link_name to $target
+sh   ln -s -f $target $link_name  ## replace symlink $link_name to $target
+sh   losetup -d $loop_dev  ## detach $loop_dev
+sh   losetup -l -a  ## list all loop devices
+sh   ls $XDG_DATA_HOME/keys/wl | fzf | xargs -r cat | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## fzf select wifi key and show qr
+sh   lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint  ## list block devices
+sh   lsblk -o fsuse%,path,fsused,size | grep '%' | awk 'NR == 1; NR > 1 {print $0 | "sort -nr"}'  ## block devices usage percentage
+sh   lscpu  ## display cpu architecture
+sh   lshw  ## list hardware configuration
+sh   lsmod  ## list drivers currently added to kernel
+sh   lsof +f -- [$path1 $path2]  ## list open files in paths opened by processes
+sh   lsof -p [$pid]  ## list open files for PID
+sh   lspci -k -d #[$vendor]:[$device][:$class]  ## TODO decription
+sh   lspci -k -s xx:xx.x #[[$domain]:]$bus]:][$slot][.[$func]]  ## TODO decription
+sh   lspci -kvvt  ## TODO decription
+sh   lspci  ## list pci devices
+sh   lspci -vv  ## list pci devices, find kernel drivers
+sh   man ascii  ## 7-bit ascii tables
+sh   man -k . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage
+sh   man zshall  ## view the system reference manual for all zsh
+sh   mkdir $HOME/dock/{1-4}  ## make multiple directories
+sh   modprobe $driver  ## add driver to kernel
+sh   modprobe -r $driver  ## remove driver from kernel
+sh   mount | grep ro,  ## find all ro mountpoints
+sh   mount -L $label $mountpoint  ## mount device with $label to $mountpoint
+sh   mount -o remount,rw /dev/sdY1 /boot  ## remount rw existing mountpoint
+sh   mount -o uid=$(id -u $USER),gid=$(id -g $USER) /dev/sdX dock/1  ## mount as current user
+sh   mount | sort -k 1 | column -t  ## sort mount by device name
+sh   mount | sort -k 3 | column -t  ## sort mount by mountpoint
+sh   mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
+sh   mpv $(echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\//')  ## change yt url
+sh   mpv --audio-display=no $file.mp3  ## play mp3 without albumart
+sh   mpv /dev/video4  ## livestream local webcam
+sh   mpv --start=+00:00 --ytdl-format='best[filesize<300M]' --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --http-header-fields="User-Agent: $(head -n 1 $USER_AGENT)" $(wl-paste)  ## stream movie verbose with mpv.conf cache_s profile
+sh   mv -t $target_dir $source_dirs  ## move source_dirs to target_dir
+sh   neofetch --ascii_distro arch_small --gtk3 off --gtk2 off --colors 3 3 3 7 3 4 --separator '     \t'  ## neat system info
+sh   nerd-dictation begin --config $config_file --simulate-input-tool STDOUT --numbers-min-value 10 --numbers-as-digits --numbers-no-suffix --vosk-model-dir $model_dir  ## speech-to-text
+sh   nl -w 3 -s ' '  ## add line numbers with number width 3 and separator string ' '
+sh   nmcli connection add type ethernet con-name $con_name ifname $if_name  ## TODO decription
+sh   nmcli connection modify $con_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual  ## TODO decription
+sh   : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
+sh   notmuch address '*'  ## all mail addresses
+sh   notmuch address --deduplicate=address date:year | fzf | wl-copy  ## 1. last years email addresses
+sh   notmuch address --output=count --deduplicate=address date:year '*' | sort --numeric-sort --reverse | fzf | wl-copy  ## last years email addresses, most to least active
+sh   notmuch address --output=recipients --deduplicate=address date:year | fzf | wl-copy  ## last years recipients
+sh   notmuch search $(wl-paste) date:year | fzf | awk '{print $1}' | wl-copy  ## 2. last years threads from recipient
+sh   notmuch show $(wl-paste)  ## 3. show specific thread content
+sh   nslookup server.com  ## get server ip address
+sh   openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## openssl base64 encoded aes 256 bits galois counter mode decryption
+sh   openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## openssl base64 encoded aes 256 bits galois counter mode encryption
+sh   openssl s_client -connect $server_ip:443 -servername $server_name -showcerts  ## print x509 public key certificate from $(wl-paste -n):443 as text to stdout with server name indication (SNI) in the clienthello message (if a reverse proxy ip serves multiple webservers)
+sh   openssl s_client -connect $(wl-paste -n):443 -showcerts < /dev/null | openssl x509 -noout -text ## print x509 public key certificate as text to stdout
+sh   openssl s_client -connect grc.com:443 -showcerts < /dev/null | openssl x509 -outform pem > cert.pem  ## write x509 public key certificate from grc.com:443 as pem to file cert.pem
+sh   openssl x509 -in cert.pem -noout -text  ## print x509 public key certificate from file cert.pem as text to stdout
+sh   openvpn --config openvpn/udp-ams1_udp.ovpn  ## TODO decription
+sh   optstring=":i:h"; while getopts $optstring opt; do; case $opt in i) var="${OPTARG}";; h) echo help_text;; \?) echo 'no opt';; :) echo 'hlp txt';; esac; done  ## command options (-i arg or -h)
+sh   output=$(printf $input | openssl dgst -sha512 -hmac $hmac | sed 's/^.*= //')  ## zz3
+sh   pacman-key --delete $pub_key  ## TODO decription
+sh   pacman-key --finger $pub_key  ## TODO decription
+sh   pacman-key --lsign-key $pub_key  ## TODO decription
+sh   pactl list sinks | grep -A 1 Name  ## list of sink devices (audio output)
+sh   pactl list sources | grep -A 1 Name  ## list of source devices (audio input)
+sh   pactl list sources | grep -B 1 'Webcam C310 Mono' | head -n 1 | awk '{print $2}'  ## get audio source name from description (for wf-recorder --audio)
+sh   pactl set-source-mute $device_name false  ## set audio source mute status false (use tab to autocomplete)
+sh   pactl set-source-port $device_name $port_name  ## set audio source (use tab to autocomplete)
+sh   pactl set-source-volume $device_name 100%  ## set audio source volume 100% (use tab to autocomplete)
+sh   pactree $package  ## show $package dependency tree
+sh   pactree -r $package  ## show $package dependant tree, reverse depedencies, packages that depend on $package
+sh   patch -p0 < $patch_file  ## apply $patch_file (see diff)
+sh   pim=$(printf $input | xxd -p)  ## zz4_OLD
+sh   pim2fa=$(printf $input | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
+sh   ping -D -i 10 -c 5 9.9.9.9  ## TODO decription
+sh   pkill -SIGRTMIN+4 i3blocks  ## send signal=4 to i3blocks
+sh   pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0  ## end internet connection
+sh   print_entire_array() { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}" ; done }  ## print_entire_array arrayX
+sh   printenv  ## print values of environment variables
+sh   printf "${fg_black}$(BGx aaaaaa)%s${st_def}\n" 'text_appearance'  ## printf 24 bit hex color code; NOTICE dependency: oxo source function text_appearance
+sh   printf $(( [#n] x ))  ## print base 10 value of x in base n, with 2<=n<=36
+sh   printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
+sh   printf "\033c"  ## same as tput reset but hardcoded escape seq
+sh   printf "%03d%s" "2"  ## print leading zeros
+sh   printf "%3d%s" "2"  ## print leading spaces
+sh   printf "%d\n" \'A  ## character (A) to ascii value (65)
+sh   printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-Transfer-Encoding: 7bit; Subject: <subject>\n; <body>" | msmtp -v -C <msmtp_config> -a <profile_name> -- destination@mail.com  ## send email
+sh   printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -  ## space every 4th character (with fold)
+sh   printf "space_every_4th_char" | sed 's/.\{4\}/& /g'  ## space every 4th character (with sed)
+sh   printf text | openssl dgst -sha512 -hmac key | sed 's/^.*= //' | wl-copy
+sh   printf "\x$(printf %x 65)"  ## ascii value (65) to character (A)
+sh   print -z $string  ## inject $string to zsh stdin
+sh   < /proc/uptime | awk '{print $1}'  ## uptime in seconds
+sh   PS4=':${BASH_SOURCE[0]:-$0} $(printf %4d%s "${LINENO}") ${FUNCNAME[0]:+${FUNCNAME[0]}(): }' sh -xv script.sh  ## extra verbose debug output stream
+sh   ps -ajxf  ## print a process tree
+sh   ps -eFly  ## list every process on the system
+sh   ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list processes custom AIX format descriptors, sort low to high elapsed time since process was started
+sh   ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom AIX format descriptors, sort high to low cpu usage
+sh   pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
+sh   pushd $directory  ## cd to $directory and add $directory to dirs stack[0]
+sh   qalc '18°32′44.88″W to degrees'  ## convert sexagesimal value to decimal geographic position notation
+sh   qalc '-18.5458 to latitude'  ## convert decimal geographic position value to sexagesimal N/S notation
+sh   qalc '64.8587 to longitude'  ## convert decimal geographic position value to sexagesimal E/W notation
+sh   qalc -s 'exp engineering' '1700000000'  ## convert value to engineering notation
+sh   qbns -s content.canvas_reading true -s content.webgl true -s colors.webpage.darkmode.enabled false $(wl-paste) &  ## qutebrowser new session open copied url unsafe
+sh   qrencode -t utf8  ## create qr from stdin
+sh   qutebrowser -s content.canvas_reading true  ## qb for windy
+sh   rankmirrors -n 10 /etc/pacman.d/mirrorlist | grep -w 'Server =' >> mirrorlist.ranked  ## update mirrorlist
+sh   read -er input | base64 | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf; gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
+sh   read -er input | base64 | wl-copy -n -o  ## input base64 translation
+sh   read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'  ## secure sha3-512 hash from stdin (verify pwgn)
+sh   read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o  ## input base64 translation without EOL
+sh   read -er input  ## zz1; variable is not assigned
+sh   read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
+sh   readlink $symlink  ## print resolved symbolic links or canonical file names
+sh   readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonicalized symlink to current users $HOME (NOTICE realpath is preferred)
+sh   read -r input  ## zz1; variable is assigned
+sh   read -r script_name; printf '%s%s' "$(figlet "$script_name")" "$(figlet -f mini "$USER")" | wl-copy  ## script header
+sh   realpath $dir_in_home | sed "s|$HOME||"  ## remove $HOME from $dir_in_home
+sh   realpath file  ## return canonicalized absolute pathname
+sh   reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 -l 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
+sh   rename 'part' 'name' filepart  ## replace 'part' with 'name' in filepart (filepart -> filename)
+sh   renice -19 $(pgrep $process_name)  ## give $process_name highest (-19) priority
+sh   reset  ## clear + reset internal terminal state + 1sec delay
+sh   reset && zsh  ## reinitialize terminal state and z-shel
+sh   return $code  ## exit function with optional $code or failure
+sh   rev $file  ## reverse line characters
+sh   rfkill list  ## check hard and soft block status wireless radios
+sh   rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
+sh   rfkill [un]block wlan  ## soft [un]block wifi radio
+sh   rmmod $module  ## remove $module from linux kernel
+sh   rm -rf -- '-r'  ## remove entire directory starting with a '-'
+sh   rsync -aAXv --delete --info=progress2,stats --progress $source/ $destination  ## basic oxo rsync
+sh   rsync -aAXv --delete --info=progress2,stats --progress --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
+sh   rsync -aAXv --delete --info=progress2,stats --progress --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w files from patterns
+sh   rsync -aAXv --delete --info=progress2,stats --progress --rsh=ssh $source $user@$host:/directory  ## basic oxo rsync w remote ssh shell
+sh   rsync -aAXv --dry-run --delete --info=progress2,stats --progresss $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## dry run backup_c2b
+sh   rsync -aAXv --hard-links --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/var/lib/dhcpcd/*","/lost+found","$dst/*"} / $dst  ## full system backup
+sh   rsync --recursive $src/ $dst  ## copy $src content 'flat' into $dst (like cp $src/.) NOTICE rsync trailing slash caveat
+sh   rsync --recursive $src $dst  ## create intervening directory $dst/$src; with all content of $src
+sh   script; $command; exit  ## $command execution typescript user log
+sh   script --command 'sh -x $command' --log-io "$(now).log" --log-timing "$(now).log"  ## $sommand execution typescript developer debug log_2
+sh   script; sh -x $command; exit  ## $sommand execution typescript developer debug log
+sh   sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
+sh   sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove $HISTORY last line
+sh   sed -i '$d' $file  ## remove last line from $file
+sh   sed -i '$d' $HISTFILE; sed -e ':t;N;$!bt; s/\(\n[^\n]*\)\{1\}$/\n     deleted:&/' $HISTFILE | tail; sed -i '$d' $HISTFILE  ## remove $HISTORY last line and show result
+sh   sed -i '/$find/{n;s/.*/$replace/}' $file  ## find $find and replace next line with $replace
+sh   sed -i '2,$d' $file  ## remove all lines from line 2 from $file
+sh   sed -i '2,3 d' $file  ## remove line 2 and 3 from $file
+sh   sed -i '/^find/ s/./#&/' $file  ## comment out lines containing 'find'
+sh   sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
+sh   sed -i 'ni insert this into line n of file' $file  ## insert string after line n
+sh   sed -i '/pttrn/d' $file  ## delete all lines in $file that contain 'pttrn'
+sh   sed -i 's/$find/$replace/g' $file  ## replace $find with $replace in $file
+sh   sed '/^\s*$/d'  ## remove empty lines
+sh   select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
+sh   set -euo pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
+sh   setfont ter-v32n  ## set console font
+sh   set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
+sh   setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
+sh   setterm -reset  ## same as tput reset, setterm has more user friendly commands
+sh   showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
+sh   shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
+sh   simple-mtpfs --list-devices  ## list mountable mtp devices
+sh   simple-mtpfs -o allow_other --device 1 $HOME/dock/mobile  ## mount mtp device 1
+sh   sort < $file | sort -nr > $file_sort_freq  ## reverse numerical sort
+sh   sort $file | uniq -c | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
+sh   sort < $file | uniq -u > $file_uniq  ## unique lines
+sh   sort $HISTFILE | uniq -c | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
+sh   source $function_text_appearance; printf "$(FHX ffbf00)$(BHX 0040ff)%s${NOC}\n" "$text"  ## hexadecimal 24 bit color codes in printf (fore- & background)
+sh   split $file -b N  ## split $file into files with N bytes
+sh   split $file -l N  ## split $file into files with N lines
+sh   split $file -n N  ## split $file into N files
+sh   sqlite3 -header -separator " " $XDG_DATA_HOME/qutebrowser/history.sqlite "select * from History;" | fzf --header-lines=1  ## fzf qb history
+sh   sqlitebrowser $XDG_DATA_HOME/qutebrowser/history.sqlite  ## view qb history
+sh   ssh-keygen -R 192.168.0.195  ## remove cached key for ip on the local machine
+sh   ssh-keygen -t ed25519-sk -C $key_id -f $key_file  ## generate openssh key
+sh   ssh-keyscan -t ecdsa 192.168.x.y >> ~/.ssh/known_hosts  ## update ecdsa key for ip on local machine
+sh   stat $file  ## display file or file system status
+sh   stat -c %A $file  ## display file access rights in human readable format
+sh   stat -c %a $file  ## display file access rights in octal format
+sh   stty $(head -n 1 $XDG_CONFIG_HOME/tty/default)  ## (re)set default tty settings
+sh   stty -a  ## print all terminal line settings (human readable)
+sh   stty -g  ## print all tty settings (stty readable)
+sh   stty sane  ## don't clear screen but reset some terminal options
+sh   sudo ip link set up && sudo dhcpcd  && ping -c 1 9.9.9.9 && ip a  ## TODO decription
+sh   sudo iptables -A INPUT -s [ipaddr] -j DROP  ## add [ipaddr] to chain INPUT and drop all traffic
+sh   sudo -k; free -h; echo; for i in {1..3}; do; sudo sysctl -w vm.drop_caches="$i"; sudo sync; echo "$i" | sudo tee /proc/sys/vm/drop_caches; done; free -h  ## free mwmory (pagecache, dentries and inodes)
+sh   sudo -k  ## invalidate cached credentials
+sh   sudo -l  ## list allowed commands for user
+sh   sudo -n echo >/dev/null 2>&1; echo $?  ## print sudo status
+sh   sudo rfkill unblock bluetooth && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off  ## bluetooth radio on
+sh   sudo systemctl start sshd  ## TODO decription
+sh   swaymsg -t get_outputs  ## TODO decription
+sh   swaymsg -t get_tree | jq -r '.nodes[].nodes[].floating_nodes[].name'  ## list sway floating containers
+sh   swaymsg -t get_tree | jq -r '.nodes[].nodes[].nodes[] | select(.type=="con").name'  ## list sway containers
+sh   swaymsg -t get_tree | jq -r '.nodes[].nodes[] | select(.type=="workspace").name'  ## list sway workspaces
+sh   swaymsg -t get_tree | jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.shell) | "\(.id) \(.pid) \(.app_id // .window_properties.class) \(.name)"' | fzf | cut -d ' ' -f 1 | xargs -I {} swaymsg '[con_id={}]' focus  ## focus sway node (window / frame) with fzf
+sh   swaymsg -t get_tree | jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.shell) | "\(.id) \(.pid) \(.app_id // .window_properties.class) \(.name)"' | fzf -m | cut -d ' ' -f 1 | xargs -I {} swaymsg '[con_id={}]' kill  ## kill sway nodes (windows / frames) with fzf
+sh   swaymsg -t get_tree | jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.shell) | "\(.id) \(.pid) \(.app_id // .window_properties.class) \(.name)"' | grep float | cut -d ' ' -f 1 | xargs -I {} swaymsg '[con_id={}]' kill  ## kill all nodes whose name containing 'float'
+sh   sysrq reisub  ## reboot
+sh   sysrq reisuo  ## shutdown
+sh   systemctl --failed  ## failed services
+sh   systemctl isolate graphical.target  ## TODO decription
+sh   systemctl isolate multi-user.target  ## TODO decription
+sh   systemctl list-unit-files  ## TODO decription
+sh   systemctl list-units  ## TODO decription
+sh   systemd-analyze  ## TODO decription
+sh   tac $file  ## concatenate and print file lines in reverse
+sh   tail -f /var/log/{messages,kernel,dmesg,syslog}  ## TODO decription
+sh   tar -cv[j/z]f $archive.tar $files  ## create tar archive [bzip2/gzip compression (optional)]
+sh   tar -cv[j/z]f $archive.tar -C $subdir $files  ## create tar archive [bzip2/gzip compression (optional)] files in archive relative to $subdir
+sh   tar -tvf $archive.tar  ## print contents of tar archive
+sh   tar -xv[j/z]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip compression (optional)]
+sh   tar -xv[j/z]f $archive.tar  ## extract tar archive [bzip2/gzip compression (optional)]
+sh   tee -a $file1 $file2  ## append stdout to multiple files
+sh   tmp=$(mktemp); printf "$tmp\n"; head -c 1b </dev/urandom >"$tmp"  ## create a temporary file with 1b random data
+sh   tmux attach-session -t 0  ## TODO decription
+sh   tmux show-options -g  ## TODO decription
+sh   touch --date=2000/01/01 $file  ## create file in time
+sh   tput reset  ## reinitialize terminal state
+sh   tput reset  ## same as reset but without 1sec delay
+sh   trap "tput cnorm; return 1" SIGINT; while true; do tput civis; echo; figlet -f banner3 $(date +'%H%M%S'); sleep 1; for i in {1..8}; do tput el; tput cuu1; done; done  ## figlet clock (screencast)
+sh   tr -d '[:blank:]\t\r\n'  ## remove all whitespace
+sh   tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## TODO decription
+sh   tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b  ## translate 16 random streams in 32 specified characters (generate passstring)
+sh   tr -d -c "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
+sh   tr -d -c "[:graph:]" < /dev/random | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate passstring)
+sh   tree -n --charset=unicode  ## depth indented file listing
+sh   tr -s ' ' < file_with_double_spaces > file_without_double_spaces  ## squeeze repeats; remove double spaces
+sh   truncate -s 5M file  ## create file 5M size
+sh   ts="$(now)"; stty_bu="$XDG_CONFIG_HOME/tty/"$ts"_sttyrc"; stty --save > $stty_bu && stty -all >> $stty_bu  ## backup terminal characteristics
+sh   ts=$(now); syncr $HOME/dock/transfer/x1c/home/oxo --delete --links --log-file=$XDG_LOGS_HOME/syncr/$ts | tee -a $XDG_LOGS_HOME/syncr/$ts  ## syncr backup with logging
+sh   type -a file or command  ## file or command interpretation; print all occurences in path
+sh   umount -l $mountpoint  ## umount busy targets (mountpoints)
+sh   unlink $link_name  ## remove $link_name (i.e. symlink)
+sh   unset varfun  ## unset value and attribute of variable or function varfun
+sh   unsetvar=  ## set variable unsetvar to ''
+sh   until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount
+sh   until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure downcount
+sh   uptime  ## uptime since boot
+sh   usermod -a -G group_2_add user_2_add  ## add user to group
+sh   #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
+sh   var="${var_1:-$default_var}"  ## var is $default_var if var_1 is unset or null
+sh   vlock -a  ## console lock all sessions
+sh   watch -n 1 'ls -ilatr'  ## watch ls -ilatr
+sh   wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
+sh   wf-recorder --audio --codec libx264 --file $video.mp4  ## recording video for odyssee
+sh   wf-recorder --audio --file=recording_with_audio.avi  ## capture whole screen with audio
+sh   wf-recorder -g "$(slurp)"  ## video capture part of screen
+sh   wget https://file.location -c -O file.location.txt_part  ## resume downloading file.location to file.location.txt_part
+sh   which -a $command  ## show path of all $command (from $PATH)
+sh   while [[ $i -gt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure downcount
+sh   while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure upcount
+sh   while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure upcount
+sh   while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk '{print $1}')"  ## which package from Qm is in /v/c/p/p
+sh   while read l; do $commands; done < $file  ## read file line by line into l
+sh   while read line; do; echo $line; done <<< "$variable"  ## while loop through lines in $variable (heredoc)
+sh   while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line by line into l (with stdin redirection)
+sh   whois -B 46.166.142.215  ## whois own public ip
+sh   wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
+sh   wl-paste >> /home/cytopyge/.config/qutebrowser/bookmark_urls  ## add to bookmark_urls
+sh   wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
+sh   wpa_supplicant -B -i wlp58s0 -c ~/keys/wl/mn.wifi  ## TODO decription
+sh   xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
+sh   xxd -b -p $infile $outfile  ## plain bits dump
+sh   xxd -p $infile $outfile  ## plain hexdump
+sh   xxd -r -p $infile $outfile  ## reverse plain hexdump
+sh   xz -d  ## decompress .xz file
+sh   xz -l  ## list .xz file
+sh   xz -z  ## compress .xz file
+sh   yay -Gd $(yay -Qqm)  ## download package builds from installed aur packages
+sh   yay --gendb  ## generate developement package database
+sh   yay -P  ## show (is a yay specific [no pacman] option)
+sh   yay -Ps && yay --show -w && yay -Syu && yay -Rns $(yay -Qtdq) && paccache -rv  ## system upgrade and cleanup
+sh   yay -Pw  ## show news
+sh   yay -Qc $file	## query package database; display changelog $file  ## TODO decription
+sh   yay -Qd  ## (--deps) query package database; display packages installed as dependencies
+sh   yay -Qdt  ## query package database; display unrequired deps
+sh   yay -Qe  ## (--explicit) query package database; display explicitly installed packages
+sh   yay -Qent  ## query package database; display explicitly installed (no dependencies), not required packages that are in the package database
+sh   yay -Qg $group  ## query package database; display packages that are member of $group
+sh   yay -Qi $package  ## query package database; display package infoos that are member of $groupcman
+sh   yay -Qk $package  ## query package database; display number of total and missing files, check that all files of the package are present on the system
+sh   yay -Ql $package  ## query package database; display package file list
+sh   yay -Qm  ## (--foreign) query package database; display packages that are not in the sync database
+sh   yay -Qmq  ## (--foreign) query package database; display packages that are not in the sync database no version
+sh   yay -Qn  ## (--native) query package database; display packages that are in the sync database
+sh   yay -Qnq | yay -S -  ## reinstall native packages
+sh   yay -Qo $file  ## query package database; display which package owns $file
+sh   yay -Qql $package  ## query package database; display package file list (raw)
+sh   yay -Qq  ## query package database; display installed packages (raw)
+sh   yay -Q  ## query package database; display installed packages with version (Q=Qd+Qe=Qm+Qn)
+sh   yay -R $package || $group  ## remove [package] OR [group]
+sh   yay -Rns $package  ## remove [package] including not required and not explicitly installed dependencies, no pacsave
+sh   yay -Rns $(yay -Qdtq)  ## remove unrequired dependencies including not required and not explicitly installed dependencies, no pacsave
+sh   yay -S $package  ## synchronize package; download and install
+sh   yay -Sc $package  ## remove all cached packages that are currently not installed (more agressive than paccache)
+sh   yay -Scc $package  ## remove all cached packages (far more agressive than paccache, will prevent downgrading or reinstalling without downloading)
+sh   yay --show -w -w  ## TODO decription
+sh   yay -Sii $package  ## extended package info; reverse dependencies; package required by
+sh   yay -Sw $package  ## synchronize package only download, not install
+sh   yay -Syu --devel --timeupdate  ## update, also check AUR developement packages (git), timeupdate (instead of version number)
+sh   yay -Tv  ## check dependencies; show file paths
+sh   yay -U $package  ## remove then upgrade or add package
+sh   ykman otp static --no-enter --keyboard-layout US 2 'string'  ## assign string to yk slot 2
+sh   zbarcam --oneshot --raw /dev/video4 | wl-copy -o -n  ## read qr from video4
+sh   zsh --no-rcs  ## zsh terminal without run command script
+sway     bindsym
+sway bindsym $mod+$down	        focus down
+sway bindsym $mod+$left		focus left
+sway bindsym $mod+$right		focus right
+sway bindsym $mod+$up		focus up
+sway bindsym $mod+0		    workspace $ws0
+sway bindsym $mod+1		    workspace $ws1
+sway bindsym $mod+2		    workspace $ws2
+sway bindsym $mod+3		    workspace $ws3
+sway bindsym $mod+4		    workspace $ws4
+sway bindsym $mod+5		    workspace $ws5
+sway bindsym $mod+6		    workspace $ws6
+sway bindsym $mod+7		    workspace $ws7
+sway bindsym $mod+8		    workspace $ws8
+sway bindsym $mod+9		    workspace $ws9
+sway #bindsym $mod+a			focus parent  ## default
+sway bindsym $mod+backslash		layout toggle split; exec $csc/layout_ntfy_send
+sway bindsym $mod+b			bar mode toggle
+sway # # bindsym $mod+b		exec killall -SIGUSR1 waybar
+sway #bindsym $mod+bracketleft	workspace prev
+sway #bindsym $mod+bracketright	workspace next
+sway bindsym $mod+c			focus child
+sway bindsym $mod+Control+$da	resize grow height $resize_major_step px or $resize_major_step ppt
+sway bindsym $mod+Control+$di	resize grow height $resize_minor_step px or $resize_minor_step ppt
+sway bindsym $mod+Control+$down	resize grow height $resize_regular_step px or $resize_regular_step ppt
+sway bindsym $mod+Control+$la	resize shrink width $resize_major_step px or $resize_major_step ppt
+sway bindsym $mod+Control+$left	resize shrink width $resize_regular_step px or $resize_regular_step ppt
+sway bindsym $mod+Control+$li	resize shrink width $resize_minor_step px or $resize_minor_step ppt
+sway bindsym $mod+Control+$ra	resize grow width $resize_major_step px or $resize_major_step ppt
+sway bindsym $mod+Control+$right	resize grow width $resize_regular_step px or $resize_regular_step ppt
+sway bindsym $mod+Control+$ri	resize grow width $resize_minor_step px or $resize_minor_step ppt
+sway bindsym $mod+Control+$ua	resize shrink height $resize_major_step px or $resize_major_step ppt
+sway bindsym $mod+Control+$ui	resize shrink height $resize_minor_step px or $resize_minor_step ppt
+sway bindsym $mod+Control+$up	resize shrink height $resize_regular_step px or $resize_regular_step ppt
+sway bindsym $mod+Control+0		    exec swaymsg opacity 0.0
+sway bindsym $mod+Control+b 		exec $i3b_cycle
+sway bindsym $mod+Control+Equal	    exec swaymsg opacity 1.0
+sway bindsym $mod+Control+Minus   	    exec swaymsg opacity minus 0.1
+sway bindsym $mod+Control+p		exec grim -g "$(slurp)" | wl-copy && \
+sway bindsym $mod+Control+semicolon 	floating toggle
+sway bindsym $mod+Control+Shift+d	exec sh $csc/dimr swaylock_disable
+sway bindsym $mod+Control+Shift+e	exec sh $csc/dimr swaylock_enable 120
+sway bindsym $mod+Control+Shift+Minus    exec swaymsg opacity plus 0.1
+sway bindsym $mod+Ctrl+bracketleft	gaps inner current plus 5
+sway bindsym $mod+Ctrl+bracketright	gaps inner current minus 5
+sway bindsym $mod+Ctrl+slash		gaps inner current set 0; gaps outer current set 0
+sway #bindsym $mod+d			exec $term --app-id="float_fzf_run" \
+sway bindsym $mod+d			exec --no-startup-id $term --class="float_fzf_run" \
+sway bindsym $mod+Equal	    workspace $ws=
+sway bindsym $mod+f		        fullscreen toggle
+sway #bindsym $mod+grave		exec $term --app-id="float_spicules" \
+sway bindsym $mod+grave		exec $term --class="float_spicules" -e \
+sway #bindsym $mod+i			focus child  ## default
+sway bindsym $mod+m			exec --no-startup-id $term --class="float_spicules" \
+sway bindsym $mod+Minus	    workspace $ws-
+sway #bindsym $mod+Mod1+$down        floating enable; $smt S
+sway #bindsym $mod+Mod1+$left	floating enable; $smt W
+sway #bindsym $mod+Mod1+$right	floating enable; $smt E
+sway #bindsym $mod+Mod1+$up          floating enable; $smt N
+sway bindsym $mod+Mod1+0		floating enable; $smt Z; exec sh $csc/float_min
+sway bindsym $mod+Mod1+1		floating enable; exec sh $csc/float_divide 1
+sway bindsym $mod+Mod1+2		floating enable; exec sh $csc/float_divide 2
+sway bindsym $mod+Mod1+3		floating enable; exec sh $csc/float_divide 3
+sway bindsym $mod+Mod1+4		floating enable; exec sh $csc/float_divide 4
+sway #bindsym $mod+Mod1+5		floating enable; $smt Z
+sway bindsym $mod+Mod1+7		floating enable; exec sh $csc/float_v_fill
+sway bindsym $mod+Mod1+8		floating enable; exec sh $csc/float_h_fill
+sway bindsym $mod+Mod1+9		floating enable; $smt Z; exec sh $csc/float_max
+sway bindsym $mod+Mod1+c		exec grim -g "$(slurp -p)" -t ppm - | \
+sway bindsym $mod+Mod1+Comma		floating enable; $smt S
+sway bindsym $mod+Mod1+i          	floating enable; $smt N
+sway bindsym $mod+Mod1+j		floating enable; $smt W
+sway bindsym $mod+Mod1+k		floating enable; $smt Z
+sway bindsym $mod+Mod1+l		floating enable; $smt E
+sway bindsym $mod+Mod1+m		floating enable; $smt SW
+sway bindsym $mod+Mod1+o		floating enable; $smt NE
+sway bindsym $mod+Mod1+Period	floating enable; $smt SE
+sway bindsym $mod+Mod1+p		exec grim \
+sway bindsym $mod+Mod1+q		kill
+sway bindsym $mod+Mod1+Return	exec --no-startup-id $csc/term_spawn $HOME float &
+sway bindsym $mod+Mod1+semicolon 	floating toggle
+sway bindsym $mod+Mod1+Shift+Return	exec --no-startup-id $csc/term_spawn pwd float &
+sway bindsym $mod+Mod1+u		floating enable; $smt NW
+sway bindsym $mod+o			workspace prev
+sway bindsym $mod+Period		workspace next
+sway bindsym $mod+p			exec grim -o $(swaymsg -t get_outputs \
+sway #bindsym $mod+p			focus parent  ## replaced by screen capture
+sway bindsym $mod+Return		exec --no-startup-id $csc/term_spawn &
+sway bindsym $mod+semicolon		focus mode_toggle
+sway bindsym $mod+Shift+$da		$smt down $move_major_step px or $move_major_step ppt
+sway bindsym $mod+Shift+$di		$smt down $move_minor_step px or $move_minor_step ppt
+sway bindsym $mod+Shift+$down	$smt down $move_regular_step px or $move_regular_step ppt
+sway bindsym $mod+Shift+$la		$smt left $move_major_step px or $move_major_step ppt
+sway bindsym $mod+Shift+$left	$smt left $move_regular_step px or $move_regular_step ppt
+sway bindsym $mod+Shift+$li		$smt left $move_minor_step px or $move_minor_step ppt
+sway bindsym $mod+Shift+$ra		$smt right $move_major_step px or $move_major_step ppt
+sway bindsym $mod+Shift+$ri		$smt right $move_minor_step px or $move_minor_step ppt
+sway bindsym $mod+Shift+$right	$smt right $move_regular_step px or $move_regular_step ppt
+sway bindsym $mod+Shift+$ua		$smt up $move_major_step px or $move_major_step ppt
+sway bindsym $mod+Shift+$ui		$smt up $move_minor_step px or $move_minor_step ppt
+sway bindsym $mod+Shift+$up		$smt up $move_regular_step px or $move_regular_step ppt
+sway bindsym $mod+Shift+0	    move container to workspace $ws0
+sway bindsym $mod+Shift+1	    move container to workspace $ws1
+sway bindsym $mod+Shift+2	    move container to workspace $ws2
+sway bindsym $mod+Shift+3	    move container to workspace $ws3
+sway bindsym $mod+Shift+4	    move container to workspace $ws4
+sway bindsym $mod+Shift+5	    move container to workspace $ws5
+sway bindsym $mod+Shift+6	    move container to workspace $ws6
+sway bindsym $mod+Shift+7	    move container to workspace $ws7
+sway bindsym $mod+Shift+8	    move container to workspace $ws8
+sway bindsym $mod+Shift+9	    move container to workspace $ws9
+sway bindsym $mod+Shift+backslash	layout toggle splith splitv stacking tabbed; exec $csc/layout_ntfy_send
+sway bindsym $mod+Shift+b	border toggle
+sway bindsym $mod+Shift+c		reload
+sway bindsym $mod+Shift+Equal    move container to workspace $ws=
+sway bindsym $mod+Shift+Minus    move container to workspace $ws-
+sway bindsym $mod+Shift+q		kill
+sway bindsym $mod+Shift+Return	exec --no-startup-id $csc/term_spawn pwd &
+sway #bindsym $mod+Shift+s		exec $XDG_CONFIG_HOME/sway/code/screen_onf
+sway #bindsym $mod+Shift+Slash	exec $csc/dimr screen_off
+sway bindsym $mod+Shift+slash	move scratchpad
+sway bindsym $mod+Shift+space    input $touchpad \
+sway bindsym $mod+Shift+s	 	sticky toggle
+sway #bindsym $mod+Shift+x		exec $term --app-id="float_exit" \
+sway bindsym $mod+Shift+x		exec --no-startup-id $term --class="float_exit" \
+sway bindsym $mod+Shift+z		exec sh $csc/dimr swaylock
+sway bindsym $mod+slash		scratchpad show
+sway bindsym $mod+tab		workspace back_and_forth
+sway #bindsym $mod+z			exec $term --app-id="float_spicules" \
+sway bindsym $mod+z			exec --no-startup-id $term --class="float_spicules" \
+sway bindsym Control+Grave		exec date +'%Y%m%d_%H%M%S_%s' | wl-copy && notify-send 'current date_time copied'
+sway #bindsym Control+Shift+y	exec $term --app-id="float_spicules" \
+sway bindsym Control+Shift+y		exec --no-startup-id $term --class="float_spicules" \
+sway bindsym F9			exec wpctl set-mute	@DEFAULT_AUDIO_SOURCE@ toggle
+sway bindsym --locked XF86AudioPlay 	exec playerctl play-pause
+sway #bindsym --locked XF86MonBrightnessDown exec --no-startup-id light -U 10 && sway-brightness-notify
+sway #bindsym --locked XF86MonBrightnessUp exec --no-startup-id light -A 10 && sway-brightness-notify
+sway bindsym --release $mod+Shift+p	exec grim -g "$(slurp)" \
+sway bindsym Shift+Control+0		exec echo -n '' | wl-copy && notify-send 'clipboard cleared'
+sway bindsym Shift+Control+Mod1+d	exec vtxt end
+sway bindsym Shift+Control+Mod1+e	exec vtxt begin en
+sway bindsym Shift+Control+Mod1+m	exec vtxt end
+sway bindsym Shift+Control+Mod1+n	exec vtxt begin nl
+sway bindsym Shift+Control+Mod1+r	exec vtxt end
+sway bindsym Shift+Control+Mod1+s	exec vtxt begin sv
+sway bindsym Shift+Control+Mod1+v 	exec --no-startup-id $term --class="term_float_inv" \
+sway bindsym Shift+Control+Mod1+x	exec mic_switch toggle Webcam C310
+sway #bindsym Shift+Control+y	wl-copy -o -n && exec notify-send 'secure copy is in DEV'
+sway #bindsym XF86AudioLowerVolume	exec amixer sset Master 2%-
+sway bindsym XF86AudioLowerVolume 	exec wpctl set-volume	@DEFAULT_AUDIO_SINK@ 5%-
+sway bindsym XF86AudioMicMute 	exec wpctl set-mute	@DEFAULT_AUDIO_SOURCE@ toggle
+sway #bindsym XF86AudioMute		exec amixer sset Master toggle
+sway #bindsym XF86AudioMute		exec amixer sset Master toggle && \
+sway bindsym XF86AudioMute 		exec wpctl set-mute	@DEFAULT_AUDIO_SINK@ toggle
+sway #bindsym XF86AudioNext		exec lmc next
+sway bindsym XF86AudioNext 		exec playerctl next
+sway #bindsym XF86AudioPlay		exec lmc toggle
+sway #bindsym XF86AudioPrev		exec lmc prev
+sway bindsym XF86AudioPrev 		exec playerctl previous
+sway #bindsym XF86AudioRaiseVolume	exec amixer sset Master 2%+
+sway bindsym XF86AudioRaiseVolume	exec wpctl set-volume	@DEFAULT_AUDIO_SINK@ 5%+
+sway #bindsym XF86AudioStop		exec lmc toggle
+sway bindsym XF86MonBrightnessDown	exec brightnessctl set 5%-
+sway bindsym XF86MonBrightnessUp	exec brightnessctl set 5%+
+sway bindsym XF86Search 		exec $menu
+sway # TODO bindsym Control+Shift+o	secure copy (wl-copy -o)
+vim  :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
+zsh  bindkey -a "^[[3~" delete-char
+zsh  bindkey -a "^?" backward-delete-char
+zsh  bindkey "^a" insert_appn
+zsh  bindkey "^A" insert_pacmanqq
+zsh  bindkey "^[[A" up-line-or-beginning-search # up arrow
+zsh  bindkey "^[[B" down-line-or-beginning-search # down arrow
+zsh  bindkey "^e" insert_epoch
+zsh  bindkey "^f" fzf_ins_home
+zsh  bindkey "^g" fzf_ins_root
+zsh  bindkey "^h" last_dir
+zsh  bindkey "^@" insert_date_time
+zsh  bindkey '^j' lfcd
+zsh  bindkey "^k" up_dir
+zsh  # bindkey -l (zsh keymaps)
+zsh  # bindkey -M <keymap>
+zsh  bindkey -M vicmd 'q' sh-x_toggle
+zsh  bindkey -M vicmd 's' sudo_toggle
+zsh  bindkey -M viins "^[[3~" delete-char
+zsh  bindkey "^o" fzf_ins_pwd
+zsh  bindkey '^p' ins_pwd
+zsh  bindkey "^q" git_add_commit
+zsh  #bindkey -s '^j' "lfcd\n"
+zsh  #bindkey -s '^j' 'lfcd\n'
+zsh  bindkey -v
+zsh  bindkey -v "^?" backward-delete-char
+zsh  #bindkey -v "^H" backward-delete-char
+zsh  bindkey '^Z' foreground
+zsh  # CAUTION! bindkey ^V is occupied -> find zsh keycodes with C-v $key;
+zsh  # clear current line (oxo bindkey note)  ## via vicmd; M > cc

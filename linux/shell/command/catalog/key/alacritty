@@ -1,6 +1,0 @@
-       key: U
-  - { key: Escape,  mods: Control,		          action: ToggleViMode }
-  - { key: B, 	    mods: Control, 			  chars: "yank_buffer | fzf_word \x0D" }
-  - { key: B, 	    mods: Shift|Control, 		  chars: "yank_buffer all | fzf_word \x0D" }
-  - { key: Key8,    mods: Control,		          chars: "alacritty msg config font.size=11; sleep 0.1; clear \x0D" }
-  - { key: Key9,    mods: Control,		          chars: "alacritty msg config font.size=18; sleep 0.1; clear \x0D" }

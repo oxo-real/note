@@ -1,0 +1,68 @@
+#! /usr/bin/env sh
+
+src_dir="$HOME/c/git/note/linux/terminal/catalog/source"
+dst_file="$HOME/c/git/note/linux/terminal/catalog/list"
+
+file_atty="$src_dir/alacritty"
+file_emcs="$src_dir/emacs"
+file_lisp="$src_dir/lisp"
+file_sh="$src_dir/sh"
+file_sway="$src_dir/sway"
+file_vim="$src_dir/vim"
+file_zsh="$src_dir/zsh"
+
+
+for source in $(ls $src_dir); do
+
+    src_file=$(realpath $src_dir/$source)
+
+    case $source in
+
+	alacritty)
+	    #list_atty=$(grep '^[[:blank:]]*[^[:blank:]#;]' "$file_atty" | grep 'key:' | sed -e "s/^/atty /" | tr '\t' ' ' | tr -s '[:blank:]')
+	    #list_atty=$(grep '^[[:blank:]]*[^[:blank:]#;]' "$file_atty" | grep 'key:' | sed -e "s/^/atty /" | tr '\t' ' ' | tr -s '[:blank:]')
+	    :
+	    ;;
+
+	emacs)
+	    list_emcs=$(cat "$src_file" | sed -e 's/^/emcs /')
+	    ;;
+
+	lisp)
+	    list_lisp=$(cat "$src_file" | sed -e 's/^/lisp /')
+	    ;;
+
+	sh)
+	    list_sh=$(cat "$src_file" | sed -e 's/^/sh   /')
+	    ;;
+
+	sway)
+	    list_sway=$(grep 'bindsym' "$src_file" | sed -e 's/^/sway /')
+	    ;;
+
+	vim)
+	    list_vim=$(cat "$src_file" | sed -e 's/^/vim  /')
+	    ;;
+
+	zsh)
+	    list_zsh=$(grep 'bindkey' "$src_file" | sed -e 's/^/zsh  /')
+	    ;;
+
+	*)
+	    :
+	    ;;
+
+    esac
+
+done
+
+# concatenate list
+printf -v list_conc '%s\n%s\n%s\n%s\n%s\n%s\n%s' "$list_atty" "$list_emcs" "$list_lisp" "$list_sh" "$list_sway" "$list_vim" "$list_zsh"
+
+# sort list
+## sed removes empty lines
+list_conc_sort=$(printf '%s' "$list_conc" | sed '/^$/d' | sort)
+
+#printf '%s\n' "$list_conc_sort" | fzf
+
+printf '%s' "$list_conc_sort" > "$dst_file"

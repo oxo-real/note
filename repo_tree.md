@@ -21,8 +21,6 @@
 │   │   │   └── greasemonkey
 │   │   └── qutebrowser
 │   │       └── qutebrowser
-│   ├── cal
-│   │   └── current_date_italic
 │   ├── docker
 │   │   ├── docker_commands
 │   │   └── docker_help
@@ -154,6 +152,9 @@
 │   │   ├── yay_S_sync
 │   │   ├── yay_T_deptest
 │   │   └── yay_U_upgrade
+│   ├── ydotool
+│   │   ├── 101
+│   │   └── input-event-codes.h
 │   ├── zathura
 │   │   └── cheat_sheet
 │   └── zbar
@@ -293,16 +294,40 @@
 │   │   └── coreutils.txt
 │   ├── lvm
 │   │   └── resize
-│   ├── shell
+│   ├── systemd
+│   │   ├── boot
+│   │   ├── journalctl
+│   │   ├── localectl
+│   │   ├── runlevel
+│   │   ├── shutdown
+│   │   ├── systemd
+│   │   ├── timers
+│   │   ├── troubleshooting
+│   │   ├── units
+│   │   ├── unit_timer_test
+│   │   │   ├── unit_timer_test_manual
+│   │   │   ├── unit_timer_test.service
+│   │   │   ├── unit_timer_test.sh
+│   │   │   └── unit_timer_test.timer
+│   │   └── ydotool
+│   ├── terminal
 │   │   ├── arithmatic
 │   │   ├── ascii_table
-│   │   ├── bash
-│   │   │   ├── associative_array
-│   │   │   ├── pipefail
-│   │   │   ├── README.html
-│   │   │   └── ref_sheet
 │   │   ├── block_size
 │   │   ├── byte_order
+│   │   ├── catalog
+│   │   │   ├── generate
+│   │   │   ├── key
+│   │   │   │   └── vim -> /home/oxo/.local/share/c/git/note/application/vim/vim_keys_rr
+│   │   │   ├── list
+│   │   │   └── source
+│   │   │       ├── alacritty -> /home/oxo/.config/alacritty/alacritty.toml
+│   │   │       ├── emacs
+│   │   │       ├── lisp
+│   │   │       ├── sh
+│   │   │       ├── sway -> /home/oxo/.config/sway/config
+│   │   │       ├── vim
+│   │   │       └── zsh -> /home/oxo/.config/zsh/.zshrc
 │   │   ├── char_classes
 │   │   ├── coding_standards
 │   │   ├── color
@@ -335,15 +360,10 @@
 │   │   │   │       └── awk_techmint
 │   │   │   ├── bc
 │   │   │   │   └── floating_point_arithmatic
+│   │   │   ├── cal
+│   │   │   │   └── current_date_italic
 │   │   │   ├── case
 │   │   │   ├── catal
-│   │   │   ├── catalog
-│   │   │   │   ├── bash
-│   │   │   │   ├── editor
-│   │   │   │   └── key
-│   │   │   │       ├── alacritty
-│   │   │   │       ├── sway
-│   │   │   │       └── zsh
 │   │   │   ├── cheatsheet
 │   │   │   │   ├── 7z
 │   │   │   │   ├── aaa_source
@@ -595,18 +615,15 @@
 │   │   │   ├── tr
 │   │   │   │   └── tr
 │   │   │   ├── while
-│   │   │   ├── yay
-│   │   │   │   ├── yay_D_database
-│   │   │   │   ├── yay_F_files
-│   │   │   │   ├── yay_P_show
-│   │   │   │   ├── yay_Q_query
-│   │   │   │   ├── yay_R_remove
-│   │   │   │   ├── yay_S_sync
-│   │   │   │   ├── yay_T_deptest
-│   │   │   │   └── yay_U_upgrade
-│   │   │   └── ydotool
-│   │   │       ├── 101
-│   │   │       └── input-event-codes.h
+│   │   │   └── yay
+│   │   │       ├── yay_D_database
+│   │   │       ├── yay_F_files
+│   │   │       ├── yay_P_show
+│   │   │       ├── yay_Q_query
+│   │   │       ├── yay_R_remove
+│   │   │       ├── yay_S_sync
+│   │   │       ├── yay_T_deptest
+│   │   │       └── yay_U_upgrade
 │   │   ├── comparison
 │   │   │   ├── file_test_operators
 │   │   │   ├── integer_test_operators
@@ -643,61 +660,51 @@
 │   │   ├── pure-sh-bible.html
 │   │   ├── quotation
 │   │   ├── root
+│   │   ├── shell
+│   │   │   ├── bash
+│   │   │   │   ├── associative_array
+│   │   │   │   ├── pipefail
+│   │   │   │   ├── README.html
+│   │   │   │   └── ref_sheet
+│   │   │   └── zsh
+│   │   │       ├── compdef
+│   │   │       │   ├── 101
+│   │   │       │   │   ├── compdef_2
+│   │   │       │   │   ├── completion_tmuxinator.html
+│   │   │       │   │   ├── writing-zsh-completion-scripts.html
+│   │   │       │   │   ├── zsh_completion_guide
+│   │   │       │   │   ├── zsh_completions_guid
+│   │   │       │   │   └── zsh-completions-howto.org
+│   │   │       │   └── the_valuable_dev
+│   │   │       │       ├── completion.zsh
+│   │   │       │       ├── excerpt
+│   │   │       │       ├── source
+│   │   │       │       ├── zsh_completion
+│   │   │       │       ├── zsh_completion.html
+│   │   │       │       ├── zsh_expansion
+│   │   │       │       ├── zsh_expansion.html
+│   │   │       │       ├── zsh_line_editor
+│   │   │       │       ├── zsh_line_editor.html
+│   │   │       │       ├── zsh_wo_dependencies
+│   │   │       │       └── zsh_wo_dependencies.html
+│   │   │       ├── last_command_get
+│   │   │       ├── multiline_comment
+│   │   │       ├── oxo_bindkey
+│   │   │       ├── oxo_prompt
+│   │   │       ├── print
+│   │   │       ├── shell_buildin_commands
+│   │   │       ├── shell_types
+│   │   │       ├── zle_zsh_line_editor.html
+│   │   │       ├── zsh_acc_array
+│   │   │       ├── zsh_bindkey
+│   │   │       ├── zsh_config_example
+│   │   │       └── zsh_git_prompt
 │   │   ├── standard_streams
 │   │   ├── std_cmd_flags
 │   │   ├── string_manipulation
 │   │   ├── terminal_escape_sequences
 │   │   ├── tty
-│   │   ├── users_groups
-│   │   └── zsh
-│   │       ├── compdef
-│   │       │   ├── 101
-│   │       │   │   ├── compdef_2
-│   │       │   │   ├── completion_tmuxinator.html
-│   │       │   │   ├── writing-zsh-completion-scripts.html
-│   │       │   │   ├── zsh_completion_guide
-│   │       │   │   ├── zsh_completions_guid
-│   │       │   │   └── zsh-completions-howto.org
-│   │       │   └── the_valuable_dev
-│   │       │       ├── completion.zsh
-│   │       │       ├── excerpt
-│   │       │       ├── source
-│   │       │       ├── zsh_completion
-│   │       │       ├── zsh_completion.html
-│   │       │       ├── zsh_expansion
-│   │       │       ├── zsh_expansion.html
-│   │       │       ├── zsh_line_editor
-│   │       │       ├── zsh_line_editor.html
-│   │       │       ├── zsh_wo_dependencies
-│   │       │       └── zsh_wo_dependencies.html
-│   │       ├── last_command_get
-│   │       ├── multiline_comment
-│   │       ├── oxo_bindkey
-│   │       ├── oxo_prompt
-│   │       ├── print
-│   │       ├── shell_buildin_commands
-│   │       ├── shell_types
-│   │       ├── zle_zsh_line_editor.html
-│   │       ├── zsh_acc_array
-│   │       ├── zsh_bindkey
-│   │       ├── zsh_config_example
-│   │       └── zsh_git_prompt
-│   ├── systemd
-│   │   ├── boot
-│   │   ├── journalctl
-│   │   ├── localectl
-│   │   ├── runlevel
-│   │   ├── shutdown
-│   │   ├── systemd
-│   │   ├── timers
-│   │   ├── troubleshooting
-│   │   ├── units
-│   │   ├── unit_timer_test
-│   │   │   ├── unit_timer_test_manual
-│   │   │   ├── unit_timer_test.service
-│   │   │   ├── unit_timer_test.sh
-│   │   │   └── unit_timer_test.timer
-│   │   └── ydotool
+│   │   └── users_groups
 │   └── xdg
 │       ├── freedesktop
 │       ├── mime_type
@@ -928,5 +935,5 @@
 └── zzz_deprecated
     └── xab
 
-191 directories, 737 files
+193 directories, 742 files
 ```

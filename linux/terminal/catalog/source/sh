@@ -1,6 +1,5 @@
 #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
-:%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
 < $file  ## less $file (via READNULLCMD)
 < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
 < $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get url from bookmark_urls
@@ -78,7 +77,7 @@ curl -O $(wl-paste) -C -  ## start or resume downloading copied location
 cut -d , -f 5 --complement file.csv  ## remove column 5 from file.csv
 date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
 date +'%s'  ## current linux epoch (same as 'now' for oxo)
-date -d 'June 28 03:14' +'%s'  ## convert specific date (pi time on tau day) to linux epoch
+date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day on pi time) to linux epoch
 date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
 date -d '@1234567890' +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert specific linux epoch to oxo extensive time format
 date -d @$(wl-paste) +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert copied specific linux epoch to oxo extensive time format
@@ -122,7 +121,6 @@ emacs --daemon  ## start emacs daemon
 emacsclient --create-frame --alternate-editor="" $file &  ## client open $file in new gui window
 emacsclient --tty $file &  ## client open $file in current terminal window
 emacsclient -e '(kill-emacs)'  ## stop emacs daemon outside running instance
-(set-face-attribute 'default nil :height 180)  ## ' emacs set font size 18pt (for screencasting)
 printenv  ## print values of environment variables
 espeak -s 80 -p 70 -v mb-us1 'hello'  ## espeak hello speed 80% pitch 70% voice us1
 eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concatenate arguments, add ssh_key
@@ -382,13 +380,14 @@ script; $command; exit  ## $command execution typescript user log
 script; sh -x $command; exit  ## $sommand execution typescript developer debug log
 script --command 'sh -x $command' --log-io "$(now).log" --log-timing "$(now).log"  ## $sommand execution typescript developer debug log_2
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
+sed '/^\s*$/d'  ## remove empty lines
 sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove $HISTORY last line
 sed -i '$d' $HISTFILE; sed -e ':t;N;$!bt; s/\(\n[^\n]*\)\{1\}$/\n     deleted:&/' $HISTFILE | tail; sed -i '$d' $HISTFILE  ## remove $HISTORY last line and show result
 sed -i '$d' $file  ## remove last line from $file
-sed -i '/pttrn/d' file  ## delete all lines in file that contain 'pttrn'
+sed -i '/pttrn/d' $file  ## delete all lines in $file that contain 'pttrn'
 sed -i '2,$d' $file  ## remove all lines from line 2 from $file
 sed -i '2,3 d' $file  ## remove line 2 and 3 from $file
-sed -i 'ni insert this into line n of file' $file  ## TODO decription
+sed -i 'ni insert this into line n of file' $file  ## insert string after line n
 sed -i 's/$find/$replace/g' $file  ## replace $find with $replace in $file
 sed -i '/$find/{n;s/.*/$replace/}' $file  ## find $find and replace next line with $replace
 sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
@@ -478,7 +477,7 @@ uptime  ## uptime since boot
 usermod -a -G group_2_add user_2_add  ## add user to group
 var="${var_1:-$default_var}"  ## var is $default_var if var_1 is unset or null
 vlock -a  ## console lock all sessions
-env TERM=xterm; watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
+env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
 watch -n 1 'ls -ilatr'  ## watch ls -ilatr
 wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
 wf-recorder --audio --codec libx264 --file $video.mp4  ## recording video for odyssee
@@ -489,7 +488,7 @@ while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(
 while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line by line into l (with stdin redirection)
 while read l; do $commands; done < $file  ## read file line by line into l
 whois -B 46.166.142.215  ## whois own public ip
-wl-paste >> /home/cytopyge/.config/qutebrowser/bookmark_urls  ## add to bookmark_urls
+wl-paste >> $XDG_CONFIG_HOME/qutebrowser/bookmark_urls  ## add to bookmark_urls
 wf-recorder -g "$(slurp)"  ## video capture part of screen
 wf-recorder --audio --file=recording_with_audio.avi  ## capture whole screen with audio
 read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
