@@ -452,17 +452,16 @@ tar -cv[j/z]f $archive.tar $files  ## create tar archive [bzip2/gzip compression
 tar -tvf $archive.tar  ## print contents of tar archive
 tar -xv[j/z]f $archive.tar  ## extract tar archive [bzip2/gzip compression (optional)]
 tar -xv[j/z]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip compression (optional)]
-tee -a $file1 $file2  ## append stdout to multiple files
+tee --append $file1 $file2  ## append stdout to multiple files
+test -n $var  ## check if $var length is nonzero, equal to [ -n $var ]
 tmux attach-session -t 0  ## TODO decription
 tmux show-options -g  ## TODO decription
 touch --date=2000/01/01 $file  ## create file in time
 tput reset  ## reinitialize terminal state
-tr -d '[:blank:]\t\r\n'  ## remove all whitespace
-tr -s ' ' < file_with_double_spaces > file_without_double_spaces  ## squeeze repeats; remove double spaces
-tr -d -c "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
-tr -d -c "[:graph:]" < /dev/random | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate passstring)
-tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b  ## translate 16 random streams in 32 specified characters (generate passstring)
-tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## TODO decription
+wl-paste -n | tr --delete '[:blank:]\t\r\n' | wl-copy -n  ## remove all whitespace
+tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## remove double spaces
+tr --delete --complement "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
+tr --delete --complement "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## fzf select and copy one of 16 typable passstrings
 trap "tput cnorm; return 1" SIGINT; while true; do tput civis; echo; figlet -f banner3 $(date +'%H%M%S'); sleep 1; for i in {1..8}; do tput el; tput cuu1; done; done  ## figlet clock (screencast)
 fallocate -l 5M file  ## create file 5M size
 truncate -s 5M file  ## create file 5M size
@@ -476,7 +475,7 @@ uptime  ## uptime since boot
 < /proc/uptime | awk '{print $1}'  ## uptime in seconds
 usermod -a -G group_2_add user_2_add  ## add user to group
 var="${var_1:-$default_var}"  ## var is $default_var if var_1 is unset or null
-vlock -a  ## console lock all sessions
+vlock --all  ## console lock all sessions
 env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
 watch -n 1 'ls -ilatr'  ## watch ls -ilatr
 wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames

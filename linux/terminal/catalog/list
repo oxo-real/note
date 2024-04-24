@@ -479,7 +479,8 @@ sh   tar -cv[j/z]f $archive.tar -C $subdir $files  ## create tar archive [bzip2/
 sh   tar -tvf $archive.tar  ## print contents of tar archive
 sh   tar -xv[j/z]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip compression (optional)]
 sh   tar -xv[j/z]f $archive.tar  ## extract tar archive [bzip2/gzip compression (optional)]
-sh   tee -a $file1 $file2  ## append stdout to multiple files
+sh   tee --append $file1 $file2  ## append stdout to multiple files
+sh   test -n $var  ## check if $var length is nonzero, equal to [ -n $var ]
 sh   tmp=$(mktemp); printf "$tmp\n"; head -c 1b </dev/urandom >"$tmp"  ## create a temporary file with 1b random data
 sh   tmux attach-session -t 0  ## TODO decription
 sh   tmux show-options -g  ## TODO decription
@@ -487,13 +488,10 @@ sh   touch --date=2000/01/01 $file  ## create file in time
 sh   tput reset  ## reinitialize terminal state
 sh   tput reset  ## same as reset but without 1sec delay
 sh   trap "tput cnorm; return 1" SIGINT; while true; do tput civis; echo; figlet -f banner3 $(date +'%H%M%S'); sleep 1; for i in {1..8}; do tput el; tput cuu1; done; done  ## figlet clock (screencast)
-sh   tr -d '[:blank:]\t\r\n'  ## remove all whitespace
-sh   tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## TODO decription
-sh   tr -d -c "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | cat -b  ## translate 16 random streams in 32 specified characters (generate passstring)
-sh   tr -d -c "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
-sh   tr -d -c "[:graph:]" < /dev/random | head -c 32  ## translate random stream in 32 graph (printable without spaces) character class characters (generate passstring)
+sh   tr --delete --complement "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## fzf select and copy one of 16 typable passstrings
+sh   tr --delete --complement "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
 sh   tree -n --charset=unicode  ## depth indented file listing
-sh   tr -s ' ' < file_with_double_spaces > file_without_double_spaces  ## squeeze repeats; remove double spaces
+sh   tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## remove double spaces
 sh   truncate -s 5M file  ## create file 5M size
 sh   ts="$(now)"; stty_bu="$XDG_CONFIG_HOME/tty/"$ts"_sttyrc"; stty --save > $stty_bu && stty -all >> $stty_bu  ## backup terminal characteristics
 sh   ts=$(now); syncr $HOME/dock/transfer/x1c/home/oxo --delete --links --log-file=$XDG_LOGS_HOME/syncr/$ts | tee -a $XDG_LOGS_HOME/syncr/$ts  ## syncr backup with logging
@@ -508,7 +506,7 @@ sh   uptime  ## uptime since boot
 sh   usermod -a -G group_2_add user_2_add  ## add user to group
 sh   #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
 sh   var="${var_1:-$default_var}"  ## var is $default_var if var_1 is unset or null
-sh   vlock -a  ## console lock all sessions
+sh   vlock --all  ## console lock all sessions
 sh   watch -n 1 'ls -ilatr'  ## watch ls -ilatr
 sh   wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
 sh   wf-recorder --audio --codec libx264 --file $video.mp4  ## recording video for odyssee
@@ -526,6 +524,7 @@ sh   while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line b
 sh   whois -B 46.166.142.215  ## whois own public ip
 sh   wl-paste >> $XDG_CONFIG_HOME/qutebrowser/bookmark_urls  ## add to bookmark_urls
 sh   wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
+sh   wl-paste -n | tr --delete '[:blank:]\t\r\n' | wl-copy -n  ## remove all whitespace
 sh   wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
 sh   wpa_supplicant -B -i wlp58s0 -c ~/keys/wl/mn.wifi  ## TODO decription
 sh   xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
