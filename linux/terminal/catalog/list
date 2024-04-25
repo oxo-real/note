@@ -526,7 +526,8 @@ sh   wl-paste >> $XDG_CONFIG_HOME/qutebrowser/bookmark_urls  ## add to bookmark_
 sh   wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
 sh   wl-paste -n | tr --delete '[:blank:]\t\r\n' | wl-copy -n  ## remove all whitespace
 sh   wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
-sh   wpa_supplicant -B -i wlp58s0 -c ~/keys/wl/mn.wifi  ## TODO decription
+sh   wpa_passphrase $ssid [$passphrase] > ssid.wifi  ## create network section of wpa_supplicant configuration
+sh   wpa_supplicant -B -i $wlp -c ~/keys/wl/ssid.wifi  ## wireless connect via interface $wlp to ssid.wifi
 sh   xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
 sh   xxd -b -p $infile $outfile  ## plain bits dump
 sh   xxd -p $infile $outfile  ## plain hexdump

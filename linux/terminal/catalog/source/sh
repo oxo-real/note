@@ -491,7 +491,8 @@ wl-paste >> $XDG_CONFIG_HOME/qutebrowser/bookmark_urls  ## add to bookmark_urls
 wf-recorder -g "$(slurp)"  ## video capture part of screen
 wf-recorder --audio --file=recording_with_audio.avi  ## capture whole screen with audio
 read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
-wpa_supplicant -B -i wlp58s0 -c ~/keys/wl/mn.wifi  ## TODO decription
+wpa_passphrase $ssid [$passphrase] > ssid.wifi  ## create network section of wpa_supplicant configuration
+wpa_supplicant -B -i $wlp -c ~/keys/wl/ssid.wifi  ## wireless connect via interface $wlp to ssid.wifi
 xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
 xxd -b -p $infile $outfile  ## plain bits dump
 xxd -p $infile $outfile  ## plain hexdump
