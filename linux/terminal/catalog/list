@@ -518,11 +518,11 @@ sh   which -a $command  ## show path of all $command (from $PATH)
 sh   while [[ $i -gt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure downcount
 sh   while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure upcount
 sh   while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure upcount
-sh   while : do; echo; done  ## infinite loop (while true do)
 sh   while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk '{print $1}')"  ## which package from Qm is in /v/c/p/p
 sh   while read l; do $commands; done < $file  ## read file line by line into l
 sh   while read line; do; echo $line; done <<< "$variable"  ## while loop through lines in $variable (heredoc)
 sh   while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line by line into l (with stdin redirection)
+sh   while true do; echo; done  ## infinite loop
 sh   whois -B 46.166.142.215  ## whois own public ip
 sh   wl-paste >> $XDG_CONFIG_HOME/qutebrowser/bookmark_urls  ## add to bookmark_urls
 sh   wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string

@@ -561,7 +561,7 @@ while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure u
 until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount
 while [[ $i -gt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure downcount
 until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure downcount
-while : do; echo; done  ## infinite loop (while true do)
+while true do; echo; done  ## infinite loop
 break  ## current loop exit
 continue  ## current loop next item
 reset  ## clear + reset internal terminal state + 1sec delay
