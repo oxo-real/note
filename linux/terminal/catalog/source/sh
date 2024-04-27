@@ -223,6 +223,7 @@ ip n show  ## show neighbour / arp cache
 ip link show $enp | grep link | awk '{print $2}'  ## print $enp mac address
 ip route add default via $default_gateway  ## TODO description
 ip route flush dev $interface  ## TODO description
+ip route show | grep default | awk '{print $5}'  ## currently active external facing network interface
 ipset add blocklist [$ipaddrs]  ## add [ipaddrs] to blocklist
 ipset create blocklist hash:ip  ## create ip blocklist
 iw dev [$wl_interface] scan | grep SSID | sort | uniq  ## received SSID list
@@ -560,6 +561,7 @@ while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure u
 until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount
 while [[ $i -gt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure downcount
 until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure downcount
+while : do; echo; done  ## infinite loop (while true do)
 break  ## current loop exit
 continue  ## current loop next item
 reset  ## clear + reset internal terminal state + 1sec delay

@@ -244,6 +244,7 @@ sh   ip link show $enp | grep link | awk '{print $2}'  ## print $enp mac address
 sh   ip n show  ## show neighbour / arp cache
 sh   ip route add default via $default_gateway  ## TODO description
 sh   ip route flush dev $interface  ## TODO description
+sh   ip route show | grep default | awk '{print $5}'  ## currently active external facing network interface
 sh   ipset add blocklist [$ipaddrs]  ## add [ipaddrs] to blocklist
 sh   ipset create blocklist hash:ip  ## create ip blocklist
 sh   iw dev [$wl_interface] scan | grep SSID | sort | uniq  ## received SSID list
@@ -517,6 +518,7 @@ sh   which -a $command  ## show path of all $command (from $PATH)
 sh   while [[ $i -gt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure downcount
 sh   while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure upcount
 sh   while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure upcount
+sh   while : do; echo; done  ## infinite loop (while true do)
 sh   while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk '{print $1}')"  ## which package from Qm is in /v/c/p/p
 sh   while read l; do $commands; done < $file  ## read file line by line into l
 sh   while read line; do; echo $line; done <<< "$variable"  ## while loop through lines in $variable (heredoc)
