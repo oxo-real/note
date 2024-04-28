@@ -305,8 +305,10 @@ sh   mv -t $target_dir $source_dirs  ## move source_dirs to target_dir
 sh   neofetch --ascii_distro arch_small --gtk3 off --gtk2 off --colors 3 3 3 7 3 4 --separator '     \t'  ## neat system info
 sh   nerd-dictation begin --config $config_file --simulate-input-tool STDOUT --numbers-min-value 10 --numbers-as-digits --numbers-no-suffix --vosk-model-dir $model_dir  ## speech-to-text
 sh   nl -w 3 -s ' '  ## add line numbers with number width 3 and separator string ' '
-sh   nmcli connection add type ethernet con-name $con_name ifname $if_name  ## TODO decription
-sh   nmcli connection modify $con_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual  ## TODO decription
+sh   nmcli connection add type ethernet con-name $conn_name ifname $if_name  ## TODO decription
+sh   nmcli connection delete $conn_name  ## nmcli remove connection
+sh   nmcli connection modify $conn_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual  ## TODO decription
+sh   nmcli device wifi hotspot con-name $conn_name ssid $conn_ssid band bg password $pwd  ## nmcli hotspot
 sh   : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 sh   notmuch address '*'  ## all mail addresses
 sh   notmuch address --deduplicate=address date:year | fzf | wl-copy  ## 1. last years email addresses

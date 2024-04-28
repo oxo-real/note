@@ -268,8 +268,10 @@ man ascii  ## 7-bit ascii tables
 man zshall  ## view the system reference manual for all zsh
 mkdir $HOME/dock/{1-4}  ## make multiple directories
 tmp=$(mktemp); printf "$tmp\n"; head -c 1b </dev/urandom >"$tmp"  ## create a temporary file with 1b random data
-nmcli connection add type ethernet con-name $con_name ifname $if_name  ## TODO decription
-nmcli connection modify $con_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual  ## TODO decription
+nmcli connection add type ethernet con-name $conn_name ifname $if_name  ## TODO decription
+nmcli connection modify $conn_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual  ## TODO decription
+nmcli connection delete $conn_name  ## nmcli remove connection
+nmcli device wifi hotspot con-name $conn_name ssid $conn_ssid band bg password $pwd  ## nmcli hotspot
 modprobe -r $driver  ## remove driver from kernel
 modprobe $driver  ## add driver to kernel
 mount -L $label $mountpoint  ## mount device with $label to $mountpoint
