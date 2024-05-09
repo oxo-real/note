@@ -212,22 +212,24 @@ id [$USER]  ## show both real and effective uid & gid
 iftop -i $interface ## display bandwith usage of interface
 info  ## advanced manual system primarily for gnu programs
 insmod $file [$args]  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
+ip -c a  ## ip address; show network routing, devices, interfaces and tunnels in color
 ip a add 192.168.1.200/255.255.255.0 dev $interface  ## assign ip address to interface
-ip a add $ip_subnet_mask broadcast $broadcast_ip dev $interface  ## TODO desription
+ip a add $ip_subnet_mask broadcast $broadcast_ip dev $interface  ## add interface
 ip a del 192.168.1.200/24 dev $interface  ## remove ip address from interface
 ip a flush $interface  ## remove all ip addresses from interface
 ip link set $interface {down/up}  ## change interface state
 ip link set dev [$interface] address [$mac]  ## assign [mac] address to [interface]
 ip link set dev [$interface] down  ## disconnect from the network by disable interface
-ip n show  ## show neighbour / arp cache
+ip neighbor show  ## show neighbor / arp cache
 ip link show $enp | grep link | awk '{print $2}'  ## print $enp mac address
-ip route add default via $default_gateway  ## TODO description
-ip route flush dev $interface  ## TODO description
+ip route add default via $default_gateway  ## add new $default_gateway
+ip route flush dev $interface  ## flush routing tables for $interface
 ip route show | grep default | awk '{print $5}'  ## currently active external facing network interface
 ipset add blocklist [$ipaddrs]  ## add [ipaddrs] to blocklist
 ipset create blocklist hash:ip  ## create ip blocklist
+iptables -A INPUT -s [ipaddr] -j DROP  ## add [ipaddr] to chain INPUT and drop all traffic
 iw dev [$wl_interface] scan | grep SSID | sort | uniq  ## received SSID list
-jobs  ## list background processes
+jobs  ## list background processes (C-z initiates)
 journalctl --disk-usage  ## show total size / disk space used
 journalctl --flush --rotate  ## flush all journal data from /run to /var and request immediate rotation of the journal files
 journalctl --vacuum-files=2  ## leave 2 journal files (--vacuum-size, --vacuum-time)
@@ -259,10 +261,10 @@ lsmod  ## list drivers currently added to kernel
 lsof +f -- [$path1 $path2]  ## list open files in paths opened by processes
 lsof -p [$pid]  ## list open files for PID
 lspci  ## list pci devices
-lspci -k -d #[$vendor]:[$device][:$class]  ## TODO decription
-lspci -k -s xx:xx.x #[[$domain]:]$bus]:][$slot][.[$func]]  ## TODO decription
-lspci -kvvt  ## TODO decription
-lspci -vv  ## list pci devices, find kernel drivers
+lspci -k -d [$vendor]:[$device][:$class]  ## show kernel drivers and modules [for vendor, device and/or classid]
+lspci -k -s xx:xx.x [[$domain]:]$bus]:][$slot][.[$func]]  ## show kernel drivers and modules for domain
+lspci -k -t -v  ## show kernal driver and module details in a tree
+lspci -vv  ## list pci devices with more detail (useful to find kernel drivers)
 man -k . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage
 man ascii  ## 7-bit ascii tables
 man zshall  ## view the system reference manual for all zsh
@@ -303,11 +305,11 @@ openssl s_client -connect grc.com:443 -showcerts < /dev/null | openssl x509 -out
 openssl s_client -connect $(wl-paste -n):443 -showcerts < /dev/null | openssl x509 -noout -text ## print x509 public key certificate as text to stdout
 openssl s_client -connect $server_ip:443 -servername $server_name -showcerts  ## print x509 public key certificate from $(wl-paste -n):443 as text to stdout with server name indication (SNI) in the clienthello message (if a reverse proxy ip serves multiple webservers)
 openssl x509 -in cert.pem -noout -text  ## print x509 public key certificate from file cert.pem as text to stdout
-openvpn --config openvpn/udp-ams1_udp.ovpn  ## TODO decription
+openvpn --config openvpn/udp-ams1_udp.ovpn  ## open vpn with specific configuration
 output=$(printf $input | openssl dgst -sha512 -hmac $hmac | sed 's/^.*= //')  ## zz3
-pacman-key --delete $pub_key  ## TODO decription
-pacman-key --finger $pub_key  ## TODO decription
-pacman-key --lsign-key $pub_key  ## TODO decription
+pacman-key --delete $pub_key  ## remove key from keyring
+pacman-key --finger [$pub_key]  ## list fingerprint(s)
+pacman-key --lsign-key $pub_key  ## locally sign key
 pactl list sinks | grep -A 1 Name  ## list of sink devices (audio output)
 pactl list sources | grep -A 1 Name  ## list of source devices (audio input)
 pactl set-source-port $device_name $port_name  ## set audio source (use tab to autocomplete)
@@ -319,7 +321,7 @@ pactree $package  ## show $package dependency tree
 patch -p0 < $patch_file  ## apply $patch_file (see diff)
 pim2fa=$(printf $input | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
 pim=$(printf $input | xxd -p)  ## zz4_OLD
-ping -D -i 10 -c 5 9.9.9.9  ## TODO decription
+ping -D -i 10 -c 5 9.9.9.9  ## send icmp echo_request to quad9, print timestamp, interval 10s, 5 attempts
 pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0  ## end internet connection
 pkill -SIGRTMIN+4 i3blocks  ## send signal=4 to i3blocks
 print -z $string  ## inject $string to zsh stdin
@@ -427,10 +429,7 @@ ts="$(now)"; stty_bu="$XDG_CONFIG_HOME/tty/"$ts"_sttyrc"; stty --save > $stty_bu
 sudo -k  ## invalidate cached credentials
 sudo -l  ## list allowed commands for user
 sudo -n echo >/dev/null 2>&1; echo $?  ## print sudo status
-sudo ip link set up && sudo dhcpcd  && ping -c 1 9.9.9.9 && ip a  ## TODO decription
-sudo iptables -A INPUT -s [ipaddr] -j DROP  ## add [ipaddr] to chain INPUT and drop all traffic
 sudo rfkill unblock bluetooth && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off  ## bluetooth radio on
-sudo systemctl start sshd  ## TODO decription
 swaymsg -t get_outputs  ## TODO decription
 swaymsg -t get_tree | jq -r '.nodes[].nodes[] | select(.type=="workspace").name'  ## list sway workspaces
 swaymsg -t get_tree | jq -r '.nodes[].nodes[].nodes[] | select(.type=="con").name'  ## list sway containers
@@ -442,12 +441,14 @@ ts=$(now); syncr $HOME/dock/transfer/x1c/home/oxo --delete --links --log-file=$X
 echo '1' | sudo tee /proc/sys/kernel/sysrq  ## # obtain full sysrq priviledges
 sysrq reisub  ## reboot
 sysrq reisuo  ## shutdown
-systemctl --failed  ## failed services
-systemctl isolate graphical.target  ## TODO decription
-systemctl isolate multi-user.target  ## TODO decription
-systemctl list-unit-files  ## TODO decription
-systemctl list-units  ## TODO decription
-systemd-analyze  ## TODO decription
+systemctl --failed  ## list failed units
+systemctl list-units  ## list all units in memory
+systemctl list-unit-files  ## list available unit files
+systemctl start sshd.service  ## start sshd service (restart, stop)
+systemctl --user start emacs.service  ## start service in user space
+systemctl status [$pttrn_pid] ## runtime status
+systemd-analyze  ## analyze and debug system boot-up performance
+systemd-analyze blame  ## how long it took to start each unit (process)
 tail -f /var/log/{messages,kernel,dmesg,syslog}  ## TODO decription
 tac $file  ## concatenate and print file lines in reverse
 tar -cv[j/z]f $archive.tar -C $subdir $files  ## create tar archive [bzip2/gzip compression (optional)] files in archive relative to $subdir

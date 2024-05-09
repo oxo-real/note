@@ -233,22 +233,24 @@ sh   iftop -i $interface ## display bandwith usage of interface
 sh   ((i++))  ## increase i by one (i.e. in a loop)
 sh   info  ## advanced manual system primarily for gnu programs
 sh   insmod $file [$args]  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
-sh   ip a add $ip_subnet_mask broadcast $broadcast_ip dev $interface  ## TODO desription
+sh   ip a add $ip_subnet_mask broadcast $broadcast_ip dev $interface  ## add interface
 sh   ip a add 192.168.1.200/255.255.255.0 dev $interface  ## assign ip address to interface
 sh   ip a del 192.168.1.200/24 dev $interface  ## remove ip address from interface
 sh   ip a flush $interface  ## remove all ip addresses from interface
+sh   ip -c a  ## ip address; show network routing, devices, interfaces and tunnels in color
 sh   ip link set $interface {down/up}  ## change interface state
 sh   ip link set dev [$interface] address [$mac]  ## assign [mac] address to [interface]
 sh   ip link set dev [$interface] down  ## disconnect from the network by disable interface
 sh   ip link show $enp | grep link | awk '{print $2}'  ## print $enp mac address
-sh   ip n show  ## show neighbour / arp cache
-sh   ip route add default via $default_gateway  ## TODO description
-sh   ip route flush dev $interface  ## TODO description
+sh   ip neighbor show  ## show neighbor / arp cache
+sh   ip route add default via $default_gateway  ## add new $default_gateway
+sh   ip route flush dev $interface  ## flush routing tables for $interface
 sh   ip route show | grep default | awk '{print $5}'  ## currently active external facing network interface
 sh   ipset add blocklist [$ipaddrs]  ## add [ipaddrs] to blocklist
 sh   ipset create blocklist hash:ip  ## create ip blocklist
+sh   iptables -A INPUT -s [ipaddr] -j DROP  ## add [ipaddr] to chain INPUT and drop all traffic
 sh   iw dev [$wl_interface] scan | grep SSID | sort | uniq  ## received SSID list
-sh   jobs  ## list background processes
+sh   jobs  ## list background processes (C-z initiates)
 sh   journalctl --boot [$id]  ## messages from (current -0, previous -1) boot
 sh   journalctl --disk-usage  ## show total size / disk space used
 sh   journalctl --dmesg  ## show only kernel messages
@@ -279,11 +281,11 @@ sh   lshw  ## list hardware configuration
 sh   lsmod  ## list drivers currently added to kernel
 sh   lsof +f -- [$path1 $path2]  ## list open files in paths opened by processes
 sh   lsof -p [$pid]  ## list open files for PID
-sh   lspci -k -d #[$vendor]:[$device][:$class]  ## TODO decription
-sh   lspci -k -s xx:xx.x #[[$domain]:]$bus]:][$slot][.[$func]]  ## TODO decription
-sh   lspci -kvvt  ## TODO decription
+sh   lspci -k -d [$vendor]:[$device][:$class]  ## show kernel drivers and modules [for vendor, device and/or classid]
+sh   lspci -k -s xx:xx.x [[$domain]:]$bus]:][$slot][.[$func]]  ## show kernel drivers and modules for domain
+sh   lspci -k -t -v  ## show kernal driver and module details in a tree
 sh   lspci  ## list pci devices
-sh   lspci -vv  ## list pci devices, find kernel drivers
+sh   lspci -vv  ## list pci devices with more detail (useful to find kernel drivers)
 sh   man ascii  ## 7-bit ascii tables
 sh   man -k . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage
 sh   man zshall  ## view the system reference manual for all zsh
@@ -323,12 +325,12 @@ sh   openssl s_client -connect $server_ip:443 -servername $server_name -showcert
 sh   openssl s_client -connect $(wl-paste -n):443 -showcerts < /dev/null | openssl x509 -noout -text ## print x509 public key certificate as text to stdout
 sh   openssl s_client -connect grc.com:443 -showcerts < /dev/null | openssl x509 -outform pem > cert.pem  ## write x509 public key certificate from grc.com:443 as pem to file cert.pem
 sh   openssl x509 -in cert.pem -noout -text  ## print x509 public key certificate from file cert.pem as text to stdout
-sh   openvpn --config openvpn/udp-ams1_udp.ovpn  ## TODO decription
+sh   openvpn --config openvpn/udp-ams1_udp.ovpn  ## open vpn with specific configuration
 sh   optstring=":i:h"; while getopts $optstring opt; do; case $opt in i) var="${OPTARG}";; h) echo help_text;; \?) echo 'no opt';; :) echo 'hlp txt';; esac; done  ## command options (-i arg or -h)
 sh   output=$(printf $input | openssl dgst -sha512 -hmac $hmac | sed 's/^.*= //')  ## zz3
-sh   pacman-key --delete $pub_key  ## TODO decription
-sh   pacman-key --finger $pub_key  ## TODO decription
-sh   pacman-key --lsign-key $pub_key  ## TODO decription
+sh   pacman-key --delete $pub_key  ## remove key from keyring
+sh   pacman-key --finger [$pub_key]  ## list fingerprint(s)
+sh   pacman-key --lsign-key $pub_key  ## locally sign key
 sh   pactl list sinks | grep -A 1 Name  ## list of sink devices (audio output)
 sh   pactl list sources | grep -A 1 Name  ## list of source devices (audio input)
 sh   pactl list sources | grep -B 1 'Webcam C310 Mono' | head -n 1 | awk '{print $2}'  ## get audio source name from description (for wf-recorder --audio)
@@ -340,7 +342,7 @@ sh   pactree -r $package  ## show $package dependant tree, reverse depedencies, 
 sh   patch -p0 < $patch_file  ## apply $patch_file (see diff)
 sh   pim=$(printf $input | xxd -p)  ## zz4_OLD
 sh   pim2fa=$(printf $input | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
-sh   ping -D -i 10 -c 5 9.9.9.9  ## TODO decription
+sh   ping -D -i 10 -c 5 9.9.9.9  ## send icmp echo_request to quad9, print timestamp, interval 10s, 5 attempts
 sh   pkill -SIGRTMIN+4 i3blocks  ## send signal=4 to i3blocks
 sh   pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0  ## end internet connection
 sh   print_entire_array() { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}" ; done }  ## print_entire_array arrayX
@@ -452,14 +454,11 @@ sh   stty $(head -n 1 $XDG_CONFIG_HOME/tty/default)  ## (re)set default tty sett
 sh   stty -a  ## print all terminal line settings (human readable)
 sh   stty -g  ## print all tty settings (stty readable)
 sh   stty sane  ## don't clear screen but reset some terminal options
-sh   sudo ip link set up && sudo dhcpcd  && ping -c 1 9.9.9.9 && ip a  ## TODO decription
-sh   sudo iptables -A INPUT -s [ipaddr] -j DROP  ## add [ipaddr] to chain INPUT and drop all traffic
 sh   sudo -k; free -h; echo; for i in {1..3}; do; sudo sysctl -w vm.drop_caches="$i"; sudo sync; echo "$i" | sudo tee /proc/sys/vm/drop_caches; done; free -h  ## free mwmory (pagecache, dentries and inodes)
 sh   sudo -k  ## invalidate cached credentials
 sh   sudo -l  ## list allowed commands for user
 sh   sudo -n echo >/dev/null 2>&1; echo $?  ## print sudo status
 sh   sudo rfkill unblock bluetooth && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off  ## bluetooth radio on
-sh   sudo systemctl start sshd  ## TODO decription
 sh   swaymsg -t get_outputs  ## TODO decription
 sh   swaymsg -t get_tree | jq -r '.nodes[].nodes[].floating_nodes[].name'  ## list sway floating containers
 sh   swaymsg -t get_tree | jq -r '.nodes[].nodes[].nodes[] | select(.type=="con").name'  ## list sway containers
@@ -469,12 +468,14 @@ sh   swaymsg -t get_tree | jq -r 'recurse(.nodes[], .floating_nodes[]) | select(
 sh   swaymsg -t get_tree | jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.shell) | "\(.id) \(.pid) \(.app_id // .window_properties.class) \(.name)"' | grep float | cut -d ' ' -f 1 | xargs -I {} swaymsg '[con_id={}]' kill  ## kill all nodes whose name containing 'float'
 sh   sysrq reisub  ## reboot
 sh   sysrq reisuo  ## shutdown
-sh   systemctl --failed  ## failed services
-sh   systemctl isolate graphical.target  ## TODO decription
-sh   systemctl isolate multi-user.target  ## TODO decription
-sh   systemctl list-unit-files  ## TODO decription
-sh   systemctl list-units  ## TODO decription
-sh   systemd-analyze  ## TODO decription
+sh   systemctl --failed  ## list failed units
+sh   systemctl list-unit-files  ## list available unit files
+sh   systemctl list-units  ## list all units in memory
+sh   systemctl start sshd.service  ## start sshd service (restart, stop)
+sh   systemctl status [$pttrn_pid] ## runtime status
+sh   systemctl --user start emacs.service  ## start service in user space
+sh   systemd-analyze  ## analyze and debug system boot-up performance
+sh   systemd-analyze blame  ## how long it took to start each unit (process)
 sh   tac $file  ## concatenate and print file lines in reverse
 sh   tail -f /var/log/{messages,kernel,dmesg,syslog}  ## TODO decription
 sh   tar -cv[j/z]f $archive.tar $files  ## create tar archive [bzip2/gzip compression (optional)]
