@@ -228,20 +228,20 @@ ipset add blocklist [$ipaddrs]  ## add [ipaddrs] to blocklist
 ipset create blocklist hash:ip  ## create ip blocklist
 iw dev [$wl_interface] scan | grep SSID | sort | uniq  ## received SSID list
 jobs  ## list background processes
-journalctl --disk-usage  ## show total disk usage
+journalctl --disk-usage  ## show total size / disk space used
 journalctl --flush --rotate  ## flush all journal data from /run to /var and request immediate rotation of the journal files
 journalctl --vacuum-files=2  ## leave 2 journal files (--vacuum-size, --vacuum-time)
-journalctl --list-boots  ##  ## TODO decription
-journalctl -b, --boot [$id]  ## TODO decription
-journalctl -e  ## TODO decription
-journalctl -f, --follow  ## TODO decription
-journalctl -k  ## TODO decription
-journalctl -o json-pretty  ## TODO decription
-journalctl -o verbose  ## TODO decription
-journalctl -p 3 -x  ## TODO decription
-journalctl -u $unit  ## TODO decription
-journalctl _<TAB>  ## TODO decription
-jq '.data[0] | .ua' api.json  ## get ua from the first data item
+journalctl --list-boots  ##  ## list of boots with their numbers
+journalctl --boot [$id]  ## messages from (current -0, previous -1) boot
+journalctl --pager-end  ## jump to eol on opening in pager tool
+journalctl --follow  ## show most recent and print new
+journalctl --dmesg  ## show only kernel messages
+journalctl --output json-pretty  ## print json format (more options see man)
+journalctl --output verbose  ## print all the fields
+journalctl --priority 3 --catalog  ## emerg0, alert1, crit2, err3, warning4, notice5, info6, debug7
+journalctl --unit $unit_pttrn  ## messages for unit [-pattern]
+journalctl _<TAB>  ## search matches starting with '_'
+jq '.data[0] | .ua' api.json  ## get ua in the first [0] data item of api.json
 kill -l  ## list of signal names (/usr/include/linux/signal.h) that can be send to process
 kill -STOP %n  ## stop background process jobs item number n
 kill $(pidof $process_name)  ## terminate pid of process
@@ -268,10 +268,10 @@ man ascii  ## 7-bit ascii tables
 man zshall  ## view the system reference manual for all zsh
 mkdir $HOME/dock/{1-4}  ## make multiple directories
 tmp=$(mktemp); printf "$tmp\n"; head -c 1b </dev/urandom >"$tmp"  ## create a temporary file with 1b random data
-nmcli connection add type ethernet con-name $conn_name ifname $if_name  ## TODO decription
-nmcli connection modify $conn_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual  ## TODO decription
+nmcli connection add type ethernet con-name $conn_name ifname $if_name  ## nmcli add connection
+nmcli connection modify $conn_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual  ## nmcli modify connection
 nmcli connection delete $conn_name  ## nmcli remove connection
-nmcli device wifi hotspot con-name $conn_name ssid $conn_ssid band bg password $pwd  ## nmcli hotspot
+nmcli device wifi hotspot con-name $conn_name ssid $conn_ssid band bg password $pwd  ## nmcli create hotspot
 modprobe -r $driver  ## remove driver from kernel
 modprobe $driver  ## add driver to kernel
 mount -L $label $mountpoint  ## mount device with $label to $mountpoint

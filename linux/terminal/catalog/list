@@ -249,20 +249,20 @@ sh   ipset add blocklist [$ipaddrs]  ## add [ipaddrs] to blocklist
 sh   ipset create blocklist hash:ip  ## create ip blocklist
 sh   iw dev [$wl_interface] scan | grep SSID | sort | uniq  ## received SSID list
 sh   jobs  ## list background processes
-sh   journalctl -b, --boot [$id]  ## TODO decription
-sh   journalctl --disk-usage  ## show total disk usage
-sh   journalctl -e  ## TODO decription
-sh   journalctl -f, --follow  ## TODO decription
+sh   journalctl --boot [$id]  ## messages from (current -0, previous -1) boot
+sh   journalctl --disk-usage  ## show total size / disk space used
+sh   journalctl --dmesg  ## show only kernel messages
 sh   journalctl --flush --rotate  ## flush all journal data from /run to /var and request immediate rotation of the journal files
-sh   journalctl -k  ## TODO decription
-sh   journalctl --list-boots  ##  ## TODO decription
-sh   journalctl -o json-pretty  ## TODO decription
-sh   journalctl -o verbose  ## TODO decription
-sh   journalctl -p 3 -x  ## TODO decription
-sh   journalctl _<TAB>  ## TODO decription
-sh   journalctl -u $unit  ## TODO decription
+sh   journalctl --follow  ## show most recent and print new
+sh   journalctl --list-boots  ##  ## list of boots with their numbers
+sh   journalctl --output json-pretty  ## print json format (more options see man)
+sh   journalctl --output verbose  ## print all the fields
+sh   journalctl --pager-end  ## jump to eol on opening in pager tool
+sh   journalctl --priority 3 --catalog  ## emerg0, alert1, crit2, err3, warning4, notice5, info6, debug7
+sh   journalctl _<TAB>  ## search matches starting with '_'
+sh   journalctl --unit $unit_pttrn  ## messages for unit [-pattern]
 sh   journalctl --vacuum-files=2  ## leave 2 journal files (--vacuum-size, --vacuum-time)
-sh   jq '.data[0] | .ua' api.json  ## get ua from the first data item
+sh   jq '.data[0] | .ua' api.json  ## get ua in the first [0] data item of api.json
 sh   kill $(pidof $process_name)  ## terminate pid of process
 sh   kill -l  ## list of signal names (/usr/include/linux/signal.h) that can be send to process
 sh   kill -STOP %n  ## stop background process jobs item number n
@@ -305,10 +305,10 @@ sh   mv -t $target_dir $source_dirs  ## move source_dirs to target_dir
 sh   neofetch --ascii_distro arch_small --gtk3 off --gtk2 off --colors 3 3 3 7 3 4 --separator '     \t'  ## neat system info
 sh   nerd-dictation begin --config $config_file --simulate-input-tool STDOUT --numbers-min-value 10 --numbers-as-digits --numbers-no-suffix --vosk-model-dir $model_dir  ## speech-to-text
 sh   nl -w 3 -s ' '  ## add line numbers with number width 3 and separator string ' '
-sh   nmcli connection add type ethernet con-name $conn_name ifname $if_name  ## TODO decription
+sh   nmcli connection add type ethernet con-name $conn_name ifname $if_name  ## nmcli add connection
 sh   nmcli connection delete $conn_name  ## nmcli remove connection
-sh   nmcli connection modify $conn_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual  ## TODO decription
-sh   nmcli device wifi hotspot con-name $conn_name ssid $conn_ssid band bg password $pwd  ## nmcli hotspot
+sh   nmcli connection modify $conn_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual  ## nmcli modify connection
+sh   nmcli device wifi hotspot con-name $conn_name ssid $conn_ssid band bg password $pwd  ## nmcli create hotspot
 sh   : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 sh   notmuch address '*'  ## all mail addresses
 sh   notmuch address --deduplicate=address date:year | fzf | wl-copy  ## 1. last years email addresses
