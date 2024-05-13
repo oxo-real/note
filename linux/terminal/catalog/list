@@ -237,6 +237,7 @@ sh   ip a add $ip_subnet_mask broadcast $broadcast_ip dev $interface  ## add int
 sh   ip a add 192.168.1.200/255.255.255.0 dev $interface  ## assign ip address to interface
 sh   ip a del 192.168.1.200/24 dev $interface  ## remove ip address from interface
 sh   ip a flush $interface  ## remove all ip addresses from interface
+sh   ip a | grep '^[0-9]' | awk -F ': ' '{print $2}'  ## network interface list
 sh   ip -c a  ## ip address; show network routing, devices, interfaces and tunnels in color
 sh   ip link set $interface {down/up}  ## change interface state
 sh   ip link set dev [$interface] address [$mac]  ## assign [mac] address to [interface]
@@ -708,9 +709,10 @@ sway bindsym $mod+tab		workspace back_and_forth
 sway #bindsym $mod+z			exec $term --app-id="float_spicules" \
 sway bindsym $mod+z			exec --no-startup-id $term --class="float_spicules" \
 sway bindsym Control+Grave		exec date +'%Y%m%d_%H%M%S_%s' | wl-copy && notify-send 'current date_time copied'
+sway bindsym Control+Mod1+s  	exec wpctl set-volume	@DEFAULT_SINK@ 0.12
 sway #bindsym Control+Shift+y	exec $term --app-id="float_spicules" \
 sway bindsym Control+Shift+y		exec --no-startup-id $term --class="float_spicules" \
-sway bindsym F9			exec wpctl set-mute	@DEFAULT_AUDIO_SOURCE@ toggle
+sway bindsym F9			exec wpctl set-mute	@DEFAULT_SOURCE@ toggle
 sway bindsym --locked XF86AudioPlay 	exec playerctl play-pause
 sway #bindsym --locked XF86MonBrightnessDown exec --no-startup-id light -U 10 && sway-brightness-notify
 sway #bindsym --locked XF86MonBrightnessUp exec --no-startup-id light -A 10 && sway-brightness-notify
@@ -726,18 +728,18 @@ sway bindsym Shift+Control+Mod1+v 	exec --no-startup-id $term --class="term_floa
 sway bindsym Shift+Control+Mod1+x	exec mic_switch toggle Webcam C310
 sway #bindsym Shift+Control+y	wl-copy -o -n && exec notify-send 'secure copy is in DEV'
 sway #bindsym XF86AudioLowerVolume	exec amixer sset Master 2%-
-sway bindsym XF86AudioLowerVolume 	exec wpctl set-volume	@DEFAULT_AUDIO_SINK@ 5%-
-sway bindsym XF86AudioMicMute 	exec wpctl set-mute	@DEFAULT_AUDIO_SOURCE@ toggle
+sway bindsym XF86AudioLowerVolume 	exec wpctl set-volume	@DEFAULT_SINK@ 5%-
+sway bindsym XF86AudioMicMute 	exec wpctl set-mute	@DEFAULT_SOURCE@ toggle
 sway #bindsym XF86AudioMute		exec amixer sset Master toggle
 sway #bindsym XF86AudioMute		exec amixer sset Master toggle && \
-sway bindsym XF86AudioMute 		exec wpctl set-mute	@DEFAULT_AUDIO_SINK@ toggle
+sway bindsym XF86AudioMute 		exec wpctl set-mute	@DEFAULT_SINK@ toggle
 sway #bindsym XF86AudioNext		exec lmc next
 sway bindsym XF86AudioNext 		exec playerctl next
 sway #bindsym XF86AudioPlay		exec lmc toggle
 sway #bindsym XF86AudioPrev		exec lmc prev
 sway bindsym XF86AudioPrev 		exec playerctl previous
 sway #bindsym XF86AudioRaiseVolume	exec amixer sset Master 2%+
-sway bindsym XF86AudioRaiseVolume	exec wpctl set-volume	@DEFAULT_AUDIO_SINK@ 5%+
+sway bindsym XF86AudioRaiseVolume	exec wpctl set-volume	@DEFAULT_SINK@ 5%+
 sway #bindsym XF86AudioStop		exec lmc toggle
 sway bindsym XF86MonBrightnessDown	exec brightnessctl set 5%-
 sway bindsym XF86MonBrightnessUp	exec brightnessctl set 5%+

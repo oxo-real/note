@@ -213,6 +213,7 @@ iftop -i $interface ## display bandwith usage of interface
 info  ## advanced manual system primarily for gnu programs
 insmod $file [$args]  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
 ip -c a  ## ip address; show network routing, devices, interfaces and tunnels in color
+ip a | grep '^[0-9]' | awk -F ': ' '{print $2}'  ## network interface list
 ip a add 192.168.1.200/255.255.255.0 dev $interface  ## assign ip address to interface
 ip a add $ip_subnet_mask broadcast $broadcast_ip dev $interface  ## add interface
 ip a del 192.168.1.200/24 dev $interface  ## remove ip address from interface
