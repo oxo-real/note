@@ -493,6 +493,7 @@ while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line by lin
 while read l; do $commands; done < $file  ## read file line by line into l
 whois -B 46.166.142.215  ## whois own public ip
 wl-paste >> $XDG_CONFIG_HOME/qutebrowser/bookmark_urls  ## add to bookmark_urls
+wl-paste --no-newline | tr --delete '[:blank:]\t\r\n' | wl-copy --trim-newline --paste-once  ## selection without blank chars to clipboard
 wf-recorder -g "$(slurp)"  ## video capture part of screen
 wf-recorder --audio --file=recording_with_audio.avi  ## capture whole screen with audio
 read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
