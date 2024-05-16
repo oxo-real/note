@@ -115,8 +115,6 @@ echo ${HOME#*/}  ## remove shortest matching pattern from head, until 1st instan
 echo ${HOME##*/}  ## remove longest matching pattern from head, until last instance ('oxo')
 echo ${HOME%/*}  ## remove shortest matching pattern from tail, from last instance ('/home')
 echo ${HOME%%/*}  ## remove longest matching pattern from tail, from first instance ('')
-wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
-wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
 emacs --daemon  ## start emacs daemon
 emacsclient --create-frame --alternate-editor="" $file &  ## client open $file in new gui window
 emacsclient --tty $file &  ## client open $file in current terminal window
@@ -463,7 +461,6 @@ tmux attach-session -t 0  ## TODO decription
 tmux show-options -g  ## TODO decription
 touch --date=2000/01/01 $file  ## create file in time
 tput reset  ## reinitialize terminal state
-wl-paste -n | tr --delete '[:blank:]\t\r\n' | wl-copy -n  ## remove all whitespace
 tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## remove double spaces
 tr --delete --complement "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
 tr --delete --complement "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## fzf select and copy one of 16 typable passstrings
@@ -493,7 +490,9 @@ while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line by lin
 while read l; do $commands; done < $file  ## read file line by line into l
 whois -B 46.166.142.215  ## whois own public ip
 wl-paste >> $XDG_CONFIG_HOME/qutebrowser/bookmark_urls  ## add to bookmark_urls
+wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
 wl-paste --no-newline | tr --delete '[:blank:]\t\r\n' | wl-copy --trim-newline --paste-once  ## selection without blank chars to clipboard
+wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
 wf-recorder -g "$(slurp)"  ## video capture part of screen
 wf-recorder --audio --file=recording_with_audio.avi  ## capture whole screen with audio
 read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
