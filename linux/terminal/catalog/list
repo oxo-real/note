@@ -275,8 +275,8 @@ sh   ln -s -f $target $link_name  ## replace symlink $link_name to $target
 sh   losetup -d $loop_dev  ## detach $loop_dev
 sh   losetup -l -a  ## list all loop devices
 sh   ls $XDG_DATA_HOME/keys/wl | fzf | xargs -r cat | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## fzf select wifi key and show qr
-sh   lsblk -i --tree -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint  ## list block devices
-sh   lsblk -o fsuse%,path,fsused,size | grep '%' | awk 'NR == 1; NR > 1 {print $0 | "sort -nr"}'  ## block devices usage percentage
+sh   lsblk -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint --ascii --tree  ## list block devices
+sh   lsblk -o name,fsuse%,fsused,size --sort fsuse% | grep '%' | tr -d '|-' | tr -d '\`' | column -t  ## block devices usage percentage
 sh   lscpu  ## display cpu architecture
 sh   lshw  ## list hardware configuration
 sh   lsmod  ## list drivers currently added to kernel
@@ -530,7 +530,7 @@ sh   while true do; echo; done  ## infinite loop
 sh   whois -B 46.166.142.215  ## whois own public ip
 sh   wl-paste >> $XDG_CONFIG_HOME/qutebrowser/bookmark_urls  ## add to bookmark_urls
 sh   wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
-sh   wl-paste --no-newline | tr --delete '[:blank:]\t\r\n' | wl-copy --trim-newline --paste-once  ## selection without blank chars to clipboard
+sh   wl-paste --no-newline | tr --delete '[:blank:]\t\r\n' | wl-copy --trim-newline --paste-once  ## selection without whitespace to clipboard
 sh   wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
 sh   wpa_passphrase $ssid [$passphrase] > ssid.wifi  ## create network section of wpa_supplicant configuration
 sh   wpa_supplicant -B -i $wlp -c ~/keys/wl/ssid.wifi  ## wireless connect via interface $wlp to ssid.wifi
