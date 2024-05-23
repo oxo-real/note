@@ -30,8 +30,8 @@ cryptsetup open $crypt_dev $crypt_name
 
 mount ${dev_map}/${group_vol}_root ${lvm_root}
 mount ${boot_part} ${lvm_root}/boot
-mount ${dev_map}/${group_vol}_home $lvm_root/home
-mount ${dev_map}/${group_vol}_usr $lvm_root/usr
-mount ${dev_map}/${group_vol}_var $lvm_root/var
+mount ${dev_map}/${group_vol}_home ${lvm_root}/home
+mount ${dev_map}/${group_vol}_usr ${lvm_root{/usr
+mount ${dev_map}/${group_vol}_var ${lvm_root}/var
 
 arch-chroot ${lvm_root}
