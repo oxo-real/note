@@ -332,6 +332,7 @@ sh   output=$(printf $input | openssl dgst -sha512 -hmac $hmac | sed 's/^.*= //'
 sh   pacman-key --delete $pub_key  ## remove key from keyring
 sh   pacman-key --finger [$pub_key]  ## list fingerprint(s)
 sh   pacman-key --lsign-key $pub_key  ## locally sign key
+sh   pacman --root=/mnt --cachedir=/mnt/var/cache/pacman/pkg -Syu  ## upgrade (default) main system from alternate (i.e. archiso) boot
 sh   pactl list sinks | grep -A 1 Name  ## list of sink devices (audio output)
 sh   pactl list sources | grep -A 1 Name  ## list of source devices (audio input)
 sh   pactl list sources | grep -B 1 'Webcam C310 Mono' | head -n 1 | awk '{print $2}'  ## get audio source name from description (for wf-recorder --audio)

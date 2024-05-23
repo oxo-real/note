@@ -306,6 +306,7 @@ openssl s_client -connect $server_ip:443 -servername $server_name -showcerts  ##
 openssl x509 -in cert.pem -noout -text  ## print x509 public key certificate from file cert.pem as text to stdout
 openvpn --config openvpn/udp-ams1_udp.ovpn  ## open vpn with specific configuration
 output=$(printf $input | openssl dgst -sha512 -hmac $hmac | sed 's/^.*= //')  ## zz3
+pacman --root=/mnt --cachedir=/mnt/var/cache/pacman/pkg -Syu  ## upgrade (default) main system from alternate (i.e. archiso) boot
 pacman-key --delete $pub_key  ## remove key from keyring
 pacman-key --finger [$pub_key]  ## list fingerprint(s)
 pacman-key --lsign-key $pub_key  ## locally sign key
