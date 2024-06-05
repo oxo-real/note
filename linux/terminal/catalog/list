@@ -16,6 +16,7 @@ sh   arecord --vumeter stereo audio.wav  ## record wave audio
 sh   awk '!($1="")' $file  ## remove column 1
 sh   awk 'NF{NF-=1};1'  ## remove last column
 sh   awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
+sh   awk 'NR==1{prev=$1;print $2} NR>1 && prev!=$1{prev=$1;print $2} END{if(NR>1)print $2}'  ## print col2 every time col1 value changes
 sh   basename $filepath  ## print filename without any leading directory components
 sh   bind '"\e[0n": "$string"'; printf '\e[5n'  ## inject $string to bash stdin
 sh   bindkey  ## zsh bound keys
@@ -461,13 +462,14 @@ sh   sudo -k  ## invalidate cached credentials
 sh   sudo -l  ## list allowed commands for user
 sh   sudo -n echo >/dev/null 2>&1; echo $?  ## print sudo status
 sh   sudo rfkill unblock bluetooth && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off  ## bluetooth radio on
-sh   swaymsg -t get_outputs  ## TODO decription
+sh   swaymsg -t get_outputs  ## list current sway outputs
 sh   swaymsg -t get_tree | jq -r '.nodes[].nodes[].floating_nodes[].name'  ## list sway floating containers
 sh   swaymsg -t get_tree | jq -r '.nodes[].nodes[].nodes[] | select(.type=="con").name'  ## list sway containers
 sh   swaymsg -t get_tree | jq -r '.nodes[].nodes[] | select(.type=="workspace").name'  ## list sway workspaces
 sh   swaymsg -t get_tree | jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.shell) | "\(.id) \(.pid) \(.app_id // .window_properties.class) \(.name)"' | fzf | cut -d ' ' -f 1 | xargs -I {} swaymsg '[con_id={}]' focus  ## focus sway node (window / frame) with fzf
 sh   swaymsg -t get_tree | jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.shell) | "\(.id) \(.pid) \(.app_id // .window_properties.class) \(.name)"' | fzf -m | cut -d ' ' -f 1 | xargs -I {} swaymsg '[con_id={}]' kill  ## kill sway nodes (windows / frames) with fzf
 sh   swaymsg -t get_tree | jq -r 'recurse(.nodes[], .floating_nodes[]) | select(.shell) | "\(.id) \(.pid) \(.app_id // .window_properties.class) \(.name)"' | grep float | cut -d ' ' -f 1 | xargs -I {} swaymsg '[con_id={}]' kill  ## kill all nodes whose name containing 'float'
+sh   swaymsg -t get_tree | jq '.. | select(.type?) | select(.focused==true) | .pid'  ## currently active terminal pid
 sh   sysrq reisub  ## reboot
 sh   sysrq reisuo  ## shutdown
 sh   systemctl --failed  ## list failed units
@@ -513,7 +515,7 @@ sh   usermod -a -G group_2_add user_2_add  ## add user to group
 sh   #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
 sh   var="${var_1:-$default_var}"  ## var is $default_var if var_1 is unset or null
 sh   vlock --all  ## console lock all sessions
-sh   watch -n 1 'ls -ilatr'  ## watch ls -ilatr
+sh   watch --differences --no-title --interval 1 $command  ## default watch command
 sh   wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
 sh   wf-recorder --audio --codec libx264 --file $video.mp4  ## recording video for odyssee
 sh   wf-recorder --audio --file=recording_with_audio.avi  ## capture whole screen with audio

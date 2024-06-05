@@ -24,6 +24,7 @@ arecord --vumeter stereo audio.wav  ## record wave audio
 awk '!($1="")' $file  ## remove column 1
 awk 'NF{NF-=1};1'  ## remove last column
 awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
+awk 'NR==1{prev=$1;print $2} NR>1 && prev!=$1{prev=$1;print $2} END{if(NR>1)print $2}'  ## print col2 every time col1 value changes
 basename $filepath  ## print filename without any leading directory components
 bind '"\e[0n": "$string"'; printf '\e[5n'  ## inject $string to bash stdin
 bindkey  ## zsh bound keys
@@ -430,7 +431,8 @@ sudo -k  ## invalidate cached credentials
 sudo -l  ## list allowed commands for user
 sudo -n echo >/dev/null 2>&1; echo $?  ## print sudo status
 sudo rfkill unblock bluetooth && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off  ## bluetooth radio on
-swaymsg -t get_outputs  ## TODO decription
+swaymsg -t get_outputs  ## list current sway outputs
+swaymsg -t get_tree | jq '.. | select(.type?) | select(.focused==true) | .pid'  ## currently active terminal pid
 swaymsg -t get_tree | jq -r '.nodes[].nodes[] | select(.type=="workspace").name'  ## list sway workspaces
 swaymsg -t get_tree | jq -r '.nodes[].nodes[].nodes[] | select(.type=="con").name'  ## list sway containers
 swaymsg -t get_tree | jq -r '.nodes[].nodes[].floating_nodes[].name'  ## list sway floating containers
@@ -480,7 +482,7 @@ usermod -a -G group_2_add user_2_add  ## add user to group
 var="${var_1:-$default_var}"  ## var is $default_var if var_1 is unset or null
 vlock --all  ## console lock all sessions
 env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
-watch -n 1 'ls -ilatr'  ## watch ls -ilatr
+watch --differences --no-title --interval 1 $command  ## default watch command
 wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
 wf-recorder --audio --codec libx264 --file $video.mp4  ## recording video for odyssee
 wget https://file.location -c -O file.location.txt_part  ## resume downloading file.location to file.location.txt_part
