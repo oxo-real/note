@@ -1,13 +1,16 @@
-hex byte
+# 95 printable ascii characters
+
+## hex byte
   0123456789ABCDEF
 2  !"#$%&'()*+,-./
 3 0123456789:;<=>?
 4 @ABCDEFGHIJKLMNO
 5 PQRSTUVWXYZ[\]^_
 6 `abcdefghijklmno
-7 pqrstuvwxyz{|}~DEL
+7 pqrstuvwxyz{|}~
+NOTICE: 0x20 SPACE
 
-decimal byte
+## decimal byte
     0123456789
  30    !"#$%&'
  40 ()*+,-./01
@@ -18,4 +21,11 @@ decimal byte
  90 Z[\]^_`abc
 100 defghijklm
 110 nopqrstuvw
-120 xyz{|}~DEL
+120 xyz{|}~
+NOTICE: 0d32 SPACE
+
+## see also
+man ascii
+
+## print as string
+for (( i=32; i<127; i++ )) do printf "\\$(printf %03o "$i")"; done

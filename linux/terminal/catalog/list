@@ -4,6 +4,7 @@ sh   < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ##
 sh   < $file  ## less $file (via READNULLCMD)
 sh   < $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get url from bookmark_urls
 sh   alacritty msg config font.size=18  ## current alacritty instance font size 18 (for screencasting)
+sh   alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## alphanumeric characters from $ASCII
 sh   amixer info  ## info about alsamixer device
 sh   amixer scontrols  ## list of alsamixer controls
 sh   amixer set Capture toggle  ## alsamixer toggle mic
@@ -13,6 +14,7 @@ sh   amixer set Internal Mic Capture volume 0 nocap  ## alsamixer mute mic
 sh   amixer set Master playback volume 30 unmute  ## alsamixer unmute playback volume 30
 sh   apropos keyword  ## search man page names and descriptions
 sh   arecord --vumeter stereo audio.wav  ## record wave audio
+sh   ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters
 sh   awk '!($1="")' $file  ## remove column 1
 sh   awk 'NF{NF-=1};1'  ## remove last column
 sh   awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
@@ -115,7 +117,8 @@ sh   echo ${HOME%%/*}  ## remove longest matching pattern from tail, from first 
 sh   echo ${HOME#*/}  ## remove shortest matching pattern from head, until 1st instance ('home/oxo')
 sh   echo ${HOME%/*}  ## remove shortest matching pattern from tail, from last instance ('/home')
 sh   echo $?  ## print exit code of the last executed command
-sh   echo $RANDOM  ## returns pseudorandom integer (0-32767)
+sh   echo $(( RANDOM%95 + 32 ))  ## pseudorandom integer (32-127)
+sh   echo $RANDOM  ## pseudorandom integer (0-32767)
 sh   echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
 sh   echo '1' | sudo tee /proc/sys/kernel/sysrq  ## # obtain full sysrq priviledges
 sh   echo -e "\033c"  ## same as tput reset but hardcoded escape seq
@@ -172,6 +175,7 @@ sh   for i in $space_sep_string; do; echo $i; done  ## for loop through space se
 sh   for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
 sh   for i in {0..7}; do; printf "\033[0;3${i}mcolor$i\n"; done  ## print 8 colors
 sh   for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded list values
+sh   for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 0-95 -n 1)" --zero-terminated; done; echo  ## generate passstring
 sh   for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
 sh   free -m  ## free and used memory in system
 sh   fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
@@ -219,7 +223,6 @@ sh   head -n -3 $file  ## show all but 3 last lines (hide last three lines from 
 sh   history | tail -n 1 | tr -s ' ' | cut -d ' ' -f 3-  ## last command from history (removing counter)
 sh   history -t %Y%m%d_%H%M%S -d -D $history_id  ## command history from $history_id (id time-start -elapsed cmd)
 sh   history -t %Y%m%d_%H%M%S -d -D -3  ## last 3 commands from history (id time-start -elapsed cmd)
-sh   hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 sh   host -t A $ip_addr_domain  ## dns lookup A record
 sh   host -v -t ANY $ip_addr_domain  ## dns lookup any type verbose output
 sh   hwclock --set --date='01/01/2010 00:00:00'; sudo hwclock --hctosys  ## set date and time
@@ -275,6 +278,7 @@ sh   ln -s $target $link_name  ## create symlink $link_name to $target
 sh   ln -s -f $target $link_name  ## replace symlink $link_name to $target
 sh   losetup -d $loop_dev  ## detach $loop_dev
 sh   losetup -l -a  ## list all loop devices
+sh   lower=$(printf '%s' "$ASCII" | cut --characters 66-91)  ## lowercase characters from $ASCII
 sh   ls $XDG_DATA_HOME/keys/wl | fzf | xargs -r cat | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## fzf select wifi key and show qr
 sh   lsblk -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint --ascii --tree  ## list block devices
 sh   lsblk -o name,fsuse%,fsused,size --sort fsuse% | grep '%' | tr -d '|-' | tr -d '\`' | column -t  ## block devices usage percentage
@@ -321,6 +325,7 @@ sh   notmuch address --output=recipients --deduplicate=address date:year | fzf |
 sh   notmuch search $(wl-paste) date:year | fzf | awk '{print $1}' | wl-copy  ## 2. last years threads from recipient
 sh   notmuch show $(wl-paste)  ## 3. show specific thread content
 sh   nslookup server.com  ## get server ip address
+sh   number=$(printf '%s' "$ASCII" | cut --characters 17-26)  ## number characters from $ASCII
 sh   openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## openssl base64 encoded aes 256 bits galois counter mode decryption
 sh   openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## openssl base64 encoded aes 256 bits galois counter mode encryption
 sh   openssl s_client -connect $server_ip:443 -servername $server_name -showcerts  ## print x509 public key certificate from $(wl-paste -n):443 as text to stdout with server name indication (SNI) in the clienthello message (if a reverse proxy ip serves multiple webservers)
@@ -344,14 +349,15 @@ sh   pactree $package  ## show $package dependency tree
 sh   pactree -r $package  ## show $package dependant tree, reverse depedencies, packages that depend on $package
 sh   patch -p0 < $patch_file  ## apply $patch_file (see diff)
 sh   pim=$(printf $input | xxd -p)  ## zz4_OLD
-sh   pim2fa=$(printf $input | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
+sh   pim2fa=$(printf $output | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
 sh   ping -D -i 10 -c 5 9.9.9.9  ## send icmp echo_request to quad9, print timestamp, interval 10s, 5 attempts
 sh   pkill -SIGRTMIN+4 i3blocks  ## send signal=4 to i3blocks
-sh   pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0  ## end internet connection
+sh   pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0  ## end wireless internet connection
 sh   print_entire_array() { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}" ; done }  ## print_entire_array arrayX
 sh   printenv  ## print values of environment variables
 sh   printf "${fg_black}$(BGx aaaaaa)%s${st_def}\n" 'text_appearance'  ## printf 24 bit hex color code; NOTICE dependency: oxo source function text_appearance
 sh   printf $(( [#n] x ))  ## print base 10 value of x in base n, with 2<=n<=36
+sh   printf $text | openssl dgst -sha512 -hmac $key | sed 's/^.*= //'  ## sha512 hash of $text with hmac $key
 sh   printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
 sh   printf "\033c"  ## same as tput reset but hardcoded escape seq
 sh   printf "%03d%s" "2"  ## print leading zeros
@@ -360,16 +366,17 @@ sh   printf "%d\n" \'A  ## character (A) to ascii value (65)
 sh   printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-Transfer-Encoding: 7bit; Subject: <subject>\n; <body>" | msmtp -v -C <msmtp_config> -a <profile_name> -- destination@mail.com  ## send email
 sh   printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -  ## space every 4th character (with fold)
 sh   printf "space_every_4th_char" | sed 's/.\{4\}/& /g'  ## space every 4th character (with sed)
-sh   printf text | openssl dgst -sha512 -hmac key | sed 's/^.*= //' | wl-copy
 sh   printf "\x$(printf %x 65)"  ## ascii value (65) to character (A)
 sh   print -z $string  ## inject $string to zsh stdin
 sh   < /proc/uptime | awk '{print $1}'  ## uptime in seconds
 sh   PS4=':${BASH_SOURCE[0]:-$0} $(printf %4d%s "${LINENO}") ${FUNCNAME[0]:+${FUNCNAME[0]}(): }' sh -xv script.sh  ## extra verbose debug output stream
-sh   ps -ajxf  ## print a process tree
+sh   ps -ajf  ## print a process tree; all processes with tty, jobs format, full format
 sh   ps -eFly  ## list every process on the system
 sh   ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list processes custom AIX format descriptors, sort low to high elapsed time since process was started
 sh   ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom AIX format descriptors, sort high to low cpu usage
+sh   ps -jxf | grep $(echo $$) | sort -n | head -n 1 | awk '{print $1}'  ## print currently active terminal ppid
 sh   pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
+sh   punct=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95)  ## punctuation characters from $ASCII
 sh   pushd $directory  ## cd to $directory and add $directory to dirs stack[0]
 sh   qalc '18°32′44.88″W to degrees'  ## convert sexagesimal value to decimal geographic position notation
 sh   qalc '-18.5458 to latitude'  ## convert decimal geographic position value to sexagesimal N/S notation
@@ -387,6 +394,7 @@ sh   read -er input  ## zz1; variable is not assigned
 sh   read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
 sh   readlink $symlink  ## print resolved symbolic links or canonical file names
 sh   readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonicalized symlink to current users $HOME (NOTICE realpath is preferred)
+sh   read -r input: hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 sh   read -r input  ## zz1; variable is assigned
 sh   read -r script_name; printf '%s%s' "$(figlet "$script_name")" "$(figlet -f mini "$USER")" | wl-copy  ## script header
 sh   realpath $dir_in_home | sed "s|$HOME||"  ## remove $HOME from $dir_in_home
@@ -435,6 +443,7 @@ sh   setopt interactive_comments  ## threat string after '#' as comment (unsetop
 sh   setterm -reset  ## same as tput reset, setterm has more user friendly commands
 sh   showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 sh   shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
+sh   shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 100 and show first (pseudorandom number generator)
 sh   simple-mtpfs --list-devices  ## list mountable mtp devices
 sh   simple-mtpfs -o allow_other --device 1 $HOME/dock/mobile  ## mount mtp device 1
 sh   sort < $file | sort -nr > $file_sort_freq  ## reverse numerical sort
@@ -496,7 +505,7 @@ sh   touch --date=2000/01/01 $file  ## create file in time
 sh   tput reset  ## reinitialize terminal state
 sh   tput reset  ## same as reset but without 1sec delay
 sh   trap "tput cnorm; return 1" SIGINT; while true; do tput civis; echo; figlet -f banner3 $(date +'%H%M%S'); sleep 1; for i in {1..8}; do tput el; tput cuu1; done; done  ## figlet clock (screencast)
-sh   tr --delete --complement "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## fzf select and copy one of 16 typable passstrings
+sh   tr --delete --complement "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## generate, fzf select and copy one of 16 typable passstrings
 sh   tr --delete --complement "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
 sh   tree -n --charset=unicode  ## depth indented file listing
 sh   tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## remove double spaces
@@ -510,6 +519,7 @@ sh   unset varfun  ## unset value and attribute of variable or function varfun
 sh   unsetvar=  ## set variable unsetvar to ''
 sh   until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount
 sh   until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure downcount
+sh   upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## uppercase characters from $ASCII
 sh   uptime  ## uptime since boot
 sh   usermod -a -G group_2_add user_2_add  ## add user to group
 sh   #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh

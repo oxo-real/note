@@ -76,6 +76,11 @@ curl -O https://mirror.i3d.net/pub/archlinux/iso/2018.04.01/archlinux-2018.04.01
 curl -O https://file.location -C - -o file.location.txt_part  ## start or resume downloading file.location to file.location.txt_part
 curl -O $(wl-paste) -C -  ## start or resume downloading copied location
 cut -d , -f 5 --complement file.csv  ## remove column 5 from file.csv
+number=$(printf '%s' "$ASCII" | cut --characters 17-26)  ## number characters from $ASCII
+upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## uppercase characters from $ASCII
+lower=$(printf '%s' "$ASCII" | cut --characters 66-91)  ## lowercase characters from $ASCII
+punct=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95)  ## punctuation characters from $ASCII
+alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## alphanumeric characters from $ASCII
 date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
 date +'%s'  ## current linux epoch (same as 'now' for oxo)
 date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day on pi time) to linux epoch
@@ -111,7 +116,8 @@ echo $(( 1 ^ 2 ))  ## decimal value of xor 1 and 2 (xor 01 and 10 = 11)
 echo -n $string | base64  ## base64 encoding
 echo $?  ## print exit code of the last executed command
 echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
-echo $RANDOM  ## returns pseudorandom integer (0-32767)
+echo $RANDOM  ## pseudorandom integer (0-32767)
+echo $(( RANDOM%95 + 32 ))  ## pseudorandom integer (32-127)
 echo ${HOME#*/}  ## remove shortest matching pattern from head, until 1st instance ('home/oxo')
 echo ${HOME##*/}  ## remove longest matching pattern from head, until last instance ('oxo')
 echo ${HOME%/*}  ## remove shortest matching pattern from tail, from last instance ('/home')
@@ -199,7 +205,7 @@ head -n -3 $file  ## show all but 3 last lines (hide last three lines from $file
 history -t %Y%m%d_%H%M%S -d -D $history_id  ## command history from $history_id (id time-start -elapsed cmd)
 history -t %Y%m%d_%H%M%S -d -D -3  ## last 3 commands from history (id time-start -elapsed cmd)
 history | tail -n 1 | tr -s ' ' | cut -d ' ' -f 3-  ## last command from history (removing counter)
-hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
+read -r input: hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 host -t A $ip_addr_domain  ## dns lookup A record
 host -v -t ANY $ip_addr_domain  ## dns lookup any type verbose output
 hwclock --set --date='01/01/2010 00:00:00'; sudo hwclock --hctosys  ## set date and time
@@ -305,6 +311,7 @@ openssl s_client -connect grc.com:443 -showcerts < /dev/null | openssl x509 -out
 openssl s_client -connect $(wl-paste -n):443 -showcerts < /dev/null | openssl x509 -noout -text ## print x509 public key certificate as text to stdout
 openssl s_client -connect $server_ip:443 -servername $server_name -showcerts  ## print x509 public key certificate from $(wl-paste -n):443 as text to stdout with server name indication (SNI) in the clienthello message (if a reverse proxy ip serves multiple webservers)
 openssl x509 -in cert.pem -noout -text  ## print x509 public key certificate from file cert.pem as text to stdout
+printf $text | openssl dgst -sha512 -hmac $key | sed 's/^.*= //'  ## sha512 hash of $text with hmac $key
 openvpn --config openvpn/udp-ams1_udp.ovpn  ## open vpn with specific configuration
 output=$(printf $input | openssl dgst -sha512 -hmac $hmac | sed 's/^.*= //')  ## zz3
 pacman --root=/mnt --cachedir=/mnt/var/cache/pacman/pkg -Syu  ## upgrade (default) main system from alternate (i.e. archiso) boot
@@ -320,10 +327,10 @@ pactl list sources | grep -B 1 'Webcam C310 Mono' | head -n 1 | awk '{print $2}'
 pactree -r $package  ## show $package dependant tree, reverse depedencies, packages that depend on $package
 pactree $package  ## show $package dependency tree
 patch -p0 < $patch_file  ## apply $patch_file (see diff)
-pim2fa=$(printf $input | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
+pim2fa=$(printf $output | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
 pim=$(printf $input | xxd -p)  ## zz4_OLD
 ping -D -i 10 -c 5 9.9.9.9  ## send icmp echo_request to quad9, print timestamp, interval 10s, 5 attempts
-pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0  ## end internet connection
+pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0  ## end wireless internet connection
 pkill -SIGRTMIN+4 i3blocks  ## send signal=4 to i3blocks
 print -z $string  ## inject $string to zsh stdin
 printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
@@ -336,11 +343,12 @@ printf "\x$(printf %x 65)"  ## ascii value (65) to character (A)
 printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -  ## space every 4th character (with fold)
 printf "space_every_4th_char" | sed 's/.\{4\}/& /g'  ## space every 4th character (with sed)
 printf $(( [#n] x ))  ## print base 10 value of x in base n, with 2<=n<=36
-printf text | openssl dgst -sha512 -hmac key | sed 's/^.*= //' | wl-copy
-ps -ajxf  ## print a process tree
+ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters
+ps -ajf  ## print a process tree; all processes with tty, jobs format, full format
 ps -eFly  ## list every process on the system
 ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list processes custom AIX format descriptors, sort low to high elapsed time since process was started
 ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom AIX format descriptors, sort high to low cpu usage
+ps -jxf | grep $(echo $$) | sort -n | head -n 1 | awk '{print $1}'  ## print currently active terminal ppid
 pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
 PS4=':${BASH_SOURCE[0]:-$0} $(printf %4d%s "${LINENO}") ${FUNCNAME[0]:+${FUNCNAME[0]}(): }' sh -xv script.sh  ## extra verbose debug output stream
 pushd $directory  ## cd to $directory and add $directory to dirs stack[0]
@@ -404,6 +412,8 @@ setfont ter-v32n  ## set console font
 setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
 showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
+shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 100 and show first (pseudorandom number generator)
+for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 0-95 -n 1)" --zero-terminated; done; echo  ## generate passstring
 simple-mtpfs --list-devices  ## list mountable mtp devices
 simple-mtpfs -o allow_other --device 1 $HOME/dock/mobile  ## mount mtp device 1
 echo 'string2sort' | grep -o . | sort | tr -d "\n"  ## sort chars in string
@@ -466,7 +476,7 @@ touch --date=2000/01/01 $file  ## create file in time
 tput reset  ## reinitialize terminal state
 tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## remove double spaces
 tr --delete --complement "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
-tr --delete --complement "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## fzf select and copy one of 16 typable passstrings
+tr --delete --complement "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## generate, fzf select and copy one of 16 typable passstrings
 trap "tput cnorm; return 1" SIGINT; while true; do tput civis; echo; figlet -f banner3 $(date +'%H%M%S'); sleep 1; for i in {1..8}; do tput el; tput cuu1; done; done  ## figlet clock (screencast)
 fallocate -l 5M file  ## create file 5M size
 truncate -s 5M file  ## create file 5M size
