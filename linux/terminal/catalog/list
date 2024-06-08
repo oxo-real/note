@@ -2,6 +2,8 @@ emcs :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy a
 lisp (set-face-attribute 'default nil :height 180)  ## ' emacs set font size 18pt (for screencasting)
 sh   < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
 sh   < $file  ## less $file (via READNULLCMD)
+sh   [ "$var" ]  ## alias for test "$var"
+sh   [[ $var ]]  ## extended version of [ operator, additional string, assignment and arithmetic operations and improved functionality, readability, and performance
 sh   < $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get url from bookmark_urls
 sh   alacritty msg config font.size=18  ## current alacritty instance font size 18 (for screencasting)
 sh   alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## alphanumeric characters from $ASCII
@@ -175,7 +177,7 @@ sh   for i in $space_sep_string; do; echo $i; done  ## for loop through space se
 sh   for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
 sh   for i in {0..7}; do; printf "\033[0;3${i}mcolor$i\n"; done  ## print 8 colors
 sh   for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded list values
-sh   for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 0-95 -n 1)" --zero-terminated; done; echo  ## generate passstring
+sh   for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 1-95 -n 1)" --zero-terminated; done; echo  ## generate passstring
 sh   for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
 sh   free -m  ## free and used memory in system
 sh   fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
@@ -270,6 +272,7 @@ sh   journalctl _<TAB>  ## search matches starting with '_'
 sh   journalctl --unit $unit_pttrn  ## messages for unit [-pattern]
 sh   journalctl --vacuum-files=2  ## leave 2 journal files (--vacuum-size, --vacuum-time)
 sh   jq '.data[0] | .ua' api.json  ## get ua in the first [0] data item of api.json
+sh   key=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 sh   kill $(pidof $process_name)  ## terminate pid of process
 sh   kill -l  ## list of signal names (/usr/include/linux/signal.h) that can be send to process
 sh   kill -STOP %n  ## stop background process jobs item number n
@@ -334,7 +337,7 @@ sh   openssl s_client -connect grc.com:443 -showcerts < /dev/null | openssl x509
 sh   openssl x509 -in cert.pem -noout -text  ## print x509 public key certificate from file cert.pem as text to stdout
 sh   openvpn --config openvpn/udp-ams1_udp.ovpn  ## open vpn with specific configuration
 sh   optstring=":i:h"; while getopts $optstring opt; do; case $opt in i) var="${OPTARG}";; h) echo help_text;; \?) echo 'no opt';; :) echo 'hlp txt';; esac; done  ## command options (-i arg or -h)
-sh   output=$(printf $input | openssl dgst -sha512 -hmac $hmac | sed 's/^.*= //')  ## zz3
+sh   output=$(printf $input | openssl dgst -sha512 -hmac $key | sed 's/^.*= //')  ## zz3
 sh   pacman-key --delete $pub_key  ## remove key from keyring
 sh   pacman-key --finger [$pub_key]  ## list fingerprint(s)
 sh   pacman-key --lsign-key $pub_key  ## locally sign key
@@ -348,7 +351,6 @@ sh   pactl set-source-volume $device_name 100%  ## set audio source volume 100% 
 sh   pactree $package  ## show $package dependency tree
 sh   pactree -r $package  ## show $package dependant tree, reverse depedencies, packages that depend on $package
 sh   patch -p0 < $patch_file  ## apply $patch_file (see diff)
-sh   pim=$(printf $input | xxd -p)  ## zz4_OLD
 sh   pim2fa=$(printf $output | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
 sh   ping -D -i 10 -c 5 9.9.9.9  ## send icmp echo_request to quad9, print timestamp, interval 10s, 5 attempts
 sh   pkill -SIGRTMIN+4 i3blocks  ## send signal=4 to i3blocks
@@ -394,7 +396,6 @@ sh   read -er input  ## zz1; variable is not assigned
 sh   read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
 sh   readlink $symlink  ## print resolved symbolic links or canonical file names
 sh   readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonicalized symlink to current users $HOME (NOTICE realpath is preferred)
-sh   read -r input: hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 sh   read -r input  ## zz1; variable is assigned
 sh   read -r script_name; printf '%s%s' "$(figlet "$script_name")" "$(figlet -f mini "$USER")" | wl-copy  ## script header
 sh   realpath $dir_in_home | sed "s|$HOME||"  ## remove $HOME from $dir_in_home
@@ -497,7 +498,7 @@ sh   tar -tvf $archive.tar  ## print contents of tar archive
 sh   tar -xv[j/z]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip compression (optional)]
 sh   tar -xv[j/z]f $archive.tar  ## extract tar archive [bzip2/gzip compression (optional)]
 sh   tee --append $file1 $file2  ## append stdout to multiple files
-sh   test -n $var  ## check if $var length is nonzero, equal to [ -n $var ]
+sh   test "$var"  ## check if $var is defined / non-null
 sh   tmp=$(mktemp); printf "$tmp\n"; head -c 1b </dev/urandom >"$tmp"  ## create a temporary file with 1b random data
 sh   tmux attach-session -t 0  ## TODO decription
 sh   tmux show-options -g  ## TODO decription

@@ -205,7 +205,7 @@ head -n -3 $file  ## show all but 3 last lines (hide last three lines from $file
 history -t %Y%m%d_%H%M%S -d -D $history_id  ## command history from $history_id (id time-start -elapsed cmd)
 history -t %Y%m%d_%H%M%S -d -D -3  ## last 3 commands from history (id time-start -elapsed cmd)
 history | tail -n 1 | tr -s ' ' | cut -d ' ' -f 3-  ## last command from history (removing counter)
-read -r input: hmac=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
+key=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 host -t A $ip_addr_domain  ## dns lookup A record
 host -v -t ANY $ip_addr_domain  ## dns lookup any type verbose output
 hwclock --set --date='01/01/2010 00:00:00'; sudo hwclock --hctosys  ## set date and time
@@ -313,7 +313,7 @@ openssl s_client -connect $server_ip:443 -servername $server_name -showcerts  ##
 openssl x509 -in cert.pem -noout -text  ## print x509 public key certificate from file cert.pem as text to stdout
 printf $text | openssl dgst -sha512 -hmac $key | sed 's/^.*= //'  ## sha512 hash of $text with hmac $key
 openvpn --config openvpn/udp-ams1_udp.ovpn  ## open vpn with specific configuration
-output=$(printf $input | openssl dgst -sha512 -hmac $hmac | sed 's/^.*= //')  ## zz3
+output=$(printf $input | openssl dgst -sha512 -hmac $key | sed 's/^.*= //')  ## zz3
 pacman --root=/mnt --cachedir=/mnt/var/cache/pacman/pkg -Syu  ## upgrade (default) main system from alternate (i.e. archiso) boot
 pacman-key --delete $pub_key  ## remove key from keyring
 pacman-key --finger [$pub_key]  ## list fingerprint(s)
@@ -328,7 +328,6 @@ pactree -r $package  ## show $package dependant tree, reverse depedencies, packa
 pactree $package  ## show $package dependency tree
 patch -p0 < $patch_file  ## apply $patch_file (see diff)
 pim2fa=$(printf $output | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
-pim=$(printf $input | xxd -p)  ## zz4_OLD
 ping -D -i 10 -c 5 9.9.9.9  ## send icmp echo_request to quad9, print timestamp, interval 10s, 5 attempts
 pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0  ## end wireless internet connection
 pkill -SIGRTMIN+4 i3blocks  ## send signal=4 to i3blocks
@@ -413,7 +412,7 @@ setopt interactive_comments  ## threat string after '#' as comment (unsetopt dis
 showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 100 and show first (pseudorandom number generator)
-for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 0-95 -n 1)" --zero-terminated; done; echo  ## generate passstring
+for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 1-95 -n 1)" --zero-terminated; done; echo  ## generate passstring
 simple-mtpfs --list-devices  ## list mountable mtp devices
 simple-mtpfs -o allow_other --device 1 $HOME/dock/mobile  ## mount mtp device 1
 echo 'string2sort' | grep -o . | sort | tr -d "\n"  ## sort chars in string
@@ -469,7 +468,9 @@ tar -tvf $archive.tar  ## print contents of tar archive
 tar -xv[j/z]f $archive.tar  ## extract tar archive [bzip2/gzip compression (optional)]
 tar -xv[j/z]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip compression (optional)]
 tee --append $file1 $file2  ## append stdout to multiple files
-test -n $var  ## check if $var length is nonzero, equal to [ -n $var ]
+test "$var"  ## check if $var is defined / non-null
+[ "$var" ]  ## alias for test "$var"
+[[ $var ]]  ## extended version of [ operator, additional string, assignment and arithmetic operations and improved functionality, readability, and performance
 tmux attach-session -t 0  ## TODO decription
 tmux show-options -g  ## TODO decription
 touch --date=2000/01/01 $file  ## create file in time
