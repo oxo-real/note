@@ -7,6 +7,7 @@ sh   [[ $var ]]  ## extended version of [ operator, additional string, assignmen
 sh   < $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get url from bookmark_urls
 sh   alacritty msg config font.size=18  ## current alacritty instance font size 18 (for screencasting)
 sh   alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## 62 alphanumeric characters from $ASCII
+sh   alnum=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
 sh   amixer info  ## info about alsamixer device
 sh   amixer scontrols  ## list of alsamixer controls
 sh   amixer set Capture toggle  ## alsamixer toggle mic
@@ -119,7 +120,7 @@ sh   echo ${HOME%%/*}  ## remove longest matching pattern from tail, from first 
 sh   echo ${HOME#*/}  ## remove shortest matching pattern from head, until 1st instance ('home/oxo')
 sh   echo ${HOME%/*}  ## remove shortest matching pattern from tail, from last instance ('/home')
 sh   echo $?  ## print exit code of the last executed command
-sh   echo $(( RANDOM%95 + 32 ))  ## pseudorandom integer (32-127)
+sh   echo $(( RANDOM%95 + 32 ))  ## generate pseudorandom integer between 32 and 127 (included)
 sh   echo $RANDOM  ## pseudorandom integer (0-32767)
 sh   echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
 sh   echo '1' | sudo tee /proc/sys/kernel/sysrq  ## # obtain full sysrq priviledges
@@ -177,8 +178,10 @@ sh   for i in $space_sep_string; do; echo $i; done  ## for loop through space se
 sh   for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
 sh   for i in {0..7}; do; printf "\033[0;3${i}mcolor$i\n"; done  ## print 8 colors
 sh   for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded list values
-sh   for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 1-95 -n 1)" --zero-terminated; done; echo  ## generate passstring
+sh   for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 1-95 -n 1)" --zero-terminated; done; echo  ## generate passstring from $ASCII
+sh   for i in {1..32}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; done; echo  ## generate passstring
 sh   for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
+sh   for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## generate otp_key from $ASCII
 sh   free -m  ## free and used memory in system
 sh   fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 sh   fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem in mount)
@@ -361,17 +364,21 @@ sh   printf "${fg_black}$(BGx aaaaaa)%s${st_def}\n" 'text_appearance'  ## printf
 sh   printf $(( [#n] x ))  ## print base 10 value of x in base n, with 2<=n<=36
 sh   printf $s2l | grep -o .  ## print each character of a string on a separate line (string to lines)
 sh   printf $s2l | sed 's/./\0\n/g'  ## print each character of a string on a separate line (string to lines)
+sh   printf $string | fold -w 1  ## print each character of a string on a separate line (string to lines)
 sh   printf $text | openssl dgst -sha512 -hmac $key | sed 's/^.*= //'  ## sha512 hash of $text with hmac $key
 sh   printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
 sh   printf "\033c"  ## same as tput reset but hardcoded escape seq
 sh   printf "%03d%s" "2"  ## print leading zeros
 sh   printf "%3d%s" "2"  ## print leading spaces
-sh   printf "%d\n" \'A  ## ascii character (A) to hex value (65)
+sh   printf "%d\n" \'A  ## ascii character (A) to decimal value (65)
 sh   printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-Transfer-Encoding: 7bit; Subject: <subject>\n; <body>" | msmtp -v -C <msmtp_config> -a <profile_name> -- destination@mail.com  ## send email
+sh   printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'  ## randomize characters of the $ASCII string
 sh   printf '%s' "$l2s" | tr -d '\n'  ## remove newlines (lines to string)
 sh   printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -  ## space every 4th character (with fold)
 sh   printf "space_every_4th_char" | sed 's/.\{4\}/& /g'  ## space every 4th character (with sed)
 sh   printf "\x$(printf %x 65)"  ## ascii hex value (65) to character (A)
+sh   printf "\x$(printf %x 65)"  ## ascii hex value (65) to character (A)
+sh   printf "%x\n" \'A  ## ascii character (A) to hex value (41)
 sh   print -z $string  ## inject $string to zsh stdin
 sh   < /proc/uptime | awk '{print $1}'  ## uptime in seconds
 sh   PS4=':${BASH_SOURCE[0]:-$0} $(printf %4d%s "${LINENO}") ${FUNCNAME[0]:+${FUNCNAME[0]}(): }' sh -xv script.sh  ## extra verbose debug output stream
@@ -383,7 +390,6 @@ sh   ps -jxf | grep $(echo $$) | sort -n | head -n 1 | awk '{print $1}'  ## prin
 sh   pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
 sh   punct=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95)  ## 33 punctuation characters from $ASCII
 sh   punct=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33)  ## 33 punctuation characters from $ASCII
-sh   punct=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
 sh   pushd $directory  ## cd to $directory and add $directory to dirs stack[0]
 sh   qalc '18°32′44.88″W to degrees'  ## convert sexagesimal value to decimal geographic position notation
 sh   qalc '-18.5458 to latitude'  ## convert decimal geographic position value to sexagesimal N/S notation

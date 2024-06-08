@@ -81,9 +81,9 @@ number=$(printf '%s' "$ASCII" | cut --characters 17-26)  ## 10 number characters
 upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## 26 uppercase letter characters from $ASCII
 lower=$(printf '%s' "$ASCII" | cut --characters 66-91)  ## 26 lowercase letter characters from $ASCII
 punct=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95)  ## 33 punctuation characters from $ASCII
-punct=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33)  ## 33 punctuation characters from $ASCII
 alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## 62 alphanumeric characters from $ASCII
-punct=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
+punct=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33)  ## 33 punctuation characters from $ASCII
+alnum=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
 date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
 date +'%s'  ## current linux epoch (same as 'now' for oxo)
 date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day on pi time) to linux epoch
@@ -120,7 +120,7 @@ echo -n $string | base64  ## base64 encoding
 echo $?  ## print exit code of the last executed command
 echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
 echo $RANDOM  ## pseudorandom integer (0-32767)
-echo $(( RANDOM%95 + 32 ))  ## pseudorandom integer (32-127)
+echo $(( RANDOM%95 + 32 ))  ## generate pseudorandom integer between 32 and 127 (included)
 echo ${HOME#*/}  ## remove shortest matching pattern from head, until 1st instance ('home/oxo')
 echo ${HOME##*/}  ## remove longest matching pattern from head, until last instance ('oxo')
 echo ${HOME%/*}  ## remove shortest matching pattern from tail, from last instance ('/home')
@@ -156,6 +156,9 @@ find . | sed -e 's;[^/]*/;|____;g;s;____|; |;g'  ## similar to: find . | tree
 find . -iname $file  ## case_insensitive find
 find $directory -name '$search_string' 2>/dev/null  ## find quiet
 find $directory -type f -exec shred -v -z -n 3 -u {} \;  ## shred found files
+printf $string | fold -w 1  ## print each character of a string on a separate line (string to lines)
+printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'  ## randomize characters of the $ASCII string
+for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## generate otp_key from $ASCII
 for file in *.html; do mv "$file" "${file%.html}.txt"; done  ## change file extension (*.html to *.txt)
 for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
 for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
@@ -339,7 +342,9 @@ print -z $string  ## inject $string to zsh stdin
 printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
 printf "%03d%s" "2"  ## print leading zeros
 printf "%3d%s" "2"  ## print leading spaces
-printf "%d\n" \'A  ## ascii character (A) to hex value (65)
+printf "%x\n" \'A  ## ascii character (A) to hex value (41)
+printf "%d\n" \'A  ## ascii character (A) to decimal value (65)
+printf "\x$(printf %x 65)"  ## ascii hex value (65) to character (A)
 printf "\x$(printf %x 65)"  ## ascii hex value (65) to character (A)
 printf "${fg_black}$(BGx aaaaaa)%s${st_def}\n" 'text_appearance'  ## printf 24 bit hex color code; NOTICE dependency: oxo source function text_appearance
 printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-Transfer-Encoding: 7bit; Subject: <subject>\n; <body>" | msmtp -v -C <msmtp_config> -a <profile_name> -- destination@mail.com  ## send email
@@ -416,7 +421,8 @@ setopt interactive_comments  ## threat string after '#' as comment (unsetopt dis
 showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 100 and show first (pseudorandom number generator)
-for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 1-95 -n 1)" --zero-terminated; done; echo  ## generate passstring
+for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 1-95 -n 1)" --zero-terminated; done; echo  ## generate passstring from $ASCII
+for i in {1..32}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; done; echo  ## generate passstring
 simple-mtpfs --list-devices  ## list mountable mtp devices
 simple-mtpfs -o allow_other --device 1 $HOME/dock/mobile  ## mount mtp device 1
 echo 'string2sort' | grep -o . | sort | tr -d "\n"  ## sort chars in string
