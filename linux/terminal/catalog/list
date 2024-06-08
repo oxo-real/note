@@ -6,7 +6,7 @@ sh   [ "$var" ]  ## alias for test "$var"
 sh   [[ $var ]]  ## extended version of [ operator, additional string, assignment and arithmetic operations and improved functionality, readability, and performance
 sh   < $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get url from bookmark_urls
 sh   alacritty msg config font.size=18  ## current alacritty instance font size 18 (for screencasting)
-sh   alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## alphanumeric characters from $ASCII
+sh   alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## 62 alphanumeric characters from $ASCII
 sh   amixer info  ## info about alsamixer device
 sh   amixer scontrols  ## list of alsamixer controls
 sh   amixer set Capture toggle  ## alsamixer toggle mic
@@ -16,7 +16,7 @@ sh   amixer set Internal Mic Capture volume 0 nocap  ## alsamixer mute mic
 sh   amixer set Master playback volume 30 unmute  ## alsamixer unmute playback volume 30
 sh   apropos keyword  ## search man page names and descriptions
 sh   arecord --vumeter stereo audio.wav  ## record wave audio
-sh   ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters
+sh   ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters (0x20-0x7e 0d32-0d126)
 sh   awk '!($1="")' $file  ## remove column 1
 sh   awk 'NF{NF-=1};1'  ## remove last column
 sh   awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
@@ -281,7 +281,7 @@ sh   ln -s $target $link_name  ## create symlink $link_name to $target
 sh   ln -s -f $target $link_name  ## replace symlink $link_name to $target
 sh   losetup -d $loop_dev  ## detach $loop_dev
 sh   losetup -l -a  ## list all loop devices
-sh   lower=$(printf '%s' "$ASCII" | cut --characters 66-91)  ## lowercase characters from $ASCII
+sh   lower=$(printf '%s' "$ASCII" | cut --characters 66-91)  ## 26 lowercase letter characters from $ASCII
 sh   ls $XDG_DATA_HOME/keys/wl | fzf | xargs -r cat | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## fzf select wifi key and show qr
 sh   lsblk -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint --ascii --tree  ## list block devices
 sh   lsblk -o name,fsuse%,fsused,size --sort fsuse% | grep '%' | tr -d '|-' | tr -d '\`' | column -t  ## block devices usage percentage
@@ -328,7 +328,7 @@ sh   notmuch address --output=recipients --deduplicate=address date:year | fzf |
 sh   notmuch search $(wl-paste) date:year | fzf | awk '{print $1}' | wl-copy  ## 2. last years threads from recipient
 sh   notmuch show $(wl-paste)  ## 3. show specific thread content
 sh   nslookup server.com  ## get server ip address
-sh   number=$(printf '%s' "$ASCII" | cut --characters 17-26)  ## number characters from $ASCII
+sh   number=$(printf '%s' "$ASCII" | cut --characters 17-26)  ## 10 number characters from $ASCII
 sh   openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## openssl base64 encoded aes 256 bits galois counter mode decryption
 sh   openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## openssl base64 encoded aes 256 bits galois counter mode encryption
 sh   openssl s_client -connect $server_ip:443 -servername $server_name -showcerts  ## print x509 public key certificate from $(wl-paste -n):443 as text to stdout with server name indication (SNI) in the clienthello message (if a reverse proxy ip serves multiple webservers)
@@ -359,16 +359,19 @@ sh   print_entire_array() { declare -n __p="$1"; for k in "${!__p[@]}"; do print
 sh   printenv  ## print values of environment variables
 sh   printf "${fg_black}$(BGx aaaaaa)%s${st_def}\n" 'text_appearance'  ## printf 24 bit hex color code; NOTICE dependency: oxo source function text_appearance
 sh   printf $(( [#n] x ))  ## print base 10 value of x in base n, with 2<=n<=36
+sh   printf $s2l | grep -o .  ## print each character of a string on a separate line (string to lines)
+sh   printf $s2l | sed 's/./\0\n/g'  ## print each character of a string on a separate line (string to lines)
 sh   printf $text | openssl dgst -sha512 -hmac $key | sed 's/^.*= //'  ## sha512 hash of $text with hmac $key
 sh   printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
 sh   printf "\033c"  ## same as tput reset but hardcoded escape seq
 sh   printf "%03d%s" "2"  ## print leading zeros
 sh   printf "%3d%s" "2"  ## print leading spaces
-sh   printf "%d\n" \'A  ## character (A) to ascii value (65)
+sh   printf "%d\n" \'A  ## ascii character (A) to hex value (65)
 sh   printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-Transfer-Encoding: 7bit; Subject: <subject>\n; <body>" | msmtp -v -C <msmtp_config> -a <profile_name> -- destination@mail.com  ## send email
+sh   printf '%s' "$l2s" | tr -d '\n'  ## remove newlines (lines to string)
 sh   printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -  ## space every 4th character (with fold)
 sh   printf "space_every_4th_char" | sed 's/.\{4\}/& /g'  ## space every 4th character (with sed)
-sh   printf "\x$(printf %x 65)"  ## ascii value (65) to character (A)
+sh   printf "\x$(printf %x 65)"  ## ascii hex value (65) to character (A)
 sh   print -z $string  ## inject $string to zsh stdin
 sh   < /proc/uptime | awk '{print $1}'  ## uptime in seconds
 sh   PS4=':${BASH_SOURCE[0]:-$0} $(printf %4d%s "${LINENO}") ${FUNCNAME[0]:+${FUNCNAME[0]}(): }' sh -xv script.sh  ## extra verbose debug output stream
@@ -378,7 +381,9 @@ sh   ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list pr
 sh   ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom AIX format descriptors, sort high to low cpu usage
 sh   ps -jxf | grep $(echo $$) | sort -n | head -n 1 | awk '{print $1}'  ## print currently active terminal ppid
 sh   pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
-sh   punct=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95)  ## punctuation characters from $ASCII
+sh   punct=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95)  ## 33 punctuation characters from $ASCII
+sh   punct=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33)  ## 33 punctuation characters from $ASCII
+sh   punct=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
 sh   pushd $directory  ## cd to $directory and add $directory to dirs stack[0]
 sh   qalc '18°32′44.88″W to degrees'  ## convert sexagesimal value to decimal geographic position notation
 sh   qalc '-18.5458 to latitude'  ## convert decimal geographic position value to sexagesimal N/S notation
@@ -520,7 +525,7 @@ sh   unset varfun  ## unset value and attribute of variable or function varfun
 sh   unsetvar=  ## set variable unsetvar to ''
 sh   until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount
 sh   until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure downcount
-sh   upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## uppercase characters from $ASCII
+sh   upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## 26 uppercase letter characters from $ASCII
 sh   uptime  ## uptime since boot
 sh   usermod -a -G group_2_add user_2_add  ## add user to group
 sh   #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh

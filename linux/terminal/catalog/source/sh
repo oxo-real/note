@@ -76,11 +76,14 @@ curl -O https://mirror.i3d.net/pub/archlinux/iso/2018.04.01/archlinux-2018.04.01
 curl -O https://file.location -C - -o file.location.txt_part  ## start or resume downloading file.location to file.location.txt_part
 curl -O $(wl-paste) -C -  ## start or resume downloading copied location
 cut -d , -f 5 --complement file.csv  ## remove column 5 from file.csv
-number=$(printf '%s' "$ASCII" | cut --characters 17-26)  ## number characters from $ASCII
-upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## uppercase characters from $ASCII
-lower=$(printf '%s' "$ASCII" | cut --characters 66-91)  ## lowercase characters from $ASCII
-punct=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95)  ## punctuation characters from $ASCII
-alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## alphanumeric characters from $ASCII
+ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters (0x20-0x7e 0d32-0d126)
+number=$(printf '%s' "$ASCII" | cut --characters 17-26)  ## 10 number characters from $ASCII
+upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## 26 uppercase letter characters from $ASCII
+lower=$(printf '%s' "$ASCII" | cut --characters 66-91)  ## 26 lowercase letter characters from $ASCII
+punct=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95)  ## 33 punctuation characters from $ASCII
+punct=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33)  ## 33 punctuation characters from $ASCII
+alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## 62 alphanumeric characters from $ASCII
+punct=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
 date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
 date +'%s'  ## current linux epoch (same as 'now' for oxo)
 date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day on pi time) to linux epoch
@@ -192,6 +195,7 @@ gpg -vv $pub_key.asc  ## verbose info on $pub_key.asc
 gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
 gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk 'BEGIN{CACHED=0} /^S/ {if($7==1){CACHED=1}} END{if($0!=""){print CACHED} else {print "0"}}'  ## gpg cache status (1=cached)
 gpsbabel -i garmin_fit -f $in_fit -o gpx -F $out_gpx  ## fit2gpx conversion
+printf $s2l | grep -o .  ## print each character of a string on a separate line (string to lines)
 grep "\sro[\s,]" /proc/mounts  ## show read only mountpoints
 grep -riIl 'text' [directory]  ## find files (no binary) containing text recursively in directory
 grep -riIn 'text' [directory]  ## find files (no binary) containing text recursively in directory with linenumbers
@@ -335,14 +339,13 @@ print -z $string  ## inject $string to zsh stdin
 printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
 printf "%03d%s" "2"  ## print leading zeros
 printf "%3d%s" "2"  ## print leading spaces
-printf "%d\n" \'A  ## character (A) to ascii value (65)
+printf "%d\n" \'A  ## ascii character (A) to hex value (65)
+printf "\x$(printf %x 65)"  ## ascii hex value (65) to character (A)
 printf "${fg_black}$(BGx aaaaaa)%s${st_def}\n" 'text_appearance'  ## printf 24 bit hex color code; NOTICE dependency: oxo source function text_appearance
 printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-Transfer-Encoding: 7bit; Subject: <subject>\n; <body>" | msmtp -v -C <msmtp_config> -a <profile_name> -- destination@mail.com  ## send email
-printf "\x$(printf %x 65)"  ## ascii value (65) to character (A)
 printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -  ## space every 4th character (with fold)
 printf "space_every_4th_char" | sed 's/.\{4\}/& /g'  ## space every 4th character (with sed)
 printf $(( [#n] x ))  ## print base 10 value of x in base n, with 2<=n<=36
-ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters
 ps -ajf  ## print a process tree; all processes with tty, jobs format, full format
 ps -eFly  ## list every process on the system
 ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list processes custom AIX format descriptors, sort low to high elapsed time since process was started
@@ -405,6 +408,7 @@ sed -i 's/$find/$replace/g' $file  ## replace $find with $replace in $file
 sed -i '/$find/{n;s/.*/$replace/}' $file  ## find $find and replace next line with $replace
 sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
 sed -i '/^find/ s/./#&/' $file  ## comment out lines containing 'find'
+printf $s2l | sed 's/./\0\n/g'  ## print each character of a string on a separate line (string to lines)
 set -euo pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 setfont ter-v32n  ## set console font
@@ -475,6 +479,7 @@ tmux attach-session -t 0  ## TODO decription
 tmux show-options -g  ## TODO decription
 touch --date=2000/01/01 $file  ## create file in time
 tput reset  ## reinitialize terminal state
+printf '%s' "$l2s" | tr -d '\n'  ## remove newlines (lines to string)
 tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## remove double spaces
 tr --delete --complement "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
 tr --delete --complement "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## generate, fzf select and copy one of 16 typable passstrings
