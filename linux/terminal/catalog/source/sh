@@ -85,8 +85,8 @@ alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complem
 punct=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33)  ## 33 punctuation characters from $ASCII
 alnum=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
 date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
-date +'%s'  ## current linux epoch (same as 'now' for oxo)
-date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day on pi time) to linux epoch
+date +'%s'  ## current linux epoch (oxo now)
+date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day at pi time) to linux epoch
 date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
 date -d '@1234567890' +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert specific linux epoch to oxo extensive time format
 date -d @$(wl-paste) +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert copied specific linux epoch to oxo extensive time format
@@ -479,8 +479,8 @@ tar -xv[j/z]f $archive.tar  ## extract tar archive [bzip2/gzip compression (opti
 tar -xv[j/z]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip compression (optional)]
 tee --append $file1 $file2  ## append stdout to multiple files
 test "$var"  ## check if $var is defined / non-null
-[ "$var" ]  ## alias for test "$var"
-[[ $var ]]  ## extended version of [ operator, additional string, assignment and arithmetic operations and improved functionality, readability, and performance
+[ "$var" ]  ## alias for: 'test "$var"
+[[ $var ]]  ## extended version of [ operator; with additional string, assignment and arithmetic operations and improved functionality, readability and performance
 tmux attach-session -t 0  ## TODO decription
 tmux show-options -g  ## TODO decription
 touch --date=2000/01/01 $file  ## create file in time
@@ -600,4 +600,5 @@ echo -e "\033c"  ## same as tput reset but hardcoded escape seq
 printf "\033c"  ## same as tput reset but hardcoded escape seq
 setterm -reset  ## same as tput reset, setterm has more user friendly commands
 print_entire_array() { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}" ; done }  ## print_entire_array arrayX
+echo general quotation rule  ## quote if $var can be empty (null) or contain whitespace or punct chartacters (wildcards)
 cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file (heredoc), strip leading tabs from mlt (-), EOF can be any unique limit string

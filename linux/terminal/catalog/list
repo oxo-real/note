@@ -2,8 +2,8 @@ emcs :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy a
 lisp (set-face-attribute 'default nil :height 180)  ## ' emacs set font size 18pt (for screencasting)
 sh   < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
 sh   < $file  ## less $file (via READNULLCMD)
-sh   [ "$var" ]  ## alias for test "$var"
-sh   [[ $var ]]  ## extended version of [ operator, additional string, assignment and arithmetic operations and improved functionality, readability, and performance
+sh   [ "$var" ]  ## alias for: 'test "$var"
+sh   [[ $var ]]  ## extended version of [ operator; with additional string, assignment and arithmetic operations and improved functionality, readability and performance
 sh   < $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get url from bookmark_urls
 sh   alacritty msg config font.size=18  ## current alacritty instance font size 18 (for screencasting)
 sh   alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## 62 alphanumeric characters from $ASCII
@@ -89,8 +89,8 @@ sh   cut -d , -f 5 --complement file.csv  ## remove column 5 from file.csv
 sh   date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
 sh   date -d @$(wl-paste) +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert copied specific linux epoch to oxo extensive time format
 sh   date -d '@1234567890' +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert specific linux epoch to oxo extensive time format
-sh   date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day on pi time) to linux epoch
-sh   date +'%s'  ## current linux epoch (same as 'now' for oxo)
+sh   date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day at pi time) to linux epoch
+sh   date +'%s'  ## current linux epoch (oxo now)
 sh   date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
 sh   dd if=$src of=$dst bs=256k iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## physical copy $src to $dst
 sh   dd if=/dev/urandom of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 random bytes to $dst
@@ -125,6 +125,7 @@ sh   echo $RANDOM  ## pseudorandom integer (0-32767)
 sh   echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
 sh   echo '1' | sudo tee /proc/sys/kernel/sysrq  ## # obtain full sysrq priviledges
 sh   echo -e "\033c"  ## same as tput reset but hardcoded escape seq
+sh   echo general quotation rule  ## quote if $var can be empty (null) or contain whitespace or punct chartacters (wildcards)
 sh   echo hello 1> $file  ## stdout redirect to $file
 sh   echo hello 2>> $file   ## stderr redirect append to $file
 sh   echo hello 2>&1 | tee -a $logfile  ## stderr redirect to stdout; append both to $logfile
