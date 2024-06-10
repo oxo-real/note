@@ -19,19 +19,7 @@ for source in $(ls $src_dir); do
     case $source in
 
 	alacritty)
-	    ## alacritty toml file
-	    ###  1 sed:  change 'action =' to 'chars ='
-	    ###  2 awk:  move lines with 'key' after line with 'mods'
-	    ###  3 awk:  move lines with 'chars' after line with 'key'
-	    ###  4 grep: get every three lines before 'chars'
-	    ###  5 sed:  set an eol before every ' mods'
-	    ###  6 sed:  remove 'mods = '
-	    ###  7 sed:  remove 'key = '
-	    ###  8 sed:  remove 'chars = '
-	    ###  9 sed:  remove empty lines
-	    ### 10 sed:  prepend 'atty '
-	    ### 11 tr:   replace tabs with spaces
-	    ### 12 tr:   suppres double spaces
+	    ## alacritty toml file (>= alacritty v0.13.0)
 	    list_atty=$(\cat $file_atty | \
 			    sed 's/action =/chars =/g' | \
 			    awk '/key/{t=$0;next}1;/mods/{print t}' | \
@@ -45,8 +33,30 @@ for source in $(ls $src_dir); do
 			    sed -e "s/^/atty /" | \
 			    tr '\t' ' ' | \
 			    tr -s '[:blank:]')
-	    ## alacritty yml file (old)
-	    #list_atty=$(grep '^[[:blank:]]*[^[:blank:]#;]' "$file_atty" | grep 'key:' | sed -e "s/^/atty /" | tr '\t' ' ' | tr -s '[:blank:]')
+	    : '
+	    ## explanation of command mentioned above
+	     1 sed:  change 'action =' to 'chars ='
+	     2 awk:  move lines with 'key' after line with 'mods'
+	     3 awk:  move lines with 'chars' after line with 'key'
+	     4 grep: get every three lines before 'chars'
+	     5 sed:  set an eol before every ' mods'
+	     6 sed:  remove 'mods = '
+	     7 sed:  remove 'key = '
+	     8 sed:  remove 'chars = '
+	     9 sed:  remove empty lines
+	    10 sed:  prepend 'atty '
+	    11 tr:   replace tabs with spaces
+	    12 tr:   suppres double spaces
+	    # '
+
+	    ## alacritty yml file  (< alacritty v0.13.0)
+	    : '
+	    list_atty=$(grep '^[[:blank:]]*[^[:blank:]#;]' "$file_atty" | \
+			    grep 'key:' | \
+			    sed -e "s/^/atty /" | \
+			    tr '\t' ' ' | \
+			    tr -s '[:blank:]')
+	    # '
 	    ;;
 
 	emacs)
