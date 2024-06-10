@@ -1,3 +1,8 @@
+atty mods = "Control" key = "B" chars = "yank_buffer | fzf_word \r" 
+atty mods = "Control" key = "Escape" chars = "ToggleViMode" 
+atty mods = "Control" key = "Key8" chars = "alacritty msg config font.size=11; sleep 0.1; clear \r" 
+atty mods = "Control" key = "Key9" chars = "alacritty msg config font.size=18; sleep 0.1; clear \r" 
+atty mods = "Shift|Control" key = "B" chars = "yank_buffer all | fzf_word \r" 
 emcs :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
 lisp (set-face-attribute 'default nil :height 180)  ## ' emacs set font size 18pt (for screencasting)
 sh   < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
@@ -776,8 +781,8 @@ zsh  bindkey -a "^[[3~" delete-char
 zsh  bindkey -a "^?" backward-delete-char
 zsh  bindkey "^a" insert_appn
 zsh  bindkey "^A" insert_pacmanqq
-zsh  bindkey "^[[A" up-line-or-beginning-search # up arrow
-zsh  bindkey "^[[B" down-line-or-beginning-search # down arrow
+zsh  bindkey "^[[A" up-line-or-beginning-search
+zsh  bindkey "^[[B" down-line-or-beginning-search
 zsh  bindkey "^e" insert_epoch
 zsh  bindkey "^f" fzf_ins_home
 zsh  bindkey "^g" fzf_ins_root
@@ -787,17 +792,14 @@ zsh  bindkey '^j' lfcd
 zsh  bindkey "^k" up_dir
 zsh  # bindkey -l (zsh keymaps)
 zsh  # bindkey -M <keymap>
+zsh  bindkey -M vicmd 'cc'  ## change current line (clear > viins)
 zsh  bindkey -M vicmd 'q' sh-x_toggle
 zsh  bindkey -M vicmd 's' sudo_toggle
 zsh  bindkey -M viins "^[[3~" delete-char
 zsh  bindkey "^o" fzf_ins_pwd
 zsh  bindkey '^p' ins_pwd
 zsh  bindkey "^q" git_add_commit
-zsh  #bindkey -s '^j' "lfcd\n"
-zsh  #bindkey -s '^j' 'lfcd\n'
 zsh  bindkey -v
 zsh  bindkey -v "^?" backward-delete-char
-zsh  #bindkey -v "^H" backward-delete-char
 zsh  bindkey '^Z' foreground
 zsh  # CAUTION! bindkey ^V is occupied -> find zsh keycodes with C-v $key;
-zsh  # clear current line (oxo bindkey note)  ## via vicmd; M > cc
