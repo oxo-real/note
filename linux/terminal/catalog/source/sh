@@ -158,7 +158,7 @@ find $directory -name '$search_string' 2>/dev/null  ## find quiet
 find $directory -type f -exec shred -v -z -n 3 -u {} \;  ## shred found files
 printf $string | fold -w 1  ## print each character of a string on a separate line (string to lines)
 printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'  ## randomize characters of the $ASCII string
-for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## generate otp_key from $ASCII
+for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## generate otp $keyfile from $ASCII
 for file in *.html; do mv "$file" "${file%.html}.txt"; done  ## change file extension (*.html to *.txt)
 for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
 for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors

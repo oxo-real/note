@@ -1,8 +1,8 @@
-atty mods = "Control" key = "B" chars = "yank_buffer | fzf_word \r" 
-atty mods = "Control" key = "Escape" chars = "ToggleViMode" 
-atty mods = "Control" key = "Key8" chars = "alacritty msg config font.size=11; sleep 0.1; clear \r" 
-atty mods = "Control" key = "Key9" chars = "alacritty msg config font.size=18; sleep 0.1; clear \r" 
-atty mods = "Shift|Control" key = "B" chars = "yank_buffer all | fzf_word \r" 
+atty "Control" "B" "yank_buffer | fzf_word \r" 
+atty "Control" "Escape" "ToggleViMode" 
+atty "Control" "Key8" "alacritty msg config font.size=11; sleep 0.1; clear \r" 
+atty "Control" "Key9" "alacritty msg config font.size=18; sleep 0.1; clear \r" 
+atty "Shift|Control" "B" "yank_buffer all | fzf_word \r" 
 emcs :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
 lisp (set-face-attribute 'default nil :height 180)  ## ' emacs set font size 18pt (for screencasting)
 sh   < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
@@ -187,7 +187,7 @@ sh   for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded l
 sh   for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 1-95 -n 1)" --zero-terminated; done; echo  ## generate passstring from $ASCII
 sh   for i in {1..32}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; done; echo  ## generate passstring
 sh   for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
-sh   for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## generate otp_key from $ASCII
+sh   for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## generate otp $keyfile from $ASCII
 sh   free -m  ## free and used memory in system
 sh   fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 sh   fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem in mount)
@@ -784,6 +784,7 @@ zsh  bindkey "^A" insert_pacmanqq
 zsh  bindkey "^[[A" up-line-or-beginning-search
 zsh  bindkey "^[[B" down-line-or-beginning-search
 zsh  bindkey "^e" insert_epoch
+zsh  bindkey escape sequence: C-v $key (C-v ESC -> ^[)
 zsh  bindkey "^f" fzf_ins_home
 zsh  bindkey "^g" fzf_ins_root
 zsh  bindkey "^h" last_dir
@@ -802,4 +803,3 @@ zsh  bindkey "^q" git_add_commit
 zsh  bindkey -v
 zsh  bindkey -v "^?" backward-delete-char
 zsh  bindkey '^Z' foreground
-zsh  # CAUTION! bindkey ^V is occupied -> find zsh keycodes with C-v $key;
