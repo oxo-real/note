@@ -486,7 +486,7 @@ tmux show-options -g  ## TODO decription
 touch --date=2000/01/01 $file  ## create file in time
 tput reset  ## reinitialize terminal state
 printf '%s' "$l2s" | tr -d '\n'  ## remove newlines (lines to string)
-wl-paste -n | tr -d '[:blank:]\t\r\n' | wl-copy -n  ## remove whitespace from clipboard content and copy
+wl-paste -n | tr -d '[:blank:]\t\r\n' | wl-copy -o -n  ## remove all whitespace from clipboard content and re-copy
 tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## remove double spaces
 tr --delete --complement "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
 tr --delete --complement "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## generate, fzf select and copy one of 16 typable passstrings
