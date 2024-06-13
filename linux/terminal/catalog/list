@@ -180,6 +180,8 @@ sh   find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print  ## fin
 sh   for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
 sh   for file in *.html; do mv "$file" "${file%.html}.txt"; done  ## change file extension (*.html to *.txt)
 sh   for (( i=$in; i<=$ix; i++ )); do echo $i; done  ## for loop alternative mathematic structure; variable list values (in to ix step i++)
+sh   for i in ${list//,/ }; do; printf '%s\n' "$i"; done  ## loop through comma separated $list, transpose values to rows
+sh   for i in $(seq 1 95 | grep -vFx 6); do echo "line $i"; done  ## loop through numbers 1 to 95, excluding 6 (exclude one line in loop)
 sh   for i in $space_sep_string; do; echo $i; done  ## for loop through space separated string
 sh   for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
 sh   for i in {0..7}; do; printf "\033[0;3${i}mcolor$i\n"; done  ## print 8 colors
@@ -442,17 +444,17 @@ sh   script --command 'sh -x $command' --log-io "$(now).log" --log-timing "$(now
 sh   script; sh -x $command; exit  ## $sommand execution typescript developer debug log
 sh   sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sh   sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove $HISTORY last line
-sh   sed -i '$d' $file  ## remove last line from $file
+sh   sed -i '$d' $file  ## delete last line from $file
 sh   sed -i '$d' $HISTFILE; sed -e ':t;N;$!bt; s/\(\n[^\n]*\)\{1\}$/\n     deleted:&/' $HISTFILE | tail; sed -i '$d' $HISTFILE  ## remove $HISTORY last line and show result
 sh   sed -i '/$find/{n;s/.*/$replace/}' $file  ## find $find and replace next line with $replace
-sh   sed -i '2,$d' $file  ## remove all lines from line 2 from $file
-sh   sed -i '2,3 d' $file  ## remove line 2 and 3 from $file
+sh   sed -i '2,$d' $file  ## delete all lines from line 2 from $file
+sh   sed -i '2,3 d' $file  ## delete line 2 and 3 from $file
 sh   sed -i '/^find/ s/./#&/' $file  ## comment out lines containing 'find'
 sh   sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
 sh   sed -i 'ni insert this into line n of file' $file  ## insert string after line n
 sh   sed -i '/pttrn/d' $file  ## delete all lines in $file that contain 'pttrn'
 sh   sed -i 's/$find/$replace/g' $file  ## replace $find with $replace in $file
-sh   sed '/^\s*$/d'  ## remove empty lines
+sh   sed '/^\s*$/d'  ## delete empty lines
 sh   select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
 sh   set -euo pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 sh   setfont ter-v32n  ## set console font
@@ -562,6 +564,7 @@ sh   whois -B 46.166.142.215  ## whois own public ip
 sh   wl-paste >> $XDG_CONFIG_HOME/qutebrowser/bookmark_urls  ## add to bookmark_urls
 sh   wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
 sh   wl-paste --no-newline | tr --delete '[:blank:]\t\r\n' | wl-copy --trim-newline --paste-once  ## selection without whitespace to clipboard
+sh   wl-paste -n | tr -d '[:blank:]\t\r\n' | wl-copy -o -n  ## remove all whitespace from clipboard content and re-copy
 sh   wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
 sh   wpa_passphrase $ssid [$passphrase] > ssid.wifi  ## create network section of wpa_supplicant configuration
 sh   wpa_supplicant -B -i $wlp -c ~/keys/wl/ssid.wifi  ## wireless connect via interface $wlp to ssid.wifi

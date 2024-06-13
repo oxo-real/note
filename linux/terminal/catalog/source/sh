@@ -164,6 +164,7 @@ for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each 
 for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
 for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
 for i in {0..7}; do; printf "\033[0;3${i}mcolor$i\n"; done  ## print 8 colors
+for i in ${list//,/ }; do; printf '%s\n' "$i"; done  ## loop through comma separated $list, transpose values to rows
 free -m  ## free and used memory in system
 sudo -k; free -h; echo; for i in {1..3}; do; sudo sysctl -w vm.drop_caches="$i"; sudo sync; echo "$i" | sudo tee /proc/sys/vm/drop_caches; done; free -h  ## free mwmory (pagecache, dentries and inodes)
 fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem in mount)
@@ -199,6 +200,7 @@ gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
 gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk 'BEGIN{CACHED=0} /^S/ {if($7==1){CACHED=1}} END{if($0!=""){print CACHED} else {print "0"}}'  ## gpg cache status (1=cached)
 gpsbabel -i garmin_fit -f $in_fit -o gpx -F $out_gpx  ## fit2gpx conversion
 printf $s2l | grep -o .  ## print each character of a string on a separate line (string to lines)
+for i in $(seq 1 95 | grep -vFx 6); do echo "line $i"; done  ## loop through numbers 1 to 95, excluding 6 (exclude one line in loop)
 grep "\sro[\s,]" /proc/mounts  ## show read only mountpoints
 grep -riIl 'text' [directory]  ## find files (no binary) containing text recursively in directory
 grep -riIn 'text' [directory]  ## find files (no binary) containing text recursively in directory with linenumbers
@@ -401,13 +403,13 @@ script; $command; exit  ## $command execution typescript user log
 script; sh -x $command; exit  ## $sommand execution typescript developer debug log
 script --command 'sh -x $command' --log-io "$(now).log" --log-timing "$(now).log"  ## $sommand execution typescript developer debug log_2
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
-sed '/^\s*$/d'  ## remove empty lines
+sed '/^\s*$/d'  ## delete empty lines
 sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove $HISTORY last line
 sed -i '$d' $HISTFILE; sed -e ':t;N;$!bt; s/\(\n[^\n]*\)\{1\}$/\n     deleted:&/' $HISTFILE | tail; sed -i '$d' $HISTFILE  ## remove $HISTORY last line and show result
-sed -i '$d' $file  ## remove last line from $file
+sed -i '$d' $file  ## delete last line from $file
 sed -i '/pttrn/d' $file  ## delete all lines in $file that contain 'pttrn'
-sed -i '2,$d' $file  ## remove all lines from line 2 from $file
-sed -i '2,3 d' $file  ## remove line 2 and 3 from $file
+sed -i '2,$d' $file  ## delete all lines from line 2 from $file
+sed -i '2,3 d' $file  ## delete line 2 and 3 from $file
 sed -i 'ni insert this into line n of file' $file  ## insert string after line n
 sed -i 's/$find/$replace/g' $file  ## replace $find with $replace in $file
 sed -i '/$find/{n;s/.*/$replace/}' $file  ## find $find and replace next line with $replace
