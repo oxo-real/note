@@ -38,6 +38,7 @@ cal -m -w -3 $(date -I)  ## calendar showing last, current and next month, week 
 cal -m -w -y $(date +%Y)  ## current year calendar
 cal -m -w 12 2022  ## calendar for december 2022
 cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
+cat $HOME/a/data/emoji/emoji-test.txt | sed 's/^.*#//' | sed --regexp-extended 's/E[0-9]+.[0-9]//' | sed 's/^[ \t]*//' | sed '/^[[:alnum:]]/d' | sed '/^\s*$/d' | fzf | awk '{print $1}' | wl-copy -n  ## emoji to clipboard
 cat -n $file  ## line number cat
 cat -vE $file  ## prevent cat shell injection
 cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
@@ -568,6 +569,7 @@ yay -Syu --devel --timeupdate  ## update, also check AUR developement packages (
 yay -Tv  ## check dependencies; show file paths
 yay -U $package  ## remove then upgrade or add package
 ykman otp static --no-enter --keyboard-layout US 2 'string'  ## assign string to yk slot 2
+yt-dlp --format-sort res:480 $(wl-paste)  ## download video with maximal 480 vertical pixel resolution (SD)
 zbarcam --oneshot --raw /dev/video4 | wl-copy -o -n  ## read qr from video4
 zsh --no-rcs  ## zsh terminal without run command script
 chmod 0000  ## ---------- 	ugo -	no permissions

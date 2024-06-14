@@ -12,4 +12,4 @@
    x execute
 * keybinds
 ** toggle comment line
-   C-c C-;
+   C-x C-;
