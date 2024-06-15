@@ -191,7 +191,7 @@ sh   for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded l
 sh   for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 1-95 -n 1)" --zero-terminated; done; echo  ## generate passstring from $ASCII
 sh   for i in {1..32}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; done; echo  ## generate passstring
 sh   for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
-sh   for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## generate otp key from $ASCII for computational use
+sh   for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## otp random secret key from $ASCII for computational use
 sh   free -m  ## free and used memory in system
 sh   fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 sh   fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem in mount)
@@ -285,7 +285,7 @@ sh   journalctl _<TAB>  ## search matches starting with '_'
 sh   journalctl --unit $unit_pttrn  ## messages for unit [-pattern]
 sh   journalctl --vacuum-files=2  ## leave 2 journal files (--vacuum-size, --vacuum-time)
 sh   jq '.data[0] | .ua' api.json  ## get ua in the first [0] data item of api.json
-sh   key=$ASCII; l=$(wc -c <<< "$key"); for (( r=0; r<$l-1; r++ )); do echo ${key:$r:$l}${key::$r}; done  ## generate otp key from $ASCII for human use
+sh   key=$ASCII; l=$(wc -c <<< "$key"); for (( r=0; r<$l-1; r++ )); do echo ${key:$r:$l}${key::$r}; done  ## otp random secret key from $ASCII for human use
 sh   key=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 sh   kill $(pidof $process_name)  ## terminate pid of process
 sh   kill -l  ## list of signal names (/usr/include/linux/signal.h) that can be send to process
@@ -312,7 +312,7 @@ sh   lspci -vv  ## list pci devices with more detail (useful to find kernel driv
 sh   man ascii  ## 7-bit ascii tables
 sh   man -k . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage
 sh   man zshall  ## view the system reference manual for all zsh
-sh   min=0; max=9999; columns=10; digits=4; i=1; shuf -i $min-$max | while read number; do [[ $(( i % $columns )) -eq 0 ]] && printf "%0${digits}d\n" $number || printf "%0${digits}d " $number; i=$(( $i + 1 )); done  ## generate a grid with unique numbers (otp numerical key)
+sh   min=0; max=9999; columns=10; digits=4; i=1; shuf -i $min-$max | while read number; do [[ $(( i % $columns )) -eq 0 ]] && printf "%0${digits}d\n" $number || printf "%0${digits}d " $number; i=$(( $i + 1 )); done  ## generate a grid with unique numbers (otp random secret numeric key)
 sh   mkdir $HOME/dock/{1-4}  ## make multiple directories
 sh   modprobe $driver  ## add driver to kernel
 sh   modprobe -r $driver  ## remove driver from kernel

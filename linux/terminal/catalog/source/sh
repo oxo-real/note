@@ -160,8 +160,8 @@ find $directory -name '$search_string' 2>/dev/null  ## find quiet
 find $directory -type f -exec shred -v -z -n 3 -u {} \;  ## shred found files
 printf $string | fold -w 1  ## print each character of a string on a separate line (string to lines)
 printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'  ## randomize characters of the $ASCII string
-for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## generate otp key from $ASCII for computational use
-key=$ASCII; l=$(wc -c <<< "$key"); for (( r=0; r<$l-1; r++ )); do echo ${key:$r:$l}${key::$r}; done  ## generate otp key from $ASCII for human use
+for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## otp random secret key from $ASCII for computational use
+key=$ASCII; l=$(wc -c <<< "$key"); for (( r=0; r<$l-1; r++ )); do echo ${key:$r:$l}${key::$r}; done  ## otp random secret key from $ASCII for human use
 for file in *.html; do mv "$file" "${file%.html}.txt"; done  ## change file extension (*.html to *.txt)
 for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
 for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
@@ -426,7 +426,7 @@ setopt interactive_comments  ## threat string after '#' as comment (unsetopt dis
 showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 100 and show first (pseudorandom number generator)
-min=0; max=9999; columns=10; digits=4; i=1; shuf -i $min-$max | while read number; do [[ $(( i % $columns )) -eq 0 ]] && printf "%0${digits}d\n" $number || printf "%0${digits}d " $number; i=$(( $i + 1 )); done  ## generate a grid with unique numbers (otp numerical key)
+min=0; max=9999; columns=10; digits=4; i=1; shuf -i $min-$max | while read number; do [[ $(( i % $columns )) -eq 0 ]] && printf "%0${digits}d\n" $number || printf "%0${digits}d " $number; i=$(( $i + 1 )); done  ## generate a grid with unique numbers (otp random secret numeric key)
 for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 1-95 -n 1)" --zero-terminated; done; echo  ## generate passstring from $ASCII
 for i in {1..32}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; done; echo  ## generate passstring
 simple-mtpfs --list-devices  ## list mountable mtp devices
