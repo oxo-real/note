@@ -122,10 +122,10 @@ sh   du -sbh $directory  ## directory usage; total size of all content in direct
 sh   e2label /dev/X $label  ## write device label
 sh   e2label /dev/X  ## read device label
 sh   echo $(( 1 ^ 2 ))  ## decimal value of xor 1 and 2 (xor 01 and 10 = 11)
-sh   echo ${HOME##*/}  ## remove longest matching pattern from head, until last instance ('oxo')
-sh   echo ${HOME%%/*}  ## remove longest matching pattern from tail, from first instance ('')
-sh   echo ${HOME#*/}  ## remove shortest matching pattern from head, until 1st instance ('home/oxo')
-sh   echo ${HOME%/*}  ## remove shortest matching pattern from tail, from last instance ('/home')
+sh   echo ${HOME##*/}  ## parameter expansion; substitute longest match from head (##) with matched portion (/*) deleted; remove until last instance ('oxo')
+sh   echo ${HOME%%/*}  ## parameter expansion; substitute longest match from tail (%%) with matched portion (/*) deleted; remove from first instance ('')
+sh   echo ${HOME#*/}  ## parameter expansion; substitute shortest match from head (#) with matched portion (*/) deleted,; remove until first instance ('home/oxo')
+sh   echo ${HOME%/*}  ## parameter expansion; substitute shortest match from tail (%) with matched portion (/*) deleted; remove from last instance ('/home')
 sh   echo $?  ## print exit code of the last executed command
 sh   echo $(( RANDOM%95 + 32 ))  ## generate pseudorandom integer between 32 and 127 (included)
 sh   echo $RANDOM  ## pseudorandom integer (0-32767)
@@ -572,8 +572,9 @@ sh   wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digi
 sh   wpa_passphrase $ssid [$passphrase] > ssid.wifi  ## create network section of wpa_supplicant configuration
 sh   wpa_supplicant -B -i $wlp -c ~/keys/wl/ssid.wifi  ## wireless connect via interface $wlp to ssid.wifi
 sh   xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
-sh   xxd -b -p $infile $outfile  ## plain bits dump
-sh   xxd -p $infile $outfile  ## plain hexdump
+sh   xxd -b <<< $ASCII  ## bitdump of $ASCII
+sh   xxd -g 1 <<< $ASCII  ## hexdump space separated bytes of $ASCII
+sh   xxd -p $infile $outfile  ## write plain hexdump of $infile to $outfile
 sh   xxd -r -p $infile $outfile  ## reverse plain hexdump
 sh   xz -d  ## decompress .xz file
 sh   xz -l  ## list .xz file

@@ -123,10 +123,10 @@ echo $?  ## print exit code of the last executed command
 echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
 echo $RANDOM  ## pseudorandom integer (0-32767)
 echo $(( RANDOM%95 + 32 ))  ## generate pseudorandom integer between 32 and 127 (included)
-echo ${HOME#*/}  ## remove shortest matching pattern from head, until 1st instance ('home/oxo')
-echo ${HOME##*/}  ## remove longest matching pattern from head, until last instance ('oxo')
-echo ${HOME%/*}  ## remove shortest matching pattern from tail, from last instance ('/home')
-echo ${HOME%%/*}  ## remove longest matching pattern from tail, from first instance ('')
+echo ${HOME#*/}  ## parameter expansion; substitute shortest match from head (#) with matched portion (*/) deleted,; remove until first instance ('home/oxo')
+echo ${HOME##*/}  ## parameter expansion; substitute longest match from head (##) with matched portion (/*) deleted; remove until last instance ('oxo')
+echo ${HOME%/*}  ## parameter expansion; substitute shortest match from tail (%) with matched portion (/*) deleted; remove from last instance ('/home')
+echo ${HOME%%/*}  ## parameter expansion; substitute longest match from tail (%%) with matched portion (/*) deleted; remove from first instance ('')
 emacs --daemon  ## start emacs daemon
 emacsclient --create-frame --alternate-editor="" $file &  ## client open $file in new gui window
 emacsclient --tty $file &  ## client open $file in current terminal window
@@ -530,8 +530,9 @@ read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl
 wpa_passphrase $ssid [$passphrase] > ssid.wifi  ## create network section of wpa_supplicant configuration
 wpa_supplicant -B -i $wlp -c ~/keys/wl/ssid.wifi  ## wireless connect via interface $wlp to ssid.wifi
 xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
-xxd -b -p $infile $outfile  ## plain bits dump
-xxd -p $infile $outfile  ## plain hexdump
+xxd -g 1 <<< $ASCII  ## hexdump space separated bytes of $ASCII
+xxd -b <<< $ASCII  ## bitdump of $ASCII
+xxd -p $infile $outfile  ## write plain hexdump of $infile to $outfile
 xxd -r -p $infile $outfile  ## reverse plain hexdump
 xz -d  ## decompress .xz file
 xz -l  ## list .xz file
