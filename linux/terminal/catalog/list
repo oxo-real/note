@@ -27,6 +27,7 @@ sh   awk '!($1="")' $file  ## remove column 1
 sh   awk 'NF{NF-=1};1'  ## remove last column
 sh   awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
 sh   awk 'NR==1{prev=$1;print $2} NR>1 && prev!=$1{prev=$1;print $2} END{if(NR>1)print $2}'  ## print col2 every time col1 value changes
+sh   bas64=$(printf '%s' "$ASCII" | cut --zero-terminated --characters 34-59,66-91,17-26; printf '+/\n')  ## 64 base64 characters from $ASCII
 sh   basename $filepath  ## print filename without any leading directory components
 sh   bind '"\e[0n": "$string"'; printf '\e[5n'  ## inject $string to bash stdin
 sh   bindkey  ## zsh bound keys
@@ -190,7 +191,7 @@ sh   for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded l
 sh   for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 1-95 -n 1)" --zero-terminated; done; echo  ## generate passstring from $ASCII
 sh   for i in {1..32}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; done; echo  ## generate passstring
 sh   for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
-sh   for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## generate otp $keyfile from $ASCII
+sh   for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## generate otp key from $ASCII for computational use
 sh   free -m  ## free and used memory in system
 sh   fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 sh   fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem in mount)
@@ -284,6 +285,7 @@ sh   journalctl _<TAB>  ## search matches starting with '_'
 sh   journalctl --unit $unit_pttrn  ## messages for unit [-pattern]
 sh   journalctl --vacuum-files=2  ## leave 2 journal files (--vacuum-size, --vacuum-time)
 sh   jq '.data[0] | .ua' api.json  ## get ua in the first [0] data item of api.json
+sh   key=$ASCII; l=$(wc -c <<< "$key"); for (( r=0; r<$l-1; r++ )); do echo ${key:$r:$l}${key::$r}; done  ## generate otp key from $ASCII for human use
 sh   key=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 sh   kill $(pidof $process_name)  ## terminate pid of process
 sh   kill -l  ## list of signal names (/usr/include/linux/signal.h) that can be send to process

@@ -85,6 +85,7 @@ punct=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95)  ## 33 p
 alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## 62 alphanumeric characters from $ASCII
 punct=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33)  ## 33 punctuation characters from $ASCII
 alnum=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
+bas64=$(printf '%s' "$ASCII" | cut --zero-terminated --characters 34-59,66-91,17-26; printf '+/\n')  ## 64 base64 characters from $ASCII
 date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
 date +'%s'  ## current linux epoch (oxo now)
 date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day at pi time) to linux epoch
@@ -159,7 +160,8 @@ find $directory -name '$search_string' 2>/dev/null  ## find quiet
 find $directory -type f -exec shred -v -z -n 3 -u {} \;  ## shred found files
 printf $string | fold -w 1  ## print each character of a string on a separate line (string to lines)
 printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'  ## randomize characters of the $ASCII string
-for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## generate otp $keyfile from $ASCII
+for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## generate otp key from $ASCII for computational use
+key=$ASCII; l=$(wc -c <<< "$key"); for (( r=0; r<$l-1; r++ )); do echo ${key:$r:$l}${key::$r}; done  ## generate otp key from $ASCII for human use
 for file in *.html; do mv "$file" "${file%.html}.txt"; done  ## change file extension (*.html to *.txt)
 for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
 for i in {0..255}; do; printf "\x1b[38;5;${i}mcolour${i}\x1b[0m\n"; done  ## print 256 colors
