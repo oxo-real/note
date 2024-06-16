@@ -195,8 +195,9 @@
 │   ├── openssl
 │   │   └── x509_certificate_info
 │   ├── otp
-│   │   ├── conv_95ascii
-│   │   └── key_95ascii
+│   │   ├── ascii95_cnv.txt
+│   │   ├── ascii95_ps.key
+│   │   └── conv_60_comp
 │   ├── password_entry
 │   ├── pwgn_policy
 │   ├── pwgn_policy_new.org
@@ -629,6 +630,7 @@
 │   │   │       ├── yay_T_deptest
 │   │   │       └── yay_U_upgrade
 │   │   ├── comparison
+│   │   │   ├── bitwise_operator
 │   │   │   ├── file_test_operators
 │   │   │   ├── integer_test_operators
 │   │   │   └── string_test_operators
@@ -939,5 +941,5 @@
 └── zzz_deprecated
     └── xab
 
-194 directories, 745 files
+194 directories, 747 files
 ```
