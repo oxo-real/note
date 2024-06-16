@@ -191,7 +191,7 @@ sh   for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded l
 sh   for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 1-95 -n 1)" --zero-terminated; done; echo  ## generate passstring from $ASCII
 sh   for i in {1..32}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; done; echo  ## generate passstring
 sh   for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
-sh   for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## otp random secret key from $ASCII for computational use
+sh   for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## otp random secret key from $ASCII
 sh   free -m  ## free and used memory in system
 sh   fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 sh   fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem in mount)
@@ -285,7 +285,7 @@ sh   journalctl _<TAB>  ## search matches starting with '_'
 sh   journalctl --unit $unit_pttrn  ## messages for unit [-pattern]
 sh   journalctl --vacuum-files=2  ## leave 2 journal files (--vacuum-size, --vacuum-time)
 sh   jq '.data[0] | .ua' api.json  ## get ua in the first [0] data item of api.json
-sh   key=$ASCII; l=$(wc -c <<< "$key"); for (( r=0; r<$l-1; r++ )); do echo ${key:$r:$l}${key::$r}; done  ## otp random secret key from $ASCII for human use
+sh   key=$ASCII; l=$(wc -c <<< "$key"); for (( r=0; r<$l-1; r++ )); do echo ${key:$r:$l}${key::$r}; done  ## otp conversion table from $ASCII
 sh   key=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 sh   kill $(pidof $process_name)  ## terminate pid of process
 sh   kill -l  ## list of signal names (/usr/include/linux/signal.h) that can be send to process
@@ -312,7 +312,7 @@ sh   lspci -vv  ## list pci devices with more detail (useful to find kernel driv
 sh   man ascii  ## 7-bit ascii tables
 sh   man -k . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage
 sh   man zshall  ## view the system reference manual for all zsh
-sh   min=0; max=9999; columns=10; digits=4; i=1; shuf -i $min-$max | while read number; do [[ $(( i % $columns )) -eq 0 ]] && printf "%0${digits}d\n" $number || printf "%0${digits}d  " $number; i=$(( $i + 1 )); done  ## generate a grid with unique numbers (otp random secret numeric key)
+sh   min=0; max=9999; columns=8; digits=4; i=1; shuf -i $min-$max | while read number; do [[ $(( i % $columns )) -eq 0 ]] && printf "%0${digits}d\n" $number || printf "%0${digits}d  " $number; i=$(( $i + 1 )); done  ## otp random secret key from $digit
 sh   mkdir $HOME/dock/{1-4}  ## make multiple directories
 sh   modprobe $driver  ## add driver to kernel
 sh   modprobe -r $driver  ## remove driver from kernel
@@ -388,7 +388,7 @@ sh   printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'  ## randomize characte
 sh   printf '%s' "$l2s" | tr -d '\n'  ## remove newlines (lines to string)
 sh   printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -  ## space every 4th character (with fold)
 sh   printf "space_every_4th_char" | sed 's/.\{4\}/& /g'  ## space every 4th character (with sed)
-sh   printf "\x$(printf %x 65)"  ## ascii hex value (65) to character (A)
+sh   printf "\x$(printf %d 41)"  ## ascii decimal value (65) to character (A)
 sh   printf "\x$(printf %x 65)"  ## ascii hex value (65) to character (A)
 sh   printf "%x\n" \'A  ## ascii character (A) to hex value (41)
 sh   print -z $string  ## inject $string to zsh stdin
@@ -789,7 +789,7 @@ vim  :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy a
 zsh  bindkey -a "^[[3~" delete-char
 zsh  bindkey -a "^?" backward-delete-char
 zsh  bindkey "^a" insert_appn
-zsh  bindkey "^A" insert_pacmanqq
+zsh  #bindkey "^A" insert_pacmanqq
 zsh  bindkey "^[[A" up-line-or-beginning-search
 zsh  bindkey "^[[B" down-line-or-beginning-search
 zsh  bindkey "^e" insert_epoch
@@ -798,15 +798,16 @@ zsh  bindkey "^f" fzf_ins_home
 zsh  bindkey "^g" fzf_ins_root
 zsh  bindkey "^h" last_dir
 zsh  bindkey "^@" insert_date_time
-zsh  bindkey '^j' lfcd
+zsh  bindkey "^j" lfcd
 zsh  bindkey "^k" up_dir
+zsh  bindkey "^l" fzf_ins_pwd
 zsh  # bindkey -l (zsh keymaps)
 zsh  # bindkey -M <keymap>
 zsh  bindkey -M vicmd 'cc'  ## change current line (clear > viins)
 zsh  bindkey -M vicmd 'q' sh-x_toggle
 zsh  bindkey -M vicmd 's' sudo_toggle
 zsh  bindkey -M viins "^[[3~" delete-char
-zsh  bindkey "^o" fzf_ins_pwd
+zsh  bindkey "^o" clear-screen
 zsh  bindkey '^p' ins_pwd
 zsh  bindkey "^q" git_add_commit
 zsh  bindkey -v
