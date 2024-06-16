@@ -573,10 +573,10 @@ sh   wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digi
 sh   wpa_passphrase $ssid [$passphrase] > ssid.wifi  ## create network section of wpa_supplicant configuration
 sh   wpa_supplicant -B -i $wlp -c ~/keys/wl/ssid.wifi  ## wireless connect via interface $wlp to ssid.wifi
 sh   xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
-sh   xxd -b <<< $ASCII  ## bitdump of $ASCII
-sh   xxd -g 1 <<< $ASCII  ## hexdump space separated bytes of $ASCII
-sh   xxd -p $infile $outfile  ## write plain hexdump of $infile to $outfile
-sh   xxd -r -p $infile $outfile  ## reverse plain hexdump
+sh   xxd -bits <<< $ASCII  ## bitdump of $ASCII
+sh   xxd -groupsize 1 <<< $ASCII  ## hexdump space separated bytes of $ASCII
+sh   xxd -plain $infile $outfile  ## write plain hexdump of $infile to $outfile
+sh   xxd -plain -revert $infile $outfile  ## reverse plain hexdump
 sh   xz -d  ## decompress .xz file
 sh   xz -l  ## list .xz file
 sh   xz -z  ## compress .xz file

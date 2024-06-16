@@ -531,10 +531,10 @@ read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl
 wpa_passphrase $ssid [$passphrase] > ssid.wifi  ## create network section of wpa_supplicant configuration
 wpa_supplicant -B -i $wlp -c ~/keys/wl/ssid.wifi  ## wireless connect via interface $wlp to ssid.wifi
 xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
-xxd -g 1 <<< $ASCII  ## hexdump space separated bytes of $ASCII
-xxd -b <<< $ASCII  ## bitdump of $ASCII
-xxd -p $infile $outfile  ## write plain hexdump of $infile to $outfile
-xxd -r -p $infile $outfile  ## reverse plain hexdump
+xxd -groupsize 1 <<< $ASCII  ## hexdump space separated bytes of $ASCII
+xxd -bits <<< $ASCII  ## bitdump of $ASCII
+xxd -plain $infile $outfile  ## write plain hexdump of $infile to $outfile
+xxd -plain -revert $infile $outfile  ## reverse plain hexdump
 xz -d  ## decompress .xz file
 xz -l  ## list .xz file
 xz -z  ## compress .xz file
