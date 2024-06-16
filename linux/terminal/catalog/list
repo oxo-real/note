@@ -312,7 +312,7 @@ sh   lspci -vv  ## list pci devices with more detail (useful to find kernel driv
 sh   man ascii  ## 7-bit ascii tables
 sh   man -k . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage
 sh   man zshall  ## view the system reference manual for all zsh
-sh   min=0; max=9999; columns=10; digits=4; i=1; shuf -i $min-$max | while read number; do [[ $(( i % $columns )) -eq 0 ]] && printf "%0${digits}d\n" $number || printf "%0${digits}d " $number; i=$(( $i + 1 )); done  ## generate a grid with unique numbers (otp random secret numeric key)
+sh   min=0; max=9999; columns=10; digits=4; i=1; shuf -i $min-$max | while read number; do [[ $(( i % $columns )) -eq 0 ]] && printf "%0${digits}d\n" $number || printf "%0${digits}d  " $number; i=$(( $i + 1 )); done  ## generate a grid with unique numbers (otp random secret numeric key)
 sh   mkdir $HOME/dock/{1-4}  ## make multiple directories
 sh   modprobe $driver  ## add driver to kernel
 sh   modprobe -r $driver  ## remove driver from kernel
