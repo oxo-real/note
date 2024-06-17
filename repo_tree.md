@@ -197,7 +197,7 @@
 │   ├── otp
 │   │   ├── ascii95_cnv.txt
 │   │   ├── ascii95_ps.key
-│   │   └── conv_60_comp
+│   │   └── ct_01.txt
 │   ├── password_entry
 │   ├── pwgn_policy
 │   ├── pwgn_policy_new.org
@@ -672,6 +672,7 @@
 │   │   │   │   ├── pipefail
 │   │   │   │   ├── README.html
 │   │   │   │   └── ref_sheet
+│   │   │   ├── naming_conventions
 │   │   │   └── zsh
 │   │   │       ├── compdef
 │   │   │       │   ├── 101
@@ -941,5 +942,5 @@
 └── zzz_deprecated
     └── xab
 
-194 directories, 747 files
+194 directories, 748 files
 ```

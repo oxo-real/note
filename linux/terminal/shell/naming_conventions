@@ -1,0 +1,14 @@
+variables with underscores
+
+filenames, commands (with their flags) and functions with dashes
+
+why?
+1. this way filenames, commands and functions are easier to type ('-' versus '_',which needs a shift)
+2. distinguish variables from filenames, commands and functions
+
+i.e.
+
+function-example()
+{
+    variable_one=1
+}
