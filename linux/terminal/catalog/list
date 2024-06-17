@@ -424,6 +424,7 @@ sh   read -r script_name; printf '%s%s' "$(figlet "$script_name")" "$(figlet -f 
 sh   realpath $dir_in_home | sed "s|$HOME||"  ## remove $HOME from $dir_in_home
 sh   realpath file  ## return canonicalized absolute pathname
 sh   reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 -l 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
+sh   rename --all ' ' _ *  ## replace filename spaces with underscores
 sh   rename 'part' 'name' filepart  ## replace 'part' with 'name' in filepart (filepart -> filename)
 sh   renice -19 $(pgrep $process_name)  ## give $process_name highest (-19) priority
 sh   reset  ## clear + reset internal terminal state + 1sec delay
