@@ -635,7 +635,7 @@ sway bindsym $mod+7		    workspace $ws7
 sway bindsym $mod+8		    workspace $ws8
 sway bindsym $mod+9		    workspace $ws9
 sway #bindsym $mod+a			focus parent  ## default
-sway bindsym $mod+backslash		layout toggle split; exec $csc/layout_ntfy_send
+sway bindsym $mod+backslash		layout toggle split; exec $csc/layout-ntfy-send
 sway bindsym $mod+b			bar mode toggle
 sway # # bindsym $mod+b		exec killall -SIGUSR1 waybar
 sway #bindsym $mod+bracketleft	workspace prev
@@ -678,15 +678,15 @@ sway #bindsym $mod+Mod1+$down        floating enable; $smt S
 sway #bindsym $mod+Mod1+$left	floating enable; $smt W
 sway #bindsym $mod+Mod1+$right	floating enable; $smt E
 sway #bindsym $mod+Mod1+$up          floating enable; $smt N
-sway bindsym $mod+Mod1+0		floating enable; $smt Z; exec sh $csc/float_min
-sway bindsym $mod+Mod1+1		floating enable; exec sh $csc/float_divide 1
-sway bindsym $mod+Mod1+2		floating enable; exec sh $csc/float_divide 2
-sway bindsym $mod+Mod1+3		floating enable; exec sh $csc/float_divide 3
-sway bindsym $mod+Mod1+4		floating enable; exec sh $csc/float_divide 4
+sway bindsym $mod+Mod1+0		floating enable; $smt Z; exec sh $csc/float-min
+sway bindsym $mod+Mod1+1		floating enable; exec sh $csc/float-divide 1
+sway bindsym $mod+Mod1+2		floating enable; exec sh $csc/float-divide 2
+sway bindsym $mod+Mod1+3		floating enable; exec sh $csc/float-divide 3
+sway bindsym $mod+Mod1+4		floating enable; exec sh $csc/float-divide 4
 sway #bindsym $mod+Mod1+5		floating enable; $smt Z
-sway bindsym $mod+Mod1+7		floating enable; exec sh $csc/float_v_fill
-sway bindsym $mod+Mod1+8		floating enable; exec sh $csc/float_h_fill
-sway bindsym $mod+Mod1+9		floating enable; $smt Z; exec sh $csc/float_max
+sway bindsym $mod+Mod1+7		floating enable; exec sh $csc/float-v-fill
+sway bindsym $mod+Mod1+8		floating enable; exec sh $csc/float-h-fill
+sway bindsym $mod+Mod1+9		floating enable; $smt Z; exec sh $csc/float-max
 sway bindsym $mod+Mod1+c		exec grim -g "$(slurp -p)" -t ppm - | \
 sway bindsym $mod+Mod1+Comma		floating enable; $smt S
 sway bindsym $mod+Mod1+i          	floating enable; $smt N
@@ -698,15 +698,15 @@ sway bindsym $mod+Mod1+o		floating enable; $smt NE
 sway bindsym $mod+Mod1+Period	floating enable; $smt SE
 sway bindsym $mod+Mod1+p		exec grim \
 sway bindsym $mod+Mod1+q		kill
-sway bindsym $mod+Mod1+Return	exec --no-startup-id $csc/term_spawn $HOME float &
+sway bindsym $mod+Mod1+Return	exec --no-startup-id $csc/term-spawn $HOME float &
 sway bindsym $mod+Mod1+semicolon 	floating toggle
-sway bindsym $mod+Mod1+Shift+Return	exec --no-startup-id $csc/term_spawn pwd float &
+sway bindsym $mod+Mod1+Shift+Return	exec --no-startup-id $csc/term-spawn pwd float &
 sway bindsym $mod+Mod1+u		floating enable; $smt NW
 sway bindsym $mod+o			workspace prev
 sway bindsym $mod+Period		workspace next
 sway bindsym $mod+p			exec grim -o $(swaymsg -t get_outputs \
 sway #bindsym $mod+p			focus parent  ## replaced by screen capture
-sway bindsym $mod+Return		exec --no-startup-id $csc/term_spawn &
+sway bindsym $mod+Return		exec --no-startup-id $csc/term-spawn &
 sway bindsym $mod+semicolon		focus mode_toggle
 sway bindsym $mod+Shift+$da		$smt down $move_major_step px or $move_major_step ppt
 sway bindsym $mod+Shift+$di		$smt down $move_minor_step px or $move_minor_step ppt
@@ -730,13 +730,13 @@ sway bindsym $mod+Shift+6	    move container to workspace $ws6
 sway bindsym $mod+Shift+7	    move container to workspace $ws7
 sway bindsym $mod+Shift+8	    move container to workspace $ws8
 sway bindsym $mod+Shift+9	    move container to workspace $ws9
-sway bindsym $mod+Shift+backslash	layout toggle splith splitv stacking tabbed; exec $csc/layout_ntfy_send
+sway bindsym $mod+Shift+backslash	layout toggle splith splitv stacking tabbed; exec $csc/layout-ntfy-send
 sway bindsym $mod+Shift+b	border toggle
 sway bindsym $mod+Shift+c		reload
 sway bindsym $mod+Shift+Equal    move container to workspace $ws=
 sway bindsym $mod+Shift+Minus    move container to workspace $ws-
 sway bindsym $mod+Shift+q		kill
-sway bindsym $mod+Shift+Return	exec --no-startup-id $csc/term_spawn pwd &
+sway bindsym $mod+Shift+Return	exec --no-startup-id $csc/term-spawn pwd &
 sway #bindsym $mod+Shift+s		exec $XDG_CONFIG_HOME/sway/code/screen_onf
 sway #bindsym $mod+Shift+Slash	exec $csc/dimr screen_off
 sway bindsym $mod+Shift+slash	move scratchpad
@@ -766,7 +766,7 @@ sway bindsym Shift+Control+Mod1+n	exec vtxt begin nl
 sway bindsym Shift+Control+Mod1+r	exec vtxt end
 sway bindsym Shift+Control+Mod1+s	exec vtxt begin sv
 sway bindsym Shift+Control+Mod1+v 	exec --no-startup-id $term --class="term_float_inv" \
-sway bindsym Shift+Control+Mod1+x	exec mic_switch toggle Webcam C310
+sway bindsym Shift+Control+Mod1+x	exec mic-switch toggle Webcam C310
 sway #bindsym Shift+Control+y	wl-copy -o -n && exec notify-send 'secure copy is in DEV'
 sway #bindsym XF86AudioLowerVolume	exec amixer sset Master 2%-
 sway bindsym XF86AudioLowerVolume 	exec wpctl set-volume	@DEFAULT_SINK@ 5%-

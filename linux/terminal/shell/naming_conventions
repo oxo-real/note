@@ -1,6 +1,8 @@
 variables with underscores
 
-filenames, commands (with their flags) and functions with dashes
+filenames and commands (with their flags) and functions with dashes
+
+WARNING function are only allowed to have alnum and underscores
 
 why?
 1. this way filenames, commands and functions are easier to type ('-' versus '_',which needs a shift)
