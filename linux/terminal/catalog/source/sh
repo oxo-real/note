@@ -425,6 +425,7 @@ set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset va
 setfont ter-v32n  ## set console font
 setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
 showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
+sha512sum * > sha512sums  ##  update sha512 hashlist for all items in current directory
 shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 100 and show first (pseudorandom number generator)
 min=0; max=9999; columns=8; digits=4; i=1; shuf -i $min-$max | while read number; do [[ $(( i % $columns )) -eq 0 ]] && printf "%0${digits}d\n" $number || printf "%0${digits}d  " $number; i=$(( $i + 1 )); done  ## otp random secret key from $digit
