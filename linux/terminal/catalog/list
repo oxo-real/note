@@ -466,7 +466,8 @@ sh   setfont ter-v32n  ## set console font
 sh   set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 sh   setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
 sh   setterm -reset  ## same as tput reset, setterm has more user friendly commands
-sh   sha512sum * > sha512sums  ##  update sha512 hashlist for all items in current directory
+sh   sha512sum --check --quiet sha512sums  ## read checksums from sha512sums and check them
+sh   sha512sum * > sha512sums  ##  compute sha512 checksums in current directory
 sh   showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 sh   shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 sh   shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 100 and show first (pseudorandom number generator)
