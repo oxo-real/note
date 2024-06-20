@@ -171,10 +171,10 @@
 │   │   └── genotp
 │   │       ├── create_totp_secret_file
 │   │       └── genotp.sh
-│   ├── dance.chacha20
 │   ├── entropy
 │   ├── genpw
 │   │   ├── prng
+│   │   ├── pwgn_policy.org
 │   │   └── pwgn.process
 │   ├── gpg
 │   │   ├── gnupg_set_permissions
@@ -199,9 +199,6 @@
 │   │   ├── ascii95_ps.key
 │   │   └── ct_01.txt
 │   ├── password_entry
-│   ├── pwgn_policy
-│   ├── pwgn_policy_new.org
-│   ├── pwgn_policy.sig
 │   ├── ssh
 │   │   ├── ssh_note
 │   │   └── ssh_set_permissions
@@ -943,5 +940,5 @@
 └── zzz_deprecated
     └── xab
 
-194 directories, 749 files
+194 directories, 746 files
 ```

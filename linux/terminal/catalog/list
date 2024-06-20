@@ -1,10 +1,11 @@
-atty "Control" "B" "yank_buffer | fzf_word \r" 
+atty "Control" "B" "yank-buffer | fzf-word \r" 
 atty "Control" "Escape" "ToggleViMode" 
 atty "Control" "Key8" "alacritty msg config font.size=11; sleep 0.1; clear \r" 
 atty "Control" "Key9" "alacritty msg config font.size=18; sleep 0.1; clear \r" 
-atty "Shift|Control" "B" "yank_buffer all | fzf_word \r" 
+atty "Shift|Control" "B" "yank-buffer all | fzf-word \r" 
 emcs :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
-lisp (set-face-attribute 'default nil :height 180)  ## ' emacs set font size 18pt (for screencasting)
+lisp (set-face-attribute 'default nil :height 110)  ## Vl; M-x eval-region >> emacs set default font size 11pt (for screencasting)
+lisp (set-face-attribute 'default nil :height 180)  ## Vl; M-x eval-region >> emacs set font size 18pt (for screencasting)
 sh   < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
 sh   < $file  ## less $file (via READNULLCMD)
 sh   [ "$var" ]  ## alias for: 'test "$var"
@@ -326,7 +327,7 @@ sh   mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
 sh   mpv $(echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\//')  ## change yt url
 sh   mpv --audio-display=no $file.mp3  ## play mp3 without albumart
 sh   mpv /dev/video4  ## livestream local webcam
-sh   mpv --start=+00:00 --ytdl-format='best[filesize<300M]' --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --http-header-fields="User-Agent: $(head -n 1 $USER_AGENT)" $(wl-paste)  ## stream movie verbose with mpv.conf cache_s profile
+sh   mpv --start=+00:00 --ytdl-raw-options=format-sort=res:480 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT $(wl-paste)  ## stream verbose with user-agent, best res under 480p and mpv.conf cache_xs profile
 sh   mv -t $target_dir $source_dirs  ## move source_dirs to target_dir
 sh   neofetch --ascii_distro arch_small --gtk3 off --gtk2 off --colors 3 3 3 7 3 4 --separator '     \t'  ## neat system info
 sh   nerd-dictation begin --config $config_file --simulate-input-tool STDOUT --numbers-min-value 10 --numbers-as-digits --numbers-no-suffix --vosk-model-dir $model_dir  ## speech-to-text

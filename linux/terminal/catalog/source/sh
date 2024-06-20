@@ -302,7 +302,7 @@ mount | grep ro,  ## find all ro mountpoints
 mount | sort -k 1 | column -t  ## sort mount by device name
 mount | sort -k 3 | column -t  ## sort mount by mountpoint
 export PWGN_OFF=1; mountr  ## disable oxo pwgn
-mpv --start=+00:00 --ytdl-format='best[filesize<300M]' --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --http-header-fields="User-Agent: $(head -n 1 $USER_AGENT)" $(wl-paste)  ## stream movie verbose with mpv.conf cache_s profile
+mpv --start=+00:00 --ytdl-raw-options=format-sort=res:480 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT $(wl-paste)  ## stream verbose with user-agent, best res under 480p and mpv.conf cache_xs profile
 mpv $(echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\//')  ## change yt url
 mpv --audio-display=no $file.mp3  ## play mp3 without albumart
 mpv /dev/video4  ## livestream local webcam
@@ -377,7 +377,7 @@ read -er input  ## zz1; variable is not assigned
 read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o  ## input base64 translation without EOL
 read -er input | base64 | wl-copy -n -o  ## input base64 translation
 read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'  ## secure sha3-512 hash from stdin (verify pwgn)
-read -er input | base64 | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf; gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
+read -er input | base64 | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf && gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
 read -r script_name; printf '%s%s' "$(figlet "$script_name")" "$(figlet -f mini "$USER")" | wl-copy  ## script header
 readlink $symlink  ## print resolved symbolic links or canonical file names
 readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonicalized symlink to current users $HOME (NOTICE realpath is preferred)
