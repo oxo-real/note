@@ -412,7 +412,7 @@ sh   qbns -s content.canvas_reading true -s content.webgl true -s colors.webpage
 sh   qrencode -t utf8  ## create qr from stdin
 sh   qutebrowser -s content.canvas_reading true  ## qb for windy
 sh   rankmirrors -n 10 /etc/pacman.d/mirrorlist | grep -w 'Server =' >> mirrorlist.ranked  ## update mirrorlist
-sh   read -er input | base64 | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf; gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
+sh   read -er input | base64 | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf && gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
 sh   read -er input | base64 | wl-copy -n -o  ## input base64 translation
 sh   read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'  ## secure sha3-512 hash from stdin (verify pwgn)
 sh   read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o  ## input base64 translation without EOL
@@ -421,7 +421,6 @@ sh   read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## genera
 sh   readlink $symlink  ## print resolved symbolic links or canonical file names
 sh   readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonicalized symlink to current users $HOME (NOTICE realpath is preferred)
 sh   read -r input  ## zz1; variable is assigned
-sh   read -r script_name; printf '%s%s' "$(figlet "$script_name")" "$(figlet -f mini "$USER")" | wl-copy  ## script header
 sh   realpath $dir_in_home | sed "s|$HOME||"  ## remove $HOME from $dir_in_home
 sh   realpath file  ## return canonicalized absolute pathname
 sh   reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 -l 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
