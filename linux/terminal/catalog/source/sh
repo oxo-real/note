@@ -26,6 +26,7 @@ awk 'NF{NF-=1};1'  ## remove last column
 awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
 awk 'NR==1{prev=$1;print $2} NR>1 && prev!=$1{prev=$1;print $2} END{if(NR>1)print $2}'  ## print col2 every time col1 value changes
 basename $filepath  ## print filename without any leading directory components
+bash -c 'echo $SRANDOM'  ## 32bit pseudo random number
 bind '"\e[0n": "$string"'; printf '\e[5n'  ## inject $string to bash stdin
 bindkey  ## zsh bound keys
 blkid /dev/sda128 | awk '{print $3}' | cut -d '"' -f 2  ## get uuid from /dev/sd
@@ -317,8 +318,11 @@ notmuch search $(wl-paste) date:year | fzf | awk '{print $1}' | wl-copy  ## 2. l
 notmuch show $(wl-paste)  ## 3. show specific thread content
 notmuch address --output=count --deduplicate=address date:year '*' | sort --numeric-sort --reverse | fzf | wl-copy  ## last years email addresses, most to least active
 nslookup server.com  ## get server ip address
-openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## openssl base64 encoded aes 256 bits galois counter mode decryption
-openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## openssl base64 encoded aes 256 bits galois counter mode encryption
+od --od --output-duplicates --address-radix=n --read-bytes 8 --format u4 < /dev/random  ## get 8 bytes from /dev/random and present them in (2) 4 byte decimal numbers
+od --output-duplicates --address-radix=n --read-bytes 32 --format u < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## unsigned number from 32 bytes of /dev/random
+od --output-duplicates --address-radix=n --read-bytes 32 --format a < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## ascii string from 32 bytes of /dev/random
+openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## decryption openssl base64 encoded aes 256 bits galois counter mode
+openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## encryption openssl base64 encoded aes 256 bits galois counter mode
 openssl s_client -connect grc.com:443 -showcerts < /dev/null | openssl x509 -outform pem > cert.pem  ## write x509 public key certificate from grc.com:443 as pem to file cert.pem
 openssl s_client -connect $(wl-paste -n):443 -showcerts < /dev/null | openssl x509 -noout -text ## print x509 public key certificate as text to stdout
 openssl s_client -connect $server_ip:443 -servername $server_name -showcerts  ## print x509 public key certificate from $(wl-paste -n):443 as text to stdout with server name indication (SNI) in the clienthello message (if a reverse proxy ip serves multiple webservers)

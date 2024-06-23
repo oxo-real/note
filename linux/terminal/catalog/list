@@ -30,6 +30,7 @@ sh   awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first hea
 sh   awk 'NR==1{prev=$1;print $2} NR>1 && prev!=$1{prev=$1;print $2} END{if(NR>1)print $2}'  ## print col2 every time col1 value changes
 sh   bas64=$(printf '%s' "$ASCII" | cut --zero-terminated --characters 34-59,66-91,17-26; printf '+/\n')  ## 64 base64 characters from $ASCII
 sh   basename $filepath  ## print filename without any leading directory components
+sh   bash -c 'echo $SRANDOM'  ## 32bit pseudo random number
 sh   bind '"\e[0n": "$string"'; printf '\e[5n'  ## inject $string to bash stdin
 sh   bindkey  ## zsh bound keys
 sh   blkid /dev/sda128 | awk '{print $3}' | cut -d '"' -f 2  ## get uuid from /dev/sd
@@ -345,8 +346,11 @@ sh   notmuch search $(wl-paste) date:year | fzf | awk '{print $1}' | wl-copy  ##
 sh   notmuch show $(wl-paste)  ## 3. show specific thread content
 sh   nslookup server.com  ## get server ip address
 sh   number=$(printf '%s' "$ASCII" | cut --characters 17-26)  ## 10 number characters from $ASCII
-sh   openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## openssl base64 encoded aes 256 bits galois counter mode decryption
-sh   openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## openssl base64 encoded aes 256 bits galois counter mode encryption
+sh   od --od --output-duplicates --address-radix=n --read-bytes 8 --format u4 < /dev/random  ## get 8 bytes from /dev/random and present them in (2) 4 byte decimal numbers
+sh   od --output-duplicates --address-radix=n --read-bytes 32 --format a < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## ascii string from 32 bytes of /dev/random
+sh   od --output-duplicates --address-radix=n --read-bytes 32 --format u < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## unsigned number from 32 bytes of /dev/random
+sh   openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## decryption openssl base64 encoded aes 256 bits galois counter mode
+sh   openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## encryption openssl base64 encoded aes 256 bits galois counter mode
 sh   openssl s_client -connect $server_ip:443 -servername $server_name -showcerts  ## print x509 public key certificate from $(wl-paste -n):443 as text to stdout with server name indication (SNI) in the clienthello message (if a reverse proxy ip serves multiple webservers)
 sh   openssl s_client -connect $(wl-paste -n):443 -showcerts < /dev/null | openssl x509 -noout -text ## print x509 public key certificate as text to stdout
 sh   openssl s_client -connect grc.com:443 -showcerts < /dev/null | openssl x509 -outform pem > cert.pem  ## write x509 public key certificate from grc.com:443 as pem to file cert.pem
