@@ -139,7 +139,7 @@ faillock --user $USER --reset  ## remove sudo lockout for current user
 fc -e $editor  ## edit last command in $editor
 fc -l -n -1  ## last command entered
 fc -l -d -t %Y%m%d_%H%M%S -D 1  ## list events from history list ($HISTFILE) with duration and timestamp from event 1
-fc -l -d -t %Y%m%d_%H%M%S -D 1 | sort --unique --key 4 | sort --numeric-sort --key 1,2 | tac | fzf  ## fzf history search
+fc -l -d -t %Y%m%d_%H%M%S -D 1 | sort --reverse --numeric-sort --key 1 | sort --unique --key 4 | sort --numeric-sort --key 1 | fzf  ## fzf history search
 fc-list  ## list available fonts (fontconfig)
 fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search wl-paste file path and wl-paste (quick file search)
 ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
@@ -615,7 +615,7 @@ while [[ $i -gt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure 
 until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure downcount
 while true do; echo; done  ## infinite loop
 break  ## exit from an enclosing loop
-continue  ## resume next iteration if enclosing loop
+continue  ## resume next iteration of enclosing loop
 reset  ## clear + reset internal terminal state + 1sec delay
 tput reset  ## same as reset but without 1sec delay
 stty sane  ## don't clear screen but reset some terminal options
