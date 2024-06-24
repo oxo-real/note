@@ -1,0 +1,15 @@
+# program.sh
+echo oxo is the best | wl-copy; read test
+
+# find string in sh program.sh
+
+## get pid of program.sh
+% ps -eFly | grep -e UID -e program.bash
+pid=3186227
+
+## find pid heap memory start address
+% heap_start_0x=$(cat /proc/$pid/maps | grep '\[heap\]' | awk -F '-' '{print $1}')
+% heap_start_0d=$((16#$heap_start_0x))
+
+## search 1024 bytes from heap memory start address
+% sudo dd if="/proc/$pid/mem" bs=1 skip="$heap_start_0d" count=1024 status=none | xxd -groupsize 1

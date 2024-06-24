@@ -1,12 +1,14 @@
 atty "Control" "B" "yank-buffer | fzf-word \r" 
 atty "Control" "Escape" "ToggleViMode" 
 atty "Control" "Key8" "alacritty msg config font.size=11; sleep 0.1; clear \r" 
-atty "Control" "Key9" "alacritty msg config font.size=18; sleep 0.1; clear \r" 
+atty "Control" "Key9" "alacritty msg config font.size=20 sleep 0.1; clear \r" 
 atty "Shift|Control" "B" "yank-buffer all | fzf-word \r" 
 emcs :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
 lisp (set-face-attribute 'default nil :height 110)  ## Vl; M-x eval-region >> emacs set default font size 11pt (for screencasting)
 lisp (set-face-attribute 'default nil :height 180)  ## Vl; M-x eval-region >> emacs set font size 18pt (for screencasting)
 sh   < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
+sh   $(command)  ## command substitution; gets the result of command
+sh   $(( expression ))  ## arithmetic expansion; gets the result of expression
 sh   < $file  ## less $file (via READNULLCMD)
 sh   [ "$var" ]  ## alias for: 'test "$var"
 sh   [[ $var ]]  ## extended version of [ operator; with additional string, assignment and arithmetic operations and improved functionality, readability and performance
@@ -38,7 +40,7 @@ sh   bluetoothctl connect $(bluetoothctl devices | fzf | awk '{print $2}') && bl
 sh   bluetoothctl disconnect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth disconnect
 sh   bluetoothctl discoverable off	## bluetooth not broadcast radio device
 sh   bluetoothctl power off && sudo systemctl stop bluetooth.service && sudo rfkill block bluetooth  ## bluetooth radio off
-sh   break  ## current loop exit
+sh   break  ## exit from an enclosing loop
 sh   brightnessctl set 50%  ## set brightness to 50% of the maximum
 sh   cal -m -w 12 2022  ## calendar for december 2022
 sh   cal -m -w -3 $(date -I)  ## calendar showing last, current and next month, week start on mondays, with weeknumbers
@@ -76,7 +78,7 @@ sh   chown user: file  ## set user ownership
 sh   clear  ## shift current line to top of screen
 sh   cmp $lf $rf  ## byte compare files, boolean output
 sh   command $command  ## run native $command, no alias or function, \command
-sh   continue  ## current loop next item
+sh   continue  ## resume next iteration if enclosing loop
 sh   cp -prv --attributes-only  ## copy no content, but only mode, ownership and timestamps, verbose
 sh   cp -pv  ## copy and preserve mode, ownership and timestamps, verbose
 sh   cryptsetup --cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 key-file=/dev/sdZ open --type=plain /dev/sdX lvm
@@ -158,9 +160,11 @@ sh   eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concate
 sh   export PWGN_OFF=1; mountr  ## disable oxo pwgn
 sh   faillock --user $USER --reset  ## remove sudo lockout for current user
 sh   fallocate -l 5M file  ## create file 5M size
-sh   fc  ## edit last command in
+sh   fc -e $editor  ## edit last command in $editor
+sh   fc -l -d -t %Y%m%d_%H%M%S -D 1  ## list events from history list ($HISTFILE) with duration and timestamp from event 1
+sh   fc -l -d -t %Y%m%d_%H%M%S -D 1 | sort --unique --key 4 | sort --numeric-sort --key 1,2 | tac | fzf  ## fzf history search
 sh   fc-list  ## list available fonts (fontconfig)
-sh   fc -l -n -1  ## last command entered, hide line number
+sh   fc -l -n -1  ## last command entered
 sh   fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search wl-paste file path and wl-paste (quick file search)
 sh   ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
 sh   fg %n  ## jobs item n to foreground
@@ -237,7 +241,8 @@ sh   grep "\sro[\s,]" /proc/mounts  ## show read only mountpoints
 sh   gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
 sh   gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
 sh   head -n -3 $file  ## show all but 3 last lines (hide last three lines from $file)
-sh   history | tail -n 1 | tr -s ' ' | cut -d ' ' -f 3-  ## last command from history (removing counter)
+sh   history  ## same as fc -l
+sh   history | tail -n 1 | tr -s ' ' | cut -d ' ' -f 3-  ## last command from history (removing history_id)
 sh   history -t %Y%m%d_%H%M%S -d -D $history_id  ## command history from $history_id (id time-start -elapsed cmd)
 sh   history -t %Y%m%d_%H%M%S -d -D -3  ## last 3 commands from history (id time-start -elapsed cmd)
 sh   host -t A $ip_addr_domain  ## dns lookup A record
@@ -290,8 +295,12 @@ sh   jq '.data[0] | .ua' api.json  ## get ua in the first [0] data item of api.j
 sh   key=$ASCII; l=$(wc -c <<< "$key"); for (( r=0; r<$l-1; r++ )); do echo ${key:$r:$l}${key::$r}; done  ## otp conversion table from $ASCII
 sh   key=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 sh   kill $(pidof $process_name)  ## terminate pid of process
-sh   kill -l  ## list of signal names (/usr/include/linux/signal.h) that can be send to process
+sh   kill -l  ## list signal names (/usr/include/linux/signal.h) that can be send to jobs or processes
 sh   kill -STOP %n  ## stop background process jobs item number n
+sh   let arg  ## evaluate arg as an arithmatic expression
+sh   limit  ## print all resource limits
+sh   >(list)  ## process substitution; process list is run async and the file passed as an argument should be read to obtain the output of list
+sh   <(list)  ## process substitution; process list is run async and writing to the file will provide input for list
 sh   ln -s $HOME/dock/vlt/pass $HOME/.password-store  ## pass vault symlink
 sh   ln -s $target $link_name  ## create symlink $link_name to $target
 sh   ln -s -f $target $link_name  ## replace symlink $link_name to $target
@@ -346,9 +355,9 @@ sh   notmuch search $(wl-paste) date:year | fzf | awk '{print $1}' | wl-copy  ##
 sh   notmuch show $(wl-paste)  ## 3. show specific thread content
 sh   nslookup server.com  ## get server ip address
 sh   number=$(printf '%s' "$ASCII" | cut --characters 17-26)  ## 10 number characters from $ASCII
-sh   od --od --output-duplicates --address-radix=n --read-bytes 8 --format u4 < /dev/random  ## get 8 bytes from /dev/random and present them in (2) 4 byte decimal numbers
-sh   od --output-duplicates --address-radix=n --read-bytes 32 --format a < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## ascii string from 32 bytes of /dev/random
-sh   od --output-duplicates --address-radix=n --read-bytes 32 --format u < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## unsigned number from 32 bytes of /dev/random
+sh   od --output-duplicates --address-radix=n --read-bytes 32 --format a < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interprept as ascii
+sh   od --output-duplicates --address-radix=n --read-bytes 32 --format u < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interpret as unsigned decimal (x hex, d sign dec)
+sh   od --output-duplicates --address-radix=n --read-bytes 8 --format u4 < /dev/random  ## 8 random bytes interpret as (2) 4 byte decimal
 sh   openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## decryption openssl base64 encoded aes 256 bits galois counter mode
 sh   openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## encryption openssl base64 encoded aes 256 bits galois counter mode
 sh   openssl s_client -connect $server_ip:443 -servername $server_name -showcerts  ## print x509 public key certificate from $(wl-paste -n):443 as text to stdout with server name indication (SNI) in the clienthello message (if a reverse proxy ip serves multiple webservers)
@@ -436,8 +445,8 @@ sh   reset && zsh  ## reinitialize terminal state and z-shel
 sh   return $code  ## exit function with optional $code or failure
 sh   rev $file  ## reverse line characters
 sh   rfkill list  ## check hard and soft block status wireless radios
+sh   rfkill [un]block all  ## soft [un]block all radios
 sh   rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
-sh   rfkill [un]block wlan  ## soft [un]block wifi radio
 sh   rmmod $module  ## remove $module from linux kernel
 sh   rm -rf -- '-r'  ## remove entire directory starting with a '-'
 sh   rsync -aAXv --delete --info=progress2,stats --progress $source/ $destination  ## basic oxo rsync
@@ -472,6 +481,8 @@ sh   setopt interactive_comments  ## threat string after '#' as comment (unsetop
 sh   setterm -reset  ## same as tput reset, setterm has more user friendly commands
 sh   sha512sum --check --quiet sha512sums  ## read checksums from sha512sums and check them
 sh   sha512sum * > sha512sums  ##  compute sha512 checksums in current directory
+sh   shopt -s $option  ## set (enable) shell option
+sh   shopt -u $option  ## unset (disable) shell option
 sh   showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 sh   shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 sh   shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 100 and show first (pseudorandom number generator)
@@ -481,6 +492,7 @@ sh   sort < $file | sort -nr > $file_sort_freq  ## reverse numerical sort
 sh   sort $file | uniq -c | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
 sh   sort < $file | uniq -u > $file_uniq  ## unique lines
 sh   sort $HISTFILE | uniq -c | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
+sh   sort -k2,2nr  ## numeric reversed sort only on column 2, not to eol
 sh   source $function_text_appearance; printf "$(FHX ffbf00)$(BHX 0040ff)%s${NOC}\n" "$text"  ## hexadecimal 24 bit color codes in printf (fore- & background)
 sh   split $file -b N  ## split $file into files with N bytes
 sh   split $file -l N  ## split $file into files with N lines
@@ -803,11 +815,11 @@ zsh  bindkey "^e" insert-epoch
 zsh  bindkey escape sequence: C-v $key (C-v ESC -> ^[)
 zsh  bindkey "^f" fzf-ins-home
 zsh  bindkey "^g" fzf-ins-root
-zsh  bindkey "^h" last-dir
+zsh  bindkey "^h" cd-hist
 zsh  bindkey "^@" insert-date-time
-zsh  bindkey "^j" lfcd
+zsh  bindkey "^j" fzf-ins-pwd
 zsh  bindkey "^k" up-dir
-zsh  bindkey "^l" fzf-ins-pwd
+zsh  bindkey "^l" lfcd
 zsh  # bindkey -l (zsh keymaps)
 zsh  # bindkey -M <keymap>
 zsh  bindkey -M vicmd 'cc'  ## change current line (clear > viins)

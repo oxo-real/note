@@ -136,8 +136,10 @@ printenv  ## print values of environment variables
 espeak -s 80 -p 70 -v mb-us1 'hello'  ## espeak hello speed 80% pitch 70% voice us1
 eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concatenate arguments, add ssh_key
 faillock --user $USER --reset  ## remove sudo lockout for current user
-fc  ## edit last command in
-fc -l -n -1  ## last command entered, hide line number
+fc -e $editor  ## edit last command in $editor
+fc -l -n -1  ## last command entered
+fc -l -d -t %Y%m%d_%H%M%S -D 1  ## list events from history list ($HISTFILE) with duration and timestamp from event 1
+fc -l -d -t %Y%m%d_%H%M%S -D 1 | sort --unique --key 4 | sort --numeric-sort --key 1,2 | tac | fzf  ## fzf history search
 fc-list  ## list available fonts (fontconfig)
 fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search wl-paste file path and wl-paste (quick file search)
 ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
@@ -215,9 +217,10 @@ grep bindkey $XDG_CONFIG_HOME/zsh/.zshrc  ## zsh keybinding related lines
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
 head -n -3 $file  ## show all but 3 last lines (hide last three lines from $file)
+history  ## same as fc -l
 history -t %Y%m%d_%H%M%S -d -D $history_id  ## command history from $history_id (id time-start -elapsed cmd)
 history -t %Y%m%d_%H%M%S -d -D -3  ## last 3 commands from history (id time-start -elapsed cmd)
-history | tail -n 1 | tr -s ' ' | cut -d ' ' -f 3-  ## last command from history (removing counter)
+history | tail -n 1 | tr -s ' ' | cut -d ' ' -f 3-  ## last command from history (removing history_id)
 key=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 host -t A $ip_addr_domain  ## dns lookup A record
 host -v -t ANY $ip_addr_domain  ## dns lookup any type verbose output
@@ -263,9 +266,11 @@ journalctl --priority 3 --catalog  ## emerg0, alert1, crit2, err3, warning4, not
 journalctl --unit $unit_pttrn  ## messages for unit [-pattern]
 journalctl _<TAB>  ## search matches starting with '_'
 jq '.data[0] | .ua' api.json  ## get ua in the first [0] data item of api.json
-kill -l  ## list of signal names (/usr/include/linux/signal.h) that can be send to process
+kill -l  ## list signal names (/usr/include/linux/signal.h) that can be send to jobs or processes
 kill -STOP %n  ## stop background process jobs item number n
 kill $(pidof $process_name)  ## terminate pid of process
+let arg  ## evaluate arg as an arithmatic expression
+limit  ## print all resource limits
 ln -s $HOME/dock/vlt/pass $HOME/.password-store  ## pass vault symlink
 ln -s $target $link_name  ## create symlink $link_name to $target
 ln -s -f $target $link_name  ## replace symlink $link_name to $target
@@ -318,9 +323,9 @@ notmuch search $(wl-paste) date:year | fzf | awk '{print $1}' | wl-copy  ## 2. l
 notmuch show $(wl-paste)  ## 3. show specific thread content
 notmuch address --output=count --deduplicate=address date:year '*' | sort --numeric-sort --reverse | fzf | wl-copy  ## last years email addresses, most to least active
 nslookup server.com  ## get server ip address
-od --od --output-duplicates --address-radix=n --read-bytes 8 --format u4 < /dev/random  ## get 8 bytes from /dev/random and present them in (2) 4 byte decimal numbers
-od --output-duplicates --address-radix=n --read-bytes 32 --format u < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## unsigned number from 32 bytes of /dev/random
-od --output-duplicates --address-radix=n --read-bytes 32 --format a < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## ascii string from 32 bytes of /dev/random
+od --output-duplicates --address-radix=n --read-bytes 8 --format u4 < /dev/random  ## 8 random bytes interpret as (2) 4 byte decimal
+od --output-duplicates --address-radix=n --read-bytes 32 --format u < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interpret as unsigned decimal (x hex, d sign dec)
+od --output-duplicates --address-radix=n --read-bytes 32 --format a < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interprept as ascii
 openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## decryption openssl base64 encoded aes 256 bits galois counter mode
 openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## encryption openssl base64 encoded aes 256 bits galois counter mode
 openssl s_client -connect grc.com:443 -showcerts < /dev/null | openssl x509 -outform pem > cert.pem  ## write x509 public key certificate from grc.com:443 as pem to file cert.pem
@@ -395,7 +400,7 @@ return $code  ## exit function with optional $code or failure
 rev $file  ## reverse line characters
 rfkill list  ## check hard and soft block status wireless radios
 rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
-rfkill [un]block wlan  ## soft [un]block wifi radio
+rfkill [un]block all  ## soft [un]block all radios
 rm -rf -- '-r'  ## remove entire directory starting with a '-'
 rmmod $module  ## remove $module from linux kernel
 rsync --recursive $src $dst  ## create intervening directory $dst/$src; with all content of $src
@@ -428,6 +433,8 @@ set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset va
 setfont ter-v32n  ## set console font
 setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
 showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
+shopt -s $option  ## set (enable) shell option
+shopt -u $option  ## unset (disable) shell option
 sha512sum * > sha512sums  ##  compute sha512 checksums in current directory
 sha512sum --check --quiet sha512sums  ## read checksums from sha512sums and check them
 shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
@@ -439,6 +446,7 @@ simple-mtpfs --list-devices  ## list mountable mtp devices
 simple-mtpfs -o allow_other --device 1 $HOME/dock/mobile  ## mount mtp device 1
 echo 'string2sort' | grep -o . | sort | tr -d "\n"  ## sort chars in string
 sort $HISTFILE | uniq -c | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
+sort -k2,2nr  ## numeric reversed sort only on column 2, not to eol
 sort < $file | sort -nr > $file_sort_freq  ## reverse numerical sort
 sort < $file | uniq -u > $file_uniq  ## unique lines
 sort $file | uniq -c | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
@@ -606,8 +614,8 @@ until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure 
 while [[ $i -gt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure downcount
 until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure downcount
 while true do; echo; done  ## infinite loop
-break  ## current loop exit
-continue  ## current loop next item
+break  ## exit from an enclosing loop
+continue  ## resume next iteration if enclosing loop
 reset  ## clear + reset internal terminal state + 1sec delay
 tput reset  ## same as reset but without 1sec delay
 stty sane  ## don't clear screen but reset some terminal options
@@ -616,4 +624,8 @@ printf "\033c"  ## same as tput reset but hardcoded escape seq
 setterm -reset  ## same as tput reset, setterm has more user friendly commands
 print_entire_array() { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}" ; done }  ## print_entire_array arrayX
 echo general quotation rule  ## quote if $var can be empty (null) or contain whitespace or punct chartacters (wildcards)
+$(command)  ## command substitution; gets the result of command
+$(( expression ))  ## arithmetic expansion; gets the result of expression
+<(list)  ## process substitution; process list is run async and writing to the file will provide input for list
+>(list)  ## process substitution; process list is run async and the file passed as an argument should be read to obtain the output of list
 cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file (heredoc), strip leading tabs from mlt (-), EOF can be any unique limit string

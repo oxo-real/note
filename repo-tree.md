@@ -296,6 +296,7 @@
 │   │   └── coreutils.txt
 │   ├── lvm
 │   │   └── resize
+│   ├── read_mem
 │   ├── systemd
 │   │   ├── boot
 │   │   ├── journalctl
@@ -940,5 +941,5 @@
 └── zzz_deprecated
     └── xab
 
-194 directories, 746 files
+194 directories, 747 files
 ```
