@@ -806,31 +806,29 @@ sway bindsym XF86MonBrightnessUp	exec brightnessctl set 5%+
 sway bindsym XF86Search 		exec $menu
 sway # TODO bindsym Control+Shift+o	secure copy (wl-copy -o)
 vim  :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
-zsh  bindkey '^a' insert-appn
-zsh  #bindkey '^A' insert-pacmanqq
+zsh  bindkey '^A' git-add-commit             ## C-a
 zsh  bindkey '^[[A' up-line-or-beginning-search
 zsh  bindkey '^[[B' down-line-or-beginning-search
-zsh  bindkey '^e' insert-epoch
 zsh  bindkey escape sequence: C-v $key (C-v ESC -> ^[)
-zsh  bindkey '^f' fzf-ins-home
-zsh  bindkey '^g' fzf-ins-root
-zsh  bindkey '^@' insert-date-time
-zsh  bindkey '^j' fzf-ins-pwd
-zsh  bindkey '^k' up-dir
-zsh  bindkey '^l' lfcd
+zsh  bindkey '^f' fzf-ins-home               ## C-f
+zsh  bindkey '^g' fzf-ins-root               ## C-g
+zsh  bindkey '^@' insert-date-time           ## C-2
+zsh  bindkey '^[' insert-epoch               ## C-3
+zsh  bindkey '^j' insert-child-item          ## C-j
+zsh  bindkey '^k' up-dir                     ## C-k
+zsh  bindkey '^l' lfcd                       ## C-l
 zsh  # bindkey -l (zsh keymaps)
 zsh  # bindkey -M <keymap>
 zsh  bindkey -M vicmd '^[[3~' delete-char
 zsh  bindkey -M vicmd '^?' backward-delete-char
 zsh  bindkey -M vicmd 'cc'  ## change current line (clear > viins)
-zsh  bindkey -M vicmd '^h' cd-hist
-zsh  bindkey -M vicmd 'q' sh-x-toggle
-zsh  bindkey -M vicmd 's' sudo-toggle
+zsh  bindkey -M vicmd 'q' sh-x-toggle        ## [vicmd] q
+zsh  bindkey -M vicmd 's' sudo-toggle        ## [vicmd] s
 zsh  bindkey -M viins '^[[3~' delete-char
-zsh  bindkey -M viins '^h' prev-dir
-zsh  bindkey '^o' clear-screen
-zsh  bindkey '^p' ins-pwd
-zsh  bindkey '^q' git-add-commit
+zsh  bindkey -M viins '^h' dirstack-cd       ## C-h
+zsh  # bindkey  now to clipboard             ## C-`
+zsh  bindkey '^o' clear-screen               ## C-o
+zsh  bindkey '^p' ins-pwd                    ## C-p
 zsh  bindkey -v
 zsh  bindkey -v '^?' backward-delete-char
-zsh  bindkey '^Z' foreground
+zsh  bindkey '^Z' foreground                 ## C-z
