@@ -809,11 +809,11 @@ vim  :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy a
 zsh  bindkey '^A' git-add-commit             ## C-a
 zsh  bindkey '^[[A' up-line-or-beginning-search
 zsh  bindkey '^[[B' down-line-or-beginning-search
+zsh  bindkey '^E' insert-epoch               ## C-e
 zsh  bindkey escape sequence: C-v $key (C-v ESC -> ^[)
 zsh  bindkey '^f' fzf-ins-home               ## C-f
 zsh  bindkey '^g' fzf-ins-root               ## C-g
 zsh  bindkey '^@' insert-date-time           ## C-2
-zsh  bindkey '^[' insert-epoch               ## C-3
 zsh  bindkey '^j' insert-child-item          ## C-j
 zsh  bindkey '^k' up-dir                     ## C-k
 zsh  bindkey '^l' lfcd                       ## C-l
