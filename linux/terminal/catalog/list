@@ -78,7 +78,7 @@ sh   chown user: file  ## set user ownership
 sh   clear  ## shift current line to top of screen
 sh   cmp $lf $rf  ## byte compare files, boolean output
 sh   command $command  ## run native $command, no alias or function, \command
-sh   continue  ## resume next iteration if enclosing loop
+sh   continue  ## resume next iteration of enclosing loop
 sh   cp -prv --attributes-only  ## copy no content, but only mode, ownership and timestamps, verbose
 sh   cp -pv  ## copy and preserve mode, ownership and timestamps, verbose
 sh   cryptsetup --cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 key-file=/dev/sdZ open --type=plain /dev/sdX lvm
@@ -162,7 +162,7 @@ sh   faillock --user $USER --reset  ## remove sudo lockout for current user
 sh   fallocate -l 5M file  ## create file 5M size
 sh   fc -e $editor  ## edit last command in $editor
 sh   fc -l -d -t %Y%m%d_%H%M%S -D 1  ## list events from history list ($HISTFILE) with duration and timestamp from event 1
-sh   fc -l -d -t %Y%m%d_%H%M%S -D 1 | sort --unique --key 4 | sort --numeric-sort --key 1,2 | tac | fzf  ## fzf history search
+sh   fc -l -d -t %Y%m%d_%H%M%S -D 1 | sort --reverse --numeric-sort --key 1 | sort --unique --key 4 | sort --numeric-sort --key 1 | fzf  ## fzf history search
 sh   fc-list  ## list available fonts (fontconfig)
 sh   fc -l -n -1  ## last command entered
 sh   fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search wl-paste file path and wl-paste (quick file search)
@@ -442,7 +442,7 @@ sh   rename 'part' 'name' filepart  ## replace 'part' with 'name' in filepart (f
 sh   renice -19 $(pgrep $process_name)  ## give $process_name highest (-19) priority
 sh   reset  ## clear + reset internal terminal state + 1sec delay
 sh   reset && zsh  ## reinitialize terminal state and z-shel
-sh   return $code  ## exit function with optional $code or failure
+sh   return  ## return to the invoking script
 sh   rev $file  ## reverse line characters
 sh   rfkill list  ## check hard and soft block status wireless radios
 sh   rfkill [un]block all  ## soft [un]block all radios
@@ -477,12 +477,12 @@ sh   select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ##
 sh   set -euo pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 sh   setfont ter-v32n  ## set console font
 sh   set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
+sh   setopt $option  ## set (enable) shell option
 sh   setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
+sh   setopt  ## print set shell options
 sh   setterm -reset  ## same as tput reset, setterm has more user friendly commands
 sh   sha512sum --check --quiet sha512sums  ## read checksums from sha512sums and check them
 sh   sha512sum * > sha512sums  ##  compute sha512 checksums in current directory
-sh   shopt -s $option  ## set (enable) shell option
-sh   shopt -u $option  ## unset (disable) shell option
 sh   showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 sh   shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 sh   shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 100 and show first (pseudorandom number generator)
@@ -558,6 +558,7 @@ sh   ts=$(now); syncr $HOME/dock/transfer/x1c/home/oxo --delete --links --log-fi
 sh   type -a file or command  ## file or command interpretation; print all occurences in path
 sh   umount -l $mountpoint  ## umount busy targets (mountpoints)
 sh   unlink $link_name  ## remove $link_name (i.e. symlink)
+sh   unsetopt $option  ## unset (disable) shell option
 sh   unset varfun  ## unset value and attribute of variable or function varfun
 sh   unsetvar=  ## set variable unsetvar to ''
 sh   until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount
@@ -815,7 +816,6 @@ zsh  bindkey "^e" insert-epoch
 zsh  bindkey escape sequence: C-v $key (C-v ESC -> ^[)
 zsh  bindkey "^f" fzf-ins-home
 zsh  bindkey "^g" fzf-ins-root
-zsh  bindkey "^h" cd-hist
 zsh  bindkey "^@" insert-date-time
 zsh  bindkey "^j" fzf-ins-pwd
 zsh  bindkey "^k" up-dir
@@ -823,9 +823,11 @@ zsh  bindkey "^l" lfcd
 zsh  # bindkey -l (zsh keymaps)
 zsh  # bindkey -M <keymap>
 zsh  bindkey -M vicmd 'cc'  ## change current line (clear > viins)
+zsh  bindkey -M vicmd "^h" cd-hist
 zsh  bindkey -M vicmd 'q' sh-x-toggle
 zsh  bindkey -M vicmd 's' sudo-toggle
 zsh  bindkey -M viins "^[[3~" delete-char
+zsh  bindkey -M viins "^h" prev-dir
 zsh  bindkey "^o" clear-screen
 zsh  bindkey '^p' ins-pwd
 zsh  bindkey "^q" git-add-commit

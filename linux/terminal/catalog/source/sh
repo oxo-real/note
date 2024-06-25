@@ -396,7 +396,7 @@ rename 'part' 'name' filepart  ## replace 'part' with 'name' in filepart (filepa
 rename --all ' ' _ *  ## replace filename spaces with underscores
 renice -19 $(pgrep $process_name)  ## give $process_name highest (-19) priority
 reset && zsh  ## reinitialize terminal state and z-shel
-return $code  ## exit function with optional $code or failure
+return  ## return to the invoking script
 rev $file  ## reverse line characters
 rfkill list  ## check hard and soft block status wireless radios
 rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
@@ -433,8 +433,9 @@ set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset va
 setfont ter-v32n  ## set console font
 setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
 showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
-shopt -s $option  ## set (enable) shell option
-shopt -u $option  ## unset (disable) shell option
+setopt  ## print set shell options
+setopt $option  ## set (enable) shell option
+unsetopt $option  ## unset (disable) shell option
 sha512sum * > sha512sums  ##  compute sha512 checksums in current directory
 sha512sum --check --quiet sha512sums  ## read checksums from sha512sums and check them
 shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
