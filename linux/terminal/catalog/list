@@ -165,7 +165,8 @@ sh   fc -l -d -t %Y%m%d_%H%M%S -D 1  ## list events from history list ($HISTFILE
 sh   fc -l -d -t %Y%m%d_%H%M%S -D 1 | sort --reverse --numeric-sort --key 1 | sort --unique --key 4 | sort --numeric-sort --key 1 | fzf  ## fzf history search
 sh   fc-list  ## list available fonts (fontconfig)
 sh   fc -l -n -1  ## last command entered
-sh   fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search wl-paste file path and wl-paste (quick file search)
+sh   fd $options $pattern $path  ## fd general synopsis, pattern default regex (--glob)
+sh   fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search clpb-string and copy (quick file search)
 sh   ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
 sh   fg %n  ## jobs item n to foreground
 sh   fg  ## recall last suspended command to foreground
