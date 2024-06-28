@@ -812,25 +812,24 @@ zsh  bindkey '^[[A' up-line-or-beginning-search
 zsh  bindkey '^[[B' down-line-or-beginning-search
 zsh  bindkey '^E' insert-epoch               ## C-e
 zsh  bindkey escape sequence: C-v $key (C-v ESC -> ^[)
-zsh  #bindkey '^f' fzf-ins-home               ## C-f
-zsh  bindkey '^f' inline-ins-item            ## C-f
-zsh  bindkey '^g' fzf-ins-root               ## C-g
+zsh  bindkey '^f' insert-item-inline            ## C-f
+zsh  #bindkey '^g' fzf-ins-root               ## C-g
 zsh  bindkey '^@' insert-date-time           ## C-2
 zsh  bindkey '^j' cd-child                   ## C-j
-zsh  bindkey '^k' cd-up-dir                  ## C-k
-zsh  bindkey '^l' lfcd                       ## C-l
+zsh  bindkey '^k' cd-up                      ## C-k
+zsh  bindkey '^l' cd-lf                       ## C-l
 zsh  # bindkey -l (zsh keymaps)
 zsh  # bindkey -M <keymap>
 zsh  bindkey -M vicmd '^[[3~' delete-char
 zsh  bindkey -M vicmd '^?' backward-delete-char
 zsh  bindkey -M vicmd 'cc'  ## change current line (clear > viins)
-zsh  bindkey -M vicmd 'q' sh-x-toggle        ## [vicmd] q
-zsh  bindkey -M vicmd 's' sudo-toggle        ## [vicmd] s
+zsh  bindkey -M vicmd 'q' toggle-sh-x        ## [vicmd] q
+zsh  bindkey -M vicmd 's' toggle-sudo        ## [vicmd] s
 zsh  bindkey -M viins '^[[3~' delete-char
-zsh  bindkey -M viins '^h' dirstack-cd       ## C-h
+zsh  bindkey -M viins '^h' cd-dirstack       ## C-h
 zsh  # bindkey  now to clipboard             ## C-`
 zsh  bindkey '^o' clear-screen               ## C-o
-zsh  bindkey '^p' ins-pwd                    ## C-p
+zsh  #bindkey '^p' ins-pwd                    ## C-p
 zsh  bindkey -v
 zsh  bindkey -v '^?' backward-delete-char
 zsh  bindkey '^Z' foreground                 ## C-z
