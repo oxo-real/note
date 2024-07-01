@@ -43,8 +43,8 @@ sh   bluetoothctl power off && sudo systemctl stop bluetooth.service && sudo rfk
 sh   break  ## exit from an enclosing loop
 sh   brightnessctl set 50%  ## set brightness to 50% of the maximum
 sh   cal -m -w 12 2022  ## calendar for december 2022
-sh   cal -m -w -3 $(date -I)  ## calendar showing last, current and next month, week start on mondays, with weeknumbers
-sh   cal -m -w -y $(date +%Y)  ## current year calendar
+sh   cal -m -w -3 $(date -I)  ## calendar weeknumbers, last, current and next month, week start on mondays
+sh   cal -m -w -y $(date +%Y)  ## calendar current year
 sh   case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## case statement basic structure
 sh   cat $HOME/a/data/emoji/emoji-test.txt | sed 's/^.*#//' | sed --regexp-extended 's/E[0-9]+.[0-9]//' | sed 's/^[ \t]*//' | sed '/^[[:alnum:]]/d' | sed '/^\s*$/d' | fzf | awk '{print $1}' | wl-copy -n  ## emoji to clipboard
 sh   cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
@@ -53,9 +53,9 @@ sh   cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file 
 sh   cat <(ls)  ## process substitution reading from list <() (?without subshell?); same as ls | cat  (piping ?with subshell?) #DEV
 sh   cat -n $file  ## line number cat
 sh   cat -vE $file  ## prevent cat shell injection
-sh   cd $(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)  ## fzf cd from $HOME, spacebar for info box
+sh   cd $(fd --type d --hidden . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)  ## fzf cd from $HOME, spacebar for info box
 sh   cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
-sh   cd $(printf '%s\n' "$PWD" | sed "s|$HOME/b|$HOME/c|")  ## move parrallel to the same cwd, but in another parent directory
+sh   cd ${PWD/share\/b/share\/c}  ## from backup to current tree
 sh   cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
 sh   cd /usr/lib/modules/$(uname -r)  ## active os kernel modules
 sh   cd /var/lib/pacman/local  ## pacman install directory

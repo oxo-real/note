@@ -35,8 +35,8 @@ bluetoothctl disconnect $(bluetoothctl devices | fzf | awk '{print $2}') && blue
 bluetoothctl discoverable off	## bluetooth not broadcast radio device
 bluetoothctl power off && sudo systemctl stop bluetooth.service && sudo rfkill block bluetooth  ## bluetooth radio off
 brightnessctl set 50%  ## set brightness to 50% of the maximum
-cal -m -w -3 $(date -I)  ## calendar showing last, current and next month, week start on mondays, with weeknumbers
-cal -m -w -y $(date +%Y)  ## current year calendar
+cal -m -w -3 $(date -I)  ## calendar weeknumbers, last, current and next month, week start on mondays
+cal -m -w -y $(date +%Y)  ## calendar current year
 cal -m -w 12 2022  ## calendar for december 2022
 cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
 cat $HOME/a/data/emoji/emoji-test.txt | sed 's/^.*#//' | sed --regexp-extended 's/E[0-9]+.[0-9]//' | sed 's/^[ \t]*//' | sed '/^[[:alnum:]]/d' | sed '/^\s*$/d' | fzf | awk '{print $1}' | wl-copy -n  ## emoji to clipboard
@@ -46,12 +46,12 @@ cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
 cat <(ls)  ## process substitution reading from list <() (?without subshell?); same as ls | cat  (piping ?with subshell?) #DEV
 echo hello > >(sha512sum > file_with_hello_sha512.hash)  ## process substitution (instead of filename) writing to list >()
 < /etc/group  ## list all user groups
-cd $(fd -t d -H -I . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)  ## fzf cd from $HOME, spacebar for info box
+cd $(fd --type d --hidden . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)  ## fzf cd from $HOME, spacebar for info box
 cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
-cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
+cd ${PWD/share\/b/share\/c}  ## from backup to current tree
 cd /usr/lib/modules/$(uname -r)  ## active os kernel modules
 cd /var/lib/pacman/local  ## pacman install directory
-cd $(printf '%s\n' "$PWD" | sed "s|$HOME/b|$HOME/c|")  ## move parrallel to the same cwd, but in another parent directory
+cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
 chattr -R +i $directory  ## add 'i' attribute: files in $directory cannot be modified
 chmod --reference=ref_file target  ## make target file mode bits same as ref_file
 chown -R $USER:$GROUP $target  ## recursive set target ownership to current user & group
