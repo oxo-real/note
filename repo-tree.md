@@ -659,6 +659,7 @@
 │   │   ├── hardware_info
 │   │   ├── here_strings
 │   │   ├── locale
+│   │   ├── log_level
 │   │   ├── password_policy
 │   │   ├── process_substitution
 │   │   ├── pure-sh-bible.html
@@ -941,5 +942,5 @@
 └── zzz_deprecated
     └── xab
 
-194 directories, 747 files
+194 directories, 748 files
 ```

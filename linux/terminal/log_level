@@ -1,0 +1,18 @@
+
+1. Emergency	    (emerg)
+2. Alert	    (alert)
+3. Critical	    (crit)
+4. Error	    (error)
+5. Warning	    (warn)
+6. Notice	    (notice)
+7. Informational    (info)
+8. Debug	    (debug)
+
+emerg	fatal unrecoverable state; system instability or imminent crash
+alert	critical issue, requires immediate action to resolve
+crit	critical error, demands intervention to prevent system failure
+error	non-critical error, can impair operation
+warn	non-imminent error, may lead to unexpected behaviour if not addressed
+notice	normal but significant conditions that may require monitoring
+info    information about normal system operation
+debug   detailed system information for debugging purposes
