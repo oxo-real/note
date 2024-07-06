@@ -1,7 +1,7 @@
 #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 < $file  ## less $file (via READNULLCMD)
-< ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
+< ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
 < $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get url from bookmark_urls
 echo hello 1> $file  ## stdout redirect to $file
 echo hello 2>> $file   ## stderr redirect append to $file
@@ -609,7 +609,7 @@ for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded list v
 for (( i=$in; i<=$ix; i++ )); do echo $i; done  ## for loop alternative mathematic structure; variable list values (in to ix step i++)
 for i in $space_sep_string; do; echo $i; done  ## for loop through space separated string
 select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
-while read line; do; echo $line; done <<< "$variable"  ## while loop through lines in $variable (heredoc)
+while read line; do; echo $line; done <<< "$variable"  ## while loop through lines in $variable (herestring)
 while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure upcount
 while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure upcount
 until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount
@@ -630,4 +630,4 @@ $(command)  ## command substitution; gets the result of command
 $(( expression ))  ## arithmetic expansion; gets the result of expression
 <(list)  ## process substitution; process list is run async and writing to the file will provide input for list
 >(list)  ## process substitution; process list is run async and the file passed as an argument should be read to obtain the output of list
-cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file (heredoc), strip leading tabs from mlt (-), EOF can be any unique limit string
+$command <<- EOF >> $file\n multi\nline\ntext\nmlt\nEOF\n  ## input read until EOF (<< heredoc) to command, strip leading tabs from mlt (-), EOF can be any unique limit string

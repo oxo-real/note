@@ -6,8 +6,9 @@ atty "Shift|Control" "B" "yank-buffer all | fzf-word \r"
 emcs :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
 lisp (set-face-attribute 'default nil :height 110)  ## Vl; M-x eval-region >> emacs set default font size 11pt (for screencasting)
 lisp (set-face-attribute 'default nil :height 180)  ## Vl; M-x eval-region >> emacs set font size 18pt (for screencasting)
-sh   < ${$(get_newest_file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
+sh   < ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
 sh   $(command)  ## command substitution; gets the result of command
+sh   $command <<- EOF >> $file\n multi\nline\ntext\nmlt\nEOF\n  ## input read until EOF (<< heredoc) to command, strip leading tabs from mlt (-), EOF can be any unique limit string
 sh   $(( expression ))  ## arithmetic expansion; gets the result of expression
 sh   < $file  ## less $file (via READNULLCMD)
 sh   [ "$var" ]  ## alias for: 'test "$var"
@@ -49,7 +50,6 @@ sh   case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## ca
 sh   cat $HOME/a/data/emoji/emoji-test.txt | sed 's/^.*#//' | sed --regexp-extended 's/E[0-9]+.[0-9]//' | sed 's/^[ \t]*//' | sed '/^[[:alnum:]]/d' | sed '/^\s*$/d' | fzf | awk '{print $1}' | wl-copy -n  ## emoji to clipboard
 sh   cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
 sh   cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
-sh   cat <<- EOF >> file\n multi\nline\ntext\nmlt\nEOF\n  ## append mlt to file (heredoc), strip leading tabs from mlt (-), EOF can be any unique limit string
 sh   cat <(ls)  ## process substitution reading from list <() (?without subshell?); same as ls | cat  (piping ?with subshell?) #DEV
 sh   cat -n $file  ## line number cat
 sh   cat -vE $file  ## prevent cat shell injection
@@ -582,7 +582,7 @@ sh   while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic struc
 sh   while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure upcount
 sh   while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk '{print $1}')"  ## which package from Qm is in /v/c/p/p
 sh   while read l; do $commands; done < $file  ## read file line by line into l
-sh   while read line; do; echo $line; done <<< "$variable"  ## while loop through lines in $variable (heredoc)
+sh   while read line; do; echo $line; done <<< "$variable"  ## while loop through lines in $variable (herestring)
 sh   while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line by line into l (with stdin redirection)
 sh   while true do; echo; done  ## infinite loop
 sh   whois -B 46.166.142.215  ## whois own public ip
