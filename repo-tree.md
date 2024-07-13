@@ -3,6 +3,8 @@
 ├── application
 │   ├── abook
 │   │   └── abook
+│   ├── adb
+│   ├── adb_101
 │   ├── alacritty
 │   │   ├── buffer_capture
 │   │   ├── keybindings
@@ -942,5 +944,5 @@
 └── zzz_deprecated
     └── xab
 
-194 directories, 748 files
+195 directories, 749 files
 ```

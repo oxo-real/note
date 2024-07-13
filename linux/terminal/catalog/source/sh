@@ -2,15 +2,15 @@
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 < $file  ## less $file (via READNULLCMD)
 < ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
-< $XDG_CONFIG_HOME/qutebrowser/bookmark_urls | fzf | slicer '(' ')'  ## get url from bookmark_urls
+< $XDG_DATA_HOME/c/web/bookmark_urls | fzf | slicer '(' ')' | wl-copy  ## get url from bookmark_urls
+apropos . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage (man -k)
+cat $XDG_DATA_HOME/c/web/bookmark_urls | fzf | sed -e 's/^.*(//' -e 's/)$//' | wl-copy  ## get url from bookmark_urls
 echo hello 1> $file  ## stdout redirect to $file
 echo hello 2>> $file   ## stderr redirect append to $file
-echo hello > /dev/null 2>&1  ## stdout redirect devnull; stderr redirect to stdout; silent execution
-echo hello &> /dev/null  ## stdout redirect devnull; stderr redirect to stdout; silent execution (shorthand notation)
-echo hello 2>&1 | tee -a $logfile  ## stderr redirect to stdout; append both to $logfile
-echo hello &| tee -a $logfile  ## stderr redirect to stdout; append both to $logfile (shorthand notation)
-((i++))  ## increase i by one (i.e. in a loop)
-((i--))  ## decrease i by one (i.e. in a loop)
+echo hello > /dev/null 2>&1  ## stdout redirect devnull; stderr append to stdout; silent execution
+echo hello &> /dev/null  ## stdout redirect devnull; stderr append to stdout; silent execution (shorthand notation)
+echo hello 2>&1 | tee -a $logfile  ## stderr append to stdout; append both to $logfile
+echo hello &| tee -a $logfile  ## stderr append to stdout; append both to $logfile (shorthand notation)
 alacritty msg config font.size=18  ## current alacritty instance font size 18 (for screencasting)
 amixer info  ## info about alsamixer device
 amixer scontrols  ## list of alsamixer controls
@@ -136,9 +136,9 @@ printenv  ## print values of environment variables
 espeak -s 80 -p 70 -v mb-us1 'hello'  ## espeak hello speed 80% pitch 70% voice us1
 eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concatenate arguments, add ssh_key
 faillock --user $USER --reset  ## remove sudo lockout for current user
-fc -e $editor  ## edit last command in $editor
+fc -e $editor  ## edit last command in $editor (fix command)
 fc -l -n -1  ## last command entered
-fc -l -d -t %Y%m%d_%H%M%S -D 1  ## list events from history list ($HISTFILE) with duration and timestamp from event 1
+fc -l -d -t %Y%m%d_%H%M%S -D 1  ## list events from history list ($HISTFILE) with duration and timestamp from event 1 (interactive shell $- == *i*)
 fc -l -d -t %Y%m%d_%H%M%S -D 1 | sort --reverse --numeric-sort --key 1 | sort --unique --key 4 | sort --numeric-sort --key 1 | fzf  ## fzf history search
 fc-list  ## list available fonts (fontconfig)
 fd $options $pattern $path  ## fd general synopsis, pattern default regex (--glob)
@@ -290,7 +290,6 @@ lspci -k -d [$vendor]:[$device][:$class]  ## show kernel drivers and modules [fo
 lspci -k -s xx:xx.x [[$domain]:]$bus]:][$slot][.[$func]]  ## show kernel drivers and modules for domain
 lspci -k -t -v  ## show kernal driver and module details in a tree
 lspci -vv  ## list pci devices with more detail (useful to find kernel drivers)
-man -k . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage
 man ascii  ## 7-bit ascii tables
 man zshall  ## view the system reference manual for all zsh
 mkdir $HOME/dock/{1-4}  ## make multiple directories
@@ -310,7 +309,7 @@ mount | sort -k 1 | column -t  ## sort mount by device name
 mount | sort -k 3 | column -t  ## sort mount by mountpoint
 export PWGN_OFF=1; mountr  ## disable oxo pwgn
 mpv --start=+00:00 --ytdl-raw-options=format-sort=res:480 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT $(wl-paste)  ## stream verbose with user-agent, best res under 480p and mpv.conf cache_xs profile
-mpv $(echo $url | sed 's/https:\/\/www.youtube.com\/watch?v=/https:\/\/youtu.be\//')  ## change yt url
+wl-paste | sed 's/youtube.com/yewtu.be/' | wl-copy  ## change to invidious url
 mpv --audio-display=no $file.mp3  ## play mp3 without albumart
 mpv /dev/video4  ## livestream local webcam
 mv -t $target_dir $source_dirs  ## move source_dirs to target_dir
@@ -516,7 +515,7 @@ trap "tput cnorm; return 1" SIGINT; while true; do tput civis; echo; figlet -f b
 fallocate -l 5M file  ## create file 5M size
 truncate -s 5M file  ## create file 5M size
 tree -n --charset=unicode  ## depth indented file listing
-type -a file or command  ## file or command interpretation; print all occurences in path
+type -a $command  ## command interpretation; print all occurences in path
 umount -l $mountpoint  ## umount busy targets (mountpoints)
 unlink $link_name  ## remove $link_name (i.e. symlink)
 unset varfun  ## unset value and attribute of variable or function varfun
@@ -529,7 +528,7 @@ vlock --all  ## console lock all sessions
 env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
 watch --differences --no-title --interval 1 $command  ## default watch command
 wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
-wf-recorder --audio --codec libx264 --file $video.mp4  ## recording video for odyssee
+wf-recorder --audio --codec libx264 --file $video.mp4  ## recording video with wf-recorder
 wget https://file.location -c -O file.location.txt_part  ## resume downloading file.location to file.location.txt_part
 which -a $command  ## show path of all $command (from $PATH)
 optstring=":i:h"; while getopts $optstring opt; do; case $opt in i) var="${OPTARG}";; h) echo help_text;; \?) echo 'no opt';; :) echo 'hlp txt';; esac; done  ## command options (-i arg or -h)
@@ -537,7 +536,7 @@ while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(
 while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line by line into l (with stdin redirection)
 while read l; do $commands; done < $file  ## read file line by line into l
 whois -B 46.166.142.215  ## whois own public ip
-wl-paste >> $XDG_CONFIG_HOME/qutebrowser/bookmark_urls  ## add to bookmark_urls
+wl-paste >> $XDG_DATA_HOME/c/web/bookmark_urls  ## add to bookmark_urls (qb y-m)
 wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
 wl-paste --no-newline | tr --delete '[:blank:]\t\r\n' | wl-copy --trim-newline --paste-once  ## selection without whitespace to clipboard
 wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
@@ -610,11 +609,11 @@ for (( i=$in; i<=$ix; i++ )); do echo $i; done  ## for loop alternative mathemat
 for i in $space_sep_string; do; echo $i; done  ## for loop through space separated string
 select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
 while read line; do; echo $line; done <<< "$variable"  ## while loop through lines in $variable (herestring)
-while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure upcount
-while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure upcount
-until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount
-while [[ $i -gt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure downcount
-until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure downcount
+while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure upcount, increase $i by one
+while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure upcount, increase $i by one
+until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount, increase $i by one
+while [[ $i -gt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure downcount, decrease $i by one
+until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure downcount, decrease $i by one
 while true do; echo; done  ## infinite loop
 break  ## exit from an enclosing loop
 continue  ## resume next iteration of enclosing loop
@@ -627,7 +626,7 @@ setterm -reset  ## same as tput reset, setterm has more user friendly commands
 print_entire_array() { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}" ; done }  ## print_entire_array arrayX
 echo general quotation rule  ## quote if $var can be empty (null) or contain whitespace or punct chartacters (wildcards)
 $(command)  ## command substitution; gets the result of command
-$(( expression ))  ## arithmetic expansion; gets the result of expression
+$(( expression ))  ## arithmetic expansion; gets the result of $expression
 <(list)  ## process substitution; process list is run async and writing to the file will provide input for list
 >(list)  ## process substitution; process list is run async and the file passed as an argument should be read to obtain the output of list
 $command <<- EOF >> $file\n multi\nline\ntext\nmlt\nEOF\n  ## input read until EOF (<< heredoc) to command, strip leading tabs from mlt (-), EOF can be any unique limit string

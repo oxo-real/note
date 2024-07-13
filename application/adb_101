@@ -1,0 +1,34 @@
+becoming developer, multiple tap
+> settings > software version
+
+developer options
+> settings > additional settings > developer options
+
+usb debugging
+> settings > additional settings > developer options > usb debugging
+
+
+yay -S android-tools
+
+adb --version
+
+sudo adb start-server
+
+adb devices
+
+
+## install apk file
+adb install $apk_file_on_linux_system.apk
+
+## remote shell
+adb shell
+
+## send file from linux to android device
+adb push $XDG_DATA_HOME/... /storage/emulated/0/...
+
+## receive file from android device
+adb pull /storage/emulated/0/... $XDG_DATA_HOME/...
+
+
+# onyxboox
+/mnt/sdcard
