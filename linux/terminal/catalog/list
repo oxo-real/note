@@ -703,11 +703,12 @@ sway bindsym $mod+Mod1+2		floating enable; exec sh $csc/float-divide 2
 sway bindsym $mod+Mod1+3		floating enable; exec sh $csc/float-divide 3
 sway bindsym $mod+Mod1+4		floating enable; exec sh $csc/float-divide 4
 sway #bindsym $mod+Mod1+5		floating enable; $smt Z
-sway bindsym $mod+Mod1+7		floating enable; exec sh $csc/float-v-fill
+sway bindsym $mod+Mod1+7		floating enable; exec sh $csc/float-v-fill # float h fill
 sway bindsym $mod+Mod1+8		floating enable; exec sh $csc/float-h-fill
 sway bindsym $mod+Mod1+9		floating enable; $smt Z; exec sh $csc/float-max
 sway bindsym $mod+Mod1+c		exec grim -g "$(slurp -p)" -t ppm - | \
 sway bindsym $mod+Mod1+Comma		floating enable; $smt S
+sway bindsym $mod+Mod1+f		floating enable; $smt Z; exec sh $csc/float-max
 sway bindsym $mod+Mod1+i          	floating enable; $smt N
 sway bindsym $mod+Mod1+j		floating enable; $smt W
 sway bindsym $mod+Mod1+k		floating enable; $smt Z
@@ -787,6 +788,7 @@ sway bindsym Shift+Control+Mod1+s	exec vtxt begin sv
 sway bindsym Shift+Control+Mod1+v 	exec --no-startup-id $term --class="term_float_inv" \
 sway bindsym Shift+Control+Mod1+x	exec mic-switch toggle Webcam C310
 sway #bindsym Shift+Control+y	wl-copy -o -n && exec notify-send 'secure copy is in DEV'
+sway bindsym --whole-window $mod+BTN_MIDDLE floating toggle
 sway #bindsym XF86AudioLowerVolume	exec amixer sset Master 2%-
 sway bindsym XF86AudioLowerVolume 	exec wpctl set-volume	@DEFAULT_SINK@ 5%-
 sway bindsym XF86AudioMicMute 	exec wpctl set-mute	@DEFAULT_SOURCE@ toggle
