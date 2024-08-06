@@ -96,6 +96,11 @@
 │   │   │   ├── config.def.h
 │   │   │   └── default_keybindings
 │   │   └── patching_rr
+│   ├── sway
+│   │   ├── 20240806_160508_1722953108-sway-kb-guide.ods
+│   │   ├── 20240806-sway-kb-cheatsheet.jpg
+│   │   ├── 20240806-sway-kb-cheatsheet.pdf
+│   │   └── 20240806-sway-kb-cheatsheet.png
 │   ├── tar
 │   │   └── compression
 │   ├── terminal
@@ -944,5 +949,5 @@
 └── zzz_deprecated
     └── xab
 
-195 directories, 749 files
+196 directories, 753 files
 ```
