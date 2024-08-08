@@ -27,7 +27,6 @@
 │   │   ├── docker_commands
 │   │   └── docker_help
 │   ├── dotool
-│   │   ├── gotbletu
 │   │   ├── keys
 │   │   └── wo_root
 │   ├── emacs
@@ -951,5 +950,5 @@
 └── zzz_deprecated
     └── xab
 
-196 directories, 755 files
+196 directories, 754 files
 ```
