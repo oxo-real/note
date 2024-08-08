@@ -107,7 +107,9 @@ dig -x 89.39.107.195  ## reverse lookup own public ip
 dircolors --print-ls-colors  ## evaluate $LS_COLORS colors
 dirname $filename  ## print $filename without last component
 dotfbu restore $XDG_DATA_HOME/c/git/dotf $XDG_CONFIG_HOME  ## restore oxo configuration
-dotool --list-x-keys  ## show xkb keys
+dotool --list-keys  ## list keys
+dotool --list-x-keys  ## list x11 xkb keys
+echo type hello | dotool  ## test dotool proper working
 du -sbh $directory  ## directory usage; total size of all content in directory
 du --bytes --si --human-readable --separate-dirs --max-depth=0 $directory | awk '{print $1}'  ## directory usage; total si size of all files in current $directory
 du --bytes --si --human-readable --separate-dirs --total $directory | tail --lines 1 | awk '{print $1}'  ## directory usage; total si size of all files and subdirectories

@@ -27,6 +27,7 @@
 │   │   ├── docker_commands
 │   │   └── docker_help
 │   ├── dotool
+│   │   ├── gotbletu
 │   │   ├── keys
 │   │   └── wo_root
 │   ├── emacs
@@ -58,6 +59,12 @@
 │   │   └── imagemagick
 │   ├── json
 │   │   └── processing
+│   ├── kb-guide
+│   │   ├── 20240808_084340_1723099420-kb-guide.ods
+│   │   ├── atty-kb-guide.pdf
+│   │   ├── sway-kb-guide.pdf
+│   │   ├── zsa0-kb-guide.pdf
+│   │   └── zsh-kb-guide.pdf
 │   ├── keybindings
 │   │   ├── get_keybindings
 │   │   └── global_list
@@ -96,11 +103,6 @@
 │   │   │   ├── config.def.h
 │   │   │   └── default_keybindings
 │   │   └── patching_rr
-│   ├── sway
-│   │   ├── 20240806_160508_1722953108-sway-kb-guide.ods
-│   │   ├── 20240806-sway-kb-cheatsheet.jpg
-│   │   ├── 20240806-sway-kb-cheatsheet.pdf
-│   │   └── 20240806-sway-kb-cheatsheet.png
 │   ├── tar
 │   │   └── compression
 │   ├── terminal
@@ -949,5 +951,5 @@
 └── zzz_deprecated
     └── xab
 
-196 directories, 753 files
+196 directories, 755 files
 ```

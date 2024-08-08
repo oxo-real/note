@@ -119,7 +119,8 @@ sh   dig -x 89.39.107.195  ## reverse lookup own public ip
 sh   dircolors --print-ls-colors  ## evaluate $LS_COLORS colors
 sh   dirname $filename  ## print $filename without last component
 sh   dotfbu restore $XDG_DATA_HOME/c/git/dotf $XDG_CONFIG_HOME  ## restore oxo configuration
-sh   dotool --list-x-keys  ## show xkb keys
+sh   dotool --list-keys  ## list keys
+sh   dotool --list-x-keys  ## list x11 xkb keys
 sh   du --bytes --si --human-readable --separate-dirs $directory | sort -k 2  ## directory usage; list of all subdirectories with sizes (size sort -h -k 1)
 sh   du --bytes --si --human-readable --separate-dirs --max-depth=0 $directory | awk '{print $1}'  ## directory usage; total si size of all files in current $directory
 sh   du --bytes --si --human-readable --separate-dirs --total $directory | tail --lines 1 | awk '{print $1}'  ## directory usage; total si size of all files and subdirectories
@@ -151,6 +152,7 @@ sh   echo "obase=02; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecima
 sh   echo "obase=10; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to decimal conversion
 sh   echo "obase=16; ibase=10; $dec" | bc  ## bc dec (10) to hex (16) conversion
 sh   echo 'string2sort' | grep -o . | sort | tr -d "\n"  ## sort chars in string
+sh   echo type hello | dotool  ## test dotool proper working
 sh   emacsclient --create-frame --alternate-editor="" $file &  ## client open $file in new gui window
 sh   emacsclient -e '(kill-emacs)'  ## stop emacs daemon outside running instance
 sh   emacsclient --tty $file &  ## client open $file in current terminal window
@@ -776,6 +778,38 @@ sway bindsym F9			exec wpctl set-mute	@DEFAULT_SOURCE@ toggle
 sway bindsym --locked XF86AudioPlay 	exec playerctl play-pause
 sway #bindsym --locked XF86MonBrightnessDown exec --no-startup-id light -U 10 && sway-brightness-notify
 sway #bindsym --locked XF86MonBrightnessUp exec --no-startup-id light -A 10 && sway-brightness-notify
+sway bindsym Mod1+8			exec echo buttondown middle | dotoolc
+sway bindsym Mod1+Comma		exec echo mousemove 0 -$kb_mouse_minor_move | dotoolc  ## up
+sway bindsym Mod1+Down		exec echo wheel -1 | dotoolc
+sway bindsym Mod1+h			exec echo mousemove -$kb_mouse_regular_move 0 | dotoolc  ## left
+sway bindsym Mod1+i			exec echo buttonup middle; click middle | dotoolc
+sway #bindsym Mod1+i			exec echo mousemove 0 -$kb_mouse_major_move | dotoolc  ## up
+sway bindsym Mod1+j			exec echo mousemove 0 $kb_mouse_regular_move  | dotoolc  ## down
+sway bindsym Mod1+k			exec echo mousemove 0 -$kb_mouse_regular_move | dotoolc  ## up
+sway bindsym Mod1+Left		exec echo hwheel -1 | dotoolc
+sway bindsym Mod1+l			exec echo mousemove $kb_mouse_regular_move 0  | dotoolc  ## right
+sway bindsym Mod1+m			exec echo mousemove 0 $kb_mouse_minor_move  | dotoolc  ## down
+sway bindsym Mod1+n			exec echo mousemove -$kb_mouse_minor_move 0 | dotoolc  ## left
+sway bindsym Mod1+o			exec echo buttonup right; click right | dotoolc
+sway #bindsym Mod1+o			exec echo mousemove $kb_mouse_major_move 0  | dotoolc  ## right
+sway bindsym Mod1+Period		exec echo mousemove $kb_mouse_minor_move 0  | dotoolc  ## right
+sway bindsym Mod1+p			exec echo buttondown right | dotoolc
+sway bindsym Mod1+Right		exec echo hwheel 1 | dotoolc
+sway bindsym Mod1+Shift+Comma	exec echo mouseto 0.500 0.835 | dotoolc  ## S
+sway bindsym Mod1+Shift+i		exec echo mouseto 0.500 0.165 | dotoolc  ## N
+sway bindsym Mod1+Shift+j		exec echo mouseto 0.165 0.500 | dotoolc  ## W
+sway bindsym Mod1+Shift+k		exec echo mouseto 0.500 0.500 | dotoolc  ## Z
+sway bindsym Mod1+Shift+l		exec echo mouseto 0.835 0.500 | dotoolc  ## E
+sway bindsym Mod1+Shift+m		exec echo mouseto 0.165 0.835 | dotoolc  ## SW
+sway bindsym Mod1+Shift+o		exec echo mouseto 0.835 0.165 | dotoolc  ## NE
+sway bindsym Mod1+Shift+Period	exec echo mouseto 0.835 0.835 | dotoolc  ## SE
+sway bindsym Mod1+Shift+u		exec echo mouseto 0.165 0.165 | dotoolc  ## NW
+sway #bindsym Mod1+u			exec echo buttonup left; click left | dotoolc
+sway bindsym Mod1+u			exec echo click left | dotoolc
+sway #bindsym Mod1+u			exec echo mousemove 0 $kb_mouse_major_move  | dotoolc  ## down
+sway bindsym Mod1+Up			exec echo wheel 1 | dotoolc
+sway bindsym Mod1+y			exec echo buttondown left | dotoolc
+sway #bindsym Mod1+y			exec echo mousemove -$kb_mouse_major_move 0 | dotoolc  ## left
 sway bindsym --release $mod+Shift+p	exec grim -g "$(slurp)" \
 sway bindsym Shift+Control+0		exec echo -n '' | wl-copy && notify-send 'clipboard cleared'
 sway bindsym Shift+Control+Mod1+d	exec vtxt end
