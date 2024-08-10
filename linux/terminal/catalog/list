@@ -804,7 +804,6 @@ sway bindsym Mod1+Shift+m		exec echo mouseto 0.165 0.835 | dotoolc  ## SW
 sway bindsym Mod1+Shift+o		exec echo mouseto 0.835 0.165 | dotoolc  ## NE
 sway bindsym Mod1+Shift+Period	exec echo mouseto 0.835 0.835 | dotoolc  ## SE
 sway bindsym Mod1+Shift+u		exec echo mouseto 0.165 0.165 | dotoolc  ## NW
-sway #bindsym Mod1+u			exec echo buttonup left; click left | dotoolc
 sway bindsym Mod1+u			exec echo click left | dotoolc
 sway #bindsym Mod1+u			exec echo mousemove 0 $kb_mouse_major_move  | dotoolc  ## down
 sway bindsym Mod1+Up			exec echo wheel 1 | dotoolc

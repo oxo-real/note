@@ -58,15 +58,23 @@
 │   │   └── imagemagick
 │   ├── json
 │   │   └── processing
-│   ├── kb-guide
-│   │   ├── 20240808_084340_1723099420-kb-guide.ods
-│   │   ├── atty-kb-guide.pdf
-│   │   ├── sway-kb-guide.pdf
-│   │   ├── zsa0-kb-guide.pdf
-│   │   └── zsh-kb-guide.pdf
-│   ├── keybindings
+│   ├── keybinding
 │   │   ├── get_keybindings
-│   │   └── global_list
+│   │   ├── global_list
+│   │   └── guide
+│   │       ├── 20240810_075606_1723269366-kb-guide.ods
+│   │       ├── atty-kb-guide.pdf
+│   │       ├── ml0-kb-guide.pdf
+│   │       ├── ml1-kb-guide.pdf
+│   │       ├── ml2-kb-guide.pdf
+│   │       ├── ml3-kb-guide.pdf
+│   │       ├── ml4-kb-guide.pdf
+│   │       ├── ml5-kb-guide.pdf
+│   │       ├── ml7-kb-guide.pdf
+│   │       ├── sway-kb-guide.pdf
+│   │       ├── zsh-kb-guide.pdf
+│   │       └── zzz_deprecated
+│   │           └── 20240808_084340_1723099420-kb-guide.ods
 │   ├── kvm
 │   │   └── kvm_101
 │   ├── ledger
@@ -847,12 +855,15 @@
 │   │   │   └── fortisslvpn
 │   │   ├── openvpn
 │   │   │   └── openvpn
-│   │   └── protonvpn
-│   │       ├── native_client
-│   │       ├── openvpn_client
-│   │       ├── protonvpn
-│   │       ├── protonvpn-cli
-│   │       └── protonvpn_cli
+│   │   ├── protonvpn
+│   │   │   ├── native_client
+│   │   │   ├── openvpn_client
+│   │   │   ├── protonvpn
+│   │   │   ├── protonvpn-cli
+│   │   │   └── protonvpn_cli
+│   │   └── wireguard
+│   │       ├── protonvpn_wireguard
+│   │       └── wireguard101
 │   └── wireless
 │       └── wpa_passphrase
 ├── opsys
@@ -950,5 +961,5 @@
 └── zzz_deprecated
     └── xab
 
-196 directories, 754 files
+198 directories, 763 files
 ```

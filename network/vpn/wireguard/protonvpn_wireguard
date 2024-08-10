@@ -1,0 +1,80 @@
+[protonvpn.com](https://protonvpn.com/support/wireguard-manual-linux)
+
+How to manually configure WireGuard on Linux
+Reading
+3 mins
+Category
+Linux
+WireGuard® is a fast, lightweight, and secure VPN protocol.
+
+Learn more about WireGuard
+
+We offer a GUI app and CLI tool for Linux. These include a kill switch, but currently support the OpenVPN protocol only (not WireGuard).
+
+Get Proton VPN for Linux
+Learn more about OpenVPN vs. WireGuard
+It’s possible to manually configure WireGuard on Linux using third-party clients. In this guide, we’ll show you how to configure WireGuard on any Linux distribution using the official WireGuard(new window) CLI tool for Linux, and on Debian and Ubuntu-based systems using NetworkManager.
+
+WireGuard CLI
+NetworkManager
+An advantage of manually configuring WireGuard on Linux is that our WireGuard config files support port forwarding.
+
+How to manually configure WireGuard on Linux
+1. Install(new window) the official WireGuard VPN CLI tool for your distribution.
+
+2. Sign in to account.protonvpn.com, go to Downloads → WireGuard configuration, and download a WireGuard configuration file. Note that WireGuard can be picky about the length of .conf names, so please ensure the the downloaded .conf file name is under 15 characters (you may need to rename the default suggested name to achieve this).
+
+Learn how to download a WireGuard configuration file from Proton VPN
+
+3. Move the downloaded .conf configuration file to the /etc/wireguard/ directory.
+
+4. In a terminal window, enter:
+
+sudo wg-quick up [the name of the configuration file, excluding the .conf suffix]
+For example, if your configuration file is named swiss1-CH-5.conf, enter:
+
+sudo wg-quick up swiss1-CH-5
+
+Your privacy is now protected by Proton VPN! To verify that the connection is running, enter:
+
+sudo wg
+You can also visit ip.me(new window) to confirm that everything is working correctly.
+
+
+To end the VPN session, enter:
+
+sudo wg-quick down [the name of the configuration file, excluding the .conf suffix]
+For example:
+
+sudo wg-quick down swiss1-CH-5
+How to use WireGuard with NetworkManager on Ubuntu
+This guide was created on Ubuntu 20.04 LTS, but should work on most Debian and Ubuntu-based distros.
+
+1. Open a terminal window from your Home directory and install WireGuard using the following command:
+
+sudo apt install wireguard git dh-autoreconf libglib2.0-dev intltool build-essential libgtk-3-dev libnma-dev libsecret-1-dev network-manager-dev resolvconf
+2. Sign in to account.protonvpn.com, go to Downloads → WireGuard configuration, and download a WireGuard configuration file.
+
+Learn how to download a WireGuard configuration file from Proton VPN
+
+3. Clone the NetworkManager plugin from GitHub, compile, and install it using the following commands:
+
+git clone https://github.com/max-moser/network-manager-wireguard
+cd network-manager-wireguard
+./autogen.sh --without-libnm-glib
+./configure --without-libnm-glib --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib/x86_64-linux-gnu --libexecdir=/usr/lib/NetworkManager --localstatedir=/var
+make
+sudo make install
+4. Open NetworkManager → VPN → +.
+
+Add a new VPN connection in NetworkManager
+5. If the WireGuard option is not available, restart your computer and try again. If it is, select Import from file…
+
+Select Import from file...
+6. Locate the .conf configuration file you downloaded in step 2 using your file manager and click Add.
+
+Add the downloaded WireGuard config file
+7. Configuration is now complete. In NetworkManager, simply toggle the VPN switch next to the WireGuard connection you just created to on.
+
+Connect to ProtonVPN using WireGuuard
+You are now connected to ProtonVPN using the WireGuard protocol. Visit ip.me(new window) to confirm that the VPN connection is working correctly.

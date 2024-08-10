@@ -1,0 +1,24 @@
+# install
+
+% yay -S wireguard-tools systemd-resolvconf
+
+
+# configure
+
+login to protonvon
+[Downloads - Proton VPN](https://account.protonvpn.com/downloads#wireguard-configuration)
+% sudo mv wg-* /etc/wireguard
+
+
+# connect
+
+% sudo systemctl start systemd-resolved.service
+% sudo wg-quick up wg-NL-415
+% sudo wg
+
+
+# disconnect
+
+% sudo wg-quick down wg-NL-415
+% sudo systemctl start systemd-resolved.service
+% sudo wg
