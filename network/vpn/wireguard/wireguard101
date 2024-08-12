@@ -12,6 +12,7 @@ login to protonvon
 
 # connect
 
+% nmconn
 % sudo systemctl start systemd-resolved.service
 % sudo wg-quick up wg-NL-415
 % sudo wg

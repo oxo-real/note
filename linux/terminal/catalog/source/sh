@@ -89,6 +89,7 @@ alnum=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 
 bas64=$(printf '%s' "$ASCII" | cut --zero-terminated --characters 34-59,66-91,17-26; printf '+/\n')  ## 64 base64 characters from $ASCII
 date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
 date +'%s'  ## current linux epoch (oxo now)
+date '+%-:::z %Z'  ## current time zone numeric and name/abbreviation
 date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day at pi time) to linux epoch
 date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
 date -d '@1234567890' +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert specific linux epoch to oxo extensive time format

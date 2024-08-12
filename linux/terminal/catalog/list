@@ -105,6 +105,7 @@ sh   date -d '@1234567890' +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert specific lin
 sh   date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day at pi time) to linux epoch
 sh   date +'%s'  ## current linux epoch (oxo now)
 sh   date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
+sh   date '+%-:::z %Z'  ## current time zone numeric and name/abbreviation
 sh   dd if=$src of=$dst bs=256k iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## physical copy $src to $dst
 sh   dd if=/dev/urandom of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 random bytes to $dst
 sh   dd if=/dev/zero of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 bytes as zeros to $dst
