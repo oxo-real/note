@@ -339,7 +339,7 @@ sh   mount | sort -k 3 | column -t  ## sort mount by mountpoint
 sh   mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
 sh   mpv --audio-display=no $file.mp3  ## play mp3 without albumart
 sh   mpv /dev/video4  ## livestream local webcam
-sh   mpv --start=+00:00 --ytdl-raw-options=format-sort=res:480 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT $(wl-paste)  ## stream verbose with user-agent, best res under 480p and mpv.conf cache_xs profile
+sh   mpv --start=+00:00 --ytdl-raw-options=format-sort=res:240 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT $(wl-paste)  ## stream verbose with user-agent, best res under 480p and mpv.conf cache_xs profile
 sh   mv -t $target_dir $source_dirs  ## move source_dirs to target_dir
 sh   neofetch --ascii_distro arch_small --gtk3 off --gtk2 off --colors 3 3 3 7 3 4 --separator '     \t'  ## neat system info
 sh   nerd-dictation begin --config $config_file --simulate-input-tool STDOUT --numbers-min-value 10 --numbers-as-digits --numbers-no-suffix --vosk-model-dir $model_dir  ## speech-to-text

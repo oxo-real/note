@@ -311,7 +311,7 @@ mount | grep ro,  ## find all ro mountpoints
 mount | sort -k 1 | column -t  ## sort mount by device name
 mount | sort -k 3 | column -t  ## sort mount by mountpoint
 export PWGN_OFF=1; mountr  ## disable oxo pwgn
-mpv --start=+00:00 --ytdl-raw-options=format-sort=res:480 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT $(wl-paste)  ## stream verbose with user-agent, best res under 480p and mpv.conf cache_xs profile
+mpv --start=+00:00 --ytdl-raw-options=format-sort=res:240 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT $(wl-paste)  ## stream verbose with user-agent, best res under 480p and mpv.conf cache_xs profile
 wl-paste | sed 's/youtube.com/yewtu.be/' | wl-copy  ## change to invidious url
 mpv --audio-display=no $file.mp3  ## play mp3 without albumart
 mpv /dev/video4  ## livestream local webcam
