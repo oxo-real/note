@@ -34,6 +34,7 @@ bluetoothctl connect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoo
 bluetoothctl disconnect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth disconnect
 bluetoothctl discoverable off	## bluetooth not broadcast radio device
 bluetoothctl power off && sudo systemctl stop bluetooth.service && sudo rfkill block bluetooth  ## bluetooth radio off
+sudo rfkill unblock bluetooth && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off  ## bluetooth radio on
 brightnessctl set 50%  ## set brightness to 50% of the maximum
 cal -m -w -3 $(date -I)  ## calendar weeknumbers, last, current and next month, week start on mondays
 cal -m -w -y $(date +%Y)  ## calendar current year
@@ -470,10 +471,10 @@ stty -a  ## print all terminal line settings (human readable)
 stty -g  ## print all tty settings (stty readable)
 stty $(head -n 1 $XDG_CONFIG_HOME/tty/default)  ## (re)set default tty settings
 ts="$(now)"; stty_bu="$XDG_CONFIG_HOME/tty/"$ts"_sttyrc"; stty --save > $stty_bu && stty -all >> $stty_bu  ## backup terminal characteristics
-sudo -k  ## invalidate cached credentials
-sudo -l  ## list allowed commands for user
-sudo -n echo >/dev/null 2>&1; echo $?  ## print sudo status
-sudo rfkill unblock bluetooth && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off  ## bluetooth radio on
+sudo -k  ## (--reset timestamp) invalidate user cached credentials
+sudo -l  ## (--list) list user privileges
+sudo -v  ## (--validate) validate user cached credentials
+sudo -n echo >/dev/null 2>&1; echo $?  ## print credential cache status (1 no 0 cache)
 swaymsg -t get_outputs  ## list current sway outputs
 swaymsg -t get_tree | jq '.. | select(.type?) | select(.focused==true) | .pid'  ## currently active terminal pid
 swaymsg -t get_tree | jq -r '.nodes[].nodes[] | select(.type=="workspace").name'  ## list sway workspaces

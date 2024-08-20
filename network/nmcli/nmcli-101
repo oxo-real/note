@@ -1,0 +1,136 @@
+% nmcli general status
+STATE      CONNECTIVITY  WIFI-HW  WIFI      WWAN-HW  WWAN
+connected  full          enabled  disabled  enabled  enabled
+
+~
+% nmcli general logging
+LEVEL  DOMAINS
+INFO   PLATFORM,RFKILL,ETHER,WIFI,BT,MB,DHCP4,DHCP6,PPP,IP4,IP6,AUTOIP4,DNS,VPN,
+		SHARING,SUPPLICANT,AGENTS,SETTINGS,SUSPEND,CORE,DEVICE,OLPC,INFINIBAND,
+		FIREWALL,ADSL,BOND,VLAN,BRIDGE,TEAM,CONCHECK,DCB,DISPATCH,AUDIT,SYSTEMD,
+		PROXY
+
+~
+% nmcli device status
+DEVICE          TYPE      STATE                   CONNECTION
+enp4s0f3u4u1u2  ethernet  connected (externally)  enp4s0f3u4u1u2
+eno1            ethernet  unavailable             --
+wlp1s0          wifi      unavailable             --
+p2p-dev-wlp1s0  wifi-p2p  unavailable             --
+lo              loopback  unmanaged               --
+
+~
+% nmcli device show enp4s0f3u4u1u2
+GENERAL.DEVICE:                         enp4s0f3u4u1u2
+GENERAL.TYPE:                           ethernet
+GENERAL.HWADDR:                         3A:3A:E5:B6:4D:85
+GENERAL.MTU:                            1500
+GENERAL.STATE:                          100 (connected (externally))
+GENERAL.CONNECTION:                     enp4s0f3u4u1u2
+GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveConnection/18
+WIRED-PROPERTIES.CARRIER:               on
+IP4.ADDRESS[1]:                         192.168.0.23/24
+IP4.GATEWAY:                            192.168.0.1
+IP4.ROUTE[1]:                           dst = 192.168.0.0/24, nh = 0.0.0.0, mt = 1004
+IP4.ROUTE[2]:                           dst = 0.0.0.0/0, nh = 192.168.0.1, mt = 1004
+
+~
+% nmcli connection show
+NAME                UUID                                  TYPE      DEVICE
+enp4s0		    f08d5145-4c57-405f-abf5-1453d5e2f152  ethernet  enp4s
+ProtonVPN SE#30     fd577191-7a77-45b5-9a69-43d536d3ad9e  vpn       --
+Wired connection 1  6e5d3af9-21e9-30c4-821e-0b5e3b65557c  ethernet  --
+
+
+# nmcli setup connection example
+
+# 1. add connection
+
+## $ethernet01
+% nmcli connection add type ethernet con-name $ethernet01 ifname $interface_device_name
+
+## wifi
+
+### show current ssid reception list
+% nmcli device wifi list
+
+### add connection $wifi02
+% nmcli connection add type 802-11-wireless con-name $wifi02 ssid $ssid_name
+
+2. modify $connection03
+
+% nmcli connection modify [--temporary] $connection03 ipv4.addresses 192.168.0.2/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual
+
+
+# create a wifi hotspot
+% wifi hotspot [ifname ifname] [con-name name] [ssid SSID] [band {a | bg}] [channel channel] [password password]
+
+
+DEV
+dont save ethernet connections, devices can change names and that gives errors next time
+
+
+# connect to wireless network
+
+## start services
+sudo systemctl start NetworkManager.service
+sudo systemctl start systemd-resolved.service
+
+## nmcli status
+nmcli device status
+nmcli radio
+
+## radio on
+rfkill unblock wifi
+nmcli radio wifi on
+
+## scan available wireless access points
+nmcli device wifi list
+
+## select available $ssid
+nmcli device wifi list | fzf --header-lines 1 | awk '{print $2}'
+
+## establish $ssid connection
+nmcli device wifi connect $ssid_unknown [--ask | password 'monkey123']
+
+## connect known $ssid
+nmcli connection up $ssid
+
+## vpn connect
+wg-quick up wg-US-69
+
+
+# disconnect from a wireless network
+
+## vpnb
+wg-quick down wg-US-69
+
+## $ssid
+nmcli connection down $ssid
+
+## radio off
+nmcli radio wifi off
+rfkill block wifi
+nmcli device status
+
+
+# settings
+
+## no autoconnect
+% nmcli device set wlp0s20f3 autoconnect no
+
+
+# create hotspot
+
+nmcli connection add type wifi ifname wlp0s20f3 con-name hstpx1c ssid hstpx1c
+nmcli connection modify hstpx1c 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared
+nmcli connection modify hstpx1c wifi-sec.key-mgmt wpa-psk
+nmcli connection modify hstpx1c wifi-sec.psk 'monkey123'
+nmcli connection up hstpx1c
+
+If after reboot nmcli con up Hotspot doesn't work
+
+Use this command instead to start Hotspot
+
+UUID=$(grep uuid /etc/NetworkManager/system-connections/Hotspot | cut -d= -f2)
+nmcli con up uuid $UUID
