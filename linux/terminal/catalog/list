@@ -451,11 +451,11 @@ sh   rfkill [un]block all  ## soft [un]block all radios
 sh   rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
 sh   rmmod $module  ## remove $module from linux kernel
 sh   rm -rf -- '-r'  ## remove entire directory starting with a '-'
-sh   rsync -aAXv --delete --info=progress2,stats --progress $source/ $destination  ## basic oxo rsync
-sh   rsync -aAXv --delete --info=progress2,stats --progress --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
-sh   rsync -aAXv --delete --info=progress2,stats --progress --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w files from patterns
-sh   rsync -aAXv --delete --info=progress2,stats --progress --rsh=ssh $source $user@$host:/directory  ## basic oxo rsync w remote ssh shell
-sh   rsync -aAXv --dry-run --delete --info=progress2,stats --progresss $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## dry run backup_c2b
+sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') $source/ $destination  ## basic oxo rsync with logging
+sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
+sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w files from patterns
+sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --rsh=ssh $source $user@$host:/directory  ## basic oxo rsync w remote ssh shell
+sh   rsync -aAXv --delete --info=progress2,stats --progresss --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --dry-run $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## dry run backup_c2b
 sh   rsync -aAXv --hard-links --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/var/lib/dhcpcd/*","/lost+found","$dst/*"} / $dst  ## full system backup
 sh   rsync --recursive $src/ $dst  ## copy $src content 'flat' into $dst (like cp $src/.) NOTICE rsync trailing slash caveat
 sh   rsync --recursive $src $dst  ## create intervening directory $dst/$src; with all content of $src

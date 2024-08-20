@@ -826,6 +826,7 @@
 │   │       ├── 40-usb_modeswitch.rules
 │   │       └── README.md
 │   ├── nmcli
+│   │   └── nmcli-101
 │   ├── tor
 │   │   └── qb_tor
 │   ├── tshark
@@ -961,5 +962,5 @@
 └── zzz_deprecated
     └── xab
 
-198 directories, 763 files
+199 directories, 763 files
 ```
