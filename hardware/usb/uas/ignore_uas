@@ -1,0 +1,71 @@
+ignore UAS for usb devices when errors occur when:
+
+mkfs.ext4 certain devices
+blockdevices are disappearing
+
+get idVendor and idProduct via:
+lsusb
+
+then execute:
+
+echo "$idVendor:$idProduct:u" | sudo dd of=/sys/module/usb_storage/parameters/quirks
+
+################################
+
+ /sys/module/usb_storage/parameters
+% journalctl --dmesg --since '1 minutes ago'                                                      > 134944
+Aug 22 13:49:26 x1c kernel: usb 2-1: USB disconnect, device number 3
+Aug 22 13:49:26 x1c kernel: sd 0:0:0:0: [sda] Synchronizing SCSI cache
+Aug 22 13:49:26 x1c kernel: sd 0:0:0:0: [sda] Synchronize Cache(10) failed: Result: hostbyte=DID_ERROR dr>
+Aug 22 13:49:31 x1c kernel: usb 2-1: new SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
+Aug 22 13:49:31 x1c kernel: usb 2-1: New USB device found, idVendor=0781, idProduct=55ae, bcdDevice=30.08
+Aug 22 13:49:31 x1c kernel: usb 2-1: New USB device strings: Mfr=2, Product=3, SerialNumber=1
+Aug 22 13:49:31 x1c kernel: usb 2-1: Product: Extreme 55AE
+Aug 22 13:49:31 x1c kernel: usb 2-1: Manufacturer: SanDisk
+Aug 22 13:49:31 x1c kernel: usb 2-1: SerialNumber: 32343230344B343034383437
+>>> Aug 22 13:49:31 x1c kernel: scsi host0: uas
+Aug 22 13:49:32 x1c kernel: scsi 0:0:0:0: Direct-Access     SanDisk  Extreme 55AE     3008 PQ: 0 ANSI: 6
+Aug 22 13:49:32 x1c kernel: scsi 0:0:0:1: Enclosure         SanDisk  SES Device       3008 PQ: 0 ANSI: 6
+Aug 22 13:49:32 x1c kernel: ses 0:0:0:1: Attached Enclosure device
+Aug 22 13:49:32 x1c kernel: ses 0:0:0:1: Failed to get diagnostic page 0x1
+Aug 22 13:49:32 x1c kernel: ses 0:0:0:1: Failed to bind enclosure -19
+Aug 22 13:49:32 x1c kernel: sd 0:0:0:0: [sda] 1953459617 512-byte logical blocks: (1.00 TB/931 GiB)
+Aug 22 13:49:32 x1c kernel: sd 0:0:0:0: [sda] Write Protect is off
+Aug 22 13:49:32 x1c kernel: sd 0:0:0:0: [sda] Mode Sense: 37 00 10 00
+Aug 22 13:49:32 x1c kernel: sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, supports DPO and>
+Aug 22 13:49:32 x1c kernel: sd 0:0:0:0: [sda] Preferred minimum I/O size 512 bytes
+Aug 22 13:49:32 x1c kernel: sd 0:0:0:0: [sda] Optimal transfer size 1048576 bytes
+Aug 22 13:49:32 x1c kernel: sd 0:0:0:0: [sda] Attached SCSI disk
+                                                                                        4643 107040 134948
+ /sys/module/usb_storage/parameters
+% echo '0781:55ae:u' | sudo dd of=/sys/module/usb_storage/parameters/quirks                    > 135342
+0+1 records in
+0+1 records out
+12 bytes copied, 5.5535e-05 s, 216 kB/s
+                                                                                        3265 107041 135345
+ /sys/module/usb_storage/parameters
+% journalctl --dmesg --since '1 minutes ago'                                                      > 135357
+Aug 22 13:53:49 x1c kernel: usb 2-1: USB disconnect, device number 4
+Aug 22 13:53:49 x1c kernel: sd 0:0:0:0: [sda] Synchronizing SCSI cache
+Aug 22 13:53:49 x1c kernel: sd 0:0:0:0: [sda] Synchronize Cache(10) failed: Result: hostbyte=DID_ERROR dr>
+Aug 22 13:53:51 x1c kernel: usb 2-1: new SuperSpeed Plus Gen 2x1 USB device number 5 using xhci_hcd
+Aug 22 13:53:51 x1c kernel: usb 2-1: New USB device found, idVendor=0781, idProduct=55ae, bcdDevice=30.08
+Aug 22 13:53:51 x1c kernel: usb 2-1: New USB device strings: Mfr=2, Product=3, SerialNumber=1
+Aug 22 13:53:51 x1c kernel: usb 2-1: Product: Extreme 55AE
+Aug 22 13:53:51 x1c kernel: usb 2-1: Manufacturer: SanDisk
+Aug 22 13:53:51 x1c kernel: usb 2-1: SerialNumber: 32343230344B343034383437
+>>> Aug 22 13:53:51 x1c kernel: usb 2-1: UAS is ignored for this device, using usb-storage instead
+Aug 22 13:53:51 x1c kernel: usb-storage 2-1:1.0: USB Mass Storage device detected
+Aug 22 13:53:51 x1c kernel: usb-storage 2-1:1.0: Quirks match for vid 0781 pid 55ae: 800000
+Aug 22 13:53:51 x1c kernel: scsi host0: usb-storage 2-1:1.0
+Aug 22 13:53:54 x1c kernel: scsi 0:0:0:0: Direct-Access     SanDisk  Extreme 55AE     3008 PQ: 0 ANSI: 6
+Aug 22 13:53:54 x1c kernel: scsi 0:0:0:1: Enclosure         SanDisk  SES Device       3008 PQ: 0 ANSI: 6
+Aug 22 13:53:54 x1c kernel: ses 0:0:0:1: Attached Enclosure device
+Aug 22 13:53:54 x1c kernel: sd 0:0:0:0: [sda] 1953459617 512-byte logical blocks: (1.00 TB/931 GiB)
+Aug 22 13:53:54 x1c kernel: ses 0:0:0:1: Failed to get diagnostic page 0x1
+Aug 22 13:53:54 x1c kernel: ses 0:0:0:1: Failed to bind enclosure -19
+Aug 22 13:53:54 x1c kernel: sd 0:0:0:0: [sda] Write Protect is off
+Aug 22 13:53:54 x1c kernel: sd 0:0:0:0: [sda] Mode Sense: 17 00 10 00
+Aug 22 13:53:54 x1c kernel: sd 0:0:0:0: [sda] No Caching mode page found
+Aug 22 13:53:54 x1c kernel: sd 0:0:0:0: [sda] Assuming drive cache: write through
+Aug 22 13:53:54 x1c kernel: sd 0:0:0:0: [sda] Attached SCSI disk
