@@ -730,6 +730,7 @@ sway bindsym $mod+Mod1+p		exec grim \
 sway bindsym $mod+Mod1+Return	exec --no-startup-id $csc/term-spawn $HOME float &
 sway bindsym $mod+Mod1+semicolon 	floating toggle
 sway bindsym $mod+Mod1+Shift+Return	exec --no-startup-id $csc/term-spawn pwd float &
+sway bindsym $mod+Mod1+s	 	sticky toggle
 sway bindsym $mod+Mod1+u		floating enable; $smt NW
 sway bindsym $mod+o			workspace prev
 sway bindsym $mod+Period		workspace next
@@ -770,7 +771,6 @@ sway #bindsym $mod+Shift+s		exec $XDG_CONFIG_HOME/sway/code/screen_onf
 sway #bindsym $mod+Shift+Slash	exec $csc/dimr screen_off
 sway bindsym $mod+Shift+slash	move scratchpad
 sway bindsym $mod+Shift+space    input $touchpad \
-sway bindsym $mod+Shift+s	 	sticky toggle
 sway #bindsym $mod+Shift+x		exec $term --app-id="float_exit" \
 sway bindsym $mod+Shift+x		exec --no-startup-id $term --class="float_exit" \
 sway bindsym $mod+Shift+z		exec sh $csc/dimr swaylock
