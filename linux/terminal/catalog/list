@@ -1,7 +1,10 @@
+atty "Alt" "Key0" "alacritty msg config font.size=11\r" 
+atty "Alt" "Key9" "alacritty msg config font.size=20\r" 
 atty "Control" "B" "yank-buffer | fzf-word \r" 
 atty "Control" "Escape" "ToggleViMode" 
-atty "Control" "Key0" "alacritty msg config font.size=11; sleep 0.1; clear \r" 
-atty "Control" "Key9" "alacritty msg config font.size=20 sleep 0.1; clear \r" 
+atty "Control" "Key0" "ResetFontSize" 
+atty "Control" "Minus" "DecreaseFontSize" 
+atty "Control" "Plus" "IncreaseFontSize" 
 atty "Shift|Control" "B" "yank-buffer all | fzf-word \r" 
 emcs :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
 lisp (set-face-attribute 'default nil :height 110)  ## Vl; M-x eval-region >> emacs set default font size 11pt (for screencasting)
@@ -318,7 +321,7 @@ sh   lsblk -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint --ascii 
 sh   lsblk -o name,fsuse%,fsused,size --sort fsuse% | grep '%' | tr -d '|-' | tr -d '\`' | column -t  ## block devices usage percentage
 sh   lscpu  ## display cpu architecture
 sh   lshw  ## list hardware configuration
-sh   lsmod  ## list drivers currently added to kernel
+sh   lsmod  ## list modules currently added to kernel
 sh   lsof +f -- [$path1 $path2]  ## list open files in paths opened by processes
 sh   lsof -p [$pid]  ## list open files for PID
 sh   lspci -k -d [$vendor]:[$device][:$class]  ## show kernel drivers and modules [for vendor, device and/or classid]

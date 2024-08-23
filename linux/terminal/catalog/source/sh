@@ -288,7 +288,7 @@ lsblk -o name,fstype,uuid,path,size,fsuse%,fsused,label,mountpoint --ascii --tre
 lsblk -o name,fsuse%,fsused,size --sort fsuse% | grep '%' | tr -d '|-' | tr -d '\`' | column -t  ## block devices usage percentage
 lscpu  ## display cpu architecture
 lshw  ## list hardware configuration
-lsmod  ## list drivers currently added to kernel
+lsmod  ## list modules currently added to kernel
 lsof +f -- [$path1 $path2]  ## list open files in paths opened by processes
 lsof -p [$pid]  ## list open files for PID
 lspci  ## list pci devices
