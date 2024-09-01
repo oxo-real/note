@@ -170,6 +170,7 @@ sh   export PWGN_OFF=1; mountr  ## disable oxo pwgn
 sh   faillock --user $USER --reset  ## remove sudo lockout for current user
 sh   fallocate -l 5M file  ## create file 5M size
 sh   fc -e $editor  ## edit last command in $editor (fix command)
+sh   fc -l -d -r -t %Y%m%d_%H%M%S -D 1 | sort --key 1n | sort --reverse --key 4 | uniq -c --skip-fields 3 | sort --key 1nr | nl --number-width 4 --number-separator ' '  ## unique command history list; line number, occurence frequnecy, latest history id, timestamp, execution time, command
 sh   fc -l -d -t %Y%m%d_%H%M%S -D 1  ## list events from history list ($HISTFILE) with duration and timestamp from event 1 (interactive shell $- == *i*)
 sh   fc -l -d -t %Y%m%d_%H%M%S -D 1 | sort --reverse --numeric-sort --key 1 | sort --unique --key 4 | sort --numeric-sort --key 1 | fzf  ## fzf history search
 sh   fc-list  ## list available fonts (fontconfig)
@@ -761,7 +762,9 @@ sway bindsym $mod+Shift+7	    move container to workspace $ws7
 sway bindsym $mod+Shift+8	    move container to workspace $ws8
 sway bindsym $mod+Shift+9	    move container to workspace $ws9
 sway bindsym $mod+Shift+backslash	layout toggle splith splitv stacking tabbed; exec $csc/layout-ntfy-send
-sway bindsym $mod+Shift+b	border toggle
+sway #bindsym $mod+Shift+b	border toggle
+sway bindsym $mod+Shift+b	    exec swaymsg input $trackpoint \
+sway bindsym $mod+Shift+bracketleft	border toggle
 sway bindsym $mod+Shift+c		reload
 sway bindsym $mod+Shift+Equal    move container to workspace $ws=
 sway bindsym $mod+Shift+Minus    move container to workspace $ws-
@@ -770,7 +773,8 @@ sway bindsym $mod+Shift+Return	exec --no-startup-id $csc/term-spawn pwd &
 sway #bindsym $mod+Shift+s		exec $XDG_CONFIG_HOME/sway/code/screen_onf
 sway #bindsym $mod+Shift+Slash	exec $csc/dimr screen_off
 sway bindsym $mod+Shift+slash	move scratchpad
-sway bindsym $mod+Shift+space    input $touchpad \
+sway bindsym $mod+Shift+space    exec swaymsg input $touchpad \
+sway bindsym $mod+Shift+v	    exec swaymsg input $touchscreen \
 sway #bindsym $mod+Shift+x		exec $term --app-id="float_exit" \
 sway bindsym $mod+Shift+x		exec --no-startup-id $term --class="float_exit" \
 sway bindsym $mod+Shift+z		exec sh $csc/dimr swaylock

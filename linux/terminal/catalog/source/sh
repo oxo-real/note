@@ -145,6 +145,7 @@ fc -e $editor  ## edit last command in $editor (fix command)
 fc -l -n -1  ## last command entered
 fc -l -d -t %Y%m%d_%H%M%S -D 1  ## list events from history list ($HISTFILE) with duration and timestamp from event 1 (interactive shell $- == *i*)
 fc -l -d -t %Y%m%d_%H%M%S -D 1 | sort --reverse --numeric-sort --key 1 | sort --unique --key 4 | sort --numeric-sort --key 1 | fzf  ## fzf history search
+fc -l -d -r -t %Y%m%d_%H%M%S -D 1 | sort --key 1n | sort --reverse --key 4 | uniq -c --skip-fields 3 | sort --key 1nr | nl --number-width 4 --number-separator ' '  ## unique command history list; line number, occurence frequnecy, latest history id, timestamp, execution time, command
 fc-list  ## list available fonts (fontconfig)
 fd $options $pattern $path  ## fd general synopsis, pattern default regex (--glob)
 fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search clpb-string and copy (quick file search)
