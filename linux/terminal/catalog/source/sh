@@ -130,7 +130,7 @@ echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
 echo $RANDOM  ## pseudorandom integer (0-32767)
 echo $(( RANDOM%95 + 32 ))  ## generate pseudorandom integer between 32 and 127 (included)
 echo ${HOME#*/}  ## parameter expansion; substitute shortest match from head (#) with matched portion (*/) deleted,; remove until first instance ('home/oxo')
-echo ${HOME##*/}  ## parameter expansion; substitute longest match from head (##) with matched portion (/*) deleted; remove until last instance ('oxo')
+echo ${HOME##*/}  ## parameter expansion; substitute longest match from head (##) with matched portion (*/) deleted; remove until last instance ('oxo')
 echo ${HOME%/*}  ## parameter expansion; substitute shortest match from tail (%) with matched portion (/*) deleted; remove from last instance ('/home')
 echo ${HOME%%/*}  ## parameter expansion; substitute longest match from tail (%%) with matched portion (/*) deleted; remove from first instance ('')
 emacs --daemon  ## start emacs daemon
@@ -141,6 +141,8 @@ printenv  ## print values of environment variables
 espeak -s 80 -p 70 -v mb-us1 'hello'  ## espeak hello speed 80% pitch 70% voice us1
 eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concatenate arguments, add ssh_key
 faillock --user $USER --reset  ## remove sudo lockout for current user
+fc -AI  ## append history to file; include internal (new) events only (update history file)
+fc -RI  ## read history from file; include internal (new) events only (update shell/local/session history)
 fc -e $editor  ## edit last command in $editor (fix command)
 fc -l -n -1  ## last command entered
 fc -l -d -t %Y%m%d_%H%M%S -D 1  ## list events from history list ($HISTFILE) with duration and timestamp from event 1 (interactive shell $- == *i*)
@@ -223,8 +225,9 @@ grep bindsym $XDG_CONFIG_HOME/sway/config  ## sway keybinding related lines
 grep bindkey $XDG_CONFIG_HOME/zsh/.zshrc  ## zsh keybinding related lines
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
-head -n -3 $file  ## show all but 3 last lines (hide last three lines from $file)
-history  ## same as fc -l
+head -n 2 $file  ## print $file first 2 lines
+head -n -2 $file  ## print $file but last 2 lines (skip last 2 lines)
+history  ## alias to fc -l
 history -t %Y%m%d_%H%M%S -d -D $history_id  ## command history from $history_id (id time-start -elapsed cmd)
 history -t %Y%m%d_%H%M%S -d -D -3  ## last 3 commands from history (id time-start -elapsed cmd)
 history | tail -n 1 | tr -s ' ' | cut -d ' ' -f 3-  ## last command from history (removing history_id)
@@ -362,8 +365,8 @@ pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a
 pkill -SIGRTMIN+4 i3blocks  ## send signal=4 to i3blocks
 print -z $string  ## inject $string to zsh stdin
 printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
-printf "%03d%s" "2"  ## print leading zeros
-printf "%3d%s" "2"  ## print leading spaces
+printf "%03d%s" '2'  ## print leading zeros before a number (padding)
+printf "%3d%s" '2'  ## print leading spaces before a number (padding)
 printf "%x\n" \'A  ## ascii character (A) to hex value (41)
 printf "%d\n" \'A  ## ascii character (A) to decimal value (65)
 printf "\x$(printf %x 65)"  ## ascii hex value (65) to character (A)
@@ -500,6 +503,8 @@ systemctl status [$pttrn_pid] ## runtime status
 systemd-analyze  ## analyze and debug system boot-up performance
 systemd-analyze blame  ## how long it took to start each unit (process)
 tail -f /var/log/{messages,kernel,dmesg,syslog}  ## TODO decription
+tail -n 2 $file  ## print $file last 2 lines
+tail -n +2 $file  ## print $file from line 2 (skip first line)
 tac $file  ## concatenate and print file lines in reverse
 tar -cv[j/z]f $archive.tar -C $subdir $files  ## create tar archive [bzip2/gzip compression (optional)] files in archive relative to $subdir
 tar -cv[j/z]f $archive.tar $files  ## create tar archive [bzip2/gzip compression (optional)]
@@ -508,7 +513,7 @@ tar -xv[j/z]f $archive.tar  ## extract tar archive [bzip2/gzip compression (opti
 tar -xv[j/z]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip compression (optional)]
 tee --append $file1 $file2  ## append stdout to multiple files
 test "$var"  ## check if $var is defined / non-null
-[ "$var" ]  ## alias for: 'test "$var"
+[ "$var" ]  ## alias for: 'test "$var"'
 [[ $var ]]  ## extended version of [ operator; with additional string, assignment and arithmetic operations and improved functionality, readability and performance
 tmux attach-session -t 0  ## TODO decription
 tmux show-options -g  ## TODO decription
@@ -531,13 +536,14 @@ unsetvar=  ## set variable unsetvar to ''
 uptime  ## uptime since boot
 < /proc/uptime | awk '{print $1}'  ## uptime in seconds
 usermod -a -G group_2_add user_2_add  ## add user to group
-var="${var_1:-$default_var}"  ## var is $default_var if var_1 is unset or null
+var="${var_1:-$default_var}"  ## default variable value is $default_var if var_1 is unset or null
 vlock --all  ## console lock all sessions
 env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
 watch --differences --no-title --interval 1 $command  ## default watch command
 wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
 wf-recorder --audio --codec libx264 --file $video.mp4  ## recording video with wf-recorder
 wget https://file.location -c -O file.location.txt_part  ## resume downloading file.location to file.location.txt_part
+whatis $man_page_name  ## man page descriptions
 which -a $command  ## show path of all $command (from $PATH)
 optstring=":i:h"; while getopts $optstring opt; do; case $opt in i) var="${OPTARG}";; h) echo help_text;; \?) echo 'no opt';; :) echo 'hlp txt';; esac; done  ## command options (-i arg or -h)
 while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk '{print $1}')"  ## which package from Qm is in /v/c/p/p
@@ -631,7 +637,7 @@ stty sane  ## don't clear screen but reset some terminal options
 echo -e "\033c"  ## same as tput reset but hardcoded escape seq
 printf "\033c"  ## same as tput reset but hardcoded escape seq
 setterm -reset  ## same as tput reset, setterm has more user friendly commands
-print_entire_array() { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}" ; done }  ## print_entire_array arrayX
+print_entire_array() { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}" ; done }  ## usage: print_entire_array $array_name
 echo general quotation rule  ## quote if $var can be empty (null) or contain whitespace or punct chartacters (wildcards)
 $(command)  ## command substitution; gets the result of command
 $(( expression ))  ## arithmetic expansion; gets the result of $expression
