@@ -709,17 +709,14 @@ sway bindsym $mod+grave		exec $term --class="float_spicules" -e \
 sway #bindsym $mod+i			focus child  ## default
 sway bindsym $mod+m			exec --no-startup-id $term --class="float_spicules" \
 sway bindsym $mod+Minus	    workspace $ws-
-sway #bindsym $mod+Mod1+0		floating toggle; $smt Z; exec sh $csc/float-min  ## float minimize
 sway bindsym $mod+Mod1+0		floating toggle; exec sh $csc/float-min  ## float minimize
 sway bindsym $mod+Mod1+1		floating toggle; exec sh $csc/float-divide 1  ## float 1/6 monitor width
 sway bindsym $mod+Mod1+2		floating toggle; exec sh $csc/float-divide 2  ## float 1/3 monitor width
 sway bindsym $mod+Mod1+3		floating toggle; exec sh $csc/float-divide 3  ## float 1/2 monitor width
 sway bindsym $mod+Mod1+4		floating toggle; exec sh $csc/float-divide 4  ## float 2/3 monitor width
-sway #bindsym $mod+Mod1+5		floating enable; $smt Z
 sway bindsym $mod+Mod1+5		floating toggle; exec sh $csc/float-divide 5  ## float 5/6 monitor width
 sway bindsym $mod+Mod1+6		floating toggle; exec sh $csc/float-divide 6  ## float full monitor width
 sway bindsym $mod+Mod1+8		floating toggle; exec sh $csc/float-h-fill  ## snap fill top/bottom edge
-sway #bindsym $mod+Mod1+9		floating toggle; $smt Z; exec sh $csc/float-max  ## float maximize
 sway bindsym $mod+Mod1+9		floating toggle; exec sh $csc/float-max  ## float maximize
 sway bindsym $mod+Mod1+c		exec grim -g "$(slurp -p)" -t ppm - | \
 sway bindsym $mod+Mod1+Comma		$smt S
@@ -728,7 +725,6 @@ sway bindsym $mod+Mod1+i          	$smt N
 sway bindsym $mod+Mod1+j		$smt W
 sway bindsym $mod+Mod1+k		$smt Z
 sway bindsym $mod+Mod1+l		$smt E
-sway #bindsym $mod+Mod1+l		floating enable; $smt E
 sway bindsym $mod+Mod1+m		$smt SW
 sway bindsym $mod+Mod1+o		$smt NE
 sway bindsym $mod+Mod1+Period	$smt SE
