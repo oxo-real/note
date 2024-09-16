@@ -718,7 +718,8 @@ sway bindsym $mod+Mod1+5		$con_hexa 5  ## container toggle float/tile width 5 he
 sway bindsym $mod+Mod1+6		$con_hexa 6  ## container toggle float/tile width 6 hexaparts
 sway bindsym $mod+Mod1+7		$con_vfill  ## snap fill left/right edge
 sway bindsym $mod+Mod1+8		$con_hfill  ## snap fill top/bottom edge
-sway bindsym $mod+Mod1+9		floating toggle; $con-max  ## container maximize
+sway bindsym $mod+Mod1+9		$con_max  ## container maximize
+sway #bindsym $mod+Mod1+9		exec notify-send 'DEV660 sway config'
 sway bindsym $mod+Mod1+c		exec grim -g "$(slurp -p)" -t ppm - | \
 sway bindsym $mod+Mod1+Comma		$smt S
 sway bindsym $mod+Mod1+i          	$smt N
