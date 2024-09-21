@@ -140,6 +140,7 @@ emacsclient -e '(kill-emacs)'  ## stop emacs daemon outside running instance
 printenv  ## print values of environment variables
 espeak -s 80 -p 70 -v mb-us1 'hello'  ## espeak hello speed 80% pitch 70% voice us1
 eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concatenate arguments, add ssh_key
+export $VAR  ## make local variable $VAR available as an environmental variable
 faillock --user $USER --reset  ## remove sudo lockout for current user
 fc -AI  ## append history to file; include internal (new) events only (update history file)
 fc -RI  ## read history from file; include internal (new) events only (update shell/local/session history)
@@ -240,6 +241,7 @@ id -g [$USER]  ## show effective group id
 id -un [$USER]  ## show effective user name
 id -gn [$USER]  ## show effective group name
 id [$USER]  ## show both real and effective uid & gid
+IFS=', '  ## permanently assign comma and space as internal field separators (IFS as an environment variable)
 iftop -i $interface ## display bandwith usage of interface
 info  ## advanced manual system primarily for gnu programs
 insmod $file [$args]  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
@@ -318,7 +320,7 @@ mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
 mount | grep ro,  ## find all ro mountpoints
 mount | sort -k 1 | column -t  ## sort mount by device name
 mount | sort -k 3 | column -t  ## sort mount by mountpoint
-export PWGN_OFF=1; mountr  ## disable oxo pwgn
+export PWGN_OFF=1; mountr  ## disable oxo pwgn; i.e. while executing mountr
 mpv --start=+00:00 --ytdl-raw-options=format-sort=res:240 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT $(wl-paste)  ## stream verbose with user-agent, best res under 480p and mpv.conf cache_xs profile
 wl-paste | sed 's/youtube.com/yewtu.be/' | wl-copy  ## change to invidious url
 mpv --audio-display=no $file.mp3  ## play mp3 without albumart
@@ -398,6 +400,7 @@ read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o  ## input base
 read -er input | base64 | wl-copy -n -o  ## input base64 translation
 read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'  ## secure sha3-512 hash from stdin (verify pwgn)
 read -er input | base64 | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf && gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
+IFS=', ' read -r -a array <<< "$string"  ## comma or space separated string to array
 readlink $symlink  ## print resolved symbolic links or canonical file names
 readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonicalized symlink to current users $HOME (NOTICE realpath is preferred)
 realpath file  ## return canonicalized absolute pathname
@@ -430,7 +433,7 @@ sed '/^\s*$/d'  ## delete empty lines
 sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove $HISTORY last line
 sed -i '$d' $HISTFILE; sed -e ':t;N;$!bt; s/\(\n[^\n]*\)\{1\}$/\n     deleted:&/' $HISTFILE | tail; sed -i '$d' $HISTFILE  ## remove $HISTORY last line and show result
 sed -i '$d' $file  ## delete last line from $file
-sed -i '/pttrn/d' $file  ## delete all lines in $file that contain 'pttrn'
+sed -i '/pttrn/d' $file  ## delete all lines in $file that contain pattern: 'pttrn'
 sed -i '2,$d' $file  ## delete all lines from line 2 from $file
 sed -i '2,3 d' $file  ## delete line 2 and 3 from $file
 sed -i 'ni insert this at line n of file' $file  ## insert string at line n
@@ -528,15 +531,16 @@ trap "tput cnorm; return 1" SIGINT; while true; do tput civis; echo; figlet -f b
 fallocate -l 5M file  ## create file 5M size
 truncate -s 5M file  ## create file 5M size
 tree -n --charset=unicode  ## depth indented file listing
-type -a $command  ## command interpretation; print all occurences in path
+type -a $command  ## command interpretation (build-in or external); -a also prints all occurences in path
 umount -l $mountpoint  ## umount busy targets (mountpoints)
 unlink $link_name  ## remove $link_name (i.e. symlink)
 unset varfun  ## unset value and attribute of variable or function varfun
-unsetvar=  ## set variable unsetvar to ''
+unsetvar=  ## set variable unsetvar to '' (empty)
 uptime  ## uptime since boot
 < /proc/uptime | awk '{print $1}'  ## uptime in seconds
-usermod -a -G group_2_add user_2_add  ## add user to group
-var="${var_1:-$default_var}"  ## default variable value is $default_var if var_1 is unset or null
+usermod -a -G $group $user  ## add user to group
+printf "${var1:-$default}"  ## print default variable value if var1 is unset or null
+printf "${var1:=$default}"  ## printf and set default variable value if var1 is unset or null
 vlock --all  ## console lock all sessions
 env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
 watch --differences --no-title --interval 1 $command  ## default watch command
@@ -622,6 +626,7 @@ for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded list v
 for (( i=$in; i<=$ix; i++ )); do echo $i; done  ## for loop alternative mathematic structure; variable list values (in to ix step i++)
 for i in $space_sep_string; do; echo $i; done  ## for loop through space separated string
 select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
+while IFS='=' read -r key value; do; config-array[$key]=$value; done < ./config-file  ## read key value pairs from file into array
 while read line; do; echo $line; done <<< "$variable"  ## while loop through lines in $variable (herestring)
 while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure upcount, increase $i by one
 while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure upcount, increase $i by one

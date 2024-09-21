@@ -166,7 +166,8 @@ sh   env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --
 sh   espeak -s 80 -p 70 -v mb-us1 'hello'  ## espeak hello speed 80% pitch 70% voice us1
 sh   < /etc/group  ## list all user groups
 sh   eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concatenate arguments, add ssh_key
-sh   export PWGN_OFF=1; mountr  ## disable oxo pwgn
+sh   export $VAR  ## make local variable $VAR available as an environmental variable
+sh   export PWGN_OFF=1; mountr  ## disable oxo pwgn; i.e. while executing mountr
 sh   faillock --user $USER --reset  ## remove sudo lockout for current user
 sh   fallocate -l 5M file  ## create file 5M size
 sh   fc -AI  ## append history to file; include internal (new) events only (update history file)
@@ -268,6 +269,8 @@ sh   id -gn [$USER]  ## show effective group name
 sh   id -u [$USER]  ## show effective user id
 sh   id -un [$USER]  ## show effective user name
 sh   if [[ $i -eq 0 ]]; then; echo 0; elif [[ $i -lt 0 ]]; then; echo neg; else; echo pos; fi  ## if elif else statement basic structure
+sh   IFS=', '  ## permanently assign comma and space as internal field separators (IFS as an environment variable)
+sh   IFS=', ' read -r -a array <<< "$string"  ## comma or space separated string to array
 sh   iftop -i $interface ## display bandwith usage of interface
 sh   info  ## advanced manual system primarily for gnu programs
 sh   insmod $file [$args]  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
@@ -405,6 +408,8 @@ sh   printf $s2l | sed 's/./\0\n/g'  ## print each character of a string on a se
 sh   printf $string | fold -w 1  ## print each character of a string on a separate line (string to lines)
 sh   printf $text | openssl dgst -sha512 -hmac $key | sed 's/^.*= //'  ## sha512 hash of $text with hmac $key
 sh   printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
+sh   printf "${var1:-$default}"  ## print default variable value if var1 is unset or null
+sh   printf "${var1:=$default}"  ## printf and set default variable value if var1 is unset or null
 sh   printf "\033c"  ## same as tput reset but hardcoded escape seq
 sh   printf "%03d%s" '2'  ## print leading zeros before a number (padding)
 sh   printf "%3d%s" '2'  ## print leading spaces before a number (padding)
@@ -482,7 +487,7 @@ sh   sed -i '2,3 d' $file  ## delete line 2 and 3 from $file
 sh   sed -i '/^find/ s/./#&/' $file  ## comment out lines containing 'find'
 sh   sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
 sh   sed -i 'ni insert this at line n of file' $file  ## insert string at line n
-sh   sed -i '/pttrn/d' $file  ## delete all lines in $file that contain 'pttrn'
+sh   sed -i '/pttrn/d' $file  ## delete all lines in $file that contain pattern: 'pttrn'
 sh   sed -i 's/$find/$replace/g' $file  ## replace $find with $replace in $file
 sh   sed '/^\s*$/d'  ## delete empty lines
 sh   select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ## select basic structure
@@ -570,19 +575,18 @@ sh   tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## re
 sh   truncate -s 5M file  ## create file 5M size
 sh   ts="$(now)"; stty_bu="$XDG_CONFIG_HOME/tty/"$ts"_sttyrc"; stty --save > $stty_bu && stty -all >> $stty_bu  ## backup terminal characteristics
 sh   ts=$(now); syncr $HOME/dock/transfer/x1c/home/oxo --delete --links --log-file=$XDG_LOGS_HOME/syncr/$ts | tee -a $XDG_LOGS_HOME/syncr/$ts  ## syncr backup with logging
-sh   type -a $command  ## command interpretation; print all occurences in path
+sh   type -a $command  ## command interpretation (build-in or external); -a also prints all occurences in path
 sh   umount -l $mountpoint  ## umount busy targets (mountpoints)
 sh   unlink $link_name  ## remove $link_name (i.e. symlink)
 sh   unsetopt $option  ## unset (disable) shell option
 sh   unset varfun  ## unset value and attribute of variable or function varfun
-sh   unsetvar=  ## set variable unsetvar to ''
+sh   unsetvar=  ## set variable unsetvar to '' (empty)
 sh   until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount, increase $i by one
 sh   until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure downcount, decrease $i by one
 sh   upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## 26 uppercase letter characters from $ASCII
 sh   uptime  ## uptime since boot
-sh   usermod -a -G group_2_add user_2_add  ## add user to group
+sh   usermod -a -G $group $user  ## add user to group
 sh   #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
-sh   var="${var_1:-$default_var}"  ## default variable value is $default_var if var_1 is unset or null
 sh   vlock --all  ## console lock all sessions
 sh   watch --differences --no-title --interval 1 $command  ## default watch command
 sh   wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
@@ -595,6 +599,7 @@ sh   which -a $command  ## show path of all $command (from $PATH)
 sh   while [[ $i -gt -3 ]]; do echo $i; ((i--)); done  ## while loop basic structure downcount, decrease $i by one
 sh   while [[ $i -lt 3 ]]; do echo $i; ((i+=1)); done  ## while loop basic structure upcount, increase $i by one
 sh   while [[ $i -lt 3 ]]; do echo $i; ((i++)); done  ## while loop basic structure upcount, increase $i by one
+sh   while IFS='=' read -r key value; do; config-array[$key]=$value; done < ./config-file  ## read key value pairs from file into array
 sh   while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(pacman -Qm | awk '{print $1}')"  ## which package from Qm is in /v/c/p/p
 sh   while read l; do $commands; done < $file  ## read file line by line into l
 sh   while read line; do; echo $line; done <<< "$variable"  ## while loop through lines in $variable (herestring)
@@ -732,6 +737,10 @@ sway bindsym $mod+Mod1+Period	$smt SE
 sway bindsym $mod+Mod1+p		exec grim \
 sway bindsym $mod+Mod1+Return	exec --no-startup-id $csc/term-spawn $HOME float &
 sway bindsym $mod+Mod1+semicolon 	floating toggle
+sway bindsym $mod+Mod1+Shift+h	move container to output left
+sway bindsym $mod+Mod1+Shift+j	move container to output down
+sway bindsym $mod+Mod1+Shift+k	move container to output up
+sway bindsym $mod+Mod1+Shift+l 	move container to output right
 sway bindsym $mod+Mod1+Shift+Return	exec --no-startup-id $csc/term-spawn pwd float &
 sway bindsym $mod+Mod1+s	 	sticky toggle
 sway bindsym $mod+Mod1+u		$smt NW

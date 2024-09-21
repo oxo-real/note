@@ -625,6 +625,8 @@
 │   │   │   │   ├── sed_101
 │   │   │   │   ├── sed_cheat_sheet
 │   │   │   │   ├── sed_guide.url
+│   │   │   │   ├── sed.stream.editor.cheat.sheet.pdf
+│   │   │   │   ├── sed.stream.editor.cheat.sheet.txt
 │   │   │   │   └── swap_columns_sed
 │   │   │   ├── set
 │   │   │   ├── stat
@@ -965,5 +967,5 @@
 └── zzz_deprecated
     └── xab
 
-200 directories, 765 files
+200 directories, 767 files
 ```
