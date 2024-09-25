@@ -460,7 +460,7 @@ sh   renice -19 $(pgrep $process_name)  ## give $process_name highest (-19) prio
 sh   reset  ## clear + reset internal terminal state + 1sec delay
 sh   reset && zsh  ## reinitialize terminal state and z-shel
 sh   return  ## return to the invoking script
-sh   rev $file  ## reverse line characters
+sh   rev $file  ## reverse line characters (for unknown field lengths)
 sh   rfkill list  ## check hard and soft block status wireless radios
 sh   rfkill [un]block all  ## soft [un]block all radios
 sh   rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
@@ -477,6 +477,7 @@ sh   rsync --recursive $src $dst  ## create intervening directory $dst/$src; wit
 sh   script; $command; exit  ## $command execution typescript user log
 sh   script --command 'sh -x $command' --log-io "$(now).log" --log-timing "$(now).log"  ## $sommand execution typescript developer debug log_2
 sh   script; sh -x $command; exit  ## $sommand execution typescript developer debug log
+sh   sed "${line_num}q;d" $file  ## print $line_num from $file
 sh   sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sh   sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove $HISTORY last line
 sh   sed -i '$d' $file  ## delete last line from $file
@@ -709,7 +710,6 @@ sway #bindsym $mod+d			exec $term --app-id="float_fzf_run" \
 sway bindsym $mod+d			exec --no-startup-id $term --class="float_fzf_run" \
 sway bindsym $mod+Equal	    workspace $ws=
 sway bindsym $mod+f		        fullscreen toggle
-sway #bindsym $mod+grave		exec $term --app-id="float_spicules" \
 sway bindsym $mod+grave		exec $term --class="float_spicules" -e \
 sway #bindsym $mod+i			focus child  ## default
 sway bindsym $mod+m			exec --no-startup-id $term --class="float_spicules" \
@@ -721,8 +721,8 @@ sway bindsym $mod+Mod1+3		$con_hexa 3  ## container toggle float/tile width 3 he
 sway bindsym $mod+Mod1+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym $mod+Mod1+5		$con_hexa 5  ## container toggle float/tile width 5 hexaparts
 sway bindsym $mod+Mod1+6		$con_hexa 6  ## container toggle float/tile width 6 hexaparts
-sway bindsym $mod+Mod1+7		$con_vfill  ## snap fill left/right edge
-sway bindsym $mod+Mod1+8		$con_hfill  ## snap fill top/bottom edge
+sway bindsym $mod+Mod1+7		$con_vfill  ## container toggle float/tile snap fill right edge
+sway bindsym $mod+Mod1+8		$con_hfill  ## container toggle float/tile snap fill bottom edge
 sway bindsym $mod+Mod1+9		$con_max  ## container maximize
 sway #bindsym $mod+Mod1+9		exec notify-send 'DEV660 sway config'
 sway bindsym $mod+Mod1+c		exec grim -g "$(slurp -p)" -t ppm - | \
@@ -793,7 +793,7 @@ sway bindsym $mod+slash		scratchpad show
 sway bindsym $mod+tab		workspace back_and_forth
 sway #bindsym $mod+z			exec $term --app-id="float_spicules" \
 sway bindsym $mod+z			exec --no-startup-id $term --class="float_spicules" \
-sway bindsym Control+Grave		exec date +'%Y%m%d_%H%M%S_%s' | wl-copy && notify-send 'current date_time copied'
+sway bindsym Control+Grave		exec date +'%Y%m%d_%H%M%S_%s' | wl-copy -n && notify-send 'date_time_epoch copied'
 sway bindsym Control+Mod1+s  	exec wpctl set-volume	@DEFAULT_SINK@ 0.12
 sway #bindsym Control+Shift+y	exec $term --app-id="float_spicules" \
 sway bindsym Control+Shift+y		exec --no-startup-id $term --class="float_spicules" \
@@ -881,8 +881,8 @@ zsh  bindkey -M vicmd 'q' toggle-sh-x        ## [vicmd] q
 zsh  bindkey -M vicmd 's' toggle-sudo        ## [vicmd] s
 zsh  bindkey -M viins '^[[3~' delete-char
 zsh  bindkey -M viins '^h' cd-nav-dirs       ## C-h
-zsh  # bindkey  now to clipboard             ## C-`
 zsh  bindkey '^o' clear-screen               ## C-o
+zsh  bindkey "^R" modified-fzf-history-widget
 zsh  bindkey -v
 zsh  bindkey -v '^?' backward-delete-char
 zsh  bindkey '^Z' foreground                 ## C-z

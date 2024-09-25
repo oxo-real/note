@@ -411,7 +411,7 @@ rename --all ' ' _ *  ## replace filename spaces with underscores
 renice -19 $(pgrep $process_name)  ## give $process_name highest (-19) priority
 reset && zsh  ## reinitialize terminal state and z-shel
 return  ## return to the invoking script
-rev $file  ## reverse line characters
+rev $file  ## reverse line characters (for unknown field lengths)
 rfkill list  ## check hard and soft block status wireless radios
 rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
 rfkill [un]block all  ## soft [un]block all radios
@@ -430,6 +430,7 @@ script; sh -x $command; exit  ## $sommand execution typescript developer debug l
 script --command 'sh -x $command' --log-io "$(now).log" --log-timing "$(now).log"  ## $sommand execution typescript developer debug log_2
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sed '/^\s*$/d'  ## delete empty lines
+sed "${line_num}q;d" $file  ## print $line_num from $file
 sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove $HISTORY last line
 sed -i '$d' $HISTFILE; sed -e ':t;N;$!bt; s/\(\n[^\n]*\)\{1\}$/\n     deleted:&/' $HISTFILE | tail; sed -i '$d' $HISTFILE  ## remove $HISTORY last line and show result
 sed -i '$d' $file  ## delete last line from $file
