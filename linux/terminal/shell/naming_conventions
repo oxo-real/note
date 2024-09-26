@@ -1,6 +1,6 @@
 variables with underscores
 
-filenames and commands (with their flags) and functions with dashes
+filenames, functions, commands and -options with dashes
 
 WARNING function are only allowed to have alnum and underscores
 

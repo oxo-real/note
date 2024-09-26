@@ -15,22 +15,23 @@ echo "$x $hotx $hoty pilot.png" > pilot.cursor
 # create an X11 cursor file
 xcursorgen pilot.cursor pilot
 
-# place the X11 cursor file pilot in the right directory
-check default theme in: /usr/share/icons/default/index.theme
-goto default theme cursor directory:
-cd /usr/share/icons/Adwaita/cursors
-copy pilot here
-change the necessary symlink if needed
-
 # to see what the cursor images look like:
 https://github.com/GNOME/adwaita-icon-theme/tree/master/src/cursors/pngs/96x96
 x11 cursor files can be opened by gimp
 
+# place the X11 cursor file pilot in the right directory
+check default theme in: /usr/share/icons/default/index.theme
+goto default theme cursor directory:
+cd /usr/share/icons/Adwaita/cursors
+copy pilot x11 cursor file here
+change symlinks if needed
+
 # if you want to change the text cursor to pilot:
-# backup (maybe; if text is a cursor)
-cp text text_old
-# symlink text to (co)pilot
-sudo ln -s -f pilot text
+symlink text to pilot
+# backup if text exixts as original cursor:
+% cp text text_ORG
+# then create  symlink
+% sudo ln -s -f pilot text
 
 # oxo config
 sudo ln -s -f pilot text
@@ -52,4 +53,19 @@ sudo ln -s -f copilot hand2
 
 NOTICE: most applications have to be restarted after cursor change.
 
+# reset oxo cursor setup
+sudo mount -o remount,rw /usr
+sudo cp /home/oxo/.config/icons/cursors/oxo/pilot   /usr/share/icons/Adwaita/cursors
+sudo cp /home/oxo/.config/icons/cursors/oxo/copilot /usr/share/icons/Adwaita/cursors
+[[ -f text ]] && cp text text_ORG
+[[ -f xterm ]] && cp xterm xterm_ORG
+[[ -f default ]] && cp default default_ORG
+[[ -f left_ptr ]] && cp left_ptr left_ptr_ORG
+[[ -f hand2 ]] && cp hand2 hand2_ORG
+sudo ln -s -f pilot text
+sudo ln -s -f pilot xterm
+sudo ln -s -f copilot default
+sudo ln -s -f copilot left_ptr
+sudo ln -s -f copilot hand2
+sudo mount -o remount,ro /usr
 
