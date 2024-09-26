@@ -16,6 +16,9 @@ bright_black			#6c6c66
 
 ## other
 bluetooth_blue			#96cbfe
+sway_active_ws_bg_blue		#00669995
+sway_urgent_ws_bg_magenta	#ff73fd95
+sway_active_ws_text		#aaaaaa95
 dwm_blue			#005577
 old_ip_ex_blue			#4c7899
 white_text			#ffffff
@@ -24,15 +27,30 @@ light_grey_text			#dddddd
 default_grey_text		#bbbbbb
 dark_grey_text			#999999
 time_yellow			#ffffb6
-active_window_box_text		#ffffff
-active_window_box_bg		#005577
+focused_container_bar_elem_text	#999999100
+focused_container_bar_elem_bg	#00669950
 cursor_pink			#ff73fd
 cursor_yellow			#ffffd3
 urgent_magenta			#770055
-needs_info_dark_moerate_red	#b36200
+needs_info_dark_moderate_red	#b36200
+bar_elem_vpn__text_green	#00806b
 
 
-
+sway
+    colors
+    {
+    	   ### item		color	  border    backgr    text
+    	   background		#00000095
+	   statusline		#777777
+	   separator		#777777
+	   focused_background	#00000095
+	   focused_statusline	#777777
+	   focused_separator	#ffffff
+	   focused_workspace		  #00669995 #00669995 #aaaaaa
+	   active_workspace		  #00000095 #77777795 #000000
+	   inactive_workspace		  #00000095 #00000095 #777777
+	   urgent_workspace		  #ff73fd95 #ff73fd95 #ffffd3
+    }
 
 
 
