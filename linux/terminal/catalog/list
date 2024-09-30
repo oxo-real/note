@@ -802,34 +802,34 @@ sway bindsym --locked XF86AudioPlay 	exec playerctl play-pause
 sway #bindsym --locked XF86MonBrightnessDown exec --no-startup-id light -U 10 && sway-brightness-notify
 sway #bindsym --locked XF86MonBrightnessUp exec --no-startup-id light -A 10 && sway-brightness-notify
 sway bindsym Mod1+8			exec echo buttondown middle | dotoolc
-sway bindsym Mod1+Comma		exec echo mousemove 0 -$kb_mouse_minor_move | dotoolc  ## up
-sway bindsym Mod1+Down		exec echo wheel -1 | dotoolc
+sway #bindsym Mod1+Comma		exec echo mousemove 0 -$kb_mouse_minor_move | dotoolc  ## up
+sway bindsym Mod1+Comma		exec echo wheel 1 | dotoolc
 sway bindsym Mod1+h			exec echo mousemove -$kb_mouse_regular_move 0 | dotoolc  ## left
 sway bindsym Mod1+i			exec echo buttonup middle; click middle | dotoolc
 sway #bindsym Mod1+i			exec echo mousemove 0 -$kb_mouse_major_move | dotoolc  ## up
 sway bindsym Mod1+j			exec echo mousemove 0 $kb_mouse_regular_move  | dotoolc  ## down
 sway bindsym Mod1+k			exec echo mousemove 0 -$kb_mouse_regular_move | dotoolc  ## up
-sway bindsym Mod1+Left		exec echo hwheel -1 | dotoolc
 sway bindsym Mod1+l			exec echo mousemove $kb_mouse_regular_move 0  | dotoolc  ## right
-sway bindsym Mod1+m			exec echo mousemove 0 $kb_mouse_minor_move  | dotoolc  ## down
-sway bindsym Mod1+n			exec echo mousemove -$kb_mouse_minor_move 0 | dotoolc  ## left
+sway #bindsym Mod1+m			exec echo mousemove 0 $kb_mouse_minor_move  | dotoolc  ## down
+sway bindsym Mod1+m			exec echo wheel -1 | dotoolc
+sway bindsym Mod1+n			exec echo hwheel -1 | dotoolc
+sway #bindsym Mod1+n			exec echo mousemove -$kb_mouse_minor_move 0 | dotoolc  ## left
 sway bindsym Mod1+o			exec echo buttonup right; click right | dotoolc
 sway #bindsym Mod1+o			exec echo mousemove $kb_mouse_major_move 0  | dotoolc  ## right
-sway bindsym Mod1+Period		exec echo mousemove $kb_mouse_minor_move 0  | dotoolc  ## right
+sway bindsym Mod1+Period		exec echo hwheel 1 | dotoolc
+sway #bindsym Mod1+Period		exec echo mousemove $kb_mouse_minor_move 0  | dotoolc  ## right
 sway bindsym Mod1+p			exec echo buttondown right | dotoolc
-sway bindsym Mod1+Right		exec echo hwheel 1 | dotoolc
-sway bindsym Mod1+Shift+Comma	exec echo mouseto 0.500 0.835 | dotoolc  ## S
-sway bindsym Mod1+Shift+i		exec echo mouseto 0.500 0.165 | dotoolc  ## N
-sway bindsym Mod1+Shift+j		exec echo mouseto 0.165 0.500 | dotoolc  ## W
-sway bindsym Mod1+Shift+k		exec echo mouseto 0.500 0.500 | dotoolc  ## Z
-sway bindsym Mod1+Shift+l		exec echo mouseto 0.835 0.500 | dotoolc  ## E
-sway bindsym Mod1+Shift+m		exec echo mouseto 0.165 0.835 | dotoolc  ## SW
-sway bindsym Mod1+Shift+o		exec echo mouseto 0.835 0.165 | dotoolc  ## NE
-sway bindsym Mod1+Shift+Period	exec echo mouseto 0.835 0.835 | dotoolc  ## SE
-sway bindsym Mod1+Shift+u		exec echo mouseto 0.165 0.165 | dotoolc  ## NW
-sway bindsym Mod1+u			exec echo click left | dotoolc
+sway bindsym Mod1+Shift+Comma	exec $csc/pointer-to -x 50% -y 83%  ## S
+sway bindsym Mod1+Shift+i		exec $csc/pointer-to -x 50% -y 17%  ## N
+sway bindsym Mod1+Shift+j		exec $csc/pointer-to -x 17% -y 50%  ## W
+sway bindsym Mod1+Shift+k		exec $csc/pointer-to -x 50% -y 50%  ## Z
+sway bindsym Mod1+Shift+l		exec $csc/pointer-to -x 83% -y 50%  ## E
+sway bindsym Mod1+Shift+m		exec $csc/pointer-to -x 17% -y 83%  ## SW
+sway bindsym Mod1+Shift+o		exec $csc/pointer-to -x 83% -y 17%  ## NE
+sway bindsym Mod1+Shift+Period	exec $csc/pointer-to -x 83% -y 83%  ## SE
+sway bindsym Mod1+Shift+u		exec $csc/pointer-to -x 17% -y 17%  ## NW
+sway bindsym Mod1+u			exec echo buttonup middle; click left | dotoolc
 sway #bindsym Mod1+u			exec echo mousemove 0 $kb_mouse_major_move  | dotoolc  ## down
-sway bindsym Mod1+Up			exec echo wheel 1 | dotoolc
 sway bindsym Mod1+y			exec echo buttondown left | dotoolc
 sway #bindsym Mod1+y			exec echo mousemove -$kb_mouse_major_move 0 | dotoolc  ## left
 sway bindsym --release $mod+Shift+p	exec grim -g "$(slurp)" \
