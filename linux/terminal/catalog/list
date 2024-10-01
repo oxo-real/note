@@ -55,6 +55,7 @@ sh   cat $HOME/a/data/emoji/emoji-test.txt | sed 's/^.*#//' | sed --regexp-exten
 sh   cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
 sh   cat $XDG_DATA_HOME/c/web/bookmark_urls | fzf | sed -e 's/^.*(//' -e 's/)$//' | wl-copy  ## get url from bookmark_urls
 sh   cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
+sh   cat-audio() {ffmpeg -i "concat:${(j:|:)@[2,-1]}" -acodec copy $1}  ## concatenate mp3 audio files usage: cat-audio output.mp3 *.mp3
 sh   cat <(ls)  ## process substitution reading from list <() (?without subshell?); same as ls | cat  (piping ?with subshell?) #DEV
 sh   cat -n $file  ## line number cat
 sh   cat -vE $file  ## prevent cat shell injection
@@ -249,8 +250,8 @@ sh   grep bindkey $XDG_CONFIG_HOME/zsh/.zshrc  ## zsh keybinding related lines
 sh   grep bindsym $XDG_CONFIG_HOME/sway/config  ## sway keybinding related lines
 sh   grep '^[[:blank:]]*[^[:blank:]#;]' $file  ## only lines not (2nd ^) starting (1st ^) with # or ; uncommented lines from file
 sh   grep '^[[:blank:]]*[^[:blank:]#;]' $XDG_CONFIG_HOME/alacritty/alacritty.yml | grep 'key:'  ## alacritty active (no outcommented) keybindings
-sh   grep -riIl 'text' [directory]  ## find files (no binary) containing text recursively in directory
-sh   grep -riIn 'text' [directory]  ## find files (no binary) containing text recursively in directory with linenumbers
+sh   grep -riIl 'text' $directory  ## find files (no binary) containing text recursively in $directory
+sh   grep -riIn 'text' $directory  ## find files (no binary) containing text recursively in $directory with linenumbers
 sh   grep "\sro[\s,]" /proc/mounts  ## show read only mountpoints
 sh   gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
 sh   gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
@@ -263,17 +264,17 @@ sh   history -t %Y%m%d_%H%M%S -d -D -3  ## last 3 commands from history (id time
 sh   host -t A $ip_addr_domain  ## dns lookup A record
 sh   host -v -t ANY $ip_addr_domain  ## dns lookup any type verbose output
 sh   hwclock --set --date='01/01/2010 00:00:00'; sudo hwclock --hctosys  ## set date and time
-sh   id [$USER]  ## show both real and effective uid & gid
-sh   id -g [$USER]  ## show effective group id
-sh   id -gn [$USER]  ## show effective group name
-sh   id -u [$USER]  ## show effective user id
-sh   id -un [$USER]  ## show effective user name
+sh   id $USER  ## show both real and effective uid & gid
+sh   id -g $USER  ## show effective group id
+sh   id -gn $USER  ## show effective group name
+sh   id -u $USER  ## show effective user id
+sh   id -un $USER  ## show effective user name
 sh   if [[ $i -eq 0 ]]; then; echo 0; elif [[ $i -lt 0 ]]; then; echo neg; else; echo pos; fi  ## if elif else statement basic structure
 sh   IFS=', '  ## permanently assign comma and space as internal field separators (IFS as an environment variable)
 sh   IFS=', ' read -r -a array <<< "$string"  ## comma or space separated string to array
 sh   iftop -i $interface ## display bandwith usage of interface
 sh   info  ## advanced manual system primarily for gnu programs
-sh   insmod $file [$args]  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
+sh   insmod $file $args  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
 sh   ip a add $ip_subnet_mask broadcast $broadcast_ip dev $interface  ## add interface
 sh   ip a add 192.168.1.200/255.255.255.0 dev $interface  ## assign ip address to interface
 sh   ip a del 192.168.1.200/24 dev $interface  ## remove ip address from interface
@@ -281,22 +282,22 @@ sh   ip a flush $interface  ## remove all ip addresses from interface
 sh   ip a | grep '^[0-9]' | awk -F ': ' '{print $2}'  ## network interface list
 sh   ip -c a  ## ip address; show network routing, devices, interfaces and tunnels in color
 sh   ip link set $interface {down/up}  ## change interface state
-sh   ip link set dev [$interface] address [$mac]  ## assign [mac] address to [interface]
-sh   ip link set dev [$interface] down  ## disconnect from the network by disable interface
+sh   ip link set dev $interface address $mac  ## assign $mac address to $interface
+sh   ip link set dev $interface down  ## disconnect from the network by disable $interface
 sh   ip link show $enp | grep link | awk '{print $2}'  ## print $enp mac address
 sh   ip neighbor show  ## show neighbor / arp cache
 sh   ip route add default via $default_gateway  ## add new $default_gateway
 sh   ip route flush dev $interface  ## flush routing tables for $interface
 sh   ip route show | grep default | awk '{print $5}'  ## currently active external facing network interface
-sh   ipset add blocklist [$ipaddrs]  ## add [ipaddrs] to blocklist
+sh   ipset add blocklist $ipaddrs  ## add $ipaddrs to blocklist
 sh   ipset create blocklist hash:ip  ## create ip blocklist
-sh   iptables -A INPUT -s [ipaddr] -j DROP  ## add [ipaddr] to chain INPUT and drop all traffic
-sh   iw dev [$wl_interface] scan | grep SSID | sort | uniq  ## received SSID list
+sh   iptables -A INPUT -s $ipaddr -j DROP  ## add ipaddr/ to chain INPUT and drop all traffic
+sh   iw dev $wl_interface scan | grep SSID | sort | uniq  ## received SSID list
 sh   jobs  ## list background processes (C-z initiates)
-sh   journalctl --boot [$id]  ## messages from (current -0, previous -1) boot
+sh   journalctl --boot $id  ## messages from boot id (current -0, previous -1)
 sh   journalctl --disk-usage  ## show total size / disk space used
 sh   journalctl --dmesg  ## show only kernel messages
-sh   journalctl --dmesg --since '1 minute ago'  ## kernel messages not oldeer than 1 minute
+sh   journalctl --dmesg --since '1 minute ago'  ## show kernel messages not oldeer than 1 minute
 sh   journalctl --flush --rotate  ## flush all journal data from /run to /var and request immediate rotation of the journal files
 sh   journalctl --follow  ## show most recent and print new
 sh   journalctl --list-boots  ##  ## list of boots with their numbers
@@ -329,10 +330,10 @@ sh   lsblk -o name,fsuse%,fsused,size --sort fsuse% | grep '%' | tr -d '|-' | tr
 sh   lscpu  ## display cpu architecture
 sh   lshw  ## list hardware configuration
 sh   lsmod  ## list modules currently added to kernel
-sh   lsof +f -- [$path1 $path2]  ## list open files in paths opened by processes
-sh   lsof -p [$pid]  ## list open files for PID
-sh   lspci -k -d [$vendor]:[$device][:$class]  ## show kernel drivers and modules [for vendor, device and/or classid]
-sh   lspci -k -s xx:xx.x [[$domain]:]$bus]:][$slot][.[$func]]  ## show kernel drivers and modules for domain
+sh   lsof +f -- $path1 $path2  ## list open files in paths opened by processes
+sh   lsof -p $pid  ## list open files for $pid
+sh   lspci -k -d $vendor:$device:$class  ## show kernel drivers and modules (for vendor, device and/or classid)
+sh   lspci -k -s xx:xx.x $domain:$bus:$slot.$func  ## show kernel drivers and modules for domain
 sh   lspci -k -t -v  ## show kernal driver and module details in a tree
 sh   lspci  ## list pci devices
 sh   lspci -vv  ## list pci devices with more detail (useful to find kernel drivers)
@@ -383,7 +384,7 @@ sh   openvpn --config openvpn/udp-ams1_udp.ovpn  ## open vpn with specific confi
 sh   optstring=":i:h"; while getopts $optstring opt; do; case $opt in i) var="${OPTARG}";; h) echo help_text;; \?) echo 'no opt';; :) echo 'hlp txt';; esac; done  ## command options (-i arg or -h)
 sh   output=$(printf $input | openssl dgst -sha512 -hmac $key | sed 's/^.*= //')  ## zz3
 sh   pacman-key --delete $pub_key  ## remove key from keyring
-sh   pacman-key --finger [$pub_key]  ## list fingerprint(s)
+sh   pacman-key --finger $pub_key  ## list fingerprint(s)
 sh   pacman-key --lsign-key $pub_key  ## locally sign key
 sh   pacman --root=/mnt --cachedir=/mnt/var/cache/pacman/pkg -Syu  ## upgrade (default) main system from alternate (i.e. archiso) boot
 sh   pactl list sinks | grep -A 1 Name  ## list of sink devices (audio output)
@@ -547,7 +548,7 @@ sh   systemctl --failed  ## list failed units
 sh   systemctl list-unit-files  ## list available unit files
 sh   systemctl list-units  ## list all units in memory
 sh   systemctl start sshd.service  ## start sshd service (restart, stop)
-sh   systemctl status [$pttrn_pid] ## runtime status
+sh   systemctl status $pttrn_pid  ## runtime status for unit with $pttrn or $pid
 sh   systemctl --user start emacs.service  ## start service in user space
 sh   systemd-analyze  ## analyze and debug system boot-up performance
 sh   systemd-analyze blame  ## how long it took to start each unit (process)
@@ -613,7 +614,7 @@ sh   wl-paste --no-newline | tr --delete '[:blank:]\t\r\n' | wl-copy --trim-newl
 sh   wl-paste -n | tr -d '[:blank:]\t\r\n' | wl-copy -o -n  ## remove all whitespace from clipboard content and re-copy
 sh   wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
 sh   wl-paste | sed 's/youtube.com/yewtu.be/' | wl-copy  ## change to invidious url
-sh   wpa_passphrase $ssid [$passphrase] > ssid.wifi  ## create network section of wpa_supplicant configuration
+sh   wpa_passphrase $ssid $passphrase > ssid.wifi  ## create network section of wpa_supplicant configuration
 sh   wpa_supplicant -B -i $wlp -c ~/keys/wl/ssid.wifi  ## wireless connect via interface $wlp to ssid.wifi
 sh   xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
 sh   xxd -bits <<< $ASCII  ## bitdump of $ASCII

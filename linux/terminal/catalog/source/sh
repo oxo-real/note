@@ -152,6 +152,7 @@ fc -l -d -r -t %Y%m%d_%H%M%S -D 1 | sort --key 1n | sort --reverse --key 4 | uni
 fc-list  ## list available fonts (fontconfig)
 fd $options $pattern $path  ## fd general synopsis, pattern default regex (--glob)
 fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search clpb-string and copy (quick file search)
+cat-audio() {ffmpeg -i "concat:${(j:|:)@[2,-1]}" -acodec copy $1}  ## concatenate mp3 audio files usage: cat-audio output.mp3 *.mp3
 ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
 fg  ## recall last suspended command to foreground
 fg %n  ## jobs item n to foreground
@@ -218,8 +219,8 @@ gpsbabel -i garmin_fit -f $in_fit -o gpx -F $out_gpx  ## fit2gpx conversion
 printf $s2l | grep -o .  ## print each character of a string on a separate line (string to lines)
 for i in $(seq 1 95 | grep -vFx 6); do echo "line $i"; done  ## loop through numbers 1 to 95, excluding 6 (exclude one line in loop)
 grep "\sro[\s,]" /proc/mounts  ## show read only mountpoints
-grep -riIl 'text' [directory]  ## find files (no binary) containing text recursively in directory
-grep -riIn 'text' [directory]  ## find files (no binary) containing text recursively in directory with linenumbers
+grep -riIl 'text' $directory  ## find files (no binary) containing text recursively in $directory
+grep -riIn 'text' $directory  ## find files (no binary) containing text recursively in $directory with linenumbers
 grep '^[[:blank:]]*[^[:blank:]#;]' $file  ## only lines not (2nd ^) starting (1st ^) with # or ; uncommented lines from file
 grep '^[[:blank:]]*[^[:blank:]#;]' $XDG_CONFIG_HOME/alacritty/alacritty.yml | grep 'key:'  ## alacritty active (no outcommented) keybindings
 grep bindsym $XDG_CONFIG_HOME/sway/config  ## sway keybinding related lines
@@ -236,15 +237,15 @@ key=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## z
 host -t A $ip_addr_domain  ## dns lookup A record
 host -v -t ANY $ip_addr_domain  ## dns lookup any type verbose output
 hwclock --set --date='01/01/2010 00:00:00'; sudo hwclock --hctosys  ## set date and time
-id -u [$USER]  ## show effective user id
-id -g [$USER]  ## show effective group id
-id -un [$USER]  ## show effective user name
-id -gn [$USER]  ## show effective group name
-id [$USER]  ## show both real and effective uid & gid
+id -u $USER  ## show effective user id
+id -g $USER  ## show effective group id
+id -un $USER  ## show effective user name
+id -gn $USER  ## show effective group name
+id $USER  ## show both real and effective uid & gid
 IFS=', '  ## permanently assign comma and space as internal field separators (IFS as an environment variable)
 iftop -i $interface ## display bandwith usage of interface
 info  ## advanced manual system primarily for gnu programs
-insmod $file [$args]  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
+insmod $file $args  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
 ip -c a  ## ip address; show network routing, devices, interfaces and tunnels in color
 ip a | grep '^[0-9]' | awk -F ': ' '{print $2}'  ## network interface list
 ip a add 192.168.1.200/255.255.255.0 dev $interface  ## assign ip address to interface
@@ -252,27 +253,27 @@ ip a add $ip_subnet_mask broadcast $broadcast_ip dev $interface  ## add interfac
 ip a del 192.168.1.200/24 dev $interface  ## remove ip address from interface
 ip a flush $interface  ## remove all ip addresses from interface
 ip link set $interface {down/up}  ## change interface state
-ip link set dev [$interface] address [$mac]  ## assign [mac] address to [interface]
-ip link set dev [$interface] down  ## disconnect from the network by disable interface
+ip link set dev $interface address $mac  ## assign $mac address to $interface
+ip link set dev $interface down  ## disconnect from the network by disable $interface
 ip neighbor show  ## show neighbor / arp cache
 ip link show $enp | grep link | awk '{print $2}'  ## print $enp mac address
 ip route add default via $default_gateway  ## add new $default_gateway
 ip route flush dev $interface  ## flush routing tables for $interface
 ip route show | grep default | awk '{print $5}'  ## currently active external facing network interface
-ipset add blocklist [$ipaddrs]  ## add [ipaddrs] to blocklist
+ipset add blocklist $ipaddrs  ## add $ipaddrs to blocklist
 ipset create blocklist hash:ip  ## create ip blocklist
-iptables -A INPUT -s [ipaddr] -j DROP  ## add [ipaddr] to chain INPUT and drop all traffic
-iw dev [$wl_interface] scan | grep SSID | sort | uniq  ## received SSID list
+iptables -A INPUT -s $ipaddr -j DROP  ## add ipaddr/ to chain INPUT and drop all traffic
+iw dev $wl_interface scan | grep SSID | sort | uniq  ## received SSID list
 jobs  ## list background processes (C-z initiates)
 journalctl --disk-usage  ## show total size / disk space used
 journalctl --flush --rotate  ## flush all journal data from /run to /var and request immediate rotation of the journal files
 journalctl --vacuum-files=2  ## leave 2 journal files (--vacuum-size, --vacuum-time)
 journalctl --list-boots  ##  ## list of boots with their numbers
-journalctl --boot [$id]  ## messages from (current -0, previous -1) boot
+journalctl --boot $id  ## messages from boot id (current -0, previous -1)
 journalctl --pager-end  ## jump to eol on opening in pager tool
 journalctl --follow  ## show most recent and print new
 journalctl --dmesg  ## show only kernel messages
-journalctl --dmesg --since '1 minute ago'  ## kernel messages not oldeer than 1 minute
+journalctl --dmesg --since '1 minute ago'  ## show kernel messages not oldeer than 1 minute
 journalctl --output json-pretty  ## print json format (more options see man)
 journalctl --output verbose  ## print all the fields
 journalctl --priority 3 --catalog  ## emerg0, alert1, crit2, err3, warning4, notice5, info6, debug7
@@ -295,11 +296,11 @@ lsblk -o name,fsuse%,fsused,size --sort fsuse% | grep '%' | tr -d '|-' | tr -d '
 lscpu  ## display cpu architecture
 lshw  ## list hardware configuration
 lsmod  ## list modules currently added to kernel
-lsof +f -- [$path1 $path2]  ## list open files in paths opened by processes
-lsof -p [$pid]  ## list open files for PID
+lsof +f -- $path1 $path2  ## list open files in paths opened by processes
+lsof -p $pid  ## list open files for $pid
 lspci  ## list pci devices
-lspci -k -d [$vendor]:[$device][:$class]  ## show kernel drivers and modules [for vendor, device and/or classid]
-lspci -k -s xx:xx.x [[$domain]:]$bus]:][$slot][.[$func]]  ## show kernel drivers and modules for domain
+lspci -k -d $vendor:$device:$class  ## show kernel drivers and modules (for vendor, device and/or classid)
+lspci -k -s xx:xx.x $domain:$bus:$slot.$func  ## show kernel drivers and modules for domain
 lspci -k -t -v  ## show kernal driver and module details in a tree
 lspci -vv  ## list pci devices with more detail (useful to find kernel drivers)
 lsusb  ## list information about usb devices
@@ -350,7 +351,7 @@ openvpn --config openvpn/udp-ams1_udp.ovpn  ## open vpn with specific configurat
 output=$(printf $input | openssl dgst -sha512 -hmac $key | sed 's/^.*= //')  ## zz3
 pacman --root=/mnt --cachedir=/mnt/var/cache/pacman/pkg -Syu  ## upgrade (default) main system from alternate (i.e. archiso) boot
 pacman-key --delete $pub_key  ## remove key from keyring
-pacman-key --finger [$pub_key]  ## list fingerprint(s)
+pacman-key --finger $pub_key  ## list fingerprint(s)
 pacman-key --lsign-key $pub_key  ## locally sign key
 pactl list sinks | grep -A 1 Name  ## list of sink devices (audio output)
 pactl list sources | grep -A 1 Name  ## list of source devices (audio input)
@@ -503,7 +504,7 @@ systemctl list-units  ## list all units in memory
 systemctl list-unit-files  ## list available unit files
 systemctl start sshd.service  ## start sshd service (restart, stop)
 systemctl --user start emacs.service  ## start service in user space
-systemctl status [$pttrn_pid] ## runtime status
+systemctl status $pttrn_pid  ## runtime status for unit with $pttrn or $pid
 systemd-analyze  ## analyze and debug system boot-up performance
 systemd-analyze blame  ## how long it took to start each unit (process)
 tail -f /var/log/{messages,kernel,dmesg,syslog}  ## TODO decription
@@ -562,7 +563,7 @@ wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits fr
 wf-recorder -g "$(slurp)"  ## video capture part of screen
 wf-recorder --audio --file=recording_with_audio.avi  ## capture whole screen with audio
 read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
-wpa_passphrase $ssid [$passphrase] > ssid.wifi  ## create network section of wpa_supplicant configuration
+wpa_passphrase $ssid $passphrase > ssid.wifi  ## create network section of wpa_supplicant configuration
 wpa_supplicant -B -i $wlp -c ~/keys/wl/ssid.wifi  ## wireless connect via interface $wlp to ssid.wifi
 xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
 xxd -groupsize 1 <<< $ASCII  ## hexdump space separated bytes of $ASCII
