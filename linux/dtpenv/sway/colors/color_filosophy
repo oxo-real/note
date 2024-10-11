@@ -1,25 +1,41 @@
 airbus
+
+
 # display info
-green active variable , measured values
-blue inactive variable, selected values	(pulled)
-magenta			managed values	(pushed)
 
-# button switch lights
-amber	failed system
+green active variable,  measured values
+blue inactive variable, selected values, pilot chosen (pulled knob)
+magenta	active static,  managed values,	computer generated (pushed knob)
+
+
+# push button switch lights
+
 red	failure that may requires immediate action
+amber	abnormal fault indication (amber fault)
 green	applicable system status, normal operation (green avail)
-blue	normal operation tempo system (blue on)
-white	abnormal operation
-white	abnormal operation (normally active but off; white off light / normally off, but active; white arm light)
-blank	ok, the system is fit to fly
+cyan	tempo selected system (cyan on)
+white	abnormal operation, i.e. normally off, but active (white on light)
+white	abnormal operation, i.e. normally active, but off (white off light)
+blank	normal operation configuration, ok, the system is fit to fly
 
+
+# displays
+colors indicate system status or nature of information
+
+
+# ecam colors
 https://y.com.sb/watch?v=WQsSXolcHus&list=PL91baicFu7lqeSSbQYchNABZ1YgnHqSpH&index=62
-ecam colors
-white
-blue
-green	normal condition
-amber 	abnormal condition (no immediate action required)
-red	warning may require    immediate action
+WARNINGS
+red	warning: configuration or failure, requires immediate action
+
+CAUTIONS
+amber 	caution: abnormal condition, requires awareness
+
+INDICATIONS
+green	indication: normal long term operations
+white	indication: titling and guidance remarks
+blue	indication: actions to be carried out
+magenta indication: particular messages, e.g. inhibitions
 
 
 https://y.com.sb/watch?v=wUFNSNTywkM
@@ -30,6 +46,51 @@ light out concept
 need to see concept; right information at right time
 less paper concept
 
-lockheed martin
-     hdg
-spd	alt
+[color scheme - Colour palette progression to indicate priority - User Experience Stack Exchange](https://ux.stackexchange.com/questions/95706/colour-palette-progression-to-indicate-priority)
+
+
+# oxo color philosophy is derived from the information above
+
+# oxo setting colors (things that are (indicator) or can be (selector/switch) set)
+magenta as 'managed setting' has no particular application in oxo system
+red  non functional setting
+blue selected temporary setting (functional)
+green unset available normal setting
+white abnormal setting (functional)
+grey normal setting (no white light)
+
+oxo status colors (on what level things are operating)
+level max red
+5 red
+4 amber
+3 yellow
+2 blue (selected)
+1 light grey
+0 grey (lights out)
+
+status level application for i.e. download speed or audio volume
+
+
+ECAM (EFIS) colour symbology
+-
+Warnings :
+RED
+for configuration or failure
+needing immediate action
+-
+Cautions
+:
+AMBER
+for configuration or failure
+needing awareness
+-
+Indications :
+GREEN
+for normal long term operations
+WHITE
+for titling and guiding remarks
+BLUE
+for actions to be carried out
+MAGENTA
+for particular messages, e.g.
+inhibitions

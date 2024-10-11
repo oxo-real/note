@@ -52,6 +52,14 @@ sway
 	   urgent_workspace		  #ff73fd95 #ff73fd95 #ffffd3
     }
 
+## status level colors (i.e. i3blocks)
+    1. default  #777777
+    2. grey99	#999999
+    3. grayaa	#aaaaaa
+    4. blue	#96cbfe
+    5. yellow	#ffffb6
+    6. amber	#ffbf00
+    7. red	#ff6c60
 
 
 

@@ -51,7 +51,7 @@ sh   cal -m -w 12 2022  ## calendar for december 2022
 sh   cal -m -w -3 $(date -I)  ## calendar weeknumbers, last, current and next month, week start on mondays
 sh   cal -m -w -y $(date +%Y)  ## calendar current year
 sh   case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## case statement basic structure
-sh   cat $HOME/a/data/emoji/emoji-test.txt | sed 's/^.*#//' | sed --regexp-extended 's/E[0-9]+.[0-9]//' | sed 's/^[ \t]*//' | sed '/^[[:alnum:]]/d' | sed '/^\s*$/d' | fzf | awk '{print $1}' | wl-copy -n  ## emoji to clipboard
+sh   cat $HOME/a/data/emoji/emoji-test.txt | sed 's/^.*#//' | sed --regexp-extended 's/E[0-9]+.[0-9]//' | sed 's/^[ \t]*//' | sed '/^[[:alnum:]]/d' | sed '/^\s*$/d' | fzf | awk '{print $1}' | wl-copy -n  ## emoji & symbols to clipboard
 sh   cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
 sh   cat $XDG_DATA_HOME/c/web/bookmark_urls | fzf | sed -e 's/^.*(//' -e 's/)$//' | wl-copy  ## get url from bookmark_urls
 sh   cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
@@ -143,6 +143,7 @@ sh   echo $?  ## print exit code of the last executed command
 sh   echo $(( RANDOM%95 + 32 ))  ## generate pseudorandom integer between 32 and 127 (included)
 sh   echo $RANDOM  ## pseudorandom integer (0-32767)
 sh   echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
+sh   echo $'\xe2\x98\xaf'  ## utf8 character from 3 byte hex code
 sh   echo '1' | sudo tee /proc/sys/kernel/sysrq  ## # obtain full sysrq priviledges
 sh   echo -e "\033c"  ## same as tput reset but hardcoded escape seq
 sh   echo general quotation rule  ## quote if $var can be empty (null) or contain whitespace or punct chartacters (wildcards)
@@ -154,6 +155,7 @@ sh   echo hello &> /dev/null  ## stdout redirect devnull; stderr append to stdou
 sh   echo hello > >(sha512sum > file_with_hello_sha512.hash)  ## process substitution (instead of filename) writing to list >()
 sh   echo hello &| tee -a $logfile  ## stderr append to stdout; append both to $logfile (shorthand notation)
 sh   echo -n $string | base64  ## base64 encoding
+sh   echo -n '☯' | od --address-radix n --format x1 | sed 's/ /\\x/g'  ## 3 byte hex code from utf8 character
 sh   echo "obase=02; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to binary conversion
 sh   echo "obase=10; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to decimal conversion
 sh   echo "obase=16; ibase=10; $dec" | bc  ## bc dec (10) to hex (16) conversion
@@ -371,8 +373,8 @@ sh   notmuch search $(wl-paste) date:year | fzf | awk '{print $1}' | wl-copy  ##
 sh   notmuch show $(wl-paste)  ## 3. show specific thread content
 sh   nslookup server.com  ## get server ip address
 sh   number=$(printf '%s' "$ASCII" | cut --characters 17-26)  ## 10 number characters from $ASCII
-sh   od --output-duplicates --address-radix=n --read-bytes 32 --format a < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interprept as ascii
-sh   od --output-duplicates --address-radix=n --read-bytes 32 --format u < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interpret as unsigned decimal (x hex, d sign dec)
+sh   od --output-duplicates --address-radix n --read-bytes 32 --format a < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interprept as ascii
+sh   od --output-duplicates --address-radix n --read-bytes 32 --format u < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interpret as unsigned decimal (x hex, d sign dec)
 sh   od --output-duplicates --address-radix=n --read-bytes 8 --format u4 < /dev/random  ## 8 random bytes interpret as (2) 4 byte decimal
 sh   openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## decryption openssl base64 encoded aes 256 bits galois counter mode
 sh   openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## encryption openssl base64 encoded aes 256 bits galois counter mode
@@ -415,6 +417,7 @@ sh   printf "\033c"  ## same as tput reset but hardcoded escape seq
 sh   printf "%03d%s" '2'  ## print leading zeros before a number (padding)
 sh   printf "%3d%s" '2'  ## print leading spaces before a number (padding)
 sh   printf "%d\n" \'A  ## ascii character (A) to decimal value (65)
+sh   printf '☯' | hexdump  ## utf8 character encoding; NOTICE better use od or xxd
 sh   printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-Transfer-Encoding: 7bit; Subject: <subject>\n; <body>" | msmtp -v -C <msmtp_config> -a <profile_name> -- destination@mail.com  ## send email
 sh   printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'  ## randomize characters of the $ASCII string
 sh   printf '%s' "$l2s" | tr -d '\n'  ## remove newlines (lines to string)
@@ -683,6 +686,10 @@ sway bindsym $mod+b			bar mode toggle
 sway # # bindsym $mod+b		exec killall -SIGUSR1 waybar
 sway #bindsym $mod+bracketleft	workspace prev
 sway #bindsym $mod+bracketright	workspace next
+sway     #bindsym $mod+button4	workspace prev
+sway     #bindsym $mod+button5 	workspace next
+sway     #bindsym $mod+button6     	workspace prev
+sway     #bindsym $mod+button7 	workspace next
 sway bindsym $mod+c			focus child
 sway bindsym $mod+Control+$da	resize grow height $resize_major_step px or $resize_major_step ppt
 sway bindsym $mod+Control+$di	resize grow height $resize_minor_step px or $resize_minor_step ppt
@@ -711,13 +718,13 @@ sway #bindsym $mod+d			exec $term --app-id="float_fzf_run" \
 sway bindsym $mod+d			exec --no-startup-id $term --class="float_fzf_run" \
 sway bindsym $mod+Equal	    workspace $ws=
 sway bindsym $mod+f		        fullscreen toggle
-sway bindsym $mod+grave		exec $term --class="float_spicules" -e \
+sway bindsym $mod+Grave		exec $term --class="float_spicules" -e \
 sway #bindsym $mod+i			focus child  ## default
 sway bindsym $mod+m			exec --no-startup-id $term --class="float_spicules" \
 sway bindsym $mod+Minus	    workspace $ws-
 sway bindsym $mod+Mod1+0		$con_min  ## container minimize
 sway bindsym $mod+Mod1+1		$con_hexa 1  ## container toggle float/tile width 1 hexapart
-sway bindsym $mod+Mod1+2		$con_hexa 2  ## container toggle float/tile width 2 hexaparts
+sway bindsym $mod+Mod1+2		$con_hexa 2  ## container toggle float/til1e width 2 hexaparts
 sway bindsym $mod+Mod1+3		$con_hexa 3  ## container toggle float/tile width 3 hexaparts
 sway bindsym $mod+Mod1+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym $mod+Mod1+5		$con_hexa 5  ## container toggle float/tile width 5 hexaparts
@@ -791,9 +798,13 @@ sway #bindsym $mod+Shift+x		exec $term --app-id="float_exit" \
 sway bindsym $mod+Shift+x		exec --no-startup-id $term --class="float_exit" \
 sway bindsym $mod+Shift+z		exec sh $csc/dimr swaylock
 sway bindsym $mod+slash		scratchpad show
-sway bindsym $mod+tab		workspace back_and_forth
+sway bindsym $mod+Tab		workspace back_and_forth
 sway #bindsym $mod+z			exec $term --app-id="float_spicules" \
 sway bindsym $mod+z			exec --no-startup-id $term --class="float_spicules" \
+sway     bindsym button4   		nop
+sway     bindsym button5 		nop
+sway     bindsym button6 		nop
+sway     bindsym button7 		nop
 sway bindsym Control+Grave		exec date +'%Y%m%d_%H%M%S_%s' | wl-copy -n && notify-send 'date_time_epoch copied'
 sway bindsym Control+Mod1+s  	exec wpctl set-volume	@DEFAULT_SINK@ 0.12
 sway #bindsym Control+Shift+y	exec $term --app-id="float_spicules" \

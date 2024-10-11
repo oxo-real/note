@@ -40,7 +40,7 @@ cal -m -w -3 $(date -I)  ## calendar weeknumbers, last, current and next month, 
 cal -m -w -y $(date +%Y)  ## calendar current year
 cal -m -w 12 2022  ## calendar for december 2022
 cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
-cat $HOME/a/data/emoji/emoji-test.txt | sed 's/^.*#//' | sed --regexp-extended 's/E[0-9]+.[0-9]//' | sed 's/^[ \t]*//' | sed '/^[[:alnum:]]/d' | sed '/^\s*$/d' | fzf | awk '{print $1}' | wl-copy -n  ## emoji to clipboard
+cat $HOME/a/data/emoji/emoji-test.txt | sed 's/^.*#//' | sed --regexp-extended 's/E[0-9]+.[0-9]//' | sed 's/^[ \t]*//' | sed '/^[[:alnum:]]/d' | sed '/^\s*$/d' | fzf | awk '{print $1}' | wl-copy -n  ## emoji & symbols to clipboard
 cat -n $file  ## line number cat
 cat -vE $file  ## prevent cat shell injection
 cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
@@ -229,6 +229,7 @@ gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
 head -n 2 $file  ## print $file first 2 lines
 head -n -2 $file  ## print $file but last 2 lines (skip last 2 lines)
+printf '☯' | hexdump  ## utf8 character encoding; NOTICE better use od or xxd
 history  ## alias to fc -l
 history -t %Y%m%d_%H%M%S -d -D $history_id  ## command history from $history_id (id time-start -elapsed cmd)
 history -t %Y%m%d_%H%M%S -d -D -3  ## last 3 commands from history (id time-start -elapsed cmd)
@@ -337,9 +338,11 @@ notmuch search $(wl-paste) date:year | fzf | awk '{print $1}' | wl-copy  ## 2. l
 notmuch show $(wl-paste)  ## 3. show specific thread content
 notmuch address --output=count --deduplicate=address date:year '*' | sort --numeric-sort --reverse | fzf | wl-copy  ## last years email addresses, most to least active
 nslookup server.com  ## get server ip address
+echo -n '☯' | od --address-radix n --format x1 | sed 's/ /\\x/g'  ## 3 byte hex code from utf8 character
+echo $'\xe2\x98\xaf'  ## utf8 character from 3 byte hex code
 od --output-duplicates --address-radix=n --read-bytes 8 --format u4 < /dev/random  ## 8 random bytes interpret as (2) 4 byte decimal
-od --output-duplicates --address-radix=n --read-bytes 32 --format u < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interpret as unsigned decimal (x hex, d sign dec)
-od --output-duplicates --address-radix=n --read-bytes 32 --format a < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interprept as ascii
+od --output-duplicates --address-radix n --read-bytes 32 --format u < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interpret as unsigned decimal (x hex, d sign dec)
+od --output-duplicates --address-radix n --read-bytes 32 --format a < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interprept as ascii
 openssl enc -d -base64 -aes-256-gcm -pbkdf2 -salt -in crypt.aes -out plain.txt  ## decryption openssl base64 encoded aes 256 bits galois counter mode
 openssl enc -e -base64 -aes-256-gcm -pbkdf2 -salt -in plain.txt -out crypt.aes  ## encryption openssl base64 encoded aes 256 bits galois counter mode
 openssl s_client -connect grc.com:443 -showcerts < /dev/null | openssl x509 -outform pem > cert.pem  ## write x509 public key certificate from grc.com:443 as pem to file cert.pem

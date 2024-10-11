@@ -4,7 +4,7 @@ heading: direction of aim in relation to north
 
 where the nose of the airplane or bow of the vessel is pointing
 
-navigation display (nd) or primary flight display (pfd): yellow line
+navigation display (nd) or primary flight display (pfd): yellow line (|)
 
 # course (crs)
 
@@ -58,3 +58,8 @@ true bearing = heading + relative bearing
 brg=hdg+brgr
 
 geographical north + declination = magnetic north
+
+navigation display lockheed martin
+     hdg
+     trk
+spd	alt
