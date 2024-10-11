@@ -133,6 +133,7 @@ echo ${HOME#*/}  ## parameter expansion; substitute shortest match from head (#)
 echo ${HOME##*/}  ## parameter expansion; substitute longest match from head (##) with matched portion (*/) deleted; remove until last instance ('oxo')
 echo ${HOME%/*}  ## parameter expansion; substitute shortest match from tail (%) with matched portion (/*) deleted; remove from last instance ('/home')
 echo ${HOME%%/*}  ## parameter expansion; substitute longest match from tail (%%) with matched portion (/*) deleted; remove from first instance ('')
+var1=a; var2=b; var3=c; counter=2; naka=var$counter; echo $naka  ## dynamic variable names #TODO desired result is: b
 emacs --daemon  ## start emacs daemon
 emacsclient --create-frame --alternate-editor="" $file &  ## client open $file in new gui window
 emacsclient --tty $file &  ## client open $file in current terminal window
@@ -339,6 +340,7 @@ notmuch show $(wl-paste)  ## 3. show specific thread content
 notmuch address --output=count --deduplicate=address date:year '*' | sort --numeric-sort --reverse | fzf | wl-copy  ## last years email addresses, most to least active
 nslookup server.com  ## get server ip address
 echo -n '☯' | od --address-radix n --format x1 | sed 's/ /\\x/g'  ## 3 byte hex code from utf8 character
+wl-paste | od --address-radix n --format x1 | sed 's/ /\\x/g'  ## 3 byte hex code from copied utf8 character
 echo $'\xe2\x98\xaf'  ## utf8 character from 3 byte hex code
 od --output-duplicates --address-radix=n --read-bytes 8 --format u4 < /dev/random  ## 8 random bytes interpret as (2) 4 byte decimal
 od --output-duplicates --address-radix n --read-bytes 32 --format u < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interpret as unsigned decimal (x hex, d sign dec)

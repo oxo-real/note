@@ -592,6 +592,7 @@ sh   upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## 26 uppercase let
 sh   uptime  ## uptime since boot
 sh   usermod -a -G $group $user  ## add user to group
 sh   #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
+sh   var1=a; var2=b; var3=c; counter=2; naka=var$counter; echo $naka  ## dynamic variable names #TODO desired result is: b
 sh   vlock --all  ## console lock all sessions
 sh   watch --differences --no-title --interval 1 $command  ## default watch command
 sh   wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
@@ -615,6 +616,7 @@ sh   wl-paste >> $XDG_DATA_HOME/c/web/bookmark_urls  ## add to bookmark_urls (qb
 sh   wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
 sh   wl-paste --no-newline | tr --delete '[:blank:]\t\r\n' | wl-copy --trim-newline --paste-once  ## selection without whitespace to clipboard
 sh   wl-paste -n | tr -d '[:blank:]\t\r\n' | wl-copy -o -n  ## remove all whitespace from clipboard content and re-copy
+sh   wl-paste | od --address-radix n --format x1 | sed 's/ /\\x/g'  ## 3 byte hex code from copied utf8 character
 sh   wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
 sh   wl-paste | sed 's/youtube.com/yewtu.be/' | wl-copy  ## change to invidious url
 sh   wpa_passphrase $ssid $passphrase > ssid.wifi  ## create network section of wpa_supplicant configuration
