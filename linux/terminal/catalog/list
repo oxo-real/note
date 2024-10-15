@@ -416,7 +416,7 @@ sh   printf "${var1:=$default}"  ## printf and set default variable value if var
 sh   printf "\033c"  ## same as tput reset but hardcoded escape seq
 sh   printf "%03d%s" '2'  ## print leading zeros before a number (padding)
 sh   printf "%3d%s" '2'  ## print leading spaces before a number (padding)
-sh   printf "DEV$LINENO %s\n" "${v}"  ## debug variable value
+sh   printf "DEV$LINENO %s\n" "${v}"; exit 255  ## debug variable value
 sh   printf "%d\n" \'A  ## ascii character (A) to decimal value (65)
 sh   printf '☯' | hexdump  ## utf8 character encoding; NOTICE better use od or xxd
 sh   printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-Transfer-Encoding: 7bit; Subject: <subject>\n; <body>" | msmtp -v -C <msmtp_config> -a <profile_name> -- destination@mail.com  ## send email
