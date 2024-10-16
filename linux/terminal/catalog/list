@@ -416,7 +416,7 @@ sh   printf "${var1:=$default}"  ## printf and set default variable value if var
 sh   printf "\033c"  ## same as tput reset but hardcoded escape seq
 sh   printf "%03d%s" '2'  ## print leading zeros before a number (padding)
 sh   printf "%3d%s" '2'  ## print leading spaces before a number (padding)
-sh   printf "DEV$LINENO %s\n" "${v}"; exit 255  ## debug variable value
+sh   printf "DEV$LINENO %s\n" "${v}"  ## debug variable value
 sh   printf "%d\n" \'A  ## ascii character (A) to decimal value (65)
 sh   printf '☯' | hexdump  ## utf8 character encoding; NOTICE better use od or xxd
 sh   printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-Transfer-Encoding: 7bit; Subject: <subject>\n; <body>" | msmtp -v -C <msmtp_config> -a <profile_name> -- destination@mail.com  ## send email
@@ -684,6 +684,7 @@ sway bindsym $mod+7		    workspace $ws7
 sway bindsym $mod+8		    workspace $ws8
 sway bindsym $mod+9		    workspace $ws9
 sway #bindsym $mod+a			focus parent  ## default
+sway #bindsym $mod+Alt_R+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym $mod+backslash		layout toggle split; exec $csc/layout-ntfy-send
 sway bindsym $mod+b			bar mode toggle
 sway # # bindsym $mod+b		exec killall -SIGUSR1 waybar
@@ -755,6 +756,7 @@ sway bindsym $mod+Mod1+Shift+l 	move container to output right
 sway bindsym $mod+Mod1+Shift+Return	exec --no-startup-id $csc/term-spawn pwd float &
 sway bindsym $mod+Mod1+s	 	sticky toggle
 sway bindsym $mod+Mod1+u		$smt NW
+sway #bindsym $mod+Multi_key+4	$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym $mod+o			workspace prev
 sway bindsym $mod+Period		workspace next
 sway bindsym $mod+p			exec grim -o $(swaymsg -t get_outputs \
@@ -847,6 +849,9 @@ sway bindsym Mod1+u			exec echo buttonup middle; click left | dotoolc
 sway #bindsym Mod1+u			exec echo mousemove 0 $kb_mouse_major_move  | dotoolc  ## down
 sway bindsym Mod1+y			exec echo buttondown left | dotoolc
 sway #bindsym Mod1+y			exec echo mousemove -$kb_mouse_major_move 0 | dotoolc  ## left
+sway #bindsym Mod4+Alt_R+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
+sway #bindsym Mod4+Multi_key+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
+sway bindsym Mod4+Multi_key+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym --release $mod+Shift+p	exec grim -g "$(slurp)" \
 sway bindsym Shift+Control+0		exec echo -n '' | wl-copy && notify-send 'clipboard cleared'
 sway bindsym Shift+Control+Mod1+d	exec vtxt end
@@ -857,6 +862,8 @@ sway bindsym Shift+Control+Mod1+r	exec vtxt end
 sway bindsym Shift+Control+Mod1+s	exec vtxt begin sv
 sway bindsym Shift+Control+Mod1+x	exec mic-switch toggle Webcam C310
 sway #bindsym Shift+Control+y	wl-copy -o -n && exec notify-send 'secure copy is in DEV'
+sway #bindsym Super_R+Alt_R+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
+sway #bindsym Super_R+Multi_key+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym --whole-window $mod+BTN_MIDDLE	floating toggle
 sway #bindsym XF86AudioLowerVolume	exec amixer sset Master 2%-
 sway bindsym XF86AudioLowerVolume 	exec wpctl set-volume	@DEFAULT_SINK@ 5%-
