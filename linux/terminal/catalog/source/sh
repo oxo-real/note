@@ -650,7 +650,7 @@ stty sane  ## don't clear screen but reset some terminal options
 echo -e "\033c"  ## same as tput reset but hardcoded escape seq
 printf "\033c"  ## same as tput reset but hardcoded escape seq
 setterm -reset  ## same as tput reset, setterm has more user friendly commands
-print_entire_array() { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}" ; done }  ## usage: print_entire_array $array_name
+pea () { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}"; done }  ## print entire array: pea array
 echo general quotation rule  ## quote if $var can be empty (null) or contain whitespace or punct chartacters (wildcards)
 $(command)  ## command substitution; gets the result of command
 $(( expression ))  ## arithmetic expansion; gets the result of $expression
