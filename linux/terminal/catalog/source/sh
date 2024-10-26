@@ -615,6 +615,7 @@ yay -Tv  ## check dependencies; show file paths
 yay -U $package  ## remove then upgrade or add package
 ykman otp static --no-enter --keyboard-layout US 2 'string'  ## assign string to yk slot 2
 yt-dlp --format-sort res:480 $(wl-paste)  ## download video with maximal 480 vertical pixel resolution (SD)
+yt-dlp --extract-audio $(wl-paste)  ## download audio only
 zbarcam --oneshot --raw /dev/video4 | wl-copy -o -n  ## read qr from video4
 zsh --no-rcs  ## zsh terminal without run command script
 chmod 0000  ## ---------- 	ugo -	no permissions
