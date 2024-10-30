@@ -129,6 +129,8 @@ echo $?  ## print exit code of the last executed command
 echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
 echo $RANDOM  ## pseudorandom integer (0-32767)
 echo $(( RANDOM%95 + 32 ))  ## generate pseudorandom integer between 32 and 127 (included)
+user='a'; admin='user'; echo ${!admin}  ## bash indirect parameter expansion (variable is not an array)
+user='a'; admin='user'; echo ${(P)admin}  ## zsh indirect parameter expansion, with P flag
 echo ${HOME#*/}  ## parameter expansion; substitute shortest match from head (#) with matched portion (*/) deleted,; remove until first instance ('home/oxo')
 echo ${HOME##*/}  ## parameter expansion; substitute longest match from head (##) with matched portion (*/) deleted; remove until last instance ('oxo')
 echo ${HOME%/*}  ## parameter expansion; substitute shortest match from tail (%) with matched portion (/*) deleted; remove from last instance ('/home')

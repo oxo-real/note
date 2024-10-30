@@ -591,6 +591,8 @@ sh   until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic struc
 sh   until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure downcount, decrease $i by one
 sh   upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## 26 uppercase letter characters from $ASCII
 sh   uptime  ## uptime since boot
+sh   user='a'; admin='user'; echo ${!admin}  ## bash indirect parameter expansion (variable is not an array)
+sh   user='a'; admin='user'; echo ${(P)admin}  ## zsh indirect parameter expansion, with P flag
 sh   usermod -a -G $group $user  ## add user to group
 sh   #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
 sh   var1=a; var2=b; var3=c; counter=2; naka=var$counter; echo $naka  ## dynamic variable names #TODO desired result is: b
