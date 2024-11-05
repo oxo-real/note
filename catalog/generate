@@ -1,7 +1,7 @@
 #! /usr/bin/env sh
 
-src_dir="$HOME/c/git/note/linux/terminal/catalog/source"
-dst_file="$HOME/c/git/note/linux/terminal/catalog/list"
+src_dir="$HOME/c/git/note/catalog/source"
+dst_file="$HOME/c/git/note/catalog/list"
 
 file_atty="$src_dir/alacritty"
 file_emcs="$src_dir/emacs"
@@ -9,6 +9,7 @@ file_lisp="$src_dir/lisp"
 file_sh="$src_dir/sh"
 file_sway="$src_dir/sway"
 file_vim="$src_dir/vim"
+file_zsh="$src_dir/zig"
 file_zsh="$src_dir/zsh"
 
 
@@ -18,7 +19,7 @@ for source in $(ls $src_dir); do
 
     case $source in
 
-	alacritty)
+	alacritty )
 	    ## alacritty toml file (>= alacritty v0.13.0)
 	    list_atty=$(\cat $file_atty | \
 			    sed 's/action =/chars =/g' | \
@@ -59,27 +60,31 @@ for source in $(ls $src_dir); do
 	    # '
 	    ;;
 
-	emacs)
+	emacs )
 	    list_emcs=$(cat "$src_file" | sed -e 's/^/emcs /')
 	    ;;
 
-	lisp)
+	lisp )
 	    list_lisp=$(cat "$src_file" | sed -e 's/^/lisp /')
 	    ;;
 
-	sh)
+	sh )
 	    list_sh=$(cat "$src_file" | sed -e 's/^/sh   /')
 	    ;;
 
-	sway)
+	sway )
 	    list_sway=$(grep 'bindsym' "$src_file" | sed -e 's/^/sway /')
 	    ;;
 
-	vim)
+	vim )
 	    list_vim=$(cat "$src_file" | sed -e 's/^/vim  /')
 	    ;;
 
-	zsh)
+	zig )
+	    list_zig=$(cat "$src_file" | sed -e 's/^/zig  /')
+	    ;;
+
+	zsh )
 	    list_zsh=$(grep 'bindkey' "$src_file" | sed -e 's/^/zsh  /')
 	    ;;
 
@@ -92,7 +97,7 @@ for source in $(ls $src_dir); do
 done
 
 # concatenate list
-printf -v list_conc '%s\n%s\n%s\n%s\n%s\n%s\n%s' "$list_atty" "$list_emcs" "$list_lisp" "$list_sh" "$list_sway" "$list_vim" "$list_zsh"
+printf -v list_conc '%s\n%s\n%s\n%s\n%s\n%s\n%s' "$list_atty" "$list_emcs" "$list_lisp" "$list_sh" "$list_sway" "$list_vim" "$list_zig" "$list_zsh"
 
 # sort list
 ## sed removes empty lines

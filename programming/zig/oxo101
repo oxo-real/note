@@ -1,0 +1,61 @@
+# project setup
+
+.initialize a project directory
+[source,bash]
+----
+mkdir project
+cd project
+zig init
+----
+
+all source files live in src directory
+
+# build binary executable
+
+.build a binary executable file
+[source,bash]
+----
+cd project
+zig build
+----
+
+this runs build.zig
+and creates an executable binary in zig-out/bin directory
+
+# run binary
+[source,bash]
+----
+./project/zig-out/bin/project
+
+this runs the binary
+
+# build run
+[source,bash]
+----
+cd project
+zig build run
+---
+
+build and run in one go
+IMPORTANT: naming convention;	 project/src/main.zig
+
+# build test
+[source,bash]
+----
+cd project
+zig test --summary all
+
+with this flag even a succesful test gives feedback
+
+# git
+.gitignore
+zig-*
+
+
+[Zig in Depth: Names & Numbers - Invidious](https://yewtu.be/watch?v=7dwi-fcXnVk&list=PLtB7CL7EG7pCw7Xy1SQC53Gl8pI7aDg9t&index=2)
+# names and numbers
+names = variables + constants
+snakecase
+
+functions
+camelcas

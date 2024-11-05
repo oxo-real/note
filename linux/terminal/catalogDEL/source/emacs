@@ -1,0 +1,1 @@
+:%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)

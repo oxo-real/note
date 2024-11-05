@@ -1,0 +1,110 @@
+#! /usr/bin/env sh
+
+src_dir="$HOME/c/git/note/linux/terminal/catalog/source"
+dst_file="$HOME/c/git/note/linux/terminal/catalog/list"
+
+file_atty="$src_dir/alacritty"
+file_emcs="$src_dir/emacs"
+file_lisp="$src_dir/lisp"
+file_sh="$src_dir/sh"
+file_sway="$src_dir/sway"
+file_vim="$src_dir/vim"
+file_zsh="$src_dir/zig"
+file_zsh="$src_dir/zsh"
+
+
+for source in $(ls $src_dir); do
+
+    src_file=$(realpath $src_dir/$source)
+
+    case $source in
+
+	alacritty )
+	    ## alacritty toml file (>= alacritty v0.13.0)
+	    list_atty=$(\cat $file_atty | \
+			    sed 's/action =/chars =/g' | \
+			    awk '/key/{t=$0;next}1;/mods/{print t}' | \
+			    awk '/chars/{t=$0;next}1;/key/{print t}' | \
+			    grep -B 3 chars | tr '\n' ' ' | \
+			    sed 's/\ mods/\n&/g' | \
+			    sed 's/mods\ =\ //g' | \
+			    sed 's/key\ =\ //g' | \
+			    sed 's/chars\ =\ //g' | \
+			    sed '/^\s*$/d' | \
+			    sed -e "s/^/atty /" | \
+			    tr '\t' ' ' | \
+			    tr -s '[:blank:]')
+	    : '
+	    ## explanation of command mentioned above
+	     1 sed:  change 'action =' to 'chars ='
+	     2 awk:  move lines with 'key' after line with 'mods'
+	     3 awk:  move lines with 'chars' after line with 'key'
+	     4 grep: get every three lines before 'chars'
+	     5 sed:  set an eol before every ' mods'
+	     6 sed:  remove 'mods = '
+	     7 sed:  remove 'key = '
+	     8 sed:  remove 'chars = '
+	     9 sed:  remove empty lines
+	    10 sed:  prepend 'atty '
+	    11 tr:   replace tabs with spaces
+	    12 tr:   suppres double spaces
+	    # '
+
+	    ## alacritty yml file  (< alacritty v0.13.0)
+	    : '
+	    list_atty=$(grep '^[[:blank:]]*[^[:blank:]#;]' "$file_atty" | \
+			    grep 'key:' | \
+			    sed -e "s/^/atty /" | \
+			    tr '\t' ' ' | \
+			    tr -s '[:blank:]')
+	    # '
+	    ;;
+
+	emacs )
+	    list_emcs=$(cat "$src_file" | sed -e 's/^/emcs /')
+	    ;;
+
+	lisp )
+	    list_lisp=$(cat "$src_file" | sed -e 's/^/lisp /')
+	    ;;
+
+	sh )
+	    list_sh=$(cat "$src_file" | sed -e 's/^/sh   /')
+	    ;;
+
+	sway )
+	    list_sway=$(grep 'bindsym' "$src_file" | sed -e 's/^/sway /')
+	    ;;
+
+	vim )
+	    list_vim=$(cat "$src_file" | sed -e 's/^/vim  /')
+	    ;;
+
+	zig )
+	    list_zig=$(cat "$src_file" | sed -e 's/^/zig  /')
+	    ;;
+
+	zsh )
+	    list_zsh=$(grep 'bindkey' "$src_file" | sed -e 's/^/zsh  /')
+	    ;;
+
+	*)
+	    :
+	    ;;
+
+    esac
+
+done
+
+# concatenate list
+printf -v list_conc '%s\n%s\n%s\n%s\n%s\n%s\n%s' "$list_atty" "$list_emcs" "$list_lisp" "$list_sh" "$list_sway" "$list_vim" "$list_zig" "$list_zsh"
+
+# sort list
+## sed removes empty lines
+list_conc_sort=$(printf '%s' "$list_conc" | sed '/^$/d' | sort)
+
+#printf '%s\n' "$list_conc_sort" | fzf
+
+chmod 0666 "$dst_file"
+printf '%s' "$list_conc_sort" > "$dst_file"
+chmod 0555 "$dst_file"

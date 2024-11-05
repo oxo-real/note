@@ -731,7 +731,7 @@ sway bindsym $mod+m			exec --no-startup-id $term --class="float_spicules" \
 sway bindsym $mod+Minus	    workspace $ws-
 sway bindsym $mod+Mod1+0		$con_min  ## container minimize
 sway bindsym $mod+Mod1+1		$con_hexa 1  ## container toggle float/tile width 1 hexapart
-sway bindsym $mod+Mod1+2		$con_hexa 2  ## container toggle float/til1e width 2 hexaparts
+sway bindsym $mod+Mod1+2		$con_hexa 2  ## container toggle float/tile width 2 hexaparts
 sway bindsym $mod+Mod1+3		$con_hexa 3  ## container toggle float/tile width 3 hexaparts
 sway bindsym $mod+Mod1+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym $mod+Mod1+5		$con_hexa 5  ## container toggle float/tile width 5 hexaparts
@@ -887,6 +887,7 @@ sway bindsym XF86MonBrightnessUp	exec brightnessctl set 5%+
 sway bindsym XF86Search 		exec $menu
 sway # TODO bindsym Control+Shift+o	secure copy (wl-copy -o)
 vim  :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
+zig  std.debug.print("DEV {s}\n",.{"linenum"});  // print a debug line to stderrzsh  bindkey -M vicmd '^?' backward-delete-char
 zsh  bindkey '^A' git-add-commit             ## C-a
 zsh  bindkey '^[[A' up-line-or-beginning-search
 zsh  bindkey '^[[B' down-line-or-beginning-search
@@ -900,7 +901,6 @@ zsh  bindkey '^l' cd-lf                       ## C-l
 zsh  # bindkey -l (zsh keymaps)
 zsh  # bindkey -M <keymap>
 zsh  bindkey -M vicmd '^[[3~' delete-char
-zsh  bindkey -M vicmd '^?' backward-delete-char
 zsh  bindkey -M vicmd 'cc'  ## change current line (clear > viins)
 zsh  bindkey -M vicmd 'q' toggle-sh-x        ## [vicmd] q
 zsh  bindkey -M vicmd 's' toggle-sudo        ## [vicmd] s

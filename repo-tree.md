@@ -183,6 +183,20 @@
 │       ├── backup_2
 │       ├── recovery
 │       └── recovery_2
+├── catalog
+│   ├── generate
+│   ├── key
+│   │   └── vim -> /home/oxo/.local/share/c/git/note/application/vim/vim_keys_rr
+│   ├── list
+│   └── source
+│       ├── alacritty -> /home/oxo/.config/alacritty/alacritty.toml
+│       ├── emacs
+│       ├── lisp
+│       ├── sh
+│       ├── sway -> /home/oxo/.config/sway/config
+│       ├── vim
+│       ├── zig
+│       └── zsh -> /home/oxo/.config/zsh/.zshrc
 ├── crypto
 │   ├── 2fa
 │   │   ├── 2fa_sha1_totp.sh
@@ -338,7 +352,7 @@
 │   │   ├── ascii_table
 │   │   ├── block_size
 │   │   ├── byte_order
-│   │   ├── catalog
+│   │   ├── catalogDEL
 │   │   │   ├── generate
 │   │   │   ├── key
 │   │   │   │   └── vim -> /home/oxo/.local/share/c/git/note/application/vim/vim_keys_rr
@@ -350,6 +364,7 @@
 │   │   │       ├── sh
 │   │   │       ├── sway -> /home/oxo/.config/sway/config
 │   │   │       ├── vim
+│   │   │       ├── zig
 │   │   │       └── zsh -> /home/oxo/.config/zsh/.zshrc
 │   │   ├── char_classes
 │   │   ├── coding_standards
@@ -924,8 +939,10 @@
 │   │   └── perl_101
 │   ├── python
 │   │   └── normal_site_packages
-│   └── rust
-│       └── oxo_101
+│   ├── rust
+│   │   └── oxo_101
+│   └── zig
+│       └── oxo101
 ├── radio
 │   ├── bfuv5r
 │   ├── koncept
@@ -967,5 +984,5 @@
 └── zzz_deprecated
     └── xab
 
-200 directories, 767 files
+204 directories, 780 files
 ```
