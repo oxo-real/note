@@ -321,8 +321,8 @@ sh   limit  ## print all resource limits
 sh   >(list)  ## process substitution; process list is run async and the file passed as an argument should be read to obtain the output of list
 sh   <(list)  ## process substitution; process list is run async and writing to the file will provide input for list
 sh   ln -s $HOME/dock/vlt/pass $HOME/.password-store  ## pass vault symlink
-sh   ln -s $target $link_name  ## create symlink $link_name to $target
-sh   ln -s -f $target $link_name  ## replace symlink $link_name to $target
+sh   ln -s $target [$link_name]  ## create symlink [with $link_name] to $target
+sh   ln -s -f $target [$link_name]  ## replace symlink [with $link_name] to $target
 sh   losetup -d $loop_dev  ## detach $loop_dev
 sh   losetup -l -a  ## list all loop devices
 sh   lower=$(printf '%s' "$ASCII" | cut --characters 66-91)  ## 26 lowercase letter characters from $ASCII

@@ -290,8 +290,8 @@ kill $(pidof $process_name)  ## terminate pid of process
 let arg  ## evaluate arg as an arithmatic expression
 limit  ## print all resource limits
 ln -s $HOME/dock/vlt/pass $HOME/.password-store  ## pass vault symlink
-ln -s $target $link_name  ## create symlink $link_name to $target
-ln -s -f $target $link_name  ## replace symlink $link_name to $target
+ln -s $target [$link_name]  ## create symlink [with $link_name] to $target
+ln -s -f $target [$link_name]  ## replace symlink [with $link_name] to $target
 losetup -l -a  ## list all loop devices
 losetup -d $loop_dev  ## detach $loop_dev
 ls $XDG_DATA_HOME/keys/wl | fzf | xargs -r cat | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## fzf select wifi key and show qr
