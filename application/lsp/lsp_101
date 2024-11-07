@@ -1,0 +1,10 @@
+
+# zig language releases
+[Download ⚡ Zig Programming Language](https://ziglang.org/download/)
+
+# language server protocol
+[Official page for Language Server Protocol](https://microsoft.github.io/language-server-protocol/)
+[Language Servers](https://microsoft.github.io/language-server-protocol/implementors/servers/)
+
+## lsp for zig zls
+[GitHub - zigtools/zls: A Zig language server supporting Zig developers with features like autocomplete and goto definition](https://github.com/zigtools/zls)

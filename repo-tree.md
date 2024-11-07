@@ -86,6 +86,8 @@
 │   │   └── less
 │   ├── lf
 │   │   └── lf
+│   ├── lsp
+│   │   └── lsp_101
 │   ├── markdown
 │   │   ├── cheatsheet
 │   │   ├── rmarkdown
@@ -984,5 +986,5 @@
 └── zzz_deprecated
     └── xab
 
-204 directories, 780 files
+205 directories, 781 files
 ```
