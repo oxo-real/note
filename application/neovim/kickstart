@@ -1,0 +1,9 @@
+[GitHub - nvim-lua/kickstart.nvim: A launch point for your personal nvim configuration](https://github.com/nvim-lua/kickstart.nvim)
+
+# install neovim stable release (currently 0.10.2)
+yay -S neovim
+
+# 1st run with option flag -u
+nvim -u $XDG_CONFIG_HOME/nvim/init.lua
+
+:Lazy Update

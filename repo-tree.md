@@ -97,6 +97,8 @@
 │   │       └── darkroom
 │   ├── neatroff
 │   │   └── neatroff_install
+│   ├── neovim
+│   │   └── kickstart
 │   ├── openssh
 │   │   └── openssh
 │   ├── pacman
@@ -986,5 +988,5 @@
 └── zzz_deprecated
     └── xab
 
-205 directories, 781 files
+206 directories, 782 files
 ```
