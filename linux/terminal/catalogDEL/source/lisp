@@ -1,2 +1,0 @@
-(set-face-attribute 'default nil :height 180)  ## Vl; M-x eval-region >> emacs set font size 18pt (for screencasting)
-(set-face-attribute 'default nil :height 110)  ## Vl; M-x eval-region >> emacs set default font size 11pt (for screencasting)

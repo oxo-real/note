@@ -196,6 +196,7 @@
 │       ├── alacritty -> /home/oxo/.config/alacritty/alacritty.toml
 │       ├── emacs
 │       ├── lisp
+│       ├── qutebrowser -> /home/oxo/.config/qutebrowser/config.py
 │       ├── sh
 │       ├── sway -> /home/oxo/.config/sway/config
 │       ├── vim
@@ -356,20 +357,6 @@
 │   │   ├── ascii_table
 │   │   ├── block_size
 │   │   ├── byte_order
-│   │   ├── catalogDEL
-│   │   │   ├── generate
-│   │   │   ├── key
-│   │   │   │   └── vim -> /home/oxo/.local/share/c/git/note/application/vim/vim_keys_rr
-│   │   │   ├── list
-│   │   │   └── source
-│   │   │       ├── alacritty -> /home/oxo/.config/alacritty/alacritty.toml
-│   │   │       ├── emacs
-│   │   │       ├── lisp
-│   │   │       ├── sh
-│   │   │       ├── sway -> /home/oxo/.config/sway/config
-│   │   │       ├── vim
-│   │   │       ├── zig
-│   │   │       └── zsh -> /home/oxo/.config/zsh/.zshrc
 │   │   ├── char_classes
 │   │   ├── coding_standards
 │   │   ├── color
@@ -988,5 +975,5 @@
 └── zzz_deprecated
     └── xab
 
-206 directories, 782 files
+203 directories, 772 files
 ```

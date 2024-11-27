@@ -6,6 +6,7 @@ dst_file="$HOME/c/git/note/catalog/list"
 file_atty="$src_dir/alacritty"
 file_emcs="$src_dir/emacs"
 file_lisp="$src_dir/lisp"
+file_qb="$src_dir/qb"
 file_sh="$src_dir/sh"
 file_sway="$src_dir/sway"
 file_vim="$src_dir/vim"
@@ -68,6 +69,10 @@ for source in $(ls $src_dir); do
 	    list_lisp=$(cat "$src_file" | sed -e 's/^/lisp /')
 	    ;;
 
+	qutebrowser )
+	    list_qb=$(grep 'config.bind' "$src_file" | sed -e 's/^/qb   /')
+	    ;;
+
 	sh )
 	    list_sh=$(cat "$src_file" | sed -e 's/^/sh   /')
 	    ;;
@@ -97,7 +102,7 @@ for source in $(ls $src_dir); do
 done
 
 # concatenate list
-printf -v list_conc '%s\n%s\n%s\n%s\n%s\n%s\n%s' "$list_atty" "$list_emcs" "$list_lisp" "$list_sh" "$list_sway" "$list_vim" "$list_zig" "$list_zsh"
+printf -v list_conc '%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s' "$list_atty" "$list_emcs" "$list_lisp" "$list_qb" "$list_sh" "$list_sway" "$list_vim" "$list_zig" "$list_zsh"
 
 # sort list
 ## sed removes empty lines

@@ -207,6 +207,8 @@ dlp		swap current character with next
 dawwP		swap current word with next
 ddp		swap current line with next
 
+dawA SPC C-r "	move word at point to eol 
+
 }}}
 
 # vim commands

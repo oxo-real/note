@@ -8,7 +8,11 @@
 login to protonvon
 [Downloads - Proton VPN](https://account.protonvpn.com/downloads#wireguard-configuration)
 % sudo mv wg-* /etc/wireguard
+OR
+% for i in /home/oxo/.config/network/vpn/proton/wg/interface/*.conf; do ln -s $i $(basename $i); done
 
+## private key safety
+% for i in /home/oxo/.config/network/vpn/proton/wg/interface/*.conf; do chmod 600 $i; done
 
 # connect
 

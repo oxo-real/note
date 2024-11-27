@@ -154,6 +154,7 @@ fc -l -d -t %Y%m%d_%H%M%S -D 1 | sort --reverse --numeric-sort --key 1 | sort --
 fc -l -d -r -t %Y%m%d_%H%M%S -D 1 | sort --key 1n | sort --reverse --key 4 | uniq -c --skip-fields 3 | sort --key 1nr | nl --number-width 4 --number-separator ' '  ## unique command history list; line number, occurence frequnecy, latest history id, timestamp, execution time, command
 fc-list  ## list available fonts (fontconfig)
 fd $options $pattern $path  ## fd general synopsis, pattern default regex (--glob)
+fd --format {/.} . $XDG_CONFIG_HOME/network/vpn/wg/proton/interface | fzf | xargs --no-run-if-empty -I {} wg-quick up {}  ## vpn wireguard proton interface up
 fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search clpb-string and copy (quick file search)
 cat-audio() {ffmpeg -i "concat:${(j:|:)@[2,-1]}" -acodec copy $1}  ## concatenate mp3 audio files usage: cat-audio output.mp3 *.mp3
 ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
@@ -315,6 +316,7 @@ tmp=$(mktemp); printf "$tmp\n"; head -c 1b </dev/urandom >"$tmp"  ## create a te
 nmcli connection add type ethernet con-name $conn_name ifname $if_name  ## nmcli add connection
 nmcli connection modify $conn_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual  ## nmcli modify connection
 nmcli connection delete $conn_name  ## nmcli remove connection
+nmcli device status | grep wireguard | awk '{print $NF}' | fzf --exit-0 | xargs --no-run-if-empty -I {} wg-quick down {}  ## vpn wireguard active interface down
 nmcli device wifi hotspot con-name $conn_name ssid $conn_ssid band bg password $pwd  ## nmcli create hotspot
 modprobe -r $driver  ## remove driver from kernel
 modprobe $driver  ## add driver to kernel
