@@ -481,7 +481,7 @@ sh   fc-list  ## list available fonts (fontconfig)
 sh   fc -l -n -1  ## last command entered
 sh   fc -RI  ## read history from file; include internal (new) events only (update shell/local/session history)
 sh   fd $options $pattern $path  ## fd general synopsis, pattern default regex (--glob)
-sh   fd --format {/.} . $XDG_CONFIG_HOME/network/vpn/wg/proton/interface | fzf | xargs --no-run-if-empty -I {} wg-quick up {}  ## wireguard vpn proton interface up
+sh   fd --format {/.} . $XDG_CONFIG_HOME/network/vpn/wg/proton/interface | fzf | xargs --no-run-if-empty -I {} wg-quick up {}  ## vpn wireguard proton interface up
 sh   fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search clpb-string and copy (quick file search)
 sh   ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
 sh   fg %n  ## jobs item n to foreground
@@ -663,7 +663,7 @@ sh   nl -w 3 -s ' '  ## add line numbers with number width 3 and separator strin
 sh   nmcli connection add type ethernet con-name $conn_name ifname $if_name  ## nmcli add connection
 sh   nmcli connection delete $conn_name  ## nmcli remove connection
 sh   nmcli connection modify $conn_name ipv4.addresses 192.168.0.39/24 ipv4.gateway 192.168.2.2 ipv4.dns 192.168.2.2 +ipv4.dns 9.9.9.9 connection.autoconnect no ipv4.method manual  ## nmcli modify connection
-sh   nmcli device status | grep wireguard | awk '{print $NF}' | fzf --exit-0 | xargs --no-run-if-empty -I {} wg-quick down {}  ## wireguard active vpn interface down
+sh   nmcli device status | grep wireguard | awk '{print $NF}' | fzf --exit-0 | xargs --no-run-if-empty -I {} wg-quick down {}  ## vpn wireguard active interface down
 sh   nmcli device wifi hotspot con-name $conn_name ssid $conn_ssid band bg password $pwd  ## nmcli create hotspot
 sh   : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 sh   notmuch address '*'  ## all mail addresses
