@@ -270,7 +270,6 @@
 ├── git
 │   ├── config
 │   ├── del_comm_hist
-│   ├── dotgitconfig
 │   ├── git
 │   ├── git_errors
 │   ├── gitignore
@@ -976,5 +975,5 @@
 └── zzz_deprecated
     └── xab
 
-203 directories, 773 files
+203 directories, 772 files
 ```
