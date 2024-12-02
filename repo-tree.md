@@ -193,6 +193,7 @@
 │   │   └── vim -> /home/oxo/.local/share/c/git/note/application/vim/vim_keys_rr
 │   ├── list
 │   └── source
+│       ├── aaa_whats_here
 │       ├── alacritty -> /home/oxo/.config/alacritty/alacritty.toml
 │       ├── emacs
 │       ├── lisp
@@ -201,7 +202,7 @@
 │       ├── sway -> /home/oxo/.config/sway/config
 │       ├── vim
 │       ├── zig
-│       └── zsh -> /home/oxo/.config/zsh/.zshrc
+│       └── zsh
 ├── crypto
 │   ├── 2fa
 │   │   ├── 2fa_sha1_totp.sh
@@ -975,5 +976,5 @@
 └── zzz_deprecated
     └── xab
 
-203 directories, 772 files
+203 directories, 773 files
 ```
