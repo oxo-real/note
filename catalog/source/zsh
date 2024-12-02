@@ -65,6 +65,9 @@ for sh_function in $zsh_function/*.sh; do
 done
 #! /usr/bin/env sh
 
+# --------------------------------------------------------------------
+# 01-sourcing.sh
+
 
 # sourcing
 
@@ -85,6 +88,9 @@ zsh_syntax_hl='/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlig
 ## zsh completions
 [[ -f $zsh_completions ]] && source $zsh_completions
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# 02-history.sh
 
 
 # history settings
@@ -112,6 +118,9 @@ setopt SHARE_HISTORY
 #setopt INC_APPEND_HISTORY
 #setopt INC_APPEND_HISTORY_TIME
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# cd-funcs.sh
 
 
 function cd-nav-dirs ()
@@ -285,6 +294,10 @@ function cd-lf ()
 zle -N cd-lf
 #! /usr/bin/env sh
 
+# --------------------------------------------------------------------
+# chpwd.sh
+
+
 # pwd, statistics and ls when cwd changes
 function chpwd ()
 {
@@ -363,6 +376,10 @@ function chpwd ()
     #ls -A
 }
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# cursor.sh
+
 
 
 function def-cursor ()
@@ -461,8 +478,10 @@ function zle-line-finish ()
     set-cursor
     zle reset-prompt
 }
-
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# decorations.sh
 
 
 function decorations ()
@@ -502,8 +521,10 @@ base16-config
 
     ## set base16_shell colorscheme
     base16_irblack
-
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# dir-stack.sh
 
 
 function dir-stack ()
@@ -550,8 +571,10 @@ function dir-stack ()
 		    #uniq --skip-fields 1 --unique | \
 		    #uniq\
 }
-
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# foreground.sh
 
 
 function foreground ()
@@ -562,6 +585,9 @@ function foreground ()
 
 zle -N foreground
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# fzf-config.sh
 
 
 function fzf-config ()
@@ -646,8 +672,10 @@ FZF_FTW
 )"
 #--prompt ' Global History > '
 #--header 'select [RET] remove [C-d]'
-
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# git.sh
 
 
 function git-branch ()
@@ -759,6 +787,9 @@ function git-add-commit ()
 zle -N git-add-commit
 #! /usr/bin/env sh
 
+# --------------------------------------------------------------------
+# insert-date-time.sh
+
 
 function insert-date-time ()
 {
@@ -777,6 +808,9 @@ function insert-epoch ()
 
 zle -N insert-epoch
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# insert-item-fzf.sh
 
 
 function insert-item-fzf ()
@@ -850,6 +884,9 @@ function insert-item-fzf ()
     unset CUTBUFFER
 }
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# insert-item-inline.sh
 
 
 function insert-item-inline ()
@@ -949,7 +986,10 @@ function insert-item-inline ()
 zle -N insert-item-inline
 #! /usr/bin/env sh
 
-#
+# --------------------------------------------------------------------
+# keys.sh
+
+
 # fix the workings of important keys
 
 ## get terminal escape sequence (SIGTERM) string via `cat` and
@@ -1018,6 +1058,10 @@ bindkey -M vicmd 'cc'  ## change current line (clear > viins)
 bindkey escape sequence: C-v $key (C-v ESC -> ^[)
 # '
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# precmd.sh
+
 
 function precmd ()
 {
@@ -1139,6 +1183,9 @@ function precmd ()
 }
 #! /usr/bin/env sh
 
+# --------------------------------------------------------------------
+# preexec.sh
+
 
 function preexec ()
 {
@@ -1181,6 +1228,9 @@ function preexec ()
 }
 #! /usr/bin/env sh
 
+# --------------------------------------------------------------------
+# ps1.sh
+
 
 # prompt
 
@@ -1197,14 +1247,20 @@ setopt PROMPT_SUBST
 [[ $(host) != "$HOSTNAME" ]] && \
     PS1="%(?..%F{#ff6c60}%?%f)%(1j.%F{#4aa5fd}%K{#333333}%B%j%b%k%f.)%F{#000000}%K{#cccccc}%n@%m%k%f%(!.%F{#ffbf00}%B#%b%f.%%) " || \
     PS1="%(?..%F{#ff6c60}%?%f)%(1j.%F{#4aa5fd}%K{#333333}%B%j%b%k%f.)%(!.%F{#ffffff}%B#%b%f.%%) "
-
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# ps4.sh
 
 
 # debug prompt (PS4)
 
 ## set in zshenv
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# rps1.sh
+
 
 strlen_sh="/home/oxo/.config/zsh/function/strlen.sh"
 
@@ -1345,6 +1401,9 @@ TMOUT=3
 rp-redisplay
 #! /usr/bin/env sh
 
+# --------------------------------------------------------------------
+# shell-params.sh
+
 
 # shell parameters
 autoload -U colors; colors
@@ -1355,6 +1414,10 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 zle -N zle-line-finish
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# strlen.sh
+
 
 function strlen ()
 {
@@ -1425,8 +1488,10 @@ it finds the length of the string.
 
     echo $x
 }
-
 #! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# toggle-sh-x.sh
 
 
 function toggle-sh-x ()
@@ -1458,6 +1523,9 @@ function toggle-sh-x ()
 zle -N toggle-sh-x
 #! /usr/bin/env sh
 
+# --------------------------------------------------------------------
+# toggle-sudo.sh
+
 
 function toggle-sudo ()
 {
@@ -1482,10 +1550,13 @@ function toggle-sudo ()
 zle -N toggle-sudo
 #! /usr/bin/env sh
 
+# --------------------------------------------------------------------
+# zz-catalog.sh
+
 
 zsh_config_dir="$XDG_CONFIG_HOME/zsh"
 zsh_catalog="$XDG_DATA_HOME/c/git/note/catalog/source/zsh"
 
 # create source file for oxo note catalog
-cat $XDG_CONFIG_HOME/zsh/.zshrc > "$zsh_catalog"
-cat $XDG_CONFIG_HOME/zsh/function/*.sh >> "$zsh_catalog"
+cat $zsh_config_dir/.zshrc > "$zsh_catalog"
+cat $zsh_config_dir/function/*.sh >> "$zsh_catalog"
