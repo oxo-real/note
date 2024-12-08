@@ -58,6 +58,7 @@ cfg="$XDG_CONFIG_HOME"
 zsh_config="$cfg/zsh"
 zsh_function="$zsh_config/function"
 
+## decentralized configuration
 for sh_function in $zsh_function/*.sh; do
 
     source $sh_function

@@ -1,0 +1,20 @@
+* oxo lisp notes
+
+** function definition
+#+begin_src emacs-lisp
+(defun function-name (arg1 arg2))
+#+end_src
+** function call
+#+begin_src emacs-lisp
+(function-name 1 2)
+#+end_src
+** types
+|------------+----------|
+| number     | 1        |
+| string     | "string" |
+| symbol     | 'symbol  |
+| keyword    | :keyword |
+| characters | ?c       |
+|------------+----------|
+** values
+| O          |          |
