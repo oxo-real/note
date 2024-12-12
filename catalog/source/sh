@@ -522,10 +522,12 @@ tail -n 2 $file  ## print $file last 2 lines
 tail -n +2 $file  ## print $file from line 2 (skip first line)
 tac $file  ## concatenate and print file lines in reverse
 tar -cv[j/z]f $archive.tar -C $subdir $files  ## create tar archive [bzip2/gzip compression (optional)] files in archive relative to $subdir
-tar -cv[j/z]f $archive.tar $files  ## create tar archive [bzip2/gzip compression (optional)]
 tar -tvf $archive.tar  ## print contents of tar archive
-tar -xv[j/z]f $archive.tar  ## extract tar archive [bzip2/gzip compression (optional)]
-tar -xv[j/z]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip compression (optional)]
+tar -cv[j/z/J]f $archive.tar $files  ## create tar archive [bzip2/gzip/xz compression (optional)]
+tar -xv[j/z/J]f $archive.tar  ## extract tar archive [bzip2/gzip/xz compression (optional)]
+tar -xv[j/z/J]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip/xz compression (optional)]
+tar -xv[j/z/J]f $archive.tar -O $file-in-tar  ## extract $file-in-tar to stdout
+tar -rvf $archive.tar $file-to-append  ## append file to existing archive
 tee --append $file1 $file2  ## append stdout to multiple files
 test "$var"  ## check if $var is defined / non-null
 [ "$var" ]  ## alias for: 'test "$var"'

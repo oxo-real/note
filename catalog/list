@@ -861,11 +861,13 @@ sh   tac $file  ## concatenate and print file lines in reverse
 sh   tail -f /var/log/{messages,kernel,dmesg,syslog}  ## TODO decription
 sh   tail -n +2 $file  ## print $file from line 2 (skip first line)
 sh   tail -n 2 $file  ## print $file last 2 lines
-sh   tar -cv[j/z]f $archive.tar $files  ## create tar archive [bzip2/gzip compression (optional)]
 sh   tar -cv[j/z]f $archive.tar -C $subdir $files  ## create tar archive [bzip2/gzip compression (optional)] files in archive relative to $subdir
+sh   tar -cv[j/z/J]f $archive.tar $files  ## create tar archive [bzip2/gzip/xz compression (optional)]
+sh   tar -rvf $archive.tar $file-to-append  ## append file to existing archive
 sh   tar -tvf $archive.tar  ## print contents of tar archive
-sh   tar -xv[j/z]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip compression (optional)]
-sh   tar -xv[j/z]f $archive.tar  ## extract tar archive [bzip2/gzip compression (optional)]
+sh   tar -xv[j/z/J]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip/xz compression (optional)]
+sh   tar -xv[j/z/J]f $archive.tar  ## extract tar archive [bzip2/gzip/xz compression (optional)]
+sh   tar -xv[j/z/J]f $archive.tar -O $file-in-tar  ## extract $file-in-tar to stdout
 sh   tee --append $file1 $file2  ## append stdout to multiple files
 sh   test "$var"  ## check if $var is defined / non-null
 sh   tmp=$(mktemp); printf "$tmp\n"; head -c 1b </dev/urandom >"$tmp"  ## create a temporary file with 1b random data

@@ -282,6 +282,9 @@
 │   ├── arduino
 │   │   ├── installation
 │   │   └── no_ide
+│   ├── dell
+│   │   └── dl3189
+│   │       └── bios-flash-update
 │   ├── lenovo
 │   │   ├── bios
 │   │   │   └── upgrade_101
@@ -977,5 +980,5 @@
 └── zzz_deprecated
     └── xab
 
-203 directories, 774 files
+205 directories, 775 files
 ```

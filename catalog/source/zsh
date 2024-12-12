@@ -535,9 +535,8 @@ function dir-stack ()
     ## sed extract commands from histfile
     ## grep only cd commands
     ## sed remove lines with cd .(.), cd -, erase ../, cd[space], and trailing slashes
-    ### ### marked lines are keeping last occurence of duplicates
-    ### ### only relevant if also timestamps and or linenumbers are exported to dir_stack
-    ### nl add linenumbers (for chronological order)
+    ## insert $OLDPWD to first line
+    ## nl add linenumbers (for chronological order)
     ### sort chronological (1st sort; prepare unique)
     ### sort alphabetical and make unique (2nd sort; first unique pass)
     ### DEL####### uniq only unique lines (second unique pass)
@@ -554,11 +553,29 @@ function dir-stack ()
     ## sed remove empty lines
     ## DEL####### uniq remove repeated lines (third final unique pass)
 
-    dir_stack=$(\
+    # NOTICE uniq works only with similar adjacent lines
+
+    # dir_stack=$(\
+    # 		sed --regexp-extended 's/^:[[:space:]][[:digit:]]{10}:[[:digit:]]+;//' $HISTFILE | \
+    # 		    grep '^cd ' | \
+    # 		    sed --regexp-extended -e '/cd [\.]{1,2}$/d' -e '/cd -/d' -e 's|\.\./||' -e 's|^cd ||' -e 's|/$||' | \
+    # 		    sed "1i $OLDPWD" | \
+    # 		    nl --number-format ln | \
+    # 		    sort --reverse --numeric-sort --key 1 | \
+    # 		    sort --unique --key 2 | \
+    # 		    sort --reverse --numeric-sort --key 1 | \
+    # 		    awk '!($1="")' | \
+    # 		    sed --regexp-extended 's/^[[:space:]]+//' | \
+    # 		    grep --invert-match --line-regexp $(basename $PWD) | \
+    # 		    grep --invert-match --line-regexp $PWD | \
+    # 		    sed '/^\s*$/d'\
+    # 	     )
+
+    hist_cd=$(\
 		sed --regexp-extended 's/^:[[:space:]][[:digit:]]{10}:[[:digit:]]+;//' $HISTFILE | \
 		    grep '^cd ' | \
 		    sed --regexp-extended -e '/cd [\.]{1,2}$/d' -e '/cd -/d' -e 's|\.\./||' -e 's|^cd ||' -e 's|/$||' | \
-		    sed "1i cd $OLDPWD" | \
+		    sed "1i $OLDPWD" | \
 		    nl --number-format ln | \
 		    sort --reverse --numeric-sort --key 1 | \
 		    sort --unique --key 2 | \
@@ -568,9 +585,21 @@ function dir-stack ()
 		    grep --invert-match --line-regexp $(basename $PWD) | \
 		    grep --invert-match --line-regexp $PWD | \
 		    sed '/^\s*$/d'\
-	     )
-		    #uniq --skip-fields 1 --unique | \
-		    #uniq\
+	   )
+
+    dir_stack_arr=()
+
+    while read hist_cd_line; do
+
+	if [ -d "$hist_cd_line" ]; then
+
+	    dir_stack_arr+=("$hist_cd_line")
+
+	fi
+
+    done <<< "$hist_cd"
+
+    dir_stack=$(printf '%s\n' "${dir_stack_arr[@]}")
 }
 #! /usr/bin/env sh
 

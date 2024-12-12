@@ -1,0 +1,25 @@
+[Support for Latitude 3189 | Overview | Dell US]
+(https://www.dell.com/support/home/en-us/product-support/product/latitude-11-3189-2-in-1-laptop/overview)
+
+
+[Dell Latitude 3180 and 3189 System BIOS | Driver Details | Dell US]
+(https://www.dell.com/support/home/en-us/drivers/driversdetails?driverid=knnnj&oscode=biosa&productcode=latitude-11-3189-2-in-1-laptop)
+
+Updating the BIOS from BIOS Boot Menu (independent of operating system)
+
+Note 1: Before updating the BIOS, ensure that you suspend BitLocker encryption on a BitLocker-enabled system. If BitLocker is not enabled on your system, you can ignore this step. For information about how to disable BitLocker, see How to Enable or Disable BitLocker with TPM in Windows at support.dell.com.
+Note 2: Do not turn off the power or interrupt the BIOS update process during the update.
+Note 3: Your system requires a restart after installing the BIOS. The restart can be deferred but must be completed to ensure that the update is installed.
+
+Installation
+1. Copy the downloaded file to a USB drive. You do not need a bootable USB drive.
+2. Insert the USB drive into any USB port.
+3. Power on the system.
+4. At the DELL logo screen, press F12 to access the one-time boot menu.
+5. Select BIOS Flash Update in the Other Options section.
+6. Click the ... button to browse the USB drive to locate the downloaded file.
+7. Select the file and click OK.
+8. Verify the existing system BIOS information and the BIOS update information.
+9. Click Begin Flash Update.
+10. Review the Warning message and click Yes to proceed with the update.
+The system restarts and displays a Flash Progress bar at the Dell logo screen. The system restarts again when the Flash update is complete.
