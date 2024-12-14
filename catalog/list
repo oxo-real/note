@@ -334,6 +334,7 @@ sh   awk '!($1="")' $file  ## remove column 1
 sh   awk 'NF{NF-=1};1'  ## remove last column
 sh   awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
 sh   awk 'NR==1{prev=$1;print $2} NR>1 && prev!=$1{prev=$1;print $2} END{if(NR>1)print $2}'  ## print col2 every time col1 value changes
+sh   awk '{tmp = $1; $1 = $2; $2 = tmp; print;}'  ## swap columns 1 and 2
 sh   bas64=$(printf '%s' "$ASCII" | cut --zero-terminated --characters 34-59,66-91,17-26; printf '+/\n')  ## 64 base64 characters from $ASCII
 sh   basename $filepath  ## print filename without any leading directory components
 sh   bash -c 'echo $SRANDOM'  ## 32bit pseudo random number

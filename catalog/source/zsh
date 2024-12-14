@@ -144,7 +144,6 @@ function cd-nav-dirs ()
     dir-stack
     fzf_prompt='S'
 
-    #TODO case select is '~', starts with ~ or contains ~
     dir_stack_select_fzf=$(printf '%s' "$dir_stack" | fzf --prompt "$fzf_prompt ")
 
     if [[ -d "$dir_stack_select_fzf" ]]; then
@@ -164,6 +163,7 @@ function cd-nav-dirs ()
 	BUFFER="cd $dir_stack_select_fzf"
 	zle vi-add-eol
 
+    #elif [[ ! -d $dir_stack_select_fzf ]]; then
     elif [[ -n $dir_stack_select_fzf ]]; then
 
 	## dir_select_fzf is no valid absolute directory
@@ -173,6 +173,8 @@ function cd-nav-dirs ()
 	fzf_prompt='R'
 	fd_pattern="$dir_stack_select_fzf"
 	fzf_query="$fd_pattern"
+
+	printf "  acquiring ${(k)srch_env_dir_arr[(r)$fd_path]} data  [ C-c > abort ]\r"
 
 	fd_list_dirs=$(fd --type d --hidden --full-path "$fd_pattern" $fd_path)
 
@@ -192,16 +194,24 @@ function cd-nav-dirs ()
 
 	fi
 
+    #else
     elif [[ -z $dir_stack_select_fzf ]]; then
 
 	## choose search environment
 	fzf_prompt='SRCH_ENV'
 
-	## iterate over arr and get all keys
+	## add cancel option
+	srch_env_dir_arr[CANCEL]='CANCEL'
+
+	## iterate over associated arr and get all keys
 	for srch_env_dir in "${(@k)srch_env_dir_arr}"; do
 
-	    srch_env_dirs+=($srch_env_dir)
-	    ## DEV TODO clear array
+	    ## make (non-acc) array
+	    srch_env_naa+=($srch_env_dir)
+
+	    ## sort array
+	    IFS=$'\n' srch_env_dirs=($(sort <<< "${srch_env_naa[*]}"))
+	    unset IFS
 
 	done
 
@@ -209,7 +219,7 @@ function cd-nav-dirs ()
 	## PWD, HOME, ROOT, ...
 	fd_path_sel=$(printf '%s\n' "${srch_env_dirs[@]}" | fzf --prompt "$fzf_prompt ")
 
-	#[[ -z $fd_path_sel ]] && exit 0
+	[[ -z $fd_path_sel || $fd_path_sel == 'CANCEL' ]] && return
 
 	fd_path=${srch_env_dir_arr[$fd_path_sel]}
 	fzf_prompt=${srch_env_prmt_arr[$fd_path_sel]}
@@ -234,7 +244,7 @@ function cd-nav-dirs ()
 
     fi
 
-    unset srch_env_dirs
+    unset srch_env_dir_arr
 
     zle -K viins
 }
@@ -530,76 +540,55 @@ base16-config
 
 function dir-stack ()
 {
-    ## create chronological cd listing from history with unique lines only
+    ## chronological cd listing from history with only unique lines
 
     ## sed extract commands from histfile
     ## grep only cd commands
     ## sed remove lines with cd .(.), cd -, erase ../, cd[space], and trailing slashes
-    ## insert $OLDPWD to first line
+    ## sed replace ~ with $HOME
     ## nl add linenumbers (for chronological order)
-    ### sort chronological (1st sort; prepare unique)
-    ### sort alphabetical and make unique (2nd sort; first unique pass)
-    ### DEL####### uniq only unique lines (second unique pass)
-    ### sort chronological (3rd final sort)
+    ## sort chronological
+    ## sed insert previous working directory on first line (most recent)
+    ## awk only second column unique values (but show both columns)
     ## awk remove linenumbers
     ## sed remove leading spaces
-    ## this leaves us with a chronological list of unique directories from history
-
-    ## final adjustments for cd-nav-dirs
-
-    ## sed insert previous working directory on first line
     ## grep remove basename $PWD (can't move to it)
     ## grep remove full $PWD (can't move to it)
-    ## sed remove empty lines
-    ## DEL####### uniq remove repeated lines (third final unique pass)
+    ## sed remove empty lines (trailing backslash is for linebreak)
 
-    # NOTICE uniq works only with similar adjacent lines
-
-    # dir_stack=$(\
-    # 		sed --regexp-extended 's/^:[[:space:]][[:digit:]]{10}:[[:digit:]]+;//' $HISTFILE | \
-    # 		    grep '^cd ' | \
-    # 		    sed --regexp-extended -e '/cd [\.]{1,2}$/d' -e '/cd -/d' -e 's|\.\./||' -e 's|^cd ||' -e 's|/$||' | \
-    # 		    sed "1i $OLDPWD" | \
-    # 		    nl --number-format ln | \
-    # 		    sort --reverse --numeric-sort --key 1 | \
-    # 		    sort --unique --key 2 | \
-    # 		    sort --reverse --numeric-sort --key 1 | \
-    # 		    awk '!($1="")' | \
-    # 		    sed --regexp-extended 's/^[[:space:]]+//' | \
-    # 		    grep --invert-match --line-regexp $(basename $PWD) | \
-    # 		    grep --invert-match --line-regexp $PWD | \
-    # 		    sed '/^\s*$/d'\
-    # 	     )
+    ## this leaves us with a chronological list of unique directories from history
 
     hist_cd=$(\
 		sed --regexp-extended 's/^:[[:space:]][[:digit:]]{10}:[[:digit:]]+;//' $HISTFILE | \
 		    grep '^cd ' | \
 		    sed --regexp-extended -e '/cd [\.]{1,2}$/d' -e '/cd -/d' -e 's|\.\./||' -e 's|^cd ||' -e 's|/$||' | \
-		    sed "1i $OLDPWD" | \
+		    sed "s|^~|$HOME|" | \
 		    nl --number-format ln | \
-		    sort --reverse --numeric-sort --key 1 | \
-		    sort --unique --key 2 | \
-		    sort --reverse --numeric-sort --key 1 | \
+		    sort --key 1,1 --numeric-sort --reverse | \
+		    sed "1i $OLDPWD" | \
+		    awk '!seen[$2]++ {print $1, $2}' | \
 		    awk '!($1="")' | \
 		    sed --regexp-extended 's/^[[:space:]]+//' | \
 		    grep --invert-match --line-regexp $(basename $PWD) | \
 		    grep --invert-match --line-regexp $PWD | \
 		    sed '/^\s*$/d'\
 	   )
+		    # awk '{c = $1; $1 = $2; $2 = c; print;}' | \
 
-    dir_stack_arr=()
-
+    ## only show directories in reach
+    dirs_in_reach_arr=()
     while read hist_cd_line; do
 
 	if [ -d "$hist_cd_line" ]; then
 
-	    dir_stack_arr+=("$hist_cd_line")
+	    dirs_in_reach_arr+=("$hist_cd_line")
 
 	fi
 
     done <<< "$hist_cd"
 
-    dir_stack=$(printf '%s\n' "${dir_stack_arr[@]}")
+    ## directoriies in reach stack
+    dir_stack=$(printf '%s\n' "${dirs_in_reach_arr[@]}")
 }
 #! /usr/bin/env sh
 

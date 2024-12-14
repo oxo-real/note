@@ -23,6 +23,7 @@ apropos keyword  ## search man page names and descriptions
 arecord --vumeter stereo audio.wav  ## record wave audio
 awk '!($1="")' $file  ## remove column 1
 awk 'NF{NF-=1};1'  ## remove last column
+awk '{tmp = $1; $1 = $2; $2 = tmp; print;}'  ## swap columns 1 and 2
 awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
 awk 'NR==1{prev=$1;print $2} NR>1 && prev!=$1{prev=$1;print $2} END{if(NR>1)print $2}'  ## print col2 every time col1 value changes
 basename $filepath  ## print filename without any leading directory components
