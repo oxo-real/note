@@ -128,6 +128,13 @@ function cd-nav-dirs ()
 {
     # cd navigate directories with fzf
 
+    unset srch_env_prmt_arr
+    unset srch_env_dir_arr
+    unset srch_env_naa
+    unset fzf_output
+    unset fd_path
+    unset fzf_prompt
+
     ## dir names and their fzf_prompts
     declare -A srch_env_prmt_arr
     srch_env_prmt_arr[PWD]='C'
@@ -186,12 +193,6 @@ function cd-nav-dirs ()
 	    BUFFER="cd ${dir_select}"
 	    zle vi-add-eol
 
-	# elif [[ ! -d $dir_select || -z $dir_select ]]; then
-
-	    # printf '%s directory not found\n' "$fzf_query"
-	    # TODO printf '${fg_amber}%s${st_def} directory not found\n' "$fzf_query"
-	    # return 100
-
 	fi
 
     #else
@@ -230,10 +231,6 @@ function cd-nav-dirs ()
 
 	dir_select=$(printf '%s' "$fd_list_dirs" | fzf --prompt "$fzf_prompt " --query "$fzf_query")
 
-	# if [[ -z "$dir_select" ]]; then
-
-	    # exit 0
-
 	if [[ -d $dir_select ]]; then
 
 	    ## dir_pwd_select is a directory
@@ -243,8 +240,6 @@ function cd-nav-dirs ()
 	fi
 
     fi
-
-    unset srch_env_dir_arr
 
     zle -K viins
 }
@@ -262,7 +257,11 @@ function cd-child ()
     fzf_prompt='C'
     fd_path=$PWD
 
-    insert-item-fzf $fd_path $fzf_prompt
+    if [[ $(fd --max-depth 1 --type directory . $PWD | wc -l) -gt 0 ]]; then
+
+	insert-item-fzf $fd_path $fzf_prompt
+
+    fi
 
     ## reset cd_function
     cd_function=''
@@ -540,24 +539,7 @@ base16-config
 
 function dir-stack ()
 {
-    ## chronological cd listing from history with only unique lines
-
-    ## sed extract commands from histfile
-    ## grep only cd commands
-    ## sed remove lines with cd .(.), cd -, erase ../, cd[space], and trailing slashes
-    ## sed replace ~ with $HOME
-    ## nl add linenumbers (for chronological order)
-    ## sort chronological
-    ## sed insert previous working directory on first line (most recent)
-    ## awk only second column unique values (but show both columns)
-    ## awk remove linenumbers
-    ## sed remove leading spaces
-    ## grep remove basename $PWD (can't move to it)
-    ## grep remove full $PWD (can't move to it)
-    ## sed remove empty lines (trailing backslash is for linebreak)
-
-    ## this leaves us with a chronological list of unique directories from history
-
+    ## hist_cd: chronological list of unique directories from history
     hist_cd=$(\
 		sed --regexp-extended 's/^:[[:space:]][[:digit:]]{10}:[[:digit:]]+;//' $HISTFILE | \
 		    grep '^cd ' | \
@@ -573,9 +555,22 @@ function dir-stack ()
 		    grep --invert-match --line-regexp $PWD | \
 		    sed '/^\s*$/d'\
 	   )
-		    # awk '{c = $1; $1 = $2; $2 = c; print;}' | \
 
-    ## only show directories in reach
+    ## sed extract commands from histfile
+    ## grep only cd commands
+    ## sed remove lines with cd .(.), cd -, erase ../, cd[space], and trailing slashes
+    ## sed replace ~ with $HOME
+    ## nl add linenumbers (for chronological order)
+    ## sort chronological
+    ## sed insert previous working directory on first line (most recent)
+    ## awk only second column unique values (but show both columns)
+    ## awk remove linenumbers
+    ## sed remove leading spaces
+    ## grep remove basename $PWD (can't move to it)
+    ## grep remove full $PWD (can't move to it)
+    ## sed remove empty lines (trailing backslash is for linebreak)
+
+    ## from hist_cd show only show directories in reach from cwd
     dirs_in_reach_arr=()
     while read hist_cd_line; do
 
@@ -587,7 +582,7 @@ function dir-stack ()
 
     done <<< "$hist_cd"
 
-    ## directoriies in reach stack
+    ## directoriies in reach (dir)stack
     dir_stack=$(printf '%s\n' "${dirs_in_reach_arr[@]}")
 }
 #! /usr/bin/env sh
@@ -912,11 +907,24 @@ function insert-item-inline ()
 {
     # fzf search and select files and directories
 
-    ##  order   fd_path (no cycle):
-    ### 1 S --0 $dir_stack
-    ### 2 C --0 $PWD
-    ### 3 H --0 $HOME
-    ### 4 R --0 $ROOT
+    unset srch_env_prmt_arr
+    unset srch_env_dir_arr
+    unset srch_env_naa
+    unset fzf_output
+    unset fd_path
+    unset fzf_prompt
+
+    ## dir names and their fzf_prompts
+    declare -A srch_env_prmt_arr
+    srch_env_prmt_arr[PWD]='C'
+    srch_env_prmt_arr[HOME]='H'
+    srch_env_prmt_arr[ROOT]='R'
+
+    ## dir names and their actual dirs
+    declare -A srch_env_dir_arr
+    srch_env_dir_arr[PWD]=$PWD
+    srch_env_dir_arr[HOME]=$HOME
+    srch_env_dir_arr[ROOT]=$ROOT
 
     ## search and select item(s) in $PWD
     ## fzf_query
@@ -929,75 +937,63 @@ function insert-item-inline ()
     dir-stack
     fzf_prompt='S'
 
-    ## add option qqq-quit-exit-cancel
-    dir_stack=$(printf '%s\n%s' "$dir_stack" 'qqq-quit-exit-cancel')
-
+    ## offer directories in reach
     insert-item-fzf $dir_stack $fzf_prompt $fzf_query
+
+    unset dir_stack
+    unset fzf_prompt
 
     if [[ -n $fzf_output ]]; then
 
-	zle reset-prompt
-	return 0
+    	zle reset-prompt
+     	return 0
 
     elif [[ -z $fzf_output ]]; then
 
-	## search and select item(s) in $PWD
-	unset fzf_output
-	unset dir_stack
-	unset fzf_prompt
-	fd_path="$PWD"
-	fzf_prompt='C'
+	# unset dir_stack
 
-	insert-item-fzf $fd_path $fzf_prompt $fzf_query
+	## choose search environment
+	fzf_prompt='SRCH_ENV'
 
-	if [[ -n $fzf_output ]]; then
+	## add quit option
+	srch_env_dir_arr[CANCEL]='CANCEL'
+
+	## iterate over associated arr and get all keys
+	for srch_env_dir in "${(@k)srch_env_dir_arr}"; do
+
+	    ## make (non-acc) array
+	    srch_env_naa+=($srch_env_dir)
+
+	    ## sort array
+	    IFS=$'\n' srch_env_dirs=($(sort <<< "${srch_env_naa[*]}"))
+	    unset IFS
+
+	done
+
+	## one item from srch_env_dirs becomes fd_path_sel
+	## PWD, HOME, ROOT, ...
+	fd_path_sel=$(printf '%s\n' "${srch_env_dirs[@]}" | fzf --prompt "$fzf_prompt ")
+
+	[[ -z $fd_path_sel || $fd_path_sel == 'CANCEL' ]] && return
+
+	fd_path=${srch_env_dir_arr[$fd_path_sel]}
+	fzf_prompt=${srch_env_prmt_arr[$fd_path_sel]}
+	#fzf_query=$fd_path/
+
+     	insert-item-fzf $fd_path $fzf_prompt $fzf_query
+
+	# if [[ -n $fzf_output ]]; then
 
 	    zle reset-prompt
 	    return 0
 
-	elif [[ -z $fzf_output ]]; then
+	# elif [[ -z $fzf_output ]]; then
 
-	    ## search and select item(s) in $HOME
-	    unset fzf_output
-	    unset fd_path
-	    unset fzf_prompt
-	    fd_path="$HOME"
-	    fzf_prompt='H'
+	    # unset fzf_output
+	    # unset fd_path
+	    # unset fzf_prompt
 
-	    insert-item-fzf $fd_path $fzf_prompt $fzf_query
-
-	    if [[ -n $fzf_output ]]; then
-
-		zle reset-prompt
-		return 0
-
-	    elif [[ -z $fzf_output ]]; then
-
-		## search and select item(s) in $ROOT
-		unset fzf_output
-		unset fd_path
-		unset fzf_prompt
-		fd_path="$ROOT"
-		fzf_prompt='R'
-
-		insert-item-fzf $fd_path $fzf_prompt $fzf_query
-
-		if [[ -n $fzf_output ]]; then
-
-		    zle reset-prompt
-		    return 0
-
-		elif [[ -z $fzf_output ]]; then
-
-		    unset fzf_output
-		    unset fd_path
-		    unset fzf_prompt
-
-		fi
-
-	    fi
-
-	fi
+	# fi
 
     fi
 }
