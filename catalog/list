@@ -1054,13 +1054,11 @@ sway bindsym $mod+Mod1+m		$smt SW
 sway bindsym $mod+Mod1+o		$smt NE
 sway bindsym $mod+Mod1+Period	$smt SE
 sway bindsym $mod+Mod1+p		exec grim \
-sway bindsym $mod+Mod1+Return	exec --no-startup-id $csc/term-spawn $HOME float &
 sway bindsym $mod+Mod1+semicolon 	floating toggle
 sway bindsym $mod+Mod1+Shift+h	move container to output left
 sway bindsym $mod+Mod1+Shift+j	move container to output down
 sway bindsym $mod+Mod1+Shift+k	move container to output up
 sway bindsym $mod+Mod1+Shift+l 	move container to output right
-sway bindsym $mod+Mod1+Shift+Return	exec --no-startup-id $csc/term-spawn pwd float &
 sway bindsym $mod+Mod1+s	 	sticky toggle
 sway bindsym $mod+Mod1+u		$smt NW
 sway #bindsym $mod+Multi_key+4	$con_hexa 4  ## container toggle float/tile width 4 hexaparts
@@ -1143,6 +1141,7 @@ sway #bindsym Mod1+o			exec echo mousemove $kb_mouse_major_move 0  | dotoolc  ##
 sway bindsym Mod1+Period		exec echo hwheel 1 | dotoolc
 sway #bindsym Mod1+Period		exec echo mousemove $kb_mouse_minor_move 0  | dotoolc  ## right
 sway bindsym Mod1+p			exec echo buttondown right | dotoolc
+sway bindsym Mod1+Return		exec --no-startup-id $csc/term-spawn $HOME float w 800 h 600 &
 sway bindsym Mod1+Shift+Comma	exec $csc/pointer-to -x 50% -y 83%  ## S
 sway bindsym Mod1+Shift+i		exec $csc/pointer-to -x 50% -y 17%  ## N
 sway bindsym Mod1+Shift+j		exec $csc/pointer-to -x 17% -y 50%  ## W
@@ -1151,6 +1150,7 @@ sway bindsym Mod1+Shift+l		exec $csc/pointer-to -x 83% -y 50%  ## E
 sway bindsym Mod1+Shift+m		exec $csc/pointer-to -x 17% -y 83%  ## SW
 sway bindsym Mod1+Shift+o		exec $csc/pointer-to -x 83% -y 17%  ## NE
 sway bindsym Mod1+Shift+Period	exec $csc/pointer-to -x 83% -y 83%  ## SE
+sway bindsym Mod1+Shift+Return	exec --no-startup-id $csc/term-spawn pwd float w 800 h 600 &
 sway bindsym Mod1+Shift+u		exec $csc/pointer-to -x 17% -y 17%  ## NW
 sway bindsym Mod1+u			exec echo buttonup middle; click left | dotoolc
 sway #bindsym Mod1+u			exec echo mousemove 0 $kb_mouse_major_move  | dotoolc  ## down
