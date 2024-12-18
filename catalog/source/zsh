@@ -220,22 +220,32 @@ function cd-nav-dirs ()
 	## PWD, HOME, ROOT, ...
 	fd_path_sel=$(printf '%s\n' "${srch_env_dirs[@]}" | fzf --prompt "$fzf_prompt ")
 
-	[[ -z $fd_path_sel || $fd_path_sel == 'CANCEL' ]] && return
+	if [[ -z $fd_path_sel || $fd_path_sel == 'CANCEL' ]]; then
 
-	fd_path=${srch_env_dir_arr[$fd_path_sel]}
-	fzf_prompt=${srch_env_prmt_arr[$fd_path_sel]}
-	fzf_query=$fd_path/
+	    return
 
-	## select a directory under $fd_path
-	fd_list_dirs=$(fd --type d --hidden . $fd_path)
+	elif [[ $fd_path_sel == 'PWD' ]]; then
 
-	dir_select=$(printf '%s' "$fd_list_dirs" | fzf --prompt "$fzf_prompt " --query "$fzf_query")
+	    cd-child
 
-	if [[ -d $dir_select ]]; then
+	else
 
-	    ## dir_pwd_select is a directory
-	    BUFFER="cd ${dir_select}"
-	    zle vi-add-eol
+	    fd_path=${srch_env_dir_arr[$fd_path_sel]}
+	    fzf_prompt=${srch_env_prmt_arr[$fd_path_sel]}
+	    fzf_query=$fd_path/
+
+	    ## select a directory under $fd_path
+	    fd_list_dirs=$(fd --type d --hidden . $fd_path)
+
+	    dir_select=$(printf '%s' "$fd_list_dirs" | fzf --prompt "$fzf_prompt " --query "$fzf_query")
+
+	    if [[ -d $dir_select ]]; then
+
+		## dir_pwd_select is a directory
+		BUFFER="cd ${dir_select}"
+		zle vi-add-eol
+
+	    fi
 
 	fi
 
@@ -257,9 +267,18 @@ function cd-child ()
     fzf_prompt='C'
     fd_path=$PWD
 
+    ## directory types; root, bodies and leaves
     if [[ $(fd --max-depth 1 --type directory . $PWD | wc -l) -gt 0 ]]; then
 
+	## dir is a body (contains subdirs)
 	insert-item-fzf $fd_path $fzf_prompt
+
+    else
+
+	## dir is a leaf (contains no subdirs)
+	printf "${fg_amber}@leaf${st_def}"
+	sleep 0.5
+	zle reset-prompt
 
     fi
 
@@ -275,9 +294,20 @@ zle -N cd-child
 
 function cd-up ()
 {
-    ## go to parent directory
-    BUFFER="cd .."
-    zle accept-line
+    if [ "$(echo $PWD)" = "/" ]; then
+
+	## dir is the root (/)
+	printf "${fg_amber}@root${st_def}"
+	sleep 0.5
+	zle reset-prompt
+
+    else
+
+	## go to parent directory
+	BUFFER="cd .."
+	zle accept-line
+
+    fi
 }
 
 zle -N cd-up
@@ -840,6 +870,7 @@ function insert-item-fzf ()
 
 	1 )
 	    ## cd-*-functions enter here (i.e. cd-child)
+	    ## in this block fzf has no multi selection
 	    fd_list_dirs=$(fd --type d --hidden . $fd_path)
 
 	    printf '\r'
@@ -849,6 +880,7 @@ function insert-item-fzf ()
 	    ;;
 
 	* )
+	    ## in this block fzf has multi selection
 	    if [[ -n $dir_stack ]]; then
 
 		fd_list_items=$dir_stack
