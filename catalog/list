@@ -1214,4 +1214,5 @@ zsh  # bindkey  now to clipboard             ## C-`
 zsh  bindkey '^o' clear-screen               ## C-o
 zsh  bindkey -v
 zsh  bindkey -v '^?' backward-delete-char
+zsh  bindkey '^y' cd-child-joint             ## C-y
 zsh  bindkey '^Z' foreground                 ## C-z
