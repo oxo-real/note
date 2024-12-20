@@ -287,12 +287,21 @@ function cd-child ()
 	insert-item-fzf $fd_path $fd_options $fzf_prompt
 
 	## place and execute 'cd'
-	[[ -n $fzf_output ]] && BUFFER="cd $BUFFER" && zle accept-line
+	if [[ -z $fzf_output ]]; then
+
+	    ## empty output (i.e. C-j)
+	    cd-child-joint
+
+	elif [[ -n $fzf_output ]]; then
+
+	    BUFFER="cd $BUFFER" && zle accept-line
+
+	    ## reset cd_function
+	    cd_function=''
+
+	fi
 
     fi
-
-    ## reset cd_function
-    cd_function=''
 }
 
 zle -N cd-child
@@ -312,7 +321,7 @@ function cd-child-joint ()
     fd_path=$PWD
     fd_options='--'
 
-    ## number of depth subdirs
+    ## number of subdirs
     fd_path_no_sub_dirs=$(fd --type directory --follow . $fd_path | wc -l)
 
     ## directory types; root, bodies and leaves
@@ -944,11 +953,11 @@ function insert-item-fzf ()
 
 		## cd-*-functions enter here (i.e. cd-child)
 		## in this block fzf has no multi selection
-		#fd_list_dirs=$(fd --type directory --follow --hidden . $fd_path)
 		fd_list_dirs=$(fd --type directory --follow --hidden $fd_options . $fd_path)
 
 		printf '\r'
-		dir_select=$(printf '%s' "$fd_list_dirs" | fzf --prompt "$fzf_prompt " --query "$fzf_query")
+		#dir_select=$(printf '%s' "$fd_list_dirs" | fzf --prompt "$fzf_prompt " --query "$fzf_query")
+		dir_select=$(printf '%s' "$fd_list_dirs" | fzf --prompt "$fzf_prompt " --query "$fzf_query" --bind ctrl-j:abort)
 
 		#TODO press C-j again for joint search (from witin fzf)
 		#dir_select=$(printf '%s' "$fd_list_dirs" | fzf --prompt "$fzf_prompt " --query "$fzf_query" --bind 'ctrl-j:execute:cd-child-joint <(echo {})')
@@ -1078,7 +1087,6 @@ function insert-item-inline ()
 	    #fzf_query=$fd_path/
 
      	    insert-item-fzf $fd_path $fd_options $fzf_prompt $fzf_query
-     	    #TODO insert-item-fzf $fd_path $fd_options $fzf_prompt $fzf_query
 
 	    zle reset-prompt
 	    return 0
