@@ -258,8 +258,9 @@ zle -N cd-nav-dirs
 
 function cd-child ()
 {
-    ## search and select directories from cwd and deeper
+    ## search and select directories from cwd
     ## for drill down; apply for max-level=1
+    ## press C-j again for no maximum level (cd-child-joint)
 
     ## clear command line
     zle kill-line
@@ -374,14 +375,24 @@ zle -N cd-up
 
 function cd-yazi ()
 {
-    #TODO DEV
     local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+
     yazi "$@" --cwd-file="$tmp"
+
     if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-	cd -- "$cwd"
+
+	BUFFER="cd $cwd"
+	zle accept-line
+
+	## cursor is block, change to line again
+	zle reset-prompt
+
     fi
-    rm -rf -- "$tmp"
+
+    rm -f "$tmp"
 }
+
+zle -N cd-yazi
 
 
 function cd-lf ()
@@ -941,28 +952,23 @@ function insert-item-fzf ()
     case $cd_function in
 
 	1 )
+	    ## cd-*-functions enter here (i.e. cd-child)
+
 	    if [[ $fd_path_no_sub_dirs -eq 1 ]]; then
 
-		## only one subdir
+		## cwd has only one subdir
 		fzf_output="$(fd --type directory --follow --max-depth 1 . $fd_path)"
 
 	    else
 
-		## remove fd_options if sent value was '--'
+		## if value is '--'; reset fd_options
 		[[ $fd_options == '--' ]] && fd_options=''
 
-		## cd-*-functions enter here (i.e. cd-child)
-		## in this block fzf has no multi selection
 		fd_list_dirs=$(fd --type directory --follow --hidden $fd_options . $fd_path)
 
-		printf '\r'
-		#dir_select=$(printf '%s' "$fd_list_dirs" | fzf --prompt "$fzf_prompt " --query "$fzf_query")
+		## in this block fzf has no multi selection
+		## :abort for cd-child to enter cd-child-joint (pressing C-j twice)
 		dir_select=$(printf '%s' "$fd_list_dirs" | fzf --prompt "$fzf_prompt " --query "$fzf_query" --bind ctrl-j:abort)
-
-		#TODO press C-j again for joint search (from witin fzf)
-		#dir_select=$(printf '%s' "$fd_list_dirs" | fzf --prompt "$fzf_prompt " --query "$fzf_query" --bind 'ctrl-j:execute:cd-child-joint <(echo {})')
-		#dir_select=$(printf '%s' "$fd_list_dirs" | fzf --prompt "$fzf_prompt " --query "$fzf_query" --bind 'ctrl-j:execute:(zle -F cd-child-joint)')
-		#dir_select=$(printf '%s' "$fd_list_dirs" | fzf --prompt "$fzf_prompt " --query "$fzf_query" --bind 'ctrl-j:execute:(zle cd-child-joint)')
 
 		fzf_output=$dir_select
 
@@ -979,24 +985,30 @@ function insert-item-fzf ()
 
 		## this can take a while, so we give some user feedback
 		printf '%s %s .. retrieving file data' "$fzf_prompt" "$fd_path"
-		#TODO printf '${fg_blue}%s %s${st_def} .. retrieving file data' "$fzf_prompt" "$fd_path"
 
 		fd_list_items=$(fd --hidden . $fd_path)
 
 	    fi
+
+	    ## in this block fzf has multi selection
+	    ## tr converts multiple fzf entries to one line
+	    ## sed remove trailing space
+	    fzf_output=$(printf '%s' "$fd_list_items" | \
+			     fzf -m --prompt="$fzf_prompt " --query="$fzf_query" | \
+			     tr '\n' ' ' | \
+			     sed 's/[ \t]$//')
 	    ;;
 
     esac
 
+    ## selection to buffer
     [[ -n "$fzf_output" ]] && \
     	CUTBUFFER="$fzf_output" && zle vi-replace-selection
     [[ -z "$fzf_output" ]] && \
     	CUTBUFFER="$fzf_query" && zle vi-put-before
 
-    # replace selection
+    ## replace selection
     zle put-replace-selection
-    #zle vi-put-before
-    #zle put-replace-selection
 
     unset CUTBUFFER
 }
@@ -1038,10 +1050,12 @@ function insert-item-inline ()
 
     ## dir-stack instead of fd_path (below)
     dir-stack
+
+    fd_options='--'
     fzf_prompt='S'
 
     ## offer directories in reach
-    insert-item-fzf $dir_stack $fzf_prompt $fzf_query
+    insert-item-fzf $dir_stack $fd_options $fzf_prompt $fzf_query
 
     unset dir_stack
     unset fzf_prompt
@@ -1059,7 +1073,7 @@ function insert-item-inline ()
 	## add quit option
 	srch_env_dir_arr[ZQXIT]='ZQXIT'
 
-	## iterate over associated arr and get all keys
+	## iterate over associated array (zsh) and get all keys
 	for srch_env_dir in "${(@k)srch_env_dir_arr}"; do
 
 	    ## make (non-acc) array
@@ -1082,7 +1096,7 @@ function insert-item-inline ()
 	else
 
 	    fd_path=${srch_env_dir_arr[$fd_path_sel]}
-	    fd_options=''
+	    fd_options='--'
 	    fzf_prompt=${srch_env_prmt_arr[$fd_path_sel]}
 	    #fzf_query=$fd_path/
 
@@ -1157,7 +1171,7 @@ bindkey '^A' git-add-commit             ## C-a
 bindkey '^j' cd-child                   ## C-j
 bindkey '^y' cd-child-joint             ## C-y
 bindkey '^k' cd-up                      ## C-k
-bindkey '^l' cd-lf                      ## C-l
+bindkey '^l' cd-yazi                    ## C-l
 bindkey '^f' insert-item-inline         ## C-f
 bindkey '^Z' foreground                 ## C-z
 
