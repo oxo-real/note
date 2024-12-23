@@ -382,10 +382,8 @@ function cd-yazi ()
     if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
 
 	BUFFER="cd $cwd"
-	zle accept-line
-
-	## cursor is block, change to line again
-	zle reset-prompt
+	#zle accept-line
+	zle-line-init
 
     fi
 
@@ -511,37 +509,37 @@ function def-cursor ()
 
     case $1 in
 
-        reset)
+        reset )
 	    # to default
 	    style=0
 	    ;;
 
-	block_blink)
+	block_blink )
 	    # default
 	    style=1
 	    ;;
 
-	block_steady)
+	block_steady )
 	    style=2
 	    ;;
 
-	underline_blink)
+	underline_blink )
 	    style=3
 	    ;;
 
-	underline_steady)
+	underline_steady )
 	    style=4
 	    ;;
 
-	vertical-line_blink)
+	vertical-line_blink )
 	    style=5
 	    ;;
 
-	vertical-line_steady)
+	vertical-line_steady )
 	    style=6
 	    ;;
 
-	*)
+	* )
 	    style=0
 	    ;;
 
@@ -557,19 +555,19 @@ function set-cursor ()
     ## set cursor styles
     case $KEYMAP in
 
-        main | viins)
+        main | viins )
 	    def-cursor vertical-line_blink
 	    ;;
 
-        vicmd)
+        vicmd )
 	    def-cursor block_blink
 	    ;;
 
-        visual)
+        visual )
 	    def-cursor block_steady
 	    ;;
 
-	*)
+	* )
 	    def-cursor underline_blink
 	    ;;
 
@@ -659,7 +657,7 @@ function dir-stack ()
 		    sed "s|^~|$HOME|" | \
 		    nl --number-format ln | \
 		    sort --key 1,1 --numeric-sort --reverse | \
-		    sed "1i $OLDPWD" | \
+		    sed "1i 0 $OLDPWD" | \
 		    awk '!seen[$2]++ {print $1, $2}' | \
 		    awk '!($1="")' | \
 		    sed --regexp-extended 's/^[[:space:]]+//' | \
@@ -964,6 +962,7 @@ function insert-item-fzf ()
 		## if value is '--'; reset fd_options
 		[[ $fd_options == '--' ]] && fd_options=''
 
+		## all directories in fd_path
 		fd_list_dirs=$(fd --type directory --follow --hidden $fd_options . $fd_path)
 
 		## in this block fzf has no multi selection
@@ -986,6 +985,7 @@ function insert-item-fzf ()
 		## this can take a while, so we give some user feedback
 		printf '%s %s .. retrieving file data' "$fzf_prompt" "$fd_path"
 
+		## all files and directories in fd_path
 		fd_list_items=$(fd --hidden . $fd_path)
 
 	    fi
