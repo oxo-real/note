@@ -331,6 +331,7 @@ sh   apropos keyword  ## search man page names and descriptions
 sh   arecord --vumeter stereo audio.wav  ## record wave audio
 sh   ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters (0x20-0x7e 0d32-0d126)
 sh   awk '!($1="")' $file  ## remove column 1
+sh   awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'  ## reverse lines (emulate tac)
 sh   awk 'NF{NF-=1};1'  ## remove last column
 sh   awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
 sh   awk 'NR==1{prev=$1;print $2} NR>1 && prev!=$1{prev=$1;print $2} END{if(NR>1)print $2}'  ## print col2 every time col1 value changes
@@ -1118,8 +1119,8 @@ sway     bindsym button6 		nop
 sway     bindsym button7 		nop
 sway bindsym Control+Grave		exec date +'%Y%m%dT%H%M%SE%s' | wl-copy -n && notify-send 'date_time_epoch copied'
 sway bindsym Control+Mod1+s  	exec wpctl set-volume	@DEFAULT_SINK@ 0.12
-sway #bindsym Control+Shift+y	exec $term --app-id="float_spicules" \
-sway bindsym Control+Shift+y		exec --no-startup-id $term --class="float_spicules" \
+sway #bindsym Control+p		exec $term --app-id="float_spicules" \
+sway bindsym Control+p		exec --no-startup-id $term --class="float_spicules" \
 sway bindsym F9			exec wpctl set-mute	@DEFAULT_SOURCE@ toggle
 sway bindsym --locked XF86AudioPlay 	exec playerctl play-pause
 sway #bindsym --locked XF86MonBrightnessDown exec --no-startup-id light -U 10 && sway-brightness-notify

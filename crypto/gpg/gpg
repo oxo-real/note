@@ -127,6 +127,11 @@ list
 ## work on the (first) primary key
 key 0
 
+## or work on multiple subkeys at once
+key 1
+key 2
+key 3
+
 ## set a new expiration period
 expire
 
@@ -158,21 +163,22 @@ trustdb.gpg: This holds the trust relationships you have established for your ow
 
 # full gpg identity backup
 
-## copy the entire gpg homedir
+## method 1; copy the entire gpg homedir
 tar -cvzf gpg_backup.tar $GNUPGHOME
 
-## more granulated
-[How to Back Up and Restore Your GPG Keys on Linux](https://www.howtogeek.com/816878/how-to-back-up-and-restore-gpg-keys-on-linux/#the-gnupg-directory)
+## method 2; more granulated
+[How to Back Up and Restore Your GPG Keys on Linux]
+(https://www.howtogeek.com/816878/how-to-back-up-and-restore-gpg-keys-on-linux/#the-gnupg-directory)
 
-### backup
-gpg --export --export-options backup --output public_keys.gpg
-gpg --export-secret-keys --export-options backup --output private_keys.gpg
-gpg --export-ownertrust > trust_db.gpg
+### backup - keys & trust-db
+gpg --export --export-options backup --output keys-public.gpg
+gpg --export-secret-keys --export-options backup --output keys-private.gpg
+gpg --export-ownertrust > trust-db.gpg
 
 ### restore
-gpg --import public_keys.gpg
-gpg --import private_keys.gpg
-gpg --import-ownertrust trust_db.gpg
+gpg --import keys-public.gpg
+gpg --import keys-private.gpg
+gpg --import-ownertrust trust-db.gpg
 
 
 # search online
