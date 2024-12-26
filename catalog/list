@@ -904,6 +904,7 @@ sh   #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
 sh   var1=a; var2=b; var3=c; counter=2; naka=var$counter; echo $naka  ## dynamic variable names #TODO desired result is: b
 sh   vlock --all  ## console lock all sessions
 sh   watch --differences --no-title --interval 1 $command  ## default watch command
+sh   wc -l < $file  ## print number of lines in $file (< no filename)
 sh   wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
 sh   wf-recorder --audio --codec libx264 --file $video.mp4  ## recording video with wf-recorder
 sh   wf-recorder --audio --file=recording_with_audio.avi  ## capture whole screen with audio
@@ -1162,7 +1163,7 @@ sway #bindsym Mod4+Alt_R+4		$con_hexa 4  ## container toggle float/tile width 4 
 sway #bindsym Mod4+Multi_key+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym Mod4+Multi_key+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym --release $mod+Shift+p	exec grim -g "$(slurp)" \
-sway bindsym Shift+Control+0		exec echo -n '' | wl-copy && notify-send 'clipboard cleared'
+sway #bindsym Shift+Control+0		exec echo -n '' | wl-copy && notify-send 'clipboard cleared'
 sway bindsym Shift+Control+Mod1+d	exec vtxt end
 sway bindsym Shift+Control+Mod1+e	exec vtxt begin en
 sway bindsym Shift+Control+Mod1+m	exec vtxt end
@@ -1170,7 +1171,7 @@ sway bindsym Shift+Control+Mod1+n	exec vtxt begin nl
 sway bindsym Shift+Control+Mod1+r	exec vtxt end
 sway bindsym Shift+Control+Mod1+s	exec vtxt begin sv
 sway bindsym Shift+Control+Mod1+x	exec mic-switch toggle Webcam C310
-sway #bindsym Shift+Control+y	wl-copy -o -n && exec notify-send 'secure copy is in DEV'
+sway #bindsym Shift+Control+p		exec wl-copy -o -n && exec notify-send 'secure copy is in DEV'
 sway #bindsym Super_R+Alt_R+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway #bindsym Super_R+Multi_key+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym --whole-window $mod+BTN_MIDDLE	floating toggle

@@ -561,6 +561,7 @@ printf "${var1:=$default}"  ## printf and set default variable value if var1 is 
 vlock --all  ## console lock all sessions
 env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
 watch --differences --no-title --interval 1 $command  ## default watch command
+wc -l < $file  ## print number of lines in $file (< no filename)
 wev -f wl_keyboard  ## show wayland keyboard events; keyID keynames
 wf-recorder --audio --codec libx264 --file $video.mp4  ## recording video with wf-recorder
 wget https://file.location -c -O file.location.txt_part  ## resume downloading file.location to file.location.txt_part
