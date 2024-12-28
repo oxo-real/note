@@ -272,7 +272,7 @@ function cd-child ()
     fd_options='--max-depth=1'
 
     ## number of depth 1 subdirs
-    fd_path_no_sub_dirs=$(fd --type directory --follow --max-depth 1 . $fd_path | wc -l)
+    fd_path_no_sub_dirs=$(fd --type directory --hidden --follow --max-depth 1 . $fd_path | wc -l)
 
     ## directory types; root, bodies and leaves
     if [[ $fd_path_no_sub_dirs -eq 0 ]]; then
@@ -323,7 +323,7 @@ function cd-child-joint ()
     fd_options='--'
 
     ## number of subdirs
-    fd_path_no_sub_dirs=$(fd --type directory --follow . $fd_path | wc -l)
+    fd_path_no_sub_dirs=$(fd --type directory --hidden --follow --max-depth 1 . $fd_path | wc -l)
 
     ## directory types; root, bodies and leaves
     if [[ $fd_path_no_sub_dirs -eq 0 ]]; then
