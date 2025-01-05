@@ -543,7 +543,7 @@ sh   gpg --import ID >  ## import public key
 sh   gpg --import-ownertrust trust_db.gpg  ## step 3 restore gpg identity (trust database)
 sh   gpg --import private_keys.gpg  ## step 2 restore gpg identity (private keys)
 sh   gpg --import public_keys.gpg  ## step 1 restore gpg identity (public keys)
-sh   gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 1 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list
+sh   gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 2 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list (grep -B 1 if keygrip is not shown)
 sh   gpg --output file --decrypt file.gpg >  ## decrypt file.gpg asymmetric using private key
 sh   gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetric using public key ID
 sh   gpg --output file.gpg --symmetric file >  ## encrypt file symmetric
@@ -1217,5 +1217,4 @@ zsh  # bindkey  now to clipboard             ## C-`
 zsh  bindkey '^o' clear-screen               ## C-o
 zsh  bindkey -v
 zsh  bindkey -v '^?' backward-delete-char
-zsh  bindkey '^y' cd-child-joint             ## C-y
 zsh  bindkey '^Z' foreground                 ## C-z
