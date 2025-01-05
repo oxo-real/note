@@ -1028,8 +1028,9 @@ sway bindsym $mod+Control+Shift+Minus    exec swaymsg opacity plus 0.1
 sway bindsym $mod+Ctrl+bracketleft	gaps inner current plus 5
 sway bindsym $mod+Ctrl+bracketright	gaps inner current minus 5
 sway bindsym $mod+Ctrl+slash		gaps inner current set 0; gaps outer current set 0
+sway bindsym $mod+d 			exec $menu
 sway #bindsym $mod+d			exec $term --app-id="float_fzf_run" \
-sway bindsym $mod+d			exec --no-startup-id $term --class="float_fzf_run" \
+sway # bindsym $mod+d		exec --no-startup-id $term --class="float_fzf_run" \
 sway bindsym $mod+Equal	    workspace $ws=
 sway bindsym $mod+f		        fullscreen toggle
 sway bindsym $mod+Grave		exec $term --class="float_spicules" -e \
