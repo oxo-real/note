@@ -1109,7 +1109,8 @@ sway bindsym $mod+Shift+slash	move scratchpad
 sway bindsym $mod+Shift+space    exec swaymsg input $touchpad \
 sway bindsym $mod+Shift+v	    exec swaymsg input $touchscreen \
 sway #bindsym $mod+Shift+x		exec $term --app-id="float_exit" \
-sway bindsym $mod+Shift+x		exec --no-startup-id $term --class="float_exit" \
+sway #bindsym $mod+Shift+x		exec --no-startup-id $term --class="float_exit" \
+sway bindsym $mod+Shift+x 		exec sh $csc/tofi-sway-exit
 sway bindsym $mod+Shift+z		exec sh $csc/dimr swaylock
 sway bindsym $mod+slash		scratchpad show
 sway bindsym $mod+Tab		workspace back_and_forth
