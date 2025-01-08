@@ -148,7 +148,7 @@ function cd-nav-dirs ()
     srch_env_dir_arr[ROOT]=$ROOT
 
     ## generate dir_stack
-    dir-stack
+    dirstack
     fzf_prompt='S'
 
     dir_stack_select_fzf=$(printf '%s' "$dir_stack" | fzf --prompt "$fzf_prompt ")
@@ -648,13 +648,18 @@ base16-config
 # --------------------------------------------------------------------
 # dir-stack.sh
 
+: '
+# NOTICE
+dir-stack script > dirstack function > dir_stack variable
+# '
 
-function dir-stack ()
+function dirstack ()
 {
     ## hist_cd: chronological list of unique directories from history
+		    #grep --binary-files text '^cd ' | \
     hist_cd=$(\
 		sed --regexp-extended 's/^:[[:space:]][[:digit:]]{10}:[[:digit:]]+;//' $HISTFILE | \
-		    grep '^cd ' | \
+		    grep '^cd ' 2>/dev/null | \
 		    sed --regexp-extended -e '/cd [\.]{1,2}$/d' -e '/cd -/d' -e 's|\.\./||' -e 's|^cd ||' -e 's|/$||' | \
 		    sed "s|^~|$HOME|" | \
 		    nl --number-format ln | \
@@ -663,13 +668,13 @@ function dir-stack ()
 		    awk '!seen[$2]++ {print $1, $2}' | \
 		    awk '!($1="")' | \
 		    sed --regexp-extended 's/^[[:space:]]+//' | \
-		    grep --invert-match --line-regexp $(basename $PWD) | \
-		    grep --invert-match --line-regexp $PWD | \
+		    grep --binary-files text --invert-match --line-regexp $(basename $PWD) | \
+		    grep --binary-files text --invert-match --line-regexp $PWD | \
 		    sed '/^\s*$/d'\
 	   )
 
     ## sed extract commands from histfile
-    ## grep only cd commands
+    ## grep only cd commands; occasional binary data error message suppressed
     ## sed remove lines with cd .(.), cd -, erase ../, cd[space], and trailing slashes
     ## sed replace ~ with $HOME
     ## nl add linenumbers (for chronological order)
@@ -1051,8 +1056,8 @@ function insert-item-inline ()
     zle kill-region
     fzf_query="$CUTBUFFER"
 
-    ## dir-stack instead of fd_path (below)
-    dir-stack
+    ## dirstack instead of fd_path (below)
+    dirstack
 
     fd_options='--'
     fzf_prompt='S'
@@ -1171,13 +1176,13 @@ bindkey '^o' clear-screen               ## C-o
 bindkey '^@' insert-date-time           ## C-2
 bindkey '^E' insert-epoch               ## C-e
 bindkey '^A' git-add-commit             ## C-a
+bindkey '^h' cd-nav-dirs                ## C-h
 bindkey '^j' cd-child                   ## C-j
 bindkey '^k' cd-up                      ## C-k
 bindkey '^l' cd-yazi                    ## C-l
 bindkey '^f' insert-item-inline         ## C-f
 bindkey '^Z' foreground                 ## C-z
 
-bindkey -M viins '^h' cd-nav-dirs       ## C-h
 
 bindkey -M vicmd 's' toggle-sudo        ## [vicmd] s
 bindkey -M vicmd 'q' toggle-sh-x        ## [vicmd] q
@@ -1418,7 +1423,7 @@ function calc-rps1 ()
 
     weekday=$(date +'%u')
     day_num=$(date +'%d')
-    rp='$weekday$day_num%F{#696969}$ep_l $ep_r%f %D{%H%M%S}'
+    rp='$weekday $day_num%F{#696969}$ep_l $ep_r%f %D{%H%M%S}'
 
     ## length exit code in PS1
     if [[ "$exit_code" -gt '0' ]]; then
