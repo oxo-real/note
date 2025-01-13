@@ -96,8 +96,8 @@ date +'%s'  ## current linux epoch (oxo now)
 date '+%-:::z %Z'  ## current time zone numeric and name/abbreviation
 date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day at pi time) to linux epoch
 date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
-date -d '@1234567890' +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert specific linux epoch to oxo extensive time format
-date -d @$(wl-paste) +'%Y%m%d_%H%M%S_%s_%z_%Z_%V'  ## convert copied specific linux epoch to oxo extensive time format
+date -d '@1234567890' +'%Y%m%dT%H%M%S%z_%Z_%V_%s'  ## convert specific linux epoch to oxo extensive time format
+date -d "$(wl-paste)" +'%Y%m%dT%H%M%S%z_%Z_%V_%s'  ## convert copied specific linux epoch to oxo extensive time format
 dd if=$src of=$dst bs=256k iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## physical copy $src to $dst
 dd if=/dev/zero of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 bytes as zeros to $dst
 dd if=/dev/urandom of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 random bytes to $dst
@@ -448,6 +448,7 @@ script --command 'sh -x $command' --log-io "$(now).log" --log-timing "$(now).log
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sed '/^\s*$/d'  ## delete empty lines
 sed "${line_num}q;d" $file  ## print $line_num from $file
+sed '/.*string.*/a inserted_line_after' $file  ## insert line after line containing 'string'
 sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove $HISTORY last line
 sed -i '$d' $HISTFILE; sed -e ':t;N;$!bt; s/\(\n[^\n]*\)\{1\}$/\n     deleted:&/' $HISTFILE | tail; sed -i '$d' $HISTFILE  ## remove $HISTORY last line and show result
 sed -i '$d' $file  ## delete last line from $file
