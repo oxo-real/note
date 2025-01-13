@@ -354,6 +354,7 @@ sh   cal -m -w -y $(date +%Y)  ## calendar current year
 sh   case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## case statement basic structure
 sh   cat $HOME/a/data/emoji/emoji-test.txt | sed 's/^.*#//' | sed --regexp-extended 's/E[0-9]+.[0-9]//' | sed 's/^[ \t]*//' | sed '/^[[:alnum:]]/d' | sed '/^\s*$/d' | fzf | awk '{print $1}' | wl-copy -n  ## emoji & symbols to clipboard
 sh   cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
+sh   cat $split_file1 $split_file2  ## join split files
 sh   cat $XDG_DATA_HOME/c/web/bookmark_urls | fzf | sed -e 's/^.*(//' -e 's/)$//' | wl-copy  ## get url from bookmark_urls
 sh   cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
 sh   cat-audio() {ffmpeg -i "concat:${(j:|:)@[2,-1]}" -acodec copy $1}  ## concatenate mp3 audio files usage: cat-audio output.mp3 *.mp3
@@ -435,6 +436,8 @@ sh   du -sbh $directory  ## directory usage; total size of all content in direct
 sh   e2label /dev/X $label  ## write device label
 sh   e2label /dev/X  ## read device label
 sh   echo $(( 1 ^ 2 ))  ## decimal value of xor 1 and 2 (xor 01 and 10 = 11)
+sh   echo ${a:=b}  ## parameter expansion; if [[ -z $a ]]; then assigned value is 'b'
+sh   echo ${a:-b}  ## parameter expansion; if [[ -z $a ]]; then returned value is 'b'
 sh   echo ${HOME##*/}  ## parameter expansion; substitute longest match from head (##) with matched portion (*/) deleted; remove until last instance ('oxo')
 sh   echo ${HOME%%/*}  ## parameter expansion; substitute longest match from tail (%%) with matched portion (/*) deleted; remove from first instance ('')
 sh   echo ${HOME#*/}  ## parameter expansion; substitute shortest match from head (#) with matched portion (*/) deleted,; remove until first instance ('home/oxo')
