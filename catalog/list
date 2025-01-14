@@ -318,7 +318,7 @@ sh   [[ $var ]]  ## extended version of [ operator; with additional string, assi
 sh   < $XDG_DATA_HOME/c/web/bookmark_urls | fzf | slicer '(' ')' | wl-copy  ## get url from bookmark_urls
 sh   alacritty msg config font.size=18  ## current alacritty instance font size 18 (for screencasting)
 sh   alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## 62 alphanumeric characters from $ASCII
-sh   alnum=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
+sh   alnum=$(printf '%s' "$ASCII" | grep --only-matching  . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
 sh   amixer info  ## info about alsamixer device
 sh   amixer scontrols  ## list of alsamixer controls
 sh   amixer set Capture toggle  ## alsamixer toggle mic
@@ -405,6 +405,7 @@ sh   curl -O $(wl-paste) -C -  ## start or resume downloading copied location
 sh   curl -O https://file.location -C - -o file.location.txt_part  ## start or resume downloading file.location to file.location.txt_part
 sh   curl -O https://mirror.i3d.net/pub/archlinux/iso/2018.04.01/archlinux-2018.04.01-x86_64.iso | sudo dd of=/dev/sdX  ## download arch linux iso and write to device
 sh   cut -d , -f 5 --complement file.csv  ## remove column 5 from file.csv
+sh   date $DTE  ## date with zshenv strftime format preset
 sh   date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
 sh   date -d "$(wl-paste)" +'%Y%m%dT%H%M%S%z_%Z_%V_%s'  ## convert copied specific linux epoch to oxo extensive time format
 sh   date -d '@1234567890' +'%Y%m%dT%H%M%S%z_%Z_%V_%s'  ## convert specific linux epoch to oxo extensive time format
@@ -414,7 +415,7 @@ sh   date && sudo hwclock --show --verbose  ## read hardware clock time and its 
 sh   date '+%-:::z %Z'  ## current time zone numeric and name/abbreviation
 sh   dd if=$src of=$dst bs=256k iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## physical copy $src to $dst
 sh   dd if=/dev/urandom of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 random bytes to $dst
-sh   dd if=/dev/zero of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 bytes as zeros to $dst
+sh   dd if=/dev/zero of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 zero bytes to $dst
 sh   df -h  ## human-readable file system space usage
 sh   df --si --exclude-type devtmpfs --exclude-type tmpfs --exclude-type efivarfs | awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## file system disk free space
 sh   dhcpcd $interface  ## dhcp request for interface
@@ -744,7 +745,7 @@ sh   ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom A
 sh   ps -jxf | grep $(echo $$) | sort -n | head -n 1 | awk '{print $1}'  ## print currently active terminal ppid
 sh   pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
 sh   punct=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95)  ## 33 punctuation characters from $ASCII
-sh   punct=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33)  ## 33 punctuation characters from $ASCII
+sh   punct=$(printf '%s' "$ASCII" | grep --only-matching . | sort | tr -d "\n" | cut --characters 1-33)  ## 33 punctuation characters from $ASCII
 sh   pushd $directory  ## cd to $directory and add $directory to dirs stack[0]
 sh   qalc '18°32′44.88″W to degrees'  ## convert sexagesimal value to decimal geographic position notation
 sh   qalc '-18.5458 to latitude'  ## convert decimal geographic position value to sexagesimal N/S notation
@@ -1124,7 +1125,8 @@ sway     bindsym button4   		nop
 sway     bindsym button5 		nop
 sway     bindsym button6 		nop
 sway     bindsym button7 		nop
-sway bindsym Control+Grave		exec date +'%Y%m%dT%H%M%SE%s' | wl-copy -n && notify-send 'date_time_epoch copied'
+sway bindsym Control+Grave		exec date $DTE | wl-copy -n && notify-send 'date_time_epoch copied'
+sway #bindsym Control+Grave		exec date +'%Y%m%dT%H%M%SE%s' | wl-copy -n && notify-send 'date_time_epoch copied'
 sway bindsym Control+Mod1+s  	exec wpctl set-volume	@DEFAULT_SINK@ 0.12
 sway #bindsym Control+p		exec $term --app-id="float_spicules" \
 sway bindsym Control+p		exec --no-startup-id $term --class="float_spicules" \

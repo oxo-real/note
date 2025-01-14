@@ -88,8 +88,8 @@ upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## 26 uppercase letter c
 lower=$(printf '%s' "$ASCII" | cut --characters 66-91)  ## 26 lowercase letter characters from $ASCII
 punct=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95)  ## 33 punctuation characters from $ASCII
 alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## 62 alphanumeric characters from $ASCII
-punct=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33)  ## 33 punctuation characters from $ASCII
-alnum=$(printf '%s' "$ASCII" | grep -o . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
+punct=$(printf '%s' "$ASCII" | grep --only-matching . | sort | tr -d "\n" | cut --characters 1-33)  ## 33 punctuation characters from $ASCII
+alnum=$(printf '%s' "$ASCII" | grep --only-matching  . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
 bas64=$(printf '%s' "$ASCII" | cut --zero-terminated --characters 34-59,66-91,17-26; printf '+/\n')  ## 64 base64 characters from $ASCII
 date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
 date +'%s'  ## current linux epoch (oxo now)
@@ -98,8 +98,9 @@ date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day at pi time) to 
 date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
 date -d '@1234567890' +'%Y%m%dT%H%M%S%z_%Z_%V_%s'  ## convert specific linux epoch to oxo extensive time format
 date -d "$(wl-paste)" +'%Y%m%dT%H%M%S%z_%Z_%V_%s'  ## convert copied specific linux epoch to oxo extensive time format
+date $DTE  ## date with zshenv strftime format preset
 dd if=$src of=$dst bs=256k iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## physical copy $src to $dst
-dd if=/dev/zero of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 bytes as zeros to $dst
+dd if=/dev/zero of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 zero bytes to $dst
 dd if=/dev/urandom of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 random bytes to $dst
 echo '$idVendor:$idProduct:u' | sudo dd of=/sys/module/usb_storage/parameters/quirks  ## ignore uas, use usb-storage for storage device
 df -h  ## human-readable file system space usage
