@@ -268,11 +268,15 @@ function cd-child ()
     ## set variables
     cd_function=1
     fzf_prompt='C'
-    fd_path=$PWD
+    fd_path='.'
     fd_options='--max-depth=1'
+    #fd_options='--max-depth 1 --type directory --hidden --follow'  ## fd error
+    #fd_path=$PWD  ## fd error
+    #fd_options='--max-depth 1'  ## fd error
 
     ## number of depth 1 subdirs
-    fd_path_no_sub_dirs=$(fd --type directory --hidden --follow --max-depth 1 . $fd_path | wc -l)
+    #fd_path_no_sub_dirs=$(fd "$fd_options" . $fd_path | wc -l)  ## fd error
+    fd_path_no_sub_dirs=$(fd --type directory --hidden --follow $fd_options . $fd_path | wc -l)
 
     ## directory types; root, bodies and leaves
     if [[ $fd_path_no_sub_dirs -eq 0 ]]; then
@@ -963,7 +967,8 @@ function insert-item-fzf ()
 	    if [[ $fd_path_no_sub_dirs -eq 1 ]]; then
 
 		## cwd has only one subdir
-		fzf_output="$(fd --color never --type directory --follow --max-depth 1 . $fd_path)"
+		#fzf_output="$(fd --color never $fd_options . $fd_path)"
+		fzf_output="$(fd --color never --type directory --hidden --follow --max-depth 1 . $fd_path)"
 
 	    else
 
@@ -971,7 +976,7 @@ function insert-item-fzf ()
 		[[ $fd_options == '--' ]] && fd_options=''
 
 		## all directories in fd_path
-		fd_list_dirs=$(fd --type directory --follow --hidden $fd_options . $fd_path)
+		fd_list_dirs=$(fd --type directory --hidden --follow $fd_options . $fd_path)
 
 		## in this block fzf has no multi selection
 		## :abort for cd-child to enter cd-child-joint (pressing C-j twice)
