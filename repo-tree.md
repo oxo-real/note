@@ -714,6 +714,8 @@
 │   │   │       │   │   ├── zsh_completion_guide
 │   │   │       │   │   ├── zsh_completions_guid
 │   │   │       │   │   └── zsh-completions-howto.org
+│   │   │       │   ├── linuxmag
+│   │   │       │   │   └── writing_zsh_completion_functions
 │   │   │       │   └── the_valuable_dev
 │   │   │       │       ├── completion.zsh
 │   │   │       │       ├── excerpt
@@ -726,6 +728,7 @@
 │   │   │       │       ├── zsh_line_editor.html
 │   │   │       │       ├── zsh_wo_dependencies
 │   │   │       │       └── zsh_wo_dependencies.html
+│   │   │       ├── etc_zsh_zshenv
 │   │   │       ├── last_command_get
 │   │   │       ├── multiline_comment
 │   │   │       ├── oxo_bindkey
@@ -981,5 +984,5 @@
 └── zzz_deprecated
     └── xab
 
-205 directories, 776 files
+206 directories, 778 files
 ```

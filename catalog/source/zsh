@@ -270,6 +270,7 @@ function cd-child ()
     fzf_prompt='C'
     fd_path='.'
     fd_options='--max-depth=1'
+    #TODO resolve fd error when sending multiple fd_options
     #fd_options='--max-depth 1 --type directory --hidden --follow'  ## fd error
     #fd_path=$PWD  ## fd error
     #fd_options='--max-depth 1'  ## fd error
