@@ -1427,9 +1427,13 @@ function calc-rps1 ()
     calc-epoch
     source $strlen_sh
 
-    weekday=$(date +'%u')
-    day_num=$(date +'%d')
-    rp='$weekday $day_num%F{#696969}$ep_l $ep_r%f %D{%H%M%S}'
+    ## weekday, daynum, epoch and time
+    #weekday=$(date +'%u')
+    #day_num=$(date +'%d')
+    #rp='$weekday $day_num%F{#696969}$ep_l $ep_r%f %D{%H%M%S}'
+
+    ## only time
+    rp='%D{%H%M%S}'
 
     ## length exit code in PS1
     if [[ "$exit_code" -gt '0' ]]; then
