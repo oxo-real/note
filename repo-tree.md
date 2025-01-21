@@ -62,8 +62,7 @@
 │   │   ├── get_keybindings
 │   │   ├── global_list
 │   │   └── guide
-│   │       ├── 20240916_084034_1726468834-kb-guide.ods
-│   │       ├── 20241230T083711E1735544231-kb-guide.ods
+│   │       ├── 20250121_093703_1737448623--kb-guide.ods
 │   │       ├── atty-kb-guide.pdf
 │   │       ├── ml0-kb-guide.pdf
 │   │       ├── ml1-kb-guide.pdf
@@ -77,7 +76,9 @@
 │   │       └── zzz_deprecated
 │   │           ├── 20240808_084340_1723099420-kb-guide.ods
 │   │           ├── 20240810_075606_1723269366-kb-guide.ods
-│   │           └── 20240823_113412_1724405652-kb-guide.ods
+│   │           ├── 20240823_113412_1724405652-kb-guide.ods
+│   │           ├── 20240916_084034_1726468834-kb-guide.ods
+│   │           └── 20241230_083711_1735544231-kb-guide.ods
 │   ├── kvm
 │   │   └── kvm_101
 │   ├── ledger
@@ -251,6 +252,7 @@
 │       └── symmetric
 ├── data_format
 │   ├── comparison
+│   ├── filenames
 │   ├── json
 │   ├── toml
 │   └── yaml
@@ -984,5 +986,5 @@
 └── zzz_deprecated
     └── xab
 
-206 directories, 778 files
+206 directories, 780 files
 ```
