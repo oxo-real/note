@@ -475,6 +475,7 @@ sh   espeak -s 80 -p 70 -v mb-us1 'hello'  ## espeak hello speed 80% pitch 70% v
 sh   < /etc/group  ## list all user groups
 sh   eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concatenate arguments, add ssh_key
 sh   export $VAR  ## make local variable $VAR available as an environmental variable
+sh   export IFS=', '  ## permanently assign comma and space as internal field separators (IFS as an environment variable)
 sh   export PWGN_OFF=1; mountr  ## disable oxo pwgn; i.e. while executing mountr
 sh   faillock --user $USER --reset  ## remove sudo lockout for current user
 sh   fallocate -l 5M file  ## create file 5M size
@@ -529,6 +530,7 @@ sh   getent ahosts $url  ## get ip address from name service switch library data
 sh   git config --show-scope --show-origin --list  ## origin and scope of git configuration
 sh   git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  ## git hist
 sh   git log --oneline  ## list of commits
+sh   git log --patch  ## generate patch
 sh   git reset --hard 2db93df  ## back to a previous commit
 sh   gnutls-cli -d 1 grc.com -p 443  ## get certificate info
 sh   gpg --armor --export ID > ID.puk.gpg  ## export public key ascii armored id
@@ -579,7 +581,7 @@ sh   id -gn $USER  ## show effective group name
 sh   id -u $USER  ## show effective user id
 sh   id -un $USER  ## show effective user name
 sh   if [[ $i -eq 0 ]]; then; echo 0; elif [[ $i -lt 0 ]]; then; echo neg; else; echo pos; fi  ## if elif else statement basic structure
-sh   IFS=', '  ## permanently assign comma and space as internal field separators (IFS as an environment variable)
+sh   IFS=$'\n'  ## newline as internal field separator
 sh   IFS=', ' read -r -a array <<< "$string"  ## comma or space separated string to array
 sh   iftop -i $interface ## display bandwith usage of interface
 sh   info  ## advanced manual system primarily for gnu programs
@@ -907,6 +909,7 @@ sh   user='a'; admin='user'; echo ${(P)admin}  ## zsh indirect parameter expansi
 sh   usermod -a -G $group $user  ## add user to group
 sh   #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
 sh   var1=a; var2=b; var3=c; counter=2; naka=var$counter; echo $naka  ## dynamic variable names #TODO desired result is: b
+sh   vim "+call cursor(line('$') - 1, 1)" $HISTFILE  ## open history in vim on previous command
 sh   vlock --all  ## console lock all sessions
 sh   watch --differences --no-title --interval 1 $command  ## default watch command
 sh   wc -l < $file  ## print number of lines in $file (< no filename)

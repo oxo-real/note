@@ -199,8 +199,9 @@ fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem i
 fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 getent ahosts $url  ## get ip address from name service switch library database ahost
 git config --show-scope --show-origin --list  ## origin and scope of git configuration
-git log --oneline  ## list of commits
 git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  ## git hist
+git log --oneline  ## list of commits
+git log --patch  ## generate patch
 git reset --hard 2db93df  ## back to a previous commit
 gnutls-cli -d 1 grc.com -p 443  ## get certificate info
 gpg --armor --export ID > ID.puk.gpg  ## export public key ascii armored id
@@ -254,7 +255,8 @@ id -g $USER  ## show effective group id
 id -un $USER  ## show effective user name
 id -gn $USER  ## show effective group name
 id $USER  ## show both real and effective uid & gid
-IFS=', '  ## permanently assign comma and space as internal field separators (IFS as an environment variable)
+export IFS=', '  ## permanently assign comma and space as internal field separators (IFS as an environment variable)
+IFS=$'\n'  ## newline as internal field separator
 iftop -i $interface ## display bandwith usage of interface
 info  ## advanced manual system primarily for gnu programs
 insmod $file $args  ## insert module into kernel (if not in /usr/lib/modules/$(uname -r))
@@ -563,6 +565,7 @@ uptime  ## uptime since boot
 usermod -a -G $group $user  ## add user to group
 printf "${var1:-$default}"  ## print default variable value if var1 is unset or null
 printf "${var1:=$default}"  ## printf and set default variable value if var1 is unset or null
+vim "+call cursor(line('$') - 1, 1)" $HISTFILE  ## open history in vim on previous command
 vlock --all  ## console lock all sessions
 env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
 watch --differences --no-title --interval 1 $command  ## default watch command
