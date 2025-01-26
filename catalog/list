@@ -734,6 +734,7 @@ sh   printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'  ## randomize characte
 sh   printf '%s' "$l2s" | tr -d '\n'  ## remove newlines (lines to string)
 sh   printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -  ## space every 4th character (with fold)
 sh   printf "space_every_4th_char" | sed 's/.\{4\}/& /g'  ## space every 4th character (with sed)
+sh   printf '%s_%X\n' "$(date $DT)" "$(date +'%s')"  ## dtx i.e.: 20250126_081507_6795E0FB
 sh   printf "\x$(printf %d 41)"  ## ascii decimal value (65) to character (A)
 sh   printf "\x$(printf %x 65)"  ## ascii hex value (65) to character (A)
 sh   printf "%x\n" \'A  ## ascii character (A) to hex value (41)
@@ -893,9 +894,9 @@ sh   tree -n --charset=unicode  ## depth indented file listing
 sh   tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## remove double spaces
 sh   truncate -s 5M file  ## create file 5M size
 sh   ts=$(date +'%s.%N'); printf '%X%x\n' ${ts%%.*} ${ts#*.} | cut -c -16 | sed 's/.\{4\}/& /g'  ## epochrealtime (10^-8) hex prettified
+sh   ts=$(dtx); syncr $HOME/dock/transfer/x1c/home/oxo --delete --links --log-file=$XDG_LOGS_HOME/syncr/$ts | tee -a $XDG_LOGS_HOME/syncr/$ts  ## syncr backup with logging
 sh   ts=$EPOCHREALTIME; printf '%X.%x\n' ${ts%%.*} ${ts#*.}  ## current linux epoch hex (requires zmodload zsh/datetime)
 sh   ts="$(now)"; stty_bu="$XDG_CONFIG_HOME/tty/"$ts"_sttyrc"; stty --save > $stty_bu && stty -all >> $stty_bu  ## backup terminal characteristics
-sh   ts=$(now); syncr $HOME/dock/transfer/x1c/home/oxo --delete --links --log-file=$XDG_LOGS_HOME/syncr/$ts | tee -a $XDG_LOGS_HOME/syncr/$ts  ## syncr backup with logging
 sh   type -a $command  ## command interpretation (build-in or external); -a also prints all occurences in path
 sh   umount -l $mountpoint  ## umount busy targets (mountpoints)
 sh   unlink $link_name  ## remove $link_name (i.e. symlink)
