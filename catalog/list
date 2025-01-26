@@ -1113,7 +1113,7 @@ sway bindsym $mod+Shift+c		reload
 sway bindsym $mod+Shift+Equal    move container to workspace $ws=
 sway bindsym $mod+Shift+Minus    move container to workspace $ws-
 sway bindsym $mod+Shift+q		kill
-sway bindsym $mod+Shift+Return	exec --no-startup-id $csc/term-spawn pwd &
+sway bindsym $mod+Shift+Return	exec $csc/term-spawn $PWD &
 sway #bindsym $mod+Shift+s		exec $XDG_CONFIG_HOME/sway/code/screen_onf
 sway #bindsym $mod+Shift+Slash	exec $csc/dimr screen_off
 sway bindsym $mod+Shift+slash	move scratchpad
@@ -1168,7 +1168,7 @@ sway bindsym Mod1+Shift+l		exec $csc/pointer-to -x 83% -y 50%  ## E
 sway bindsym Mod1+Shift+m		exec $csc/pointer-to -x 17% -y 83%  ## SW
 sway bindsym Mod1+Shift+o		exec $csc/pointer-to -x 83% -y 17%  ## NE
 sway bindsym Mod1+Shift+Period	exec $csc/pointer-to -x 83% -y 83%  ## SE
-sway bindsym Mod1+Shift+Return	exec --no-startup-id $csc/term-spawn pwd float w 800 h 600 &
+sway bindsym Mod1+Shift+Return	exec --no-startup-id $csc/term-spawn $PWD float w 800 h 600 &
 sway bindsym Mod1+Shift+u		exec $csc/pointer-to -x 17% -y 17%  ## NW
 sway bindsym Mod1+u			exec echo buttonup middle; click left | dotoolc
 sway #bindsym Mod1+u			exec echo mousemove 0 $kb_mouse_major_move  | dotoolc  ## down
