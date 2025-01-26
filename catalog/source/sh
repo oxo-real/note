@@ -93,6 +93,8 @@ alnum=$(printf '%s' "$ASCII" | grep --only-matching  . | sort | tr -d "\n" | cut
 bas64=$(printf '%s' "$ASCII" | cut --zero-terminated --characters 34-59,66-91,17-26; printf '+/\n')  ## 64 base64 characters from $ASCII
 date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
 date +'%s'  ## current linux epoch (oxo now)
+ts=$EPOCHREALTIME; printf '%X.%x\n' ${ts%%.*} ${ts#*.}  ## current linux epoch hex (requires zmodload zsh/datetime)
+ts=$(date +'%s.%N'); printf '%X%x\n' ${ts%%.*} ${ts#*.} | cut -c -16 | sed 's/.\{4\}/& /g'  ## epochrealtime (10^-8) hex prettified
 date '+%-:::z %Z'  ## current time zone numeric and name/abbreviation
 date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day at pi time) to linux epoch
 date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
@@ -139,8 +141,8 @@ echo ${HOME#*/}  ## parameter expansion; substitute shortest match from head (#)
 echo ${HOME##*/}  ## parameter expansion; substitute longest match from head (##) with matched portion (*/) deleted; remove until last instance ('oxo')
 echo ${HOME%/*}  ## parameter expansion; substitute shortest match from tail (%) with matched portion (/*) deleted; remove from last instance ('/home')
 echo ${HOME%%/*}  ## parameter expansion; substitute longest match from tail (%%) with matched portion (/*) deleted; remove from first instance ('')
-echo ${a:-b}  ## parameter expansion; if [[ -z $a ]]; then returned value is 'b'
-echo ${a:=b}  ## parameter expansion; if [[ -z $a ]]; then assigned value is 'b'
+echo ${a:-b}  ## parameter expansion; if [ -z $a ]; then return 'b'
+echo ${a:=b}  ## parameter expansion; if [ -z $a ]; then assign 'b'
 var1=a; var2=b; var3=c; counter=2; naka=var$counter; echo $naka  ## dynamic variable names #TODO desired result is: b
 emacs --daemon  ## start emacs daemon
 emacsclient --create-frame --alternate-editor="" $file &  ## client open $file in new gui window

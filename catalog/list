@@ -437,8 +437,8 @@ sh   du -sbh $directory  ## directory usage; total size of all content in direct
 sh   e2label /dev/X $label  ## write device label
 sh   e2label /dev/X  ## read device label
 sh   echo $(( 1 ^ 2 ))  ## decimal value of xor 1 and 2 (xor 01 and 10 = 11)
-sh   echo ${a:=b}  ## parameter expansion; if [[ -z $a ]]; then assigned value is 'b'
-sh   echo ${a:-b}  ## parameter expansion; if [[ -z $a ]]; then returned value is 'b'
+sh   echo ${a:=b}  ## parameter expansion; if [ -z $a ]; then assign 'b'
+sh   echo ${a:-b}  ## parameter expansion; if [ -z $a ]; then return 'b'
 sh   echo ${HOME##*/}  ## parameter expansion; substitute longest match from head (##) with matched portion (*/) deleted; remove until last instance ('oxo')
 sh   echo ${HOME%%/*}  ## parameter expansion; substitute longest match from tail (%%) with matched portion (/*) deleted; remove from first instance ('')
 sh   echo ${HOME#*/}  ## parameter expansion; substitute shortest match from head (#) with matched portion (*/) deleted,; remove until first instance ('home/oxo')
@@ -892,6 +892,8 @@ sh   tr --delete --complement "[:alnum:]" < /dev/random | head -c 32  ## transla
 sh   tree -n --charset=unicode  ## depth indented file listing
 sh   tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## remove double spaces
 sh   truncate -s 5M file  ## create file 5M size
+sh   ts=$(date +'%s.%N'); printf '%X%x\n' ${ts%%.*} ${ts#*.} | cut -c -16 | sed 's/.\{4\}/& /g'  ## epochrealtime (10^-8) hex prettified
+sh   ts=$EPOCHREALTIME; printf '%X.%x\n' ${ts%%.*} ${ts#*.}  ## current linux epoch hex (requires zmodload zsh/datetime)
 sh   ts="$(now)"; stty_bu="$XDG_CONFIG_HOME/tty/"$ts"_sttyrc"; stty --save > $stty_bu && stty -all >> $stty_bu  ## backup terminal characteristics
 sh   ts=$(now); syncr $HOME/dock/transfer/x1c/home/oxo --delete --links --log-file=$XDG_LOGS_HOME/syncr/$ts | tee -a $XDG_LOGS_HOME/syncr/$ts  ## syncr backup with logging
 sh   type -a $command  ## command interpretation (build-in or external); -a also prints all occurences in path
@@ -1065,7 +1067,7 @@ sway bindsym $mod+Mod1+l		$smt E
 sway bindsym $mod+Mod1+m		$smt SW
 sway bindsym $mod+Mod1+o		$smt NE
 sway bindsym $mod+Mod1+Period	$smt SE
-sway bindsym $mod+Mod1+p		exec grim \
+sway bindsym $mod+Mod1+p		exec $csc/dtx | wl-copy -n; exec grim \
 sway bindsym $mod+Mod1+semicolon 	floating toggle
 sway bindsym $mod+Mod1+Shift+h	move container to output left
 sway bindsym $mod+Mod1+Shift+j	move container to output down
@@ -1076,7 +1078,7 @@ sway bindsym $mod+Mod1+u		$smt NW
 sway #bindsym $mod+Multi_key+4	$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym $mod+o			workspace prev
 sway bindsym $mod+Period		workspace next
-sway bindsym $mod+p			exec grim -o $(swaymsg -t get_outputs \
+sway bindsym $mod+p			exec $csc/dtx | wl-copy -n; exec grim -o $(swaymsg -t get_outputs \
 sway #bindsym $mod+p			focus parent  ## replaced by screen capture
 sway bindsym $mod+Return		exec --no-startup-id $csc/term-spawn &
 sway bindsym $mod+semicolon		focus mode_toggle
@@ -1128,8 +1130,9 @@ sway     bindsym button4   		nop
 sway     bindsym button5 		nop
 sway     bindsym button6 		nop
 sway     bindsym button7 		nop
-sway bindsym Control+Grave		exec date $DTE | wl-copy -n && notify-send 'date_time_epoch copied'
-sway #bindsym Control+Grave		exec date +'%Y%m%dT%H%M%SE%s' | wl-copy -n && notify-send 'date_time_epoch copied'
+sway #bindsym Control+Grave		exec $csc/dtx | wl-copy -n && notify-send 'dtx copied'
+sway #bindsym Control+Grave		exec date $DTE | wl-copy -n && notify-send 'date_time_epoch copied'
+sway bindsym Control+Grave		exec --no-startup-id $term --class="float_spicules" \
 sway bindsym Control+Mod1+s  	exec wpctl set-volume	@DEFAULT_SINK@ 0.12
 sway #bindsym Control+p		exec $term --app-id="float_spicules" \
 sway bindsym Control+p		exec --no-startup-id $term --class="float_spicules" \
@@ -1173,7 +1176,7 @@ sway #bindsym Mod1+y			exec echo mousemove -$kb_mouse_major_move 0 | dotoolc  ##
 sway #bindsym Mod4+Alt_R+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway #bindsym Mod4+Multi_key+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym Mod4+Multi_key+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
-sway bindsym --release $mod+Shift+p	exec grim -g "$(slurp)" \
+sway bindsym --release $mod+Shift+p	exec $csc/dtx | wl-copy -n; exec grim -g "$(slurp)" \
 sway #bindsym Shift+Control+0		exec echo -n '' | wl-copy && notify-send 'clipboard cleared'
 sway bindsym Shift+Control+Mod1+d	exec vtxt end
 sway bindsym Shift+Control+Mod1+e	exec vtxt begin en

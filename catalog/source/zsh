@@ -925,28 +925,6 @@ zle -N git-add-commit
 #! /usr/bin/env sh
 
 # --------------------------------------------------------------------
-# insert-date-time.sh
-
-
-function insert-date-time ()
-{
-    # add (+=) current date and time to cursor position (C-2)
-    # compact readable form of iso8601
-    LBUFFER+="$(date +'%Y%m%dT%H%M%SE%s')"
-}
-
-zle -N insert-date-time
-
-
-function insert-epoch ()
-{
-    LBUFFER+="$(date +'%s')"
-}
-
-zle -N insert-epoch
-#! /usr/bin/env sh
-
-# --------------------------------------------------------------------
 # insert-item-fzf.sh
 
 
@@ -1198,6 +1176,16 @@ bindkey -M vicmd 'q' toggle-sh-x        ## [vicmd] q
 bindkey -M vicmd 'cc'  ## change current line (clear > viins)
 bindkey escape sequence: C-v $key (C-v ESC -> ^[)
 # '
+#! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# modules.sh
+
+
+# load zsh modules
+
+## datetime provides among other $EPOCHREALTIME
+zmodload zsh/datetime
 #! /usr/bin/env sh
 
 # --------------------------------------------------------------------
