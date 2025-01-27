@@ -27,6 +27,7 @@ awk '{tmp = $1; $1 = $2; $2 = tmp; print;}'  ## swap columns 1 and 2
 awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
 awk 'NR==1{prev=$1;print $2} NR>1 && prev!=$1{prev=$1;print $2} END{if(NR>1)print $2}'  ## print col2 every time col1 value changes
 awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'  ## reverse lines (emulate tac)
+awk '{for(i=1; i<=NF; i++) if($i=="version") print $(i), $(i+1)}' <<< $(echo 'a b c version 2 d e f')  ## extract string and following
 basename $filepath  ## print filename without any leading directory components
 bash -c 'echo $SRANDOM'  ## 32bit pseudo random number
 bind '"\e[0n": "$string"'; printf '\e[5n'  ## inject $string to bash stdin

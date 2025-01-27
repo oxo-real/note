@@ -332,6 +332,7 @@ sh   arecord --vumeter stereo audio.wav  ## record wave audio
 sh   ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters (0x20-0x7e 0d32-0d126)
 sh   awk '!($1="")' $file  ## remove column 1
 sh   awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'  ## reverse lines (emulate tac)
+sh   awk '{for(i=1; i<=NF; i++) if($i=="version") print $(i), $(i+1)}' <<< $(echo 'a b c version 2 d e f')  ## extract string and following
 sh   awk 'NF{NF-=1};1'  ## remove last column
 sh   awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
 sh   awk 'NR==1{prev=$1;print $2} NR>1 && prev!=$1{prev=$1;print $2} END{if(NR>1)print $2}'  ## print col2 every time col1 value changes
