@@ -623,9 +623,11 @@ sh   journalctl --vacuum-files=2  ## leave 2 journal files (--vacuum-size, --vac
 sh   jq '.data[0] | .ua' api.json  ## get ua in the first [0] data item of api.json
 sh   key=$ASCII; l=$(wc -c <<< "$key"); for (( r=0; r<$l-1; r++ )); do echo ${key:$r:$l}${key::$r}; done  ## otp conversion table from $ASCII
 sh   key=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
-sh   kill $(pidof $process_name)  ## terminate pid of process
+sh   kill -CONT $PID  ## continue (resume) process [$PID or jobs item number n]
+sh   kill -KILL $(pidof $process_name)  ## forcefully terminate pid of process (can not be trapped or otherwise ignored)
 sh   kill -l  ## list signal names (/usr/include/linux/signal.h) that can be send to jobs or processes
-sh   kill -STOP %n  ## stop background process jobs item number n
+sh   kill -STOP [$PID | %n]  ## suspend process [$PID or jobs item number n]
+sh   kill -TERM %n  ## terminate process [$PID or jobs item number n]
 sh   let arg  ## evaluate arg as an arithmatic expression
 sh   limit  ## print all resource limits
 sh   >(list)  ## process substitution; process list is run async and the file passed as an argument should be read to obtain the output of list
@@ -747,6 +749,7 @@ sh   ps -eFly  ## list every process on the system
 sh   ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list processes custom AIX format descriptors, sort low to high elapsed time since process was started
 sh   ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom AIX format descriptors, sort high to low cpu usage
 sh   ps -jxf | grep $(echo $$) | sort -n | head -n 1 | awk '{print $1}'  ## print currently active terminal ppid
+sh   ps -p $$ -o ppid=  ## print currently active terminal ppid
 sh   pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
 sh   punct=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95)  ## 33 punctuation characters from $ASCII
 sh   punct=$(printf '%s' "$ASCII" | grep --only-matching . | sort | tr -d "\n" | cut --characters 1-33)  ## 33 punctuation characters from $ASCII

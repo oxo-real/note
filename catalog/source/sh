@@ -299,8 +299,10 @@ journalctl --unit $unit_pttrn  ## messages for unit [-pattern]
 journalctl _<TAB>  ## search matches starting with '_'
 jq '.data[0] | .ua' api.json  ## get ua in the first [0] data item of api.json
 kill -l  ## list signal names (/usr/include/linux/signal.h) that can be send to jobs or processes
-kill -STOP %n  ## stop background process jobs item number n
-kill $(pidof $process_name)  ## terminate pid of process
+kill -STOP [$PID | %n]  ## suspend process [$PID or jobs item number n]
+kill -CONT $PID  ## continue (resume) process [$PID or jobs item number n]
+kill -TERM %n  ## terminate process [$PID or jobs item number n]
+kill -KILL $(pidof $process_name)  ## forcefully terminate pid of process (can not be trapped or otherwise ignored)
 let arg  ## evaluate arg as an arithmatic expression
 limit  ## print all resource limits
 ln -s $HOME/dock/vlt/pass $HOME/.password-store  ## pass vault symlink
@@ -407,6 +409,7 @@ ps -eFly  ## list every process on the system
 ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list processes custom AIX format descriptors, sort low to high elapsed time since process was started
 ps -eo %cpu,%mem,pid,user,command= --sort=-%cpu  ## list processes custom AIX format descriptors, sort high to low cpu usage
 ps -jxf | grep $(echo $$) | sort -n | head -n 1 | awk '{print $1}'  ## print currently active terminal ppid
+ps -p $$ -o ppid=  ## print currently active terminal ppid
 pstree -ptg  ## display a tree of processes, show PIDs, PGIDs and full names for threads
 PS4=':${BASH_SOURCE[0]:-$0} $(printf %4d%s "${LINENO}") ${FUNCNAME[0]:+${FUNCNAME[0]}(): }' sh -xv script.sh  ## extra verbose debug output stream
 pushd $directory  ## cd to $directory and add $directory to dirs stack[0]
