@@ -492,7 +492,7 @@ function chpwd ()
     ### end testing alignment
 
     ## right bar without right edge algnment
-    print -Pr "     $right_bar"
+    print -Pr "$right_bar"
     #print -Pr "$left_bar"
     #print -Pr "$left_bar  $right_bar"
 

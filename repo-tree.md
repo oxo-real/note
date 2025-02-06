@@ -288,6 +288,8 @@
 │   ├── dell
 │   │   └── dl3189
 │   │       └── bios-flash-update
+│   ├── fwupd
+│   │   └── 101
 │   ├── lenovo
 │   │   ├── bios
 │   │   │   └── upgrade_101
@@ -986,5 +988,5 @@
 └── zzz_deprecated
     └── xab
 
-206 directories, 780 files
+207 directories, 781 files
 ```

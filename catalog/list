@@ -368,6 +368,7 @@ sh   cd ${PWD/share\/b/share\/c}  ## from backup to current tree
 sh   cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
 sh   cd /usr/lib/modules/$(uname -r)  ## active os kernel modules
 sh   cd /var/lib/pacman/local  ## pacman install directory
+sh   c /etc/os-release  ## systemd operating system identification data and information about the distribution
 sh   chattr -R +i $directory  ## add 'i' attribute: files in $directory cannot be modified
 sh   chmod 0000  ## ---------- 	ugo -	no permissions
 sh   chmod 0111  ## ---x--x--x 	ugo x				execute
@@ -573,6 +574,7 @@ sh   history  ## alias to fc -l
 sh   history | tail -n 1 | tr -s ' ' | cut -d ' ' -f 3-  ## last command from history (removing history_id)
 sh   history -t %Y%m%d_%H%M%S -d -D $history_id  ## command history from $history_id (id time-start -elapsed cmd)
 sh   history -t %Y%m%d_%H%M%S -d -D -3  ## last 3 commands from history (id time-start -elapsed cmd)
+sh   hostnamectl status  ## hostname operating system and related settings (i.e. firmware)
 sh   host -t A $ip_addr_domain  ## dns lookup A record
 sh   host -v -t ANY $ip_addr_domain  ## dns lookup any type verbose output
 sh   hwclock --set --date='01/01/2010 00:00:00'; sudo hwclock --hctosys  ## set date and time
@@ -903,6 +905,7 @@ sh   ts=$EPOCHREALTIME; printf '%X.%x\n' ${ts%%.*} ${ts#*.}  ## current linux ep
 sh   ts="$(now)"; stty_bu="$XDG_CONFIG_HOME/tty/"$ts"_sttyrc"; stty --save > $stty_bu && stty -all >> $stty_bu  ## backup terminal characteristics
 sh   type -a $command  ## command interpretation (build-in or external); -a also prints all occurences in path
 sh   umount -l $mountpoint  ## umount busy targets (mountpoints)
+sh   uname --all  ## print system information
 sh   unlink $link_name  ## remove $link_name (i.e. symlink)
 sh   unsetopt $option  ## unset (disable) shell option
 sh   unset varfun  ## unset value and attribute of variable or function varfun
@@ -1179,8 +1182,8 @@ sway #bindsym Mod1+u			exec echo mousemove 0 $kb_mouse_major_move  | dotoolc  ##
 sway bindsym Mod1+y			exec echo buttondown left | dotoolc
 sway #bindsym Mod1+y			exec echo mousemove -$kb_mouse_major_move 0 | dotoolc  ## left
 sway #bindsym Mod4+Alt_R+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
-sway #bindsym Mod4+Multi_key+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
-sway bindsym Mod4+Multi_key+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
+sway #bindsym Mod4+Multi_key+4	$con_hexa 4  ## container toggle float/tile width 4 hexaparts
+sway bindsym Mod4+Multi_key+4	$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym --release $mod+Shift+p	exec $csc/dtx | wl-copy -n; exec grim -g "$(slurp)" \
 sway #bindsym Shift+Control+0		exec echo -n '' | wl-copy && notify-send 'clipboard cleared'
 sway bindsym Shift+Control+Mod1+d	exec vtxt end
@@ -1191,8 +1194,8 @@ sway bindsym Shift+Control+Mod1+r	exec vtxt end
 sway bindsym Shift+Control+Mod1+s	exec vtxt begin sv
 sway bindsym Shift+Control+Mod1+x	exec mic-switch toggle Webcam C310
 sway #bindsym Shift+Control+p		exec wl-copy -o -n && exec notify-send 'secure copy is in DEV'
-sway #bindsym Super_R+Alt_R+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
-sway #bindsym Super_R+Multi_key+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
+sway #bindsym Super_R+Alt_R+4	$con_hexa 4  ## container toggle float/tile width 4 hexaparts
+sway #bindsym Super_R+Multi_key+4	$con_hexa 4  ## container toggle float/tile width 4 hexaparts
 sway bindsym --whole-window $mod+BTN_MIDDLE	floating toggle
 sway #bindsym XF86AudioLowerVolume	exec amixer sset Master 2%-
 sway bindsym XF86AudioLowerVolume 	exec wpctl set-volume	@DEFAULT_SINK@ 5%-

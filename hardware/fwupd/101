@@ -1,0 +1,11 @@
+[fwupd - ArchWiki](https://wiki.archlinux.org/title/Fwupd)
+
+# install
+yay -S fwupd
+
+# config
+fwupdmgr.service
+fwupdmgr get-devices
+fwupdmgr refresh
+fwupdmgr get-updates
+fwupdmgr update
