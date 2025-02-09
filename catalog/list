@@ -473,6 +473,7 @@ sh   emacsclient -e '(kill-emacs)'  ## stop emacs daemon outside running instanc
 sh   emacsclient --tty $file &  ## client open $file in current terminal window
 sh   emacs --daemon  ## start emacs daemon
 sh   env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
+sh   erase_line() {printf "\r"; tput el}  ## remove / delete line
 sh   espeak -s 80 -p 70 -v mb-us1 'hello'  ## espeak hello speed 80% pitch 70% voice us1
 sh   < /etc/group  ## list all user groups
 sh   eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concatenate arguments, add ssh_key
@@ -530,9 +531,13 @@ sh   fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 sh   fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem in mount)
 sh   getent ahosts $url  ## get ip address from name service switch library database ahost
 sh   git config --show-scope --show-origin --list  ## origin and scope of git configuration
+sh   git fetch $repo  ## download changes from remote repo without merging locally
 sh   git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  ## git hist
 sh   git log --oneline  ## list of commits
 sh   git log --patch  ## generate patch
+sh   git merge $repo/$branch  ## incorporate fetched changes into local branch
+sh   git pull $repo  ## fetching and merging remote repository
+sh   git push [-u] $repo $branch  ## -u sets the upstream tracking branch directly
 sh   git reset --hard 2db93df  ## back to a previous commit
 sh   gnutls-cli -d 1 grc.com -p 443  ## get certificate info
 sh   gpg --armor --export ID > ID.puk.gpg  ## export public key ascii armored id

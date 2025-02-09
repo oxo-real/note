@@ -203,9 +203,13 @@ fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem i
 fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 getent ahosts $url  ## get ip address from name service switch library database ahost
 git config --show-scope --show-origin --list  ## origin and scope of git configuration
+git fetch $repo  ## download changes from remote repo without merging locally
+git merge $repo/$branch  ## incorporate fetched changes into local branch
 git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  ## git hist
 git log --oneline  ## list of commits
 git log --patch  ## generate patch
+git pull $repo  ## fetching and merging remote repository
+git push [-u] $repo $branch  ## -u sets the upstream tracking branch directly
 git reset --hard 2db93df  ## back to a previous commit
 gnutls-cli -d 1 grc.com -p 443  ## get certificate info
 gpg --armor --export ID > ID.puk.gpg  ## export public key ascii armored id
@@ -553,6 +557,7 @@ tmux attach-session -t 0  ## TODO decription
 tmux show-options -g  ## TODO decription
 touch --date=2000/01/01 $file  ## create file in time
 tput reset  ## reinitialize terminal state
+erase_line() {printf "\r"; tput el}  ## remove / delete line
 printf '%s' "$l2s" | tr -d '\n'  ## remove newlines (lines to string)
 wl-paste -n | tr -d '[:blank:]\t\r\n' | wl-copy -o -n  ## remove all whitespace from clipboard content and re-copy
 tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## remove double spaces
