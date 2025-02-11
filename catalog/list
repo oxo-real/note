@@ -314,6 +314,7 @@ sh   $command <<- EOF >> $file\n multi\nline\ntext\nmlt\nEOF\n  ## input read un
 sh   $(( expression ))  ## arithmetic expansion; gets the result of $expression
 sh   < $file  ## less $file (via READNULLCMD)
 sh   [ "$var" ]  ## alias for: 'test "$var"'
+sh   [[ "$var" =~ extended-regexp ]]  ## test with extended regular expression operator
 sh   [[ $var ]]  ## extended version of [ operator; with additional string, assignment and arithmetic operations and improved functionality, readability and performance
 sh   < $XDG_DATA_HOME/c/web/bookmark_urls | fzf | slicer '(' ')' | wl-copy  ## get url from bookmark_urls
 sh   alacritty msg config font.size=18  ## current alacritty instance font size 18 (for screencasting)

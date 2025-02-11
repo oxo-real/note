@@ -678,6 +678,7 @@ until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure 
 while true do; echo; done  ## infinite loop
 break  ## exit from an enclosing loop
 continue  ## resume next iteration of enclosing loop
+[[ "$var" =~ extended-regexp ]]  ## test with extended regular expression operator
 reset  ## clear + reset internal terminal state + 1sec delay
 tput reset  ## same as reset but without 1sec delay
 stty sane  ## don't clear screen but reset some terminal options
