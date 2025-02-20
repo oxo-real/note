@@ -65,6 +65,7 @@ chown user: file  ## set user ownership
 clear  ## shift current line to top of screen
 cmp $lf $rf  ## byte compare files, boolean output
 command $command  ## run native $command, no alias or function, \command
+command -v $command  ## check if $command exists
 cp -prv --attributes-only  ## copy no content, but only mode, ownership and timestamps, verbose
 cp -pv  ## copy and preserve mode, ownership and timestamps, verbose
 cryptsetup --cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 --verify-passphrase open --type=plain /dev/sdX lvm

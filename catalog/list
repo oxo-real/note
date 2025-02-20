@@ -389,6 +389,7 @@ sh   chown user: file  ## set user ownership
 sh   clear  ## shift current line to top of screen
 sh   cmp $lf $rf  ## byte compare files, boolean output
 sh   command $command  ## run native $command, no alias or function, \command
+sh   command -v $command  ## check if $command exists
 sh   continue  ## resume next iteration of enclosing loop
 sh   cp -prv --attributes-only  ## copy no content, but only mode, ownership and timestamps, verbose
 sh   cp -pv  ## copy and preserve mode, ownership and timestamps, verbose
