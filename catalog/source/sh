@@ -615,7 +615,7 @@ xz -l  ## list .xz file
 xz -z  ## compress .xz file
 yay --gendb  ## generate developement package database
 yay --show -w -w  ## TODO decription
-yay -Gd $(yay -Qqm)  ## download package builds from installed aur packages
+yay -Qqm | yay -Gd -   ## download package builds from installed aur packages
 yay -P  ## show (is a yay specific [no pacman] option)
 yay -Ps && yay --show -w && yay -Syu && yay -Rns $(yay -Qtdq) && paccache -rv  ## system upgrade and cleanup
 yay -Pw  ## show news
@@ -638,12 +638,14 @@ yay -Qq  ## query package database; display installed packages (raw)
 yay -Qql $package  ## query package database; display package file list (raw)
 yay -R $package || $group  ## remove [package] OR [group]
 yay -Rns $package  ## remove [package] including not required and not explicitly installed dependencies, no pacsave
-yay -Rns $(yay -Qdtq)  ## remove unrequired dependencies including not required and not explicitly installed dependencies, no pacsave
+yay -Qdtq | yay -Rnsc -   ## remove unrequired dependencies including not required and not explicitly installed dependencies, no pacsave
+yay -Yc  ## same (?) as: yay -Qtdq | yay -Rnsc -; remove unrequired dependencies including not required and not explicitly installed dependencies, no pacsave
 yay -S $package  ## synchronize package; download and install
 yay -Sc $package  ## remove all cached packages that are currently not installed (more agressive than paccache)
 yay -Scc $package  ## remove all cached packages (far more agressive than paccache, will prevent downgrading or reinstalling without downloading)
 yay -Sii $package  ## extended package info; reverse dependencies; package required by
 yay -Sw $package  ## synchronize package only download, not install
+yay -Sau ## update only AUR packages
 yay -Syu --devel --timeupdate  ## update, also check AUR developement packages (git), timeupdate (instead of version number)
 yay -Tv  ## check dependencies; show file paths
 yay -U $package  ## remove then upgrade or add package
