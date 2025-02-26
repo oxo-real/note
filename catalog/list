@@ -793,6 +793,7 @@ sh   rev $file  ## reverse line characters (for unknown field lengths)
 sh   rfkill list  ## check hard and soft block status wireless radios
 sh   rfkill [un]block all  ## soft [un]block all radios
 sh   rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
+sh   rg --ignore-case --line-number pttrn .  ## ripgrep synopsis; $options $pattern $path
 sh   rmmod $module  ## remove $module from linux kernel
 sh   rm -rf -- '-r'  ## remove entire directory starting with a '-'
 sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') $source/ $destination  ## basic oxo rsync with logging

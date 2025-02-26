@@ -447,6 +447,7 @@ rev $file  ## reverse line characters (for unknown field lengths)
 rfkill list  ## check hard and soft block status wireless radios
 rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
 rfkill [un]block all  ## soft [un]block all radios
+rg --ignore-case --line-number pttrn .  ## ripgrep synopsis; $options $pattern $path
 rm -rf -- '-r'  ## remove entire directory starting with a '-'
 rmmod $module  ## remove $module from linux kernel
 rsync --recursive $src $dst  ## create intervening directory $dst/$src; with all content of $src
