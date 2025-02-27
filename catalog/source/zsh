@@ -208,10 +208,6 @@ function cd-nav-dirs ()
 	    ## make non-associative (naa) array (indexed array)
 	    srch_env_naa+=($srch_env_dir)
 
-	    ## sort array
-	    # IFS=$'\n' srch_env_dirs=($(sort <<< "${srch_env_naa[*]}"))
-	    # unset IFS
-
 	done
 
 	## of srch_env_naa make first item HOME and
@@ -232,7 +228,7 @@ function cd-nav-dirs ()
 
 	done
 
-	## sort tail_env_dirs
+	## sort tail_env_dirs array
 	IFS=$'\n' tail_env_dirs_sort=($(sort <<< "${tail_env_dirs[@]}"))
 	unset IFS
 
