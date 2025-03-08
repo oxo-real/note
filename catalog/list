@@ -661,6 +661,7 @@ sh   lspci -k -t -v  ## show kernal driver and module details in a tree
 sh   lspci  ## list pci devices
 sh   lspci -vv  ## list pci devices with more detail (useful to find kernel drivers)
 sh   lsusb  ## list information about usb devices
+sh   makepkg --syncdeps --install --rmdeps --clean  ## sync deps with pacman, pacman -U, remove build time deps and tempo build files
 sh   man ascii  ## 7-bit ascii tables
 sh   man zshall  ## view the system reference manual for all zsh
 sh   min=0; max=9999; columns=8; digits=4; i=1; shuf -i $min-$max | while read number; do [[ $(( i % $columns )) -eq 0 ]] && printf "%0${digits}d\n" $number || printf "%0${digits}d  " $number; i=$(( $i + 1 )); done  ## otp random secret key from $digit

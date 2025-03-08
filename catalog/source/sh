@@ -329,6 +329,7 @@ lspci -k -s xx:xx.x $domain:$bus:$slot.$func  ## show kernel drivers and modules
 lspci -k -t -v  ## show kernal driver and module details in a tree
 lspci -vv  ## list pci devices with more detail (useful to find kernel drivers)
 lsusb  ## list information about usb devices
+makepkg --syncdeps --install --rmdeps --clean  ## sync deps with pacman, pacman -U, remove build time deps and tempo build files
 man ascii  ## 7-bit ascii tables
 man zshall  ## view the system reference manual for all zsh
 mkdir $HOME/dock/{1-4}  ## make multiple directories
