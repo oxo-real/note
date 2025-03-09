@@ -6,6 +6,7 @@ atty "Control" "Key0" "ResetFontSize"
 atty "Control" "Minus" "DecreaseFontSize" 
 atty "Control" "Plus" "IncreaseFontSize" 
 atty "Shift|Control" "B" "yank-buffer all | fzf-word \r" 
+emcs C-z  ## toggle evil-normal-state with evil-emacs-state (keymap) 
 emcs :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
 lisp (set-face-attribute 'default nil :height 110)  ## Vl; M-x eval-region >> emacs set default font size 11pt (for screencasting)
 lisp (set-face-attribute 'default nil :height 180)  ## Vl; M-x eval-region >> emacs set font size 18pt (for screencasting)
@@ -967,9 +968,9 @@ sh   xz -d  ## decompress .xz file
 sh   xz -l  ## list .xz file
 sh   xz -z  ## compress .xz file
 sh   yay --gendb  ## generate developement package database
+sh   yay -P --news  ## show news newer than the build date of all native packages
 sh   yay -P  ## show (is a yay specific [no pacman] option)
-sh   yay -Ps && yay --show -w && yay -Syu && yay -Rns $(yay -Qtdq) && paccache -rv  ## system upgrade and cleanup
-sh   yay -Pw  ## show news
+sh   yay -Ps && yay --show -w && yay -Syu && yay -Rns $(yay -Qtdq) && paccache -rv  ## system package stats, news, upgrade and cleanup
 sh   yay -Qc $file	## query package database; display changelog $file  ## TODO decription
 sh   yay -Qd  ## (--deps) query package database; display packages installed as dependencies
 sh   yay -Qdt  ## query package database; display unrequired deps
@@ -980,12 +981,12 @@ sh   yay -Qg $group  ## query package database; display packages that are member
 sh   yay -Qi $package  ## query package database; display package infoos that are member of $groupcman
 sh   yay -Qk $package  ## query package database; display number of total and missing files, check that all files of the package are present on the system
 sh   yay -Ql $package  ## query package database; display package file list
-sh   yay -Qm  ## (--foreign) query package database; display packages that are not in the sync database
-sh   yay -Qmq  ## (--foreign) query package database; display packages that are not in the sync database no version
+sh   yay -Qm  ## (--foreign) query package database; display packages that are not in the sync database (aur packages)
 sh   yay -Qn  ## (--native) query package database; display packages that are in the sync database
 sh   yay -Qnq | yay -S -  ## reinstall native packages
 sh   yay -Qo $file  ## query package database; display which package owns $file
 sh   yay -Qql $package  ## query package database; display package file list (raw)
+sh   yay -Qqm  ## (--foreign) query package database; display packages that are not in the sync database no version
 sh   yay -Qqm | yay -Gd -   ## download package builds from installed aur packages
 sh   yay -Qq  ## query package database; display installed packages (raw)
 sh   yay -Q  ## query package database; display installed packages with version (Q=Qd+Qe=Qm+Qn)
@@ -995,8 +996,9 @@ sh   yay -S $package  ## synchronize package; download and install
 sh   yay -Sau ## update only AUR packages
 sh   yay -Sc $package  ## remove all cached packages that are currently not installed (more agressive than paccache)
 sh   yay -Scc $package  ## remove all cached packages (far more agressive than paccache, will prevent downgrading or reinstalling without downloading)
-sh   yay --show -w -w  ## TODO decription
+sh   yay --show -w -w  ## aurch linux (last year?) news archives [Arch Linux - News](https://archlinux.org/news/)
 sh   yay -Sii $package  ## extended package info; reverse dependencies; package required by
+sh   yay -S --print $package  ## print native package location URI (file:// if locally available)
 sh   yay -Sw $package  ## synchronize package only download, not install
 sh   yay -Syu --devel --timeupdate  ## update, also check AUR developement packages (git), timeupdate (instead of version number)
 sh   yay -Tv  ## check dependencies; show file paths

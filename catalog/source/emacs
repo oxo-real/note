@@ -1,1 +1,2 @@
 :%y+  ## [vim/emacs] all lines in current buffer yank to + register (copy all to clipboard)
+C-z  ## toggle evil-normal-state with evil-emacs-state (keymap) 
