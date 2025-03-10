@@ -4,7 +4,7 @@
 │   ├── abook
 │   │   └── abook
 │   ├── adb
-│   ├── adb_101
+│   │   └── adb_101
 │   ├── alacritty
 │   │   ├── buffer_capture
 │   │   ├── keybindings
