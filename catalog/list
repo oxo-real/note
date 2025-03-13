@@ -726,7 +726,7 @@ sh   pea () { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$
 sh   pim2fa=$(printf $output | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
 sh   ping -D -i 1 -c 3 9.9.9.9  ## send icmp echo_request to quad9, print timestamp, interval 1s, 3 attempts
 sh   pkill -SIGRTMIN+4 i3blocks  ## send signal=4 to i3blocks
-sh   pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0  ## end wireless internet connection
+sh   pkill wpa_supplicant && sudo dhcpcd -k wlp58s0 && sudo pkill dhcpcd && sudo ip a flush wlp58s0  ## end wireless network connection
 sh   printenv  ## print values of environment variables
 sh   printf "${fg_black}$(BGx aaaaaa)%s${st_def}\n" 'text_appearance'  ## printf 24 bit hex color code; NOTICE dependency: oxo source function text_appearance
 sh   printf $(( [#n] x ))  ## print base 10 value of x in base n, with 2<=n<=36
