@@ -317,7 +317,6 @@ sh   < $file  ## less $file (via READNULLCMD)
 sh   [ "$var" ]  ## alias for: 'test "$var"'
 sh   [[ "$var" =~ extended-regexp ]]  ## test with extended regular expression operator
 sh   [[ $var ]]  ## extended version of [ operator; with additional string, assignment and arithmetic operations and improved functionality, readability and performance
-sh   < $XDG_DATA_HOME/c/web/bookmark_urls | fzf | slicer '(' ')' | wl-copy  ## get url from bookmark_urls
 sh   alacritty msg config font.size=18  ## current alacritty instance font size 18 (for screencasting)
 sh   alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## 62 alphanumeric characters from $ASCII
 sh   alnum=$(printf '%s' "$ASCII" | grep --only-matching  . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
@@ -358,7 +357,6 @@ sh   case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## ca
 sh   cat $HOME/a/data/emoji/emoji-test.txt | sed 's/^.*#//' | sed --regexp-extended 's/E[0-9]+.[0-9]//' | sed 's/^[ \t]*//' | sed '/^[[:alnum:]]/d' | sed '/^\s*$/d' | fzf | awk '{print $1}' | wl-copy -n  ## emoji & symbols to clipboard
 sh   cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
 sh   cat $split_file1 $split_file2  ## join split files
-sh   cat $XDG_DATA_HOME/c/web/bookmark_urls | fzf | sed -e 's/^.*(//' -e 's/)$//' | wl-copy  ## get url from bookmark_urls
 sh   cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
 sh   cat-audio() {ffmpeg -i "concat:${(j:|:)@[2,-1]}" -acodec copy $1}  ## concatenate mp3 audio files usage: cat-audio output.mp3 *.mp3
 sh   cat <(ls)  ## process substitution reading from list <() (?without subshell?); same as ls | cat  (piping ?with subshell?) #DEV
@@ -571,6 +569,8 @@ sh   grep bindkey $XDG_CONFIG_HOME/zsh/.zshrc  ## zsh keybinding related lines
 sh   grep bindsym $XDG_CONFIG_HOME/sway/config  ## sway keybinding related lines
 sh   grep '^[[:blank:]]*[^[:blank:]#;]' $file  ## only lines not (2nd ^) starting (1st ^) with # or ; uncommented lines from file
 sh   grep '^[[:blank:]]*[^[:blank:]#;]' $XDG_CONFIG_HOME/alacritty/alacritty.yml | grep 'key:'  ## alacritty active (no outcommented) keybindings
+sh   grep --invert-match '^#' "$BKMS" | fzf | awk -F '[()]' '{print $2}' | wl-copy  ## copy bookmark url
+sh   grep --invert-match '^#' "$BKMS" | fzf | awk -F '[()]' '{print $2}' | xargs echo type | dotool  ## insert bookmark url
 sh   grep -riIl 'text' $directory  ## find files (no binary) containing text recursively in $directory
 sh   grep -riIn 'text' $directory  ## find files (no binary) containing text recursively in $directory with linenumbers
 sh   grep "\sro[\s,]" /proc/mounts  ## show read only mountpoints
@@ -950,7 +950,7 @@ sh   while read line; do; echo $line; done <<< "$variable"  ## while loop throug
 sh   while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line by line into l (with stdin redirection)
 sh   while true do; echo; done  ## infinite loop
 sh   whois -B 46.166.142.215  ## whois own public ip
-sh   wl-paste >> $XDG_DATA_HOME/c/web/bookmark_urls  ## add to bookmark_urls (qb y-m)
+sh   wl-paste >> $XDG_DATA_HOME/c/web/bookmark_urls  ## add to bookmark_urls (qb y m)
 sh   wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
 sh   wl-paste --no-newline | tr --delete '[:blank:]\t\r\n' | wl-copy --trim-newline --paste-once  ## selection without whitespace to clipboard
 sh   wl-paste -n | tr -d '[:blank:]\t\r\n' | wl-copy -o -n  ## remove all whitespace from clipboard content and re-copy
@@ -980,13 +980,14 @@ sh   yay -Qent  ## query package database; display explicitly installed (no depe
 sh   yay -Qg $group  ## query package database; display packages that are member of $group
 sh   yay -Qi $package  ## query package database; display package infoos that are member of $groupcman
 sh   yay -Qk $package  ## query package database; display number of total and missing files, check that all files of the package are present on the system
-sh   yay -Ql $package  ## query package database; display package file list
+sh   yay -Ql $package  ## query package database; display package file list (prepended by $package)
+sh   yay -Qlq $package  ## query package database; display package file list (raw)
 sh   yay -Qm  ## (--foreign) query package database; display packages that are not in the sync database (aur packages)
+sh   yay -Qmq  ## (--foreign) query package database; display packages that are not in the sync database no version
 sh   yay -Qn  ## (--native) query package database; display packages that are in the sync database
+sh   yay -Qnq  ## (--native) query package database; display packages that are in the sync database no version
 sh   yay -Qnq | yay -S -  ## reinstall native packages
 sh   yay -Qo $file  ## query package database; display which package owns $file
-sh   yay -Qql $package  ## query package database; display package file list (raw)
-sh   yay -Qqm  ## (--foreign) query package database; display packages that are not in the sync database no version
 sh   yay -Qqm | yay -Gd -   ## download package builds from installed aur packages
 sh   yay -Qq  ## query package database; display installed packages (raw)
 sh   yay -Q  ## query package database; display installed packages with version (Q=Qd+Qe=Qm+Qn)

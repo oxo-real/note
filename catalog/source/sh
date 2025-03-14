@@ -2,9 +2,7 @@
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 < $file  ## less $file (via READNULLCMD)
 < ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
-< $XDG_DATA_HOME/c/web/bookmark_urls | fzf | slicer '(' ')' | wl-copy  ## get url from bookmark_urls
 apropos . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage (man -k)
-cat $XDG_DATA_HOME/c/web/bookmark_urls | fzf | sed -e 's/^.*(//' -e 's/)$//' | wl-copy  ## get url from bookmark_urls
 echo hello 1> $file  ## stdout redirect to $file
 echo hello 2>> $file   ## stderr redirect append to $file
 echo hello > /dev/null 2>&1  ## stdout redirect devnull; stderr append to stdout; silent execution
@@ -122,6 +120,7 @@ dotfbu restore $XDG_DATA_HOME/c/git/dotf $XDG_CONFIG_HOME  ## restore oxo config
 dotool --list-keys  ## list keys
 dotool --list-x-keys  ## list x11 xkb keys
 echo type hello | dotool  ## test dotool proper working
+grep --invert-match '^#' "$BKMS" | fzf | awk -F '[()]' '{print $2}' | xargs echo type | dotool  ## insert bookmark url
 du -sbh $directory  ## directory usage; total size of all content in directory
 du --bytes --si --human-readable --separate-dirs --max-depth=0 $directory | awk '{print $1}'  ## directory usage; total si size of all files in current $directory
 du --bytes --si --human-readable --separate-dirs --total $directory | tail --lines 1 | awk '{print $1}'  ## directory usage; total si size of all files and subdirectories
@@ -246,6 +245,7 @@ grep '^[[:blank:]]*[^[:blank:]#;]' $file  ## only lines not (2nd ^) starting (1s
 grep '^[[:blank:]]*[^[:blank:]#;]' $XDG_CONFIG_HOME/alacritty/alacritty.yml | grep 'key:'  ## alacritty active (no outcommented) keybindings
 grep bindsym $XDG_CONFIG_HOME/sway/config  ## sway keybinding related lines
 grep bindkey $XDG_CONFIG_HOME/zsh/.zshrc  ## zsh keybinding related lines
+grep --invert-match '^#' "$BKMS" | fzf | awk -F '[()]' '{print $2}' | wl-copy  ## copy bookmark url
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
 head -n 2 $file  ## print $file first 2 lines
@@ -598,7 +598,7 @@ while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(
 while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line by line into l (with stdin redirection)
 while read l; do $commands; done < $file  ## read file line by line into l
 whois -B 46.166.142.215  ## whois own public ip
-wl-paste >> $XDG_DATA_HOME/c/web/bookmark_urls  ## add to bookmark_urls (qb y-m)
+wl-paste >> $XDG_DATA_HOME/c/web/bookmark_urls  ## add to bookmark_urls (qb y m)
 wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
 wl-paste --no-newline | tr --delete '[:blank:]\t\r\n' | wl-copy --trim-newline --paste-once  ## selection without whitespace to clipboard
 wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
@@ -630,14 +630,15 @@ yay -Qent  ## query package database; display explicitly installed (no dependenc
 yay -Qg $group  ## query package database; display packages that are member of $group
 yay -Qi $package  ## query package database; display package infoos that are member of $groupcman
 yay -Qk $package  ## query package database; display number of total and missing files, check that all files of the package are present on the system
-yay -Ql $package  ## query package database; display package file list
+yay -Ql $package  ## query package database; display package file list (prepended by $package)
+yay -Qlq $package  ## query package database; display package file list (raw)
 yay -Qm  ## (--foreign) query package database; display packages that are not in the sync database (aur packages)
+yay -Qmq  ## (--foreign) query package database; display packages that are not in the sync database no version
 yay -Qn  ## (--native) query package database; display packages that are in the sync database
+yay -Qnq  ## (--native) query package database; display packages that are in the sync database no version
 yay -Qnq | yay -S -  ## reinstall native packages
 yay -Qo $file  ## query package database; display which package owns $file
 yay -Qq  ## query package database; display installed packages (raw)
-yay -Qql $package  ## query package database; display package file list (raw)
-yay -Qqm  ## (--foreign) query package database; display packages that are not in the sync database no version
 yay -R $package || $group  ## remove [package] OR [group]
 yay -Rns $package  ## remove [package] including not required and not explicitly installed dependencies, no pacsave
 yay -Qdtq | yay -Rnsc -   ## remove unrequired dependencies including not required and not explicitly installed dependencies, no pacsave
