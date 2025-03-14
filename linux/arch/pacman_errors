@@ -1,0 +1,25 @@
+[pacman - ArchWiki](https://wiki.archlinux.org/title/Pacman#Troubleshooting)
+
+
+1. package exixts in filesystem
+
+error: could not prepare transaction
+error: failed to commit transaction (conflicting files)
+package: /path/to/file exists in filesystem
+Errors occurred, no packages were upgraded.
+
+solution:
+check if another package owns the file
+% pacman -Qo /path/to/file
+owned by another package > bugreport
+not owned by another package > rename /path/to/file
+re-issue the update command
+if all goes well, the file may then be removed
+
+explanation:
+Every installed package provides a /var/lib/pacman/local/package-version/files
+file that contains metadata about this package.
+If this file gets corrupted, is empty or goes missing,
+it results in file exists in filesystem errors.
+
+you may explicitly run pacman -S --overwrite glob package

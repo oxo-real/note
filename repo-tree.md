@@ -315,6 +315,7 @@
 │   │   │   ├── cursor_how_to
 │   │   │   └── readme
 │   │   ├── mount_system_manually
+│   │   ├── pacman_errors
 │   │   ├── pacstrap
 │   │   ├── structure_needs_cleaning
 │   │   └── xremap
@@ -988,5 +989,5 @@
 └── zzz_deprecated
     └── xab
 
-207 directories, 781 files
+207 directories, 782 files
 ```
