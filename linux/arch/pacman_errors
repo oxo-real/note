@@ -10,7 +10,7 @@ Errors occurred, no packages were upgraded.
 
 solution:
 check if another package owns the file
-% pacman -Qo /path/to/file
+# pacman -Qo /path/to/file
 owned by another package > bugreport
 not owned by another package > rename /path/to/file
 re-issue the update command
@@ -23,3 +23,26 @@ If this file gets corrupted, is empty or goes missing,
 it results in file exists in filesystem errors.
 
 you may explicitly run pacman -S --overwrite glob package
+
+2. --
+
+3. unable to lock database
+[pacman - ArchWiki](https://wiki.archlinux.org/title/Pacman#%22Failed_to_init_transaction_(unable_to_lock_database)%22_error)
+
+error: failed to update database (unable to lock database)
+error: failed to synchronize all databases
+
+solution:
+# rm /var/lib/pacman/db.lck
+
+oxo1. source file signature verification fails
+
+error:
+==> Verifying source file signatures with gpg...
+    linux-3.18.tar ... FAILED (unknown public key 79BE3E4300411886)
+    patch-3.18.2 ... FAILED (unknown public key 38DBBDC86092693E)
+==> ERROR: One or more PGP signatures could not be verified!
+
+solution:
+## all failed keys to logfile add '| tee -a logfile' to pacman command
+% gpg --receive-keys 79BE3E430041188 38DBBDC86092693E
