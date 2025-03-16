@@ -476,7 +476,8 @@ sed -i 'ni insert this at line n of file' $file  ## insert string at line n
 sed -i 's/$find/$replace/g' $file  ## replace $find with $replace in $file
 sed -i '/$find/{n;s/.*/$replace/}' $file  ## find $find and replace next line with $replace
 sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
-sed -i '/^find/ s/./#&/' $file  ## comment out lines containing 'find'
+sed -i '/comm/s/./#&/' $file  ## comment lines containing 'comm' (add #; add '## ': /## &/)
+sed -i '/no_comm/s/^[ \t]*#\+ *//' $file  ## uncomment lines containing 'no_comm' (remove #)
 printf $s2l | sed 's/./\0\n/g'  ## print each character of a string on a separate line (string to lines)
 set -euo pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail

@@ -817,9 +817,10 @@ sh   sed -i '$d' $HISTFILE; sed -e ':t;N;$!bt; s/\(\n[^\n]*\)\{1\}$/\n     delet
 sh   sed -i '/$find/{n;s/.*/$replace/}' $file  ## find $find and replace next line with $replace
 sh   sed -i '2,$d' $file  ## delete all lines from line 2 from $file
 sh   sed -i '2,3 d' $file  ## delete line 2 and 3 from $file
-sh   sed -i '/^find/ s/./#&/' $file  ## comment out lines containing 'find'
+sh   sed -i '/comm/s/./#&/' $file  ## comment lines containing 'comm' (add #; add '## ': /## &/)
 sh   sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
 sh   sed -i 'ni insert this at line n of file' $file  ## insert string at line n
+sh   sed -i '/no_comm/s/^[ \t]*#\+ *//' $file  ## uncomment lines containing 'no_comm' (remove #)
 sh   sed -i '/pttrn/d' $file  ## delete all lines in $file that contain pattern: 'pttrn'
 sh   sed -i 's/$find/$replace/g' $file  ## replace $find with $replace in $file
 sh   sed '/^\s*$/d'  ## delete empty lines
