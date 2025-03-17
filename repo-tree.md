@@ -309,14 +309,14 @@
 │           └── webcam
 ├── linux
 │   ├── arch
-│   │   ├── arch-chroot
 │   │   ├── boot_corrupt
 │   │   ├── icons
 │   │   │   ├── cursor_how_to
 │   │   │   └── readme
-│   │   ├── mount_system_manually
 │   │   ├── pacman_errors
-│   │   ├── pacstrap
+│   │   ├── pacstrap8
+│   │   ├── repo-add
+│   │   ├── rescue.sh -> /home/oxo/.local/share/c/git/code/hajime/emer/rescue.sh
 │   │   ├── structure_needs_cleaning
 │   │   └── xremap
 │   │       └── xremap_101

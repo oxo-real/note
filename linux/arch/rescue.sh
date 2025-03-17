@@ -1,0 +1,1 @@
+/home/oxo/.local/share/c/git/code/hajime/emer/rescue.sh
