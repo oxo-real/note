@@ -500,6 +500,7 @@ sh   fg %n  ## jobs item n to foreground
 sh   fg  ## recall last suspended command to foreground
 sh   figlet -d $XDG_CONFIG_HOME/figlet  ## change default font directory
 sh   figlet -f 'mini' oxo  ## figchars
+sh   file $file  ## determine file type
 sh   find $directory -name '$search_string' 2>/dev/null  ## find quiet
 sh   find $directory -type f -exec shred -v -z -n 3 -u {} \;  ## shred found files
 sh   find . -exec $command {} \;  ## find exec structure
@@ -558,11 +559,13 @@ sh   gpg --import-ownertrust trust_db.gpg  ## step 3 restore gpg identity (trust
 sh   gpg --import private_keys.gpg  ## step 2 restore gpg identity (private keys)
 sh   gpg --import public_keys.gpg  ## step 1 restore gpg identity (public keys)
 sh   gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 2 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list (grep -B 1 if keygrip is not shown)
+sh   gpg --output $file.sig --sign $file  ## create a separate sig file
 sh   gpg --output file --decrypt file.gpg >  ## decrypt file.gpg asymmetric using private key
 sh   gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetric using public key ID
 sh   gpg --output file.gpg --symmetric file >  ## encrypt file symmetric
 sh   gpg --output ID.puk.asc --armor --export ID >  ## export public key ascii armored
 sh   gpg --output revoke.asc --gen-revoke ID  ## generate revocation certificate
+sh   gpg --verify $file.sig [other_dir/$file]  ## verify a signature
 sh   gpg -vv $pub_key.asc  ## verbose info on $pub_key.asc
 sh   gpsbabel -i garmin_fit -f $in_fit -o gpx -F $out_gpx  ## fit2gpx conversion
 sh   grep bindkey $XDG_CONFIG_HOME/zsh/.zshrc  ## zsh keybinding related lines
@@ -732,7 +735,7 @@ sh   printenv  ## print values of environment variables
 sh   printf "${fg_black}$(BGx aaaaaa)%s${st_def}\n" 'text_appearance'  ## printf 24 bit hex color code; NOTICE dependency: oxo source function text_appearance
 sh   printf $(( [#n] x ))  ## print base 10 value of x in base n, with 2<=n<=36
 sh   printf $s2l | grep -o .  ## print each character of a string on a separate line (string to lines)
-sh   printf $s2l | sed 's/./\0\n/g'  ## print each character of a string on a separate line (string to lines)
+sh   printf $s2ls | sed 's/./\0\n/g'  ## print each character of a string on a separate line (string to lines)
 sh   printf $string | fold -w 1  ## print each character of a string on a separate line (string to lines)
 sh   printf $text | openssl dgst -sha512 -hmac $key | sed 's/^.*= //'  ## sha512 hash of $text with hmac $key
 sh   printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
@@ -830,9 +833,9 @@ sh   select option in 'a' 'b' 'c'; do echo "selection: $option"; break; done  ##
 sh   set -euo pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 sh   setfont ter-v32n  ## set console font
 sh   set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
-sh   setopt $option  ## set (enable) shell option
+sh   setopt $option  ## set (enable) zshell option
 sh   setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
-sh   setopt  ## print set shell options
+sh   setopt  ## print set zshell options
 sh   setterm -reset  ## same as tput reset, setterm has more user friendly commands
 sh   sha512sum --check --quiet sha512sums  ## read checksums from sha512sums and check them
 sh   sha512sum * > sha512sums  ##  compute sha512 checksums in current directory
@@ -855,9 +858,9 @@ sh   sqlitebrowser $XDG_DATA_HOME/qutebrowser/history.sqlite  ## view qb history
 sh   ssh-keygen -R 192.168.0.195  ## remove cached key for ip on the local machine
 sh   ssh-keygen -t ed25519-sk -C $key_id -f $key_file  ## generate openssh key
 sh   ssh-keyscan -t ecdsa 192.168.x.y >> ~/.ssh/known_hosts  ## update ecdsa key for ip on local machine
-sh   stat $file  ## display file or file system status
 sh   stat -c %A $file  ## display file access rights in human readable format
 sh   stat -c %a $file  ## display file access rights in octal format
+sh   stat [--terse] $file  ## [terse] display file or file system status
 sh   stty $(head -n 1 $XDG_CONFIG_HOME/tty/default)  ## (re)set default tty settings
 sh   stty -a  ## print all terminal line settings (human readable)
 sh   stty -g  ## print all tty settings (stty readable)
@@ -919,7 +922,7 @@ sh   type -a $command  ## command interpretation (build-in or external); -a also
 sh   umount -l $mountpoint  ## umount busy targets (mountpoints)
 sh   uname --all  ## print system information
 sh   unlink $link_name  ## remove $link_name (i.e. symlink)
-sh   unsetopt $option  ## unset (disable) shell option
+sh   unsetopt $option  ## unset (disable) zshell option
 sh   unset varfun  ## unset value and attribute of variable or function varfun
 sh   unsetvar=  ## set variable unsetvar to '' (empty)
 sh   until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount, increase $i by one

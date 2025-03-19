@@ -173,6 +173,7 @@ fg  ## recall last suspended command to foreground
 fg %n  ## jobs item n to foreground
 figlet -d $XDG_CONFIG_HOME/figlet  ## change default font directory
 figlet -f 'mini' oxo  ## figchars
+file $file  ## determine file type
 find . -exec $command {} \;  ## find exec structure
 find . -maxdepth 1 -name \*_ -type d -exec cp -r {} ~/test_/bu \;  ## find all dirs ending with _ and copy them (NOTICE: '\*_')
 find . -maxdepth 1 -type d -exec du -sb {} \; | sort -g -k 1  ## directories sorted by size (bytes)
@@ -232,6 +233,8 @@ gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetri
 gpg --output file.gpg --symmetric file >  ## encrypt file symmetric
 gpg -e -a -r $id file  ## encrypt file armored for recipient $id (like pass)
 gpg --output revoke.asc --gen-revoke ID  ## generate revocation certificate
+gpg --output $file.sig --sign $file  ## create a separate sig file
+gpg --verify $file.sig [other_dir/$file]  ## verify a signature
 gpg -vv $pub_key.asc  ## verbose info on $pub_key.asc
 gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
 gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk 'BEGIN{CACHED=0} /^S/ {if($7==1){CACHED=1}} END{if($0!=""){print CACHED} else {print "0"}}'  ## gpg cache status (1=cached)
@@ -479,17 +482,17 @@ sed -i '/$find/{n;s/.*/$replace/}' $file  ## find $find and replace next line wi
 sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
 sed -i '/comm/s/./#&/' $file  ## comment lines containing 'comm' (add #; add '## ': /## &/)
 sed -i '/no_comm/s/^[ \t]*#\+ *//' $file  ## uncomment lines containing 'no_comm' (remove #)
-printf $s2l | sed 's/./\0\n/g'  ## print each character of a string on a separate line (string to lines)
+printf $s2ls | sed 's/./\0\n/g'  ## print each character of a string on a separate line (string to lines)
 set -euo pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 setfont ter-v32n  ## set console font
+setopt  ## print set zshell options
 setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
-showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
-setopt  ## print set shell options
-setopt $option  ## set (enable) shell option
-unsetopt $option  ## unset (disable) shell option
+setopt $option  ## set (enable) zshell option
+unsetopt $option  ## unset (disable) zshell option
 sha512sum * > sha512sums  ##  compute sha512 checksums in current directory
 sha512sum --check --quiet sha512sums  ## read checksums from sha512sums and check them
+showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 100 and show first (pseudorandom number generator)
 min=0; max=9999; columns=8; digits=4; i=1; shuf -i $min-$max | while read number; do [[ $(( i % $columns )) -eq 0 ]] && printf "%0${digits}d\n" $number || printf "%0${digits}d  " $number; i=$(( $i + 1 )); done  ## otp random secret key from $digit
@@ -511,10 +514,10 @@ sqlitebrowser $XDG_DATA_HOME/qutebrowser/history.sqlite  ## view qb history
 sqlite3 -header -separator " " $XDG_DATA_HOME/qutebrowser/history.sqlite "select * from History;" | fzf --header-lines=1  ## fzf qb history
 ssh-keygen -t ed25519-sk -C $key_id -f $key_file  ## generate openssh key
 ssh-keygen -R 192.168.0.195  ## remove cached key for ip on the local machine
-ssh-keyscan -t ecdsa 192.168.x.y >> ~/.ssh/known_hosts  ## update ecdsa key for ip on local machine
+ssh-keyscan -t ecdsa 192.168.x.y >> $HOME/.ssh/known_hosts  ## update ecdsa key for ip on local machine
 stat -c %A $file  ## display file access rights in human readable format
 stat -c %a $file  ## display file access rights in octal format
-stat $file  ## display file or file system status
+stat [--terse] $file  ## [terse] display file or file system status
 stty -a  ## print all terminal line settings (human readable)
 stty -g  ## print all tty settings (stty readable)
 stty $(head -n 1 $XDG_CONFIG_HOME/tty/default)  ## (re)set default tty settings
