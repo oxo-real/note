@@ -315,8 +315,9 @@
 │   │   │   └── readme
 │   │   ├── pacman_errors
 │   │   ├── pacstrap8
-│   │   ├── repo-add
+│   │   ├── repo-add -> /home/oxo/c/git/code/hajime/emer/repo-add
 │   │   ├── rescue.sh -> /home/oxo/.local/share/c/git/code/hajime/emer/rescue.sh
+│   │   ├── sig_levels
 │   │   ├── structure_needs_cleaning
 │   │   └── xremap
 │   │       └── xremap_101
@@ -989,5 +990,5 @@
 └── zzz_deprecated
     └── xab
 
-207 directories, 782 files
+207 directories, 783 files
 ```

@@ -1,13 +1,1 @@
-# building package database
-
-## bash
-shopt -s extglob
-for file in !(*.sig); do
-    repo-add --new --include-sigs $HOME/dock/2/offline.db.tar.zst "$file"
-done
-
-## zsh
-setopt extended_glob  
-for file in ^*.sig; do
-    repo-add --new --include-sigs $HOME/dock/2/offline.db.tar.zst "$file"
-done
+/home/oxo/c/git/code/hajime/emer/repo-add

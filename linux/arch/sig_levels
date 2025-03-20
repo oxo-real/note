@@ -1,0 +1,16 @@
+SigLevels
+
+SigLevel = Never
+No signature checking is performed. This is not recommended as it bypasses all security checks.
+
+SigLevel = Optional
+Signature checking is performed if a signature is present. If a package does not have a signature, it will still be installed without any errors. This is useful for local or custom repositories where you may not have signed all packages.
+
+SigLevel = Required
+Signature checking is mandatory. If a package does not have a valid signature, the installation will fail. This is the recommended setting for official repositories and for most users, as it ensures that only signed packages are installed.
+
+SigLevel = Package
+Only the package itself is checked for a valid signature, but not its dependencies. This can be useful in certain scenarios where you trust the dependencies but want to ensure the main package is signed.
+
+SigLevel = Database
+Only the database file is checked for a valid signature. This is less common and typically used in specific situations.

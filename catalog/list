@@ -857,7 +857,7 @@ sh   sqlite3 -header -separator " " $XDG_DATA_HOME/qutebrowser/history.sqlite "s
 sh   sqlitebrowser $XDG_DATA_HOME/qutebrowser/history.sqlite  ## view qb history
 sh   ssh-keygen -R 192.168.0.195  ## remove cached key for ip on the local machine
 sh   ssh-keygen -t ed25519-sk -C $key_id -f $key_file  ## generate openssh key
-sh   ssh-keyscan -t ecdsa 192.168.x.y >> ~/.ssh/known_hosts  ## update ecdsa key for ip on local machine
+sh   ssh-keyscan -t ecdsa 192.168.x.y >> $HOME/.ssh/known_hosts  ## update ecdsa key for ip on local machine
 sh   stat -c %A $file  ## display file access rights in human readable format
 sh   stat -c %a $file  ## display file access rights in octal format
 sh   stat [--terse] $file  ## [terse] display file or file system status
