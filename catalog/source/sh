@@ -145,6 +145,7 @@ echo ${HOME%/*}  ## parameter expansion; substitute shortest match from tail (%)
 echo ${HOME%%/*}  ## parameter expansion; substitute longest match from tail (%%) with matched portion (/*) deleted; remove from first instance ('')
 echo ${a:-b}  ## parameter expansion; if [ -z $a ]; then return 'b'
 echo ${a:=b}  ## parameter expansion; if [ -z $a ]; then assign 'b'
+echo ${a/b/c}  ## in parameter a, replace first b (//b all) by c (a=abc echos acc)
 var1=a; var2=b; var3=c; counter=2; naka=var$counter; echo $naka  ## dynamic variable names #TODO desired result is: b
 emacs --daemon  ## start emacs daemon
 emacsclient --create-frame --alternate-editor="" $file &  ## client open $file in new gui window
@@ -414,6 +415,7 @@ printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-T
 printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -  ## space every 4th character (with fold)
 printf "space_every_4th_char" | sed 's/.\{4\}/& /g'  ## space every 4th character (with sed)
 printf $(( [#n] x ))  ## print base 10 value of x in base n, with 2<=n<=36
+cat /proc/cmdline  ## view current kernel parameters
 ps -ajf  ## print a process tree; all processes with tty, jobs format, full format
 ps -eFly  ## list every process on the system
 ps -eo %cpu,%mem,pid,pgid,user,state,start,args= --sort=-etimes  ## list processes custom AIX format descriptors, sort low to high elapsed time since process was started

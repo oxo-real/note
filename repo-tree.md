@@ -313,6 +313,8 @@
 │   │   ├── icons
 │   │   │   ├── cursor_how_to
 │   │   │   └── readme
+│   │   ├── kernel
+│   │   │   └── cl-params
 │   │   ├── pacman_errors
 │   │   ├── pacstrap8
 │   │   ├── repo-add -> /home/oxo/c/git/code/hajime/emer/repo-add
@@ -990,5 +992,5 @@
 └── zzz_deprecated
     └── xab
 
-207 directories, 783 files
+208 directories, 784 files
 ```
