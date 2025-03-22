@@ -454,7 +454,7 @@ rev $file  ## reverse line characters (for unknown field lengths)
 rfkill list  ## check hard and soft block status wireless radios
 rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
 rfkill [un]block all  ## soft [un]block all radios
-rg --ignore-case --line-number pttrn .  ## ripgrep synopsis; $options $pattern $path
+rg --sort path --ignore-case --line-number pttrn .  ## ripgrep synopsis; $options $pattern $path
 rm -rf -- '-r'  ## remove entire directory starting with a '-'
 rmmod $module  ## remove $module from linux kernel
 rsync --recursive $src $dst  ## create intervening directory $dst/$src; with all content of $src
@@ -470,20 +470,21 @@ script; sh -x $command; exit  ## $sommand execution typescript developer debug l
 script --command 'sh -x $command' --log-io "$(now).log" --log-timing "$(now).log"  ## $sommand execution typescript developer debug log_2
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sed '/^\s*$/d'  ## delete empty lines
-sed "${line_num}q;d" $file  ## print $line_num from $file
+sed "${line_num}q;d" $file  ## print only line "$line_num" from $file
 sed '/.*string.*/a inserted_line_after' $file  ## insert line after line containing 'string'
-sed -i "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove $HISTORY last line
-sed -i '$d' $HISTFILE; sed -e ':t;N;$!bt; s/\(\n[^\n]*\)\{1\}$/\n     deleted:&/' $HISTFILE | tail; sed -i '$d' $HISTFILE  ## remove $HISTORY last line and show result
-sed -i '$d' $file  ## delete last line from $file
-sed -i '/pttrn/d' $file  ## delete all lines in $file that contain pattern: 'pttrn'
-sed -i '2,$d' $file  ## delete all lines from line 2 from $file
-sed -i '2,3 d' $file  ## delete line 2 and 3 from $file
-sed -i 'ni insert this at line n of file' $file  ## insert string at line n
-sed -i 's/$find/$replace/g' $file  ## replace $find with $replace in $file
-sed -i '/$find/{n;s/.*/$replace/}' $file  ## find $find and replace next line with $replace
-sed -i -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
-sed -i '/comm/s/./#&/' $file  ## comment lines containing 'comm' (add #; add '## ': /## &/)
-sed -i '/no_comm/s/^[ \t]*#\+ *//' $file  ## uncomment lines containing 'no_comm' (remove #)
+sed '/.*string.*/{n;s/.*/replaced_line_after/;}' $file  ## replace line after line containing 'string'
+sed "$(( $( wc -l < $HISTFILE ) -1 )),\$d" $HISTFILE  ## remove $HISTORY last line
+sed '$d' $HISTFILE; sed -e ':t;N;$!bt; s/\(\n[^\n]*\)\{1\}$/\n     deleted:&/' $HISTFILE | tail; sed -i '$d' $HISTFILE  ## remove $HISTORY last line and show result
+sed '$d' $file  ## delete last line from $file
+sed '/pttrn/d' $file  ## delete all lines in $file that contain pattern: 'pttrn'
+sed '2,$d' $file  ## delete all lines from line 2 from $file
+sed '2,3 d' $file  ## delete line 2 and 3 from $file
+sed 'ni insert this at line n of file' $file  ## insert string at line n
+sed 's/$find/$replace/g' $file  ## replace $find with $replace in $file
+sed '/$find/{n;s/.*/$replace/}' $file  ## find $find and replace next line with $replace
+sed -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
+sed '/comm/s/./#&/' $file  ## comment lines containing 'comm' (add #; add '## ': /## &/)
+sed '/no_comm/s/^[ \t]*#\+ *//' $file  ## uncomment lines containing 'no_comm' (remove #)
 printf $s2ls | sed 's/./\0\n/g'  ## print each character of a string on a separate line (string to lines)
 set -euo pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
