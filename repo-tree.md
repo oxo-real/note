@@ -310,13 +310,16 @@
 ├── linux
 │   ├── arch
 │   │   ├── boot_corrupt
+│   │   ├── genfstab_8
 │   │   ├── icons
 │   │   │   ├── cursor_how_to
 │   │   │   └── readme
 │   │   ├── kernel
 │   │   │   └── cl-params
-│   │   ├── pacman_errors
-│   │   ├── pacstrap8
+│   │   ├── pacman
+│   │   │   ├── file-pkg-db
+│   │   │   ├── pacman_errors
+│   │   │   └── pacstrap_8
 │   │   ├── repo-add -> /home/oxo/c/git/code/hajime/emer/repo-add
 │   │   ├── rescue.sh -> /home/oxo/.local/share/c/git/code/hajime/emer/rescue.sh
 │   │   ├── sig_levels
@@ -992,5 +995,5 @@
 └── zzz_deprecated
     └── xab
 
-208 directories, 784 files
+209 directories, 786 files
 ```

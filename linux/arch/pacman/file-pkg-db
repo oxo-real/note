@@ -1,0 +1,19 @@
+files package database
+
+query package that owns file f?
+pacman -Qo f
+
+list files owned by package p?
+pacman -Ql p
+
+list installed native package (in sync db)
+pacman -Qn p
+
+list installed foreign package (not in sync db)
+pacman -Qm p
+
+# package dependency list with versions
+pacman -Q $(pactree --unique $package)
+
+# package dependency list without versions
+pacman -Qq $(pactree --unique $package)

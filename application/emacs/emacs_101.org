@@ -13,3 +13,9 @@
 * keybinds
 ** toggle comment line
    C-x C-;
+   gc
+** search
+C-s I-search (basic search)
+M-x imenu (heading search)
+/   goto line (interactive search)
+ESC SPC s . search thing at point (C-r backward C-s forward)
