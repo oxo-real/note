@@ -643,6 +643,7 @@ sh   kill -KILL $(pidof $process_name)  ## forcefully terminate pid of process (
 sh   kill -l  ## list signal names (/usr/include/linux/signal.h) that can be send to jobs or processes
 sh   kill -STOP [$PID | %n]  ## suspend process [$PID or jobs item number n]
 sh   kill -TERM %n  ## terminate process [$PID or jobs item number n]
+sh   LC_ALL=C.UTF-8 pacman -Qi | awk '/^Name/{name=$3} /^Installed Size/{print $4$5, name}' | LC_ALL=C.UTF-8 sort -h  ## list installed packages; sort by human readable size
 sh   let arg  ## evaluate arg as an arithmatic expression
 sh   limit  ## print all resource limits
 sh   >(list)  ## process substitution; process list is run async and the file passed as an argument should be read to obtain the output of list

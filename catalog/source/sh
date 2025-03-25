@@ -385,6 +385,7 @@ openvpn --config openvpn/udp-ams1_udp.ovpn  ## open vpn with specific configurat
 output=$(printf $input | openssl dgst -sha512 -hmac $key | sed 's/^.*= //')  ## zz3
 pacman --root=/mnt --cachedir=/mnt/var/cache/pacman/pkg -Syu  ## upgrade (default) main system from alternate (i.e. archiso) boot
 pacman -Q $(pactree --unique $package)  ## package version dependency list (-Qq without versions)
+LC_ALL=C.UTF-8 pacman -Qi | awk '/^Name/{name=$3} /^Installed Size/{print $4$5, name}' | LC_ALL=C.UTF-8 sort -h  ## list installed packages; sort by human readable size
 pacman-key --delete $pub_key  ## remove key from keyring
 pacman-key --finger $pub_key  ## list fingerprint(s)
 pacman-key --lsign-key $pub_key  ## locally sign key
