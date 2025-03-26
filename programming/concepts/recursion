@@ -1,0 +1,45 @@
+#!/bin/bash
+
+: '
+Recursion is a programming and mathematical concept where a function calls itself in order to solve a problem. It typically involves breaking down a problem into smaller, more manageable sub-problems of the same type. A recursive function usually has two main components:
+
+Base Case: This is the condition under which the recursion stops. It prevents the function from calling itself indefinitely and provides a simple, direct answer for the smallest instances of the problem.
+Recursive Case: This is where the function calls itself with a modified argument, moving closer to the base case with each call.
+Recursion is often used in algorithms for tasks such as searching, sorting, and traversing data structures like trees and graphs. A classic example of recursion is the calculation of the factorial of a number n, defined as n!=n×(n−1)! with the base case being 0!=1.
+# '
+#
+## calculate factorial
+factorial() 
+{
+    local n=$1
+
+    if [ "$n" -le 1 ]; then  
+    	## Base case
+
+        echo 1
+
+    else
+    	## Recursive case
+
+        local prev_factorial=$(factorial $((n - 1)))
+        echo $((n * prev_factorial))
+
+    fi
+}
+
+# Example usage
+read -p "Enter a number: " number
+result=$(factorial $number)
+echo "Factorial of $number is $result"
+
+: '
+Explanation:
+Function Definition: The factorial function takes one argument, n.
+
+Base Case: If n is less than or equal to 1, it returns 1.
+
+Recursive Case: If n is greater than 1, it calls itself with n - 1, multiplies the result by n, and returns that value.
+
+Example Usage: The script prompts the user to enter a number, calls the factorial function with that number, and prints the result.
+To run this script, save it to a file (e.g., factorial.sh), give it execute permissions with chmod +x factorial.sh, and then execute it with ./factorial.
+# '

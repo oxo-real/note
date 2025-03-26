@@ -408,6 +408,7 @@ sh   curl -4 https://ident.me  ## external ip address
 sh   curl -O $(wl-paste) -C -  ## start or resume downloading copied location
 sh   curl -O https://file.location -C - -o file.location.txt_part  ## start or resume downloading file.location to file.location.txt_part
 sh   curl -O https://mirror.i3d.net/pub/archlinux/iso/2018.04.01/archlinux-2018.04.01-x86_64.iso | sudo dd of=/dev/sdX  ## download arch linux iso and write to device
+sh   curl -s 'https://archlinux.org/mirrorlist/?protocol=https&use_mirror_status=on' | sed -e 's/^#Server/Server/' -e '/^#/d'  ## arch linux active https server mirrorlist
 sh   cut -d , -f 5 --complement file.csv  ## remove column 5 from file.csv
 sh   date $DTE  ## date with zshenv strftime format preset
 sh   date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
@@ -790,10 +791,10 @@ sh   read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## genera
 sh   readlink $symlink  ## print resolved symbolic links or canonical file names
 sh   readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonicalized symlink to current users $HOME (NOTICE realpath is preferred)
 sh   read -r input  ## zz1; variable is assigned
-sh   realpath $dir_in_home | sed "s|$HOME||"  ## remove $HOME from $dir_in_home
+sh   realpath $dir_in_home | sed "s#$HOME##"  ## remove "$HOME" from $dir_in_home
 sh   realpath file  ## return canonicalized absolute pathname
-sh   reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 -l 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
-sh   rename --all ' ' _ *  ## replace filename spaces with underscores
+sh   reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 --latest 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
+sh   rename --all ' ' _ *  ## replace all spaces with underscores in filename
 sh   rename 'part' 'name' filepart  ## replace 'part' with 'name' in filepart (filepart -> filename)
 sh   renice -19 $(pgrep $process_name)  ## give $process_name highest (-19) priority
 sh   reset  ## clear + reset internal terminal state + 1sec delay
