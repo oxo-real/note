@@ -163,7 +163,7 @@ fc -e $editor  ## edit last command in $editor (fix command)
 fc -l -n -1  ## last command entered
 fc -l -d -t %Y%m%d_%H%M%S -D 1  ## list events from history list ($HISTFILE) with duration and timestamp from event 1 (interactive shell $- == *i*)
 fc -l -d -t %Y%m%d_%H%M%S -D 1 | sort --reverse --numeric-sort --key 1 | sort --unique --key 4 | sort --numeric-sort --key 1 | fzf  ## fzf history search
-fc -l -d -r -t %Y%m%d_%H%M%S -D 1 | sort --key 1n | sort --reverse --key 4 | uniq -c --skip-fields 3 | sort --key 1nr | nl --number-width 4 --number-separator ' '  ## unique command history list; line number, occurence frequnecy, latest history id, timestamp, execution time, command
+fc -l -d -r -t %Y%m%d_%H%M%S -D 1 | sort --key 1n | sort --reverse --key 4 | uniq --count --skip-fields 3 | sort --key 1nr | nl --number-width 4 --number-separator ' '  ## unique command history list; line number, occurence frequnecy, latest history id, timestamp, execution time, command
 fc-list  ## list available fonts (fontconfig)
 fd $options $pattern $path  ## fd general synopsis, pattern default regex (--glob)
 fd --format {/.} . $XDG_CONFIG_HOME/network/vpn/wg/proton/interface | fzf | xargs --no-run-if-empty -I {} wg-quick up {}  ## vpn wireguard proton interface up
@@ -507,11 +507,11 @@ for i in {1..32}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; done
 simple-mtpfs --list-devices  ## list mountable mtp devices
 simple-mtpfs -o allow_other --device 1 $HOME/dock/mobile  ## mount mtp device 1
 echo 'string2sort' | grep -o . | sort | tr -d "\n"  ## sort chars in string
-sort $HISTFILE | uniq -c | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
+sort $HISTFILE | uniq --count | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
 sort -k2,2nr  ## numeric reversed sort only on column 2, not to eol
 sort < $file | sort -nr > $file_sort_freq  ## reverse numerical sort
-sort < $file | uniq -u > $file_uniq  ## unique lines
-sort $file | uniq -c | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
+sort < $file | uniq --unique > $file_uniq  ## unique lines
+sort $file | uniq --count | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
 source $function_text_appearance; printf "$(FHX ffbf00)$(BHX 0040ff)%s${NOC}\n" "$text"  ## hexadecimal 24 bit color codes in printf (fore- & background)
 split $file -b N  ## split $file into files with N bytes
 split $file -l N  ## split $file into files with N lines
@@ -586,6 +586,7 @@ umount -l $mountpoint  ## umount busy targets (mountpoints)
 uname --all  ## print system information
 c /etc/os-release  ## systemd operating system identification data and information about the distribution
 hostnamectl status  ## hostname operating system and related settings (i.e. firmware)
+uniq --repeated  ## only print duplicate lines
 unlink $link_name  ## remove $link_name (i.e. symlink)
 unset varfun  ## unset value and attribute of variable or function varfun
 unsetvar=  ## set variable unsetvar to '' (empty)

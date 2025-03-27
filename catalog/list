@@ -488,7 +488,7 @@ sh   faillock --user $USER --reset  ## remove sudo lockout for current user
 sh   fallocate -l 5M file  ## create file 5M size
 sh   fc -AI  ## append history to file; include internal (new) events only (update history file)
 sh   fc -e $editor  ## edit last command in $editor (fix command)
-sh   fc -l -d -r -t %Y%m%d_%H%M%S -D 1 | sort --key 1n | sort --reverse --key 4 | uniq -c --skip-fields 3 | sort --key 1nr | nl --number-width 4 --number-separator ' '  ## unique command history list; line number, occurence frequnecy, latest history id, timestamp, execution time, command
+sh   fc -l -d -r -t %Y%m%d_%H%M%S -D 1 | sort --key 1n | sort --reverse --key 4 | uniq --count --skip-fields 3 | sort --key 1nr | nl --number-width 4 --number-separator ' '  ## unique command history list; line number, occurence frequnecy, latest history id, timestamp, execution time, command
 sh   fc -l -d -t %Y%m%d_%H%M%S -D 1  ## list events from history list ($HISTFILE) with duration and timestamp from event 1 (interactive shell $- == *i*)
 sh   fc -l -d -t %Y%m%d_%H%M%S -D 1 | sort --reverse --numeric-sort --key 1 | sort --unique --key 4 | sort --numeric-sort --key 1 | fzf  ## fzf history search
 sh   fc-list  ## list available fonts (fontconfig)
@@ -851,9 +851,9 @@ sh   shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 
 sh   simple-mtpfs --list-devices  ## list mountable mtp devices
 sh   simple-mtpfs -o allow_other --device 1 $HOME/dock/mobile  ## mount mtp device 1
 sh   sort < $file | sort -nr > $file_sort_freq  ## reverse numerical sort
-sh   sort $file | uniq -c | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
-sh   sort < $file | uniq -u > $file_uniq  ## unique lines
-sh   sort $HISTFILE | uniq -c | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
+sh   sort $file | uniq --count | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
+sh   sort < $file | uniq --unique > $file_uniq  ## unique lines
+sh   sort $HISTFILE | uniq --count | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
 sh   sort -k2,2nr  ## numeric reversed sort only on column 2, not to eol
 sh   source $function_text_appearance; printf "$(FHX ffbf00)$(BHX 0040ff)%s${NOC}\n" "$text"  ## hexadecimal 24 bit color codes in printf (fore- & background)
 sh   split $file -b N  ## split $file into files with N bytes
@@ -927,6 +927,7 @@ sh   ts="$(now)"; stty_bu="$XDG_CONFIG_HOME/tty/"$ts"_sttyrc"; stty --save > $st
 sh   type -a $command  ## command interpretation (build-in or external); -a also prints all occurences in path
 sh   umount -l $mountpoint  ## umount busy targets (mountpoints)
 sh   uname --all  ## print system information
+sh   uniq --repeated  ## only print duplicate lines
 sh   unlink $link_name  ## remove $link_name (i.e. symlink)
 sh   unsetopt $option  ## unset (disable) zshell option
 sh   unset varfun  ## unset value and attribute of variable or function varfun
