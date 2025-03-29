@@ -498,6 +498,7 @@ sh   fc -RI  ## read history from file; include internal (new) events only (upda
 sh   fd $options $pattern $path  ## fd general synopsis, pattern default regex (--glob)
 sh   fd --format {/.} . $XDG_CONFIG_HOME/network/vpn/wg/proton/interface | fzf | xargs --no-run-if-empty -I {} wg-quick up {}  ## vpn wireguard proton interface up
 sh   fd --max-depth 1 --type file --hidden . .  ## list all files in current directory
+sh   fd --max-depth 1 --type symlink --hidden --exec bash -c '[[ ! -e {} ]] && echo "{}"' .  ## find broken symlinks, slower alternative using fd
 sh   fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search clpb-string and copy (quick file search)
 sh   ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
 sh   fg %n  ## jobs item n to foreground
@@ -515,6 +516,7 @@ sh   find . -maxdepth 1 -type f -cmin $n  ## file status changed less than (-n),
 sh   find . -maxdepth 1 -type f -mtime $n  ## data modified less than (-n), more than (+n) or exactly n*24 hours (days) ago
 sh   find . -maxdepth 1 -type f -name "* *" -exec sh -c 'mv "$0" "${0// /_}"' {} \;  ## replace filename spaces with underscores
 sh   find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks and copy without dereferencing (listing actual file where symlink points to)
+sh   find . -maxdepth 1 -xtype l -print  ## find broken symlinks in current directory (faster than fd alternative)
 sh   find . | sed -e 's;[^/]*/;|____;g;s;____|; |;g'  ## similar to: find . | tree
 sh   find . -type f -exec mv {} $dest \;  ## find all files and move them to $dest directory
 sh   find . -type f ! -newermt "2018-12-31" -delet3  ## find and delete all files older (not newer) than date

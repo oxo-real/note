@@ -167,6 +167,7 @@ fc -l -d -r -t %Y%m%d_%H%M%S -D 1 | sort --key 1n | sort --reverse --key 4 | uni
 fc-list  ## list available fonts (fontconfig)
 fd $options $pattern $path  ## fd general synopsis, pattern default regex (--glob)
 fd --format {/.} . $XDG_CONFIG_HOME/network/vpn/wg/proton/interface | fzf | xargs --no-run-if-empty -I {} wg-quick up {}  ## vpn wireguard proton interface up
+fd --max-depth 1 --type symlink --hidden --exec bash -c '[[ ! -e {} ]] && echo "{}"' .  ## find broken symlinks, slower alternative using fd
 fd --max-depth 1 --type file --hidden . .  ## list all files in current directory
 fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search clpb-string and copy (quick file search)
 cat-audio() {ffmpeg -i "concat:${(j:|:)@[2,-1]}" -acodec copy $1}  ## concatenate mp3 audio files usage: cat-audio output.mp3 *.mp3
@@ -186,6 +187,7 @@ find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks and co
 find . -type f ! -newermt "2018-12-31" -delet3  ## find and delete all files older (not newer) than date
 find . -type f -exec mv {} $dest \;  ## find all files and move them to $dest directory
 find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print  ## find broken symbolic links
+find . -maxdepth 1 -xtype l -print  ## find broken symlinks in current directory (faster than fd alternative)
 find . | sed -e 's;[^/]*/;|____;g;s;____|; |;g'  ## similar to: find . | tree
 find . -iname $file  ## case_insensitive find
 find $directory -name '$search_string' 2>/dev/null  ## find quiet
