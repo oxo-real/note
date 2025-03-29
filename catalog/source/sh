@@ -182,7 +182,7 @@ find . -maxdepth 1 -type d -exec du -sb {} \; | sort -g -k 1  ## directories sor
 find . -maxdepth 1 -type f -name "* *" -exec sh -c 'mv "$0" "${0// /_}"' {} \;  ## replace filename spaces with underscores
 find . -maxdepth 1 -type f -mtime $n  ## data modified less than (-n), more than (+n) or exactly n*24 hours (days) ago
 find . -maxdepth 1 -type f -cmin $n  ## file status changed less than (-n), more than (+n) or exactly n minutes ago
-find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks and copy without dereferencing
+find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks and copy without dereferencing (listing actual file where symlink points to)
 find . -type f ! -newermt "2018-12-31" -delet3  ## find and delete all files older (not newer) than date
 find . -type f -exec mv {} $dest \;  ## find all files and move them to $dest directory
 find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print  ## find broken symbolic links
@@ -315,9 +315,10 @@ kill -TERM %n  ## terminate process [$PID or jobs item number n]
 kill -KILL $(pidof $process_name)  ## forcefully terminate pid of process (can not be trapped or otherwise ignored)
 let arg  ## evaluate arg as an arithmatic expression
 limit  ## print all resource limits
-ln -s $HOME/dock/vlt/pass $HOME/.password-store  ## pass vault symlink
-ln -s $target [$link_name]  ## create symlink [with $link_name] to $target
-ln -s -f $target [$link_name]  ## replace symlink [with $link_name] to $target
+ln $target $link_name  ## create hard link [with $link_name] to $target (target and link_name point to the same inode)
+ln --symbolic $HOME/dock/vlt/pass $HOME/.password-store  ## pass vault symbolic link
+ln --symbolic --force $target [$link_name]  ## create or replace symlink [with $link_name] to $target
+cat $symlink  ## a symlink is a reference to a file; cat dereferences a symlink
 losetup -l -a  ## list all loop devices
 losetup -d $loop_dev  ## detach $loop_dev
 ls $XDG_DATA_HOME/keys/wl | fzf | xargs -r cat | grep #psk | awk -F "\"" '{print $2}' | qrencode -t utf8  ## fzf select wifi key and show qr
@@ -443,9 +444,10 @@ read -er input | base64 | wl-copy -n -o  ## input base64 translation
 read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'  ## secure sha3-512 hash from stdin (verify pwgn)
 read -er input | base64 | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf && gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
 IFS=', ' read -r -a array <<< "$string"  ## comma or space separated string to array
-readlink $symlink  ## print resolved symbolic links or canonical file names
-readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonicalized symlink to current users $HOME (NOTICE realpath is preferred)
-realpath file  ## return canonicalized absolute pathname
+readlink $symlink  ## print resolved symbolic link (relative path)
+readlink -f $symlink  ## print symbolic links' canonical (absolute path) file name
+readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonical (absolute path) symbolic link to current users $HOME (NOTICE realpath is preferred)
+realpath file  ## return canonical file name (absolute path)
 realpath $dir_in_home | sed "s#$HOME##"  ## remove "$HOME" from $dir_in_home
 reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 --latest 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
 rename 'part' 'name' filepart  ## replace 'part' with 'name' in filepart (filepart -> filename)

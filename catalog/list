@@ -357,6 +357,7 @@ sh   case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## ca
 sh   cat $HOME/a/data/emoji/emoji-test.txt | sed 's/^.*#//' | sed --regexp-extended 's/E[0-9]+.[0-9]//' | sed 's/^[ \t]*//' | sed '/^[[:alnum:]]/d' | sed '/^\s*$/d' | fzf | awk '{print $1}' | wl-copy -n  ## emoji & symbols to clipboard
 sh   cat $HOME/c/keys/wl/ap.wifi | grep '#psk' | awk -F "\"" '{print $2}' | qrencode -t utf8  ## wifi accesspoint password qr
 sh   cat $split_file1 $split_file2  ## join split files
+sh   cat $symlink  ## a symlink is a reference to a file; cat dereferences a symlink
 sh   cat 0< $file >1 /dev/stdout  ## rudimentary form of: cat $file
 sh   cat-audio() {ffmpeg -i "concat:${(j:|:)@[2,-1]}" -acodec copy $1}  ## concatenate mp3 audio files usage: cat-audio output.mp3 *.mp3
 sh   cat <(ls)  ## process substitution reading from list <() (?without subshell?); same as ls | cat  (piping ?with subshell?) #DEV
@@ -513,7 +514,7 @@ sh   find . -maxdepth 1 -type d -exec du -sb {} \; | sort -g -k 1  ## directorie
 sh   find . -maxdepth 1 -type f -cmin $n  ## file status changed less than (-n), more than (+n) or exactly n minutes ago
 sh   find . -maxdepth 1 -type f -mtime $n  ## data modified less than (-n), more than (+n) or exactly n*24 hours (days) ago
 sh   find . -maxdepth 1 -type f -name "* *" -exec sh -c 'mv "$0" "${0// /_}"' {} \;  ## replace filename spaces with underscores
-sh   find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks and copy without dereferencing
+sh   find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks and copy without dereferencing (listing actual file where symlink points to)
 sh   find . | sed -e 's;[^/]*/;|____;g;s;____|; |;g'  ## similar to: find . | tree
 sh   find . -type f -exec mv {} $dest \;  ## find all files and move them to $dest directory
 sh   find . -type f ! -newermt "2018-12-31" -delet3  ## find and delete all files older (not newer) than date
@@ -649,9 +650,9 @@ sh   let arg  ## evaluate arg as an arithmatic expression
 sh   limit  ## print all resource limits
 sh   >(list)  ## process substitution; process list is run async and the file passed as an argument should be read to obtain the output of list
 sh   <(list)  ## process substitution; process list is run async and writing to the file will provide input for list
-sh   ln -s $HOME/dock/vlt/pass $HOME/.password-store  ## pass vault symlink
-sh   ln -s $target [$link_name]  ## create symlink [with $link_name] to $target
-sh   ln -s -f $target [$link_name]  ## replace symlink [with $link_name] to $target
+sh   ln $target $link_name  ## create hard link [with $link_name] to $target (target and link_name point to the same inode)
+sh   ln --symbolic $HOME/dock/vlt/pass $HOME/.password-store  ## pass vault symbolic link
+sh   ln --symbolic --force $target [$link_name]  ## create or replace symlink [with $link_name] to $target
 sh   losetup -d $loop_dev  ## detach $loop_dev
 sh   losetup -l -a  ## list all loop devices
 sh   lower=$(printf '%s' "$ASCII" | cut --characters 66-91)  ## 26 lowercase letter characters from $ASCII
@@ -788,11 +789,12 @@ sh   read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 
 sh   read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o  ## input base64 translation without EOL
 sh   read -er input  ## zz1; variable is not assigned
 sh   read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
-sh   readlink $symlink  ## print resolved symbolic links or canonical file names
-sh   readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonicalized symlink to current users $HOME (NOTICE realpath is preferred)
+sh   readlink $symlink  ## print resolved symbolic link (relative path)
+sh   readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonical (absolute path) symbolic link to current users $HOME (NOTICE realpath is preferred)
+sh   readlink -f $symlink  ## print symbolic links' canonical (absolute path) file name
 sh   read -r input  ## zz1; variable is assigned
 sh   realpath $dir_in_home | sed "s#$HOME##"  ## remove "$HOME" from $dir_in_home
-sh   realpath file  ## return canonicalized absolute pathname
+sh   realpath file  ## return canonical file name (absolute path)
 sh   reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 --latest 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
 sh   rename --all ' ' _ *  ## replace all spaces with underscores in filename
 sh   rename 'part' 'name' filepart  ## replace 'part' with 'name' in filepart (filepart -> filename)
