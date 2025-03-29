@@ -925,7 +925,7 @@ sh   ts=$(dtx); syncr $HOME/dock/transfer/x1c/home/oxo --delete --links --log-fi
 sh   ts=$EPOCHREALTIME; printf '%X.%x\n' ${ts%%.*} ${ts#*.}  ## current linux epoch hex (requires zmodload zsh/datetime)
 sh   ts="$(now)"; stty_bu="$XDG_CONFIG_HOME/tty/"$ts"_sttyrc"; stty --save > $stty_bu && stty -all >> $stty_bu  ## backup terminal characteristics
 sh   type -a $command  ## command interpretation (build-in or external); -a also prints all occurences in path
-sh   umount -l $mountpoint  ## umount busy targets (mountpoints)
+sh   umount --lazy $mountpoint  ## umount busy targets (mountpoints)
 sh   uname --all  ## print system information
 sh   uniq --repeated  ## only print duplicate lines
 sh   unlink $link_name  ## remove $link_name (i.e. symlink)
@@ -941,7 +941,7 @@ sh   user='a'; admin='user'; echo ${(P)admin}  ## zsh indirect parameter expansi
 sh   usermod -a -G $group $user  ## add user to group
 sh   #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
 sh   var1=a; var2=b; var3=c; counter=2; naka=var$counter; echo $naka  ## dynamic variable names #TODO desired result is: b
-sh   vim "+call cursor(line('$') - 1, 1)" $HISTFILE  ## open history in vim on previous command
+sh   vim "+call cursor(line('$') - 1, 1)" $HISTFILE; wl-copy --clear  ## open history in vim on previous command [dd ZZ]
 sh   vlock --all  ## console lock all sessions
 sh   watch --differences --no-title --interval 1 $command  ## default watch command
 sh   wc -l < $file  ## print number of lines in $file (< no filename)

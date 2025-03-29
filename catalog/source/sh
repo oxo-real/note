@@ -582,7 +582,7 @@ fallocate -l 5M file  ## create file 5M size
 truncate -s 5M file  ## create file 5M size
 tree -n --charset=unicode  ## depth indented file listing
 type -a $command  ## command interpretation (build-in or external); -a also prints all occurences in path
-umount -l $mountpoint  ## umount busy targets (mountpoints)
+umount --lazy $mountpoint  ## umount busy targets (mountpoints)
 uname --all  ## print system information
 c /etc/os-release  ## systemd operating system identification data and information about the distribution
 hostnamectl status  ## hostname operating system and related settings (i.e. firmware)
@@ -595,7 +595,7 @@ uptime  ## uptime since boot
 usermod -a -G $group $user  ## add user to group
 printf "${var1:-$default}"  ## print default variable value if var1 is unset or null
 printf "${var1:=$default}"  ## printf and set default variable value if var1 is unset or null
-vim "+call cursor(line('$') - 1, 1)" $HISTFILE  ## open history in vim on previous command
+vim "+call cursor(line('$') - 1, 1)" $HISTFILE; wl-copy --clear  ## open history in vim on previous command [dd ZZ]
 vlock --all  ## console lock all sessions
 env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
 watch --differences --no-title --interval 1 $command  ## default watch command
