@@ -660,6 +660,7 @@ yay -Rns $package  ## remove [package] including not required and not explicitly
 yay -Qdtq | yay -Rnsc -   ## remove unrequired dependencies including not required and not explicitly installed dependencies, no pacsave
 yay -Yc  ## same (?) as: yay -Qtdq | yay -Rnsc -; remove unrequired dependencies including not required and not explicitly installed dependencies, no pacsave
 yay -S $package  ## synchronize package; download and install
+yay -S --dbpath $alt_repo_db --cachedir $alt_repo_cache $package  ## synchronize package; download and install, using alternative repo (database file and cache dir)
 yay -S --print $package  ## print native package location URI (file:// if locally available)
 yay -Sau ## update only AUR packages
 yay -Sc $package  ## remove all cached packages that are currently not installed (more agressive than paccache)

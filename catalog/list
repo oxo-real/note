@@ -1013,6 +1013,7 @@ sh   yay -S $package  ## synchronize package; download and install
 sh   yay -Sau ## update only AUR packages
 sh   yay -Sc $package  ## remove all cached packages that are currently not installed (more agressive than paccache)
 sh   yay -Scc $package  ## remove all cached packages (far more agressive than paccache, will prevent downgrading or reinstalling without downloading)
+sh   yay -S --dbpath $alt_repo_db --cachedir $alt_repo_cache $package  ## synchronize package; download and install, using alternative repo (database file and cache dir)
 sh   yay --show -w -w  ## aurch linux (last year?) news archives [Arch Linux - News](https://archlinux.org/news/)
 sh   yay -Sii $package  ## extended package info; reverse dependencies; package required by
 sh   yay -S --print $package  ## print native package location URI (file:// if locally available)
