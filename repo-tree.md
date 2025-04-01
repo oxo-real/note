@@ -307,6 +307,11 @@
 │       │   └── ignore_uas
 │       └── webcam
 │           └── webcam
+├── language
+│   ├── la
+│   │   └── oxo101
+│   └── sv
+│       └── grammatik
 ├── linux
 │   ├── arch
 │   │   ├── boot_corrupt
@@ -988,8 +993,6 @@
 │       ├── ykman
 │       ├── yk_u2f
 │       └── yubikey4
-├── sv
-│   └── grammatik
 ├── tools
 │   └── chainsaw_adjust
 ├── ucode
@@ -997,5 +1000,5 @@
 └── zzz_deprecated
     └── xab
 
-210 directories, 787 files
+212 directories, 788 files
 ```
