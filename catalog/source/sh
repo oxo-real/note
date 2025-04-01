@@ -36,6 +36,7 @@ awk 'NR==1{prev=$1;print $2} NR>1 && prev!=$1{prev=$1;print $2} END{if(NR>1)prin
 awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'  ## reverse lines (emulate tac)
 awk '{for(i=1; i<=NF; i++) if($i=="version") print $(i), $(i+1)}' <<< $(echo 'a b c version 2 d e f')  ## extract string and following
 basename $filepath  ## print filename without any leading directory components
+echo $filepath | sed 's#.*/##'  ## basename using sed (remove all until last /)
 bash -c 'echo $SRANDOM'  ## 32bit pseudo random number
 bind '"\e[0n": "$string"'; printf '\e[5n'  ## inject $string to bash stdin
 bindkey  ## zsh bound keys
@@ -109,6 +110,7 @@ dd if=/dev/urandom of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,no
 echo '$idVendor:$idProduct:u' | sudo dd of=/sys/module/usb_storage/parameters/quirks  ## ignore uas, use usb-storage for storage device
 df -h  ## human-readable file system space usage
 df --si --exclude-type devtmpfs --exclude-type tmpfs --exclude-type efivarfs | awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## file system disk free space
+df --portability $directory  ## get mountpoint (information) for given directory
 dhcpcd -k $interface  ## dhcp remove interface ip
 dhcpcd $interface  ## dhcp request for interface
 diff --side-by-side --left-column $lf $rf  ## print $lf; $rf diffs in right column (-y --left-column)
@@ -198,6 +200,7 @@ find . | sed -e 's;[^/]*/;|____;g;s;____|; |;g'  ## similar to: find . | tree
 find . -iname $file  ## case_insensitive find
 find $directory -name '$search_string' 2>/dev/null  ## find quiet
 find $directory -type f -exec shred -v -z -n 3 -u {} \;  ## shred found files
+find /var/cache/pacman/pkg -type f -name "*.xz" -o -name "*.zst" | sed 's#.*/##' | awk -F'-[0-9]+' '{print $1}' | sort > package.list  ## package.list with package names *.[xz,zst] from package cache files
 printf $string | fold -w 1  ## print each character of a string on a separate line (string to lines)
 printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'  ## randomize characters of the $ASCII string
 for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## otp random secret key from $ASCII
@@ -660,6 +663,7 @@ yay -Qn  ## (--native) query package database; display packages that are in the 
 yay -Qnq  ## (--native) query package database; display packages that are in the sync database no version
 yay -Qnq | yay -S -  ## reinstall native packages
 yay -Qo $file  ## query package database; display which package owns $file
+yay -Qs  ## search locally for matching strings
 yay -Qq  ## query package database; display installed packages (raw)
 yay -R $package || $group  ## remove [package] OR [group]
 yay -Rns $package  ## remove [package] including not required and not explicitly installed dependencies, no pacsave

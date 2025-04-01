@@ -423,6 +423,7 @@ sh   dd if=$src of=$dst bs=256k iflag=fullblock oflag=sync,noerror,notrunc statu
 sh   dd if=/dev/urandom of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 random bytes to $dst
 sh   dd if=/dev/zero of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 zero bytes to $dst
 sh   df -h  ## human-readable file system space usage
+sh   df --portability $directory  ## get mountpoint (information) for given directory
 sh   df --si --exclude-type devtmpfs --exclude-type tmpfs --exclude-type efivarfs | awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## file system disk free space
 sh   dhcpcd $interface  ## dhcp request for interface
 sh   dhcpcd -k $interface  ## dhcp remove interface ip
@@ -448,6 +449,7 @@ sh   echo ${a:=b}  ## parameter expansion; if [ -z $a ]; then assign 'b'
 sh   echo ${a:-b}  ## parameter expansion; if [ -z $a ]; then return 'b'
 sh   echo ${a% *}  ## key when a='key value'
 sh   echo ${a##* }  ## value when a='key value'
+sh   echo $filepath | sed 's#.*/##'  ## basename using sed (remove all until last /)
 sh   echo ${HOME##*/}  ## parameter expansion; remove */ long head; delete until last match (*/) from head (##); remove */ until last instance ('oxo')
 sh   echo ${HOME%%/*}  ## parameter expansion; remove /* long tail; delete from last match (/*) from tail (%%); remove /* from first instance ('')
 sh   echo ${HOME#*/}  ## parameter expansion; remove */ short head; delete until first match (*/) from head (#); remove */ until first instance ('home/oxo')
@@ -527,6 +529,7 @@ sh   find . | sed -e 's;[^/]*/;|____;g;s;____|; |;g'  ## similar to: find . | tr
 sh   find . -type f -exec mv {} $dest \;  ## find all files and move them to $dest directory
 sh   find . -type f ! -newermt "2018-12-31" -delet3  ## find and delete all files older (not newer) than date
 sh   find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print  ## find broken symbolic links
+sh   find /var/cache/pacman/pkg -type f -name "*.xz" -o -name "*.zst" | sed 's#.*/##' | awk -F'-[0-9]+' '{print $1}' | sort > package.list  ## package.list with package names *.[xz,zst] from package cache files
 sh   for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
 sh   for file in *.html; do mv "$file" "${file%.html}.txt"; done  ## change file extension (*.html to *.txt)
 sh   for (( i=$in; i<=$ix; i++ )); do echo $i; done  ## for loop alternative mathematic structure; variable list values (in to ix step i++)
@@ -1013,6 +1016,7 @@ sh   yay -Qo $file  ## query package database; display which package owns $file
 sh   yay -Qqm | yay -Gd -   ## download package builds from installed aur packages
 sh   yay -Qq  ## query package database; display installed packages (raw)
 sh   yay -Q  ## query package database; display installed packages with version (Q=Qd+Qe=Qm+Qn)
+sh   yay -Qs  ## search locally for matching strings
 sh   yay -R $package || $group  ## remove [package] OR [group]
 sh   yay -Rns $package  ## remove [package] including not required and not explicitly installed dependencies, no pacsave
 sh   yay -S $package  ## synchronize package; download and install
