@@ -200,7 +200,7 @@ find . | sed -e 's;[^/]*/;|____;g;s;____|; |;g'  ## similar to: find . | tree
 find . -iname $file  ## case_insensitive find
 find $directory -name '$search_string' 2>/dev/null  ## find quiet
 find $directory -type f -exec shred -v -z -n 3 -u {} \;  ## shred found files
-find /var/cache/pacman/pkg -type f -name "*.xz" -o -name "*.zst" | sed 's#.*/##' | awk -F'-[0-9]+' '{print $1}' | sort > package.list  ## package.list with package names *.[xz,zst] from package cache files
+find /var/cache/pacman/pkg -type f -name "*.gz" -o -name "*.xz" -o -name "*.zst" | sed 's#.*/##' | awk -F '-[0-9]+' '{print $1}' | sort | uniq  ## package.list with package names *.[xz,zst] from package cache files
 printf $string | fold -w 1  ## print each character of a string on a separate line (string to lines)
 printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'  ## randomize characters of the $ASCII string
 for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## otp random secret key from $ASCII
@@ -216,6 +216,7 @@ sudo -k; free -h; echo; for i in {1..3}; do; sudo sysctl -w vm.drop_caches="$i";
 fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem in mount)
 fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 getent ahosts $url  ## get ip address from name service switch library database ahost
+git -C $path $command  ## run $command as if git was started in $path
 git config --show-scope --show-origin --list  ## origin and scope of git configuration
 git fetch $repo  ## download changes from remote repo without merging locally
 git merge $repo/$branch  ## incorporate fetched changes into local branch
@@ -506,9 +507,10 @@ set -euo pipefail  ## exit on: -e command error, -u unset variable expansion err
 set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 setfont ter-v32n  ## set console font
 setopt  ## print set zshell options
-setopt interactive_comments  ## threat string after '#' as comment (unsetopt disables)
+setopt interactive_comments  ## zsh threats string after '#' as comment (unsetopt disables)
 setopt $option  ## set (enable) zshell option
 unsetopt $option  ## unset (disable) zshell option
+setopt nomatch; printf '%s\n' $directory/*.{gz,xz,zst} | sed '/\*/d'  ## list gz, xz and zst files (sed removes reported nomatches)
 sha512sum * > sha512sums  ##  compute sha512 checksums in current directory
 sha512sum --check --quiet sha512sums  ## read checksums from sha512sums and check them
 showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
