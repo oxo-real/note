@@ -529,7 +529,7 @@ sh   find . | sed -e 's;[^/]*/;|____;g;s;____|; |;g'  ## similar to: find . | tr
 sh   find . -type f -exec mv {} $dest \;  ## find all files and move them to $dest directory
 sh   find . -type f ! -newermt "2018-12-31" -delet3  ## find and delete all files older (not newer) than date
 sh   find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print  ## find broken symbolic links
-sh   find /var/cache/pacman/pkg -type f -name "*.gz" -o -name "*.xz" -o -name "*.zst" | sed 's#.*/##' | awk -F '-[0-9]+' '{print $1}' | sort | uniq  ## package.list with package names *.[xz,zst] from package cache files
+sh   find /var/cache/pacman/pkg -type f -name "*.gz" -o -name "*.xz" -o -name "*.zst" | sed 's#.*/##' | awk -F '-[0-9]+' '{print $1}' | sort | uniq  ## package names from package cache *.{gz,xz,zst} files (package.list)
 sh   for file in *; do cp -- "$file" "string_$file"; done  ## append string_ to each file in cwd
 sh   for file in *.html; do mv "$file" "${file%.html}.txt"; done  ## change file extension (*.html to *.txt)
 sh   for (( i=$in; i<=$ix; i++ )); do echo $i; done  ## for loop alternative mathematic structure; variable list values (in to ix step i++)
@@ -856,6 +856,7 @@ sh   set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u uns
 sh   setopt $option  ## set (enable) zshell option
 sh   setopt interactive_comments  ## zsh threats string after '#' as comment (unsetopt disables)
 sh   setopt nomatch; printf '%s\n' $directory/*.{gz,xz,zst} | sed '/\*/d'  ## list gz, xz and zst files (sed removes reported nomatches)
+sh   setopt +o nomatch; printf '%s\n' /var/cache/pacman/pkg/*.{gz,xz,zst} | sed '/\*/d' | sed 's#.*/##' | awk -F '-[0-9]+' '{print $1}' | sort | uniq  ## package names from package cache *.{gz,xz,zst} files (package.list)
 sh   setopt  ## print set zshell options
 sh   setterm -reset  ## same as tput reset, setterm has more user friendly commands
 sh   sha512sum --check --quiet sha512sums  ## read checksums from sha512sums and check them
