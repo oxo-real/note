@@ -318,6 +318,8 @@ sh   [ "$var" ]  ## alias for: 'test "$var"'
 sh   [[ "$var" =~ extended-regexp ]]  ## test with extended regular expression operator
 sh   [[ $var ]]  ## extended version of [ operator; with additional string, assignment and arithmetic operations and improved functionality, readability and performance
 sh   alacritty msg config font.size=18  ## current alacritty instance font size 18 (for screencasting)
+sh   ~-  ## alias $OLDPWD
+sh   ~+  ## alias $PWD
 sh   alnum=$(printf '%s' "$ASCII" | cut --characters 1-16,27-33,60-65,92-95 --complement)  ## 62 alphanumeric characters from $ASCII
 sh   alnum=$(printf '%s' "$ASCII" | grep --only-matching  . | sort | tr -d "\n" | cut --characters 1-33 --complement)  ## 62 alphanumeric characters from $ASCII
 sh   amixer info  ## info about alsamixer device
@@ -432,7 +434,7 @@ sh   diff --new-file --text --unified=3 --recursive $lf $rf > $patch_file  ## cr
 sh   diff --side-by-side --left-column $lf $rf  ## print $lf; $rf diffs in right column (-y --left-column)
 sh   dig -x 89.39.107.195  ## reverse lookup own public ip
 sh   dircolors --print-ls-colors  ## evaluate $LS_COLORS colors
-sh   dirname $filename  ## print $filename without last component
+sh   dirname $filepath  ## print $filepath without last component
 sh   dotfbu restore $XDG_DATA_HOME/c/git/dotf $XDG_CONFIG_HOME  ## restore oxo configuration
 sh   dotool --list-keys  ## list keys
 sh   dotool --list-x-keys  ## list x11 xkb keys
@@ -449,7 +451,8 @@ sh   echo ${a:=b}  ## parameter expansion; if [ -z $a ]; then assign 'b'
 sh   echo ${a:-b}  ## parameter expansion; if [ -z $a ]; then return 'b'
 sh   echo ${a% *}  ## key when a='key value'
 sh   echo ${a##* }  ## value when a='key value'
-sh   echo $filepath | sed 's#.*/##'  ## basename using sed (remove all until last /)
+sh   echo ${filepath##*/}  ## emulate basename with parameter expansion
+sh   echo $filepath | sed 's#.*/##'  ## emulate basename using sed (remove all until last /)
 sh   echo ${HOME##*/}  ## parameter expansion; remove */ long head; delete until last match (*/) from head (##); remove */ until last instance ('oxo')
 sh   echo ${HOME%%/*}  ## parameter expansion; remove /* long tail; delete from last match (/*) from tail (%%); remove /* from first instance ('')
 sh   echo ${HOME#*/}  ## parameter expansion; remove */ short head; delete until first match (*/) from head (#); remove */ until first instance ('home/oxo')
@@ -458,6 +461,7 @@ sh   echo '$idVendor:$idProduct:u' | sudo dd of=/sys/module/usb_storage/paramete
 sh   echo $?  ## print exit code of the last executed command
 sh   echo $(( RANDOM%95 + 32 ))  ## generate pseudorandom integer between 32 and 127 (included)
 sh   echo $RANDOM  ## pseudorandom integer (0-32767)
+sh   echo ${realpath%/*}  ## emulate dirname
 sh   echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
 sh   echo ${variable%%pattern}  ##remove longest match from end of variable
 sh   echo ${variable##pattern}  ##remove longest match from start of variable
@@ -806,7 +810,7 @@ sh   readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $
 sh   readlink -f $symlink  ## print symbolic links' canonical (absolute path) file name
 sh   read -r input  ## zz1; variable is assigned
 sh   realpath $dir_in_home | sed "s#$HOME##"  ## remove "$HOME" from $dir_in_home
-sh   realpath file  ## return canonical file name (absolute path)
+sh   realpath $file  ## return canonical file name (absolute path); $(dirname $file)/$(basename $file)
 sh   reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 --latest 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
 sh   rename --all ' ' _ *  ## replace all spaces with underscores in filename
 sh   rename 'part' 'name' filepart  ## replace 'part' with 'name' in filepart (filepart -> filename)
@@ -956,7 +960,8 @@ sh   user='a'; admin='user'; echo ${!admin}  ## bash indirect parameter expansio
 sh   user='a'; admin='user'; echo ${(P)admin}  ## zsh indirect parameter expansion, with P flag
 sh   usermod -a -G $group $user  ## add user to group
 sh   #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
-sh   var1=a; var2=b; var3=c; counter=2; naka=var$counter; echo $naka  ## dynamic variable names #TODO desired result is: b
+sh   var1=a; var2=b; var3=c; counter=2; naka="var$counter"; echo "${!naka}"  ## bash indirect referencing; treat a value (naka) as variable name
+sh   var1=a; var2=b; var3=c; counter=2; naka="var$counter"; echo "${(P)naka}"  ## zsh indirect referencing; treat a value (naka) as variable name
 sh   vim "+call cursor(line('$') - 1, 1)" $HISTFILE; wl-copy --clear  ## open history in vim on previous command [dd ZZ]
 sh   vlock --all  ## console lock all sessions
 sh   watch --differences --no-title --interval 1 $command  ## default watch command
