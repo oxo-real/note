@@ -122,8 +122,8 @@ diff <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t
 dig -x 89.39.107.195  ## reverse lookup own public ip
 dircolors --print-ls-colors  ## evaluate $LS_COLORS colors
 dirname $filepath  ## print $filepath without last component
-echo ${realpath%/*}  ## emulate dirname
-dotfbu restore $XDG_DATA_HOME/c/git/dotf $XDG_CONFIG_HOME  ## restore oxo configuration
+echo ${filepath%/*}  ## emulate dirname
+dotfbu restore $XDG_DATA_HOME/c/git/dotf $XDG_CONFIG_HOME  ## restore oxo system configuration
 dotool --list-keys  ## list keys
 dotool --list-x-keys  ## list x11 xkb keys
 echo type hello | dotool  ## test dotool proper working
