@@ -863,18 +863,18 @@ sh   setopt nomatch; printf '%s\n' $directory/*.{gz,xz,zst} | sed '/\*/d'  ## li
 sh   setopt +o nomatch; printf '%s\n' /var/cache/pacman/pkg/*.{gz,xz,zst} | sed '/\*/d' | sed 's#.*/##' | awk -F '-[0-9]+' '{print $1}' | sort | uniq  ## package names from package cache *.{gz,xz,zst} files (package.list)
 sh   setopt  ## print set zshell options
 sh   setterm -reset  ## same as tput reset, setterm has more user friendly commands
-sh   sha512sum --check --quiet sha512sums  ## read checksums from sha512sums and check them
-sh   sha512sum * > sha512sums  ##  compute sha512 checksums in current directory
+sh   sha3-512sum * > $sha3-512sums  ##  compute sha3-512 checksums in current directory
+sh   sha3-512sum --check --quiet $sha3-512sums  ## read checksums from sha3-512sums and verify
 sh   showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 sh   shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 sh   shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 100 and show first (pseudorandom number generator)
 sh   simple-mtpfs --list-devices  ## list mountable mtp devices
 sh   simple-mtpfs -o allow_other --device 1 $HOME/dock/mobile  ## mount mtp device 1
 sh   sort < $file | sort -nr > $file_sort_freq  ## reverse numerical sort
-sh   sort $file | uniq --count | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
+sh   sort $file | uniq --count | sort -k 1,1nr -k 2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
 sh   sort < $file | uniq --unique > $file_uniq  ## unique lines
 sh   sort $HISTFILE | uniq --count | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
-sh   sort -k2,2nr  ## numeric reversed sort only on column 2, not to eol
+sh   sort -k 2,2nr  ## numeric reversed sort only on column 2, not to eol
 sh   source $function_text_appearance; printf "$(FHX ffbf00)$(BHX 0040ff)%s${NOC}\n" "$text"  ## hexadecimal 24 bit color codes in printf (fore- & background)
 sh   split $file -b N  ## split $file into files with N bytes
 sh   split $file -l N  ## split $file into files with N lines

@@ -514,11 +514,11 @@ set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset va
 setfont ter-v32n  ## set console font
 setopt  ## print set zshell options
 setopt interactive_comments  ## zsh threats string after '#' as comment (unsetopt disables)
+setopt nomatch; printf '%s\n' $directory/*.{gz,xz,zst} | sed '/\*/d'  ## list gz, xz and zst files (sed removes reported nomatches)
 setopt $option  ## set (enable) zshell option
 unsetopt $option  ## unset (disable) zshell option
-setopt nomatch; printf '%s\n' $directory/*.{gz,xz,zst} | sed '/\*/d'  ## list gz, xz and zst files (sed removes reported nomatches)
-sha512sum * > sha512sums  ##  compute sha512 checksums in current directory
-sha512sum --check --quiet sha512sums  ## read checksums from sha512sums and check them
+sha3-512sum * > $sha3-512sums  ##  compute sha3-512 checksums in current directory
+sha3-512sum --check --quiet $sha3-512sums  ## read checksums from sha3-512sums and verify
 showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 100 and show first (pseudorandom number generator)
@@ -529,10 +529,10 @@ simple-mtpfs --list-devices  ## list mountable mtp devices
 simple-mtpfs -o allow_other --device 1 $HOME/dock/mobile  ## mount mtp device 1
 echo 'string2sort' | grep -o . | sort | tr -d "\n"  ## sort chars in string
 sort $HISTFILE | uniq --count | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
-sort -k2,2nr  ## numeric reversed sort only on column 2, not to eol
+sort -k 2,2nr  ## numeric reversed sort only on column 2, not to eol
 sort < $file | sort -nr > $file_sort_freq  ## reverse numerical sort
 sort < $file | uniq --unique > $file_uniq  ## unique lines
-sort $file | uniq --count | sort -k1,1nr -k2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
+sort $file | uniq --count | sort -k 1,1nr -k 2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
 source $function_text_appearance; printf "$(FHX ffbf00)$(BHX 0040ff)%s${NOC}\n" "$text"  ## hexadecimal 24 bit color codes in printf (fore- & background)
 split $file -b N  ## split $file into files with N bytes
 split $file -l N  ## split $file into files with N lines
