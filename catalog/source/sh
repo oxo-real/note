@@ -63,7 +63,6 @@ cat $split_file1 $split_file2  ## join split files
 echo hello > >(sha512sum > file_with_hello_sha512.hash)  ## process substitution (instead of filename) writing to list >()
 < /etc/group  ## list all user groups
 cd $(fd --type d --hidden . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)  ## fzf cd from $HOME, spacebar for info box
-cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
 cd ${PWD/share\/b/share\/c}  ## from backup to current tree
 cd /usr/lib/modules/$(uname -r)  ## active os kernel modules
 cd /var/lib/pacman/local  ## pacman install directory
@@ -223,6 +222,8 @@ fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem i
 fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 getent ahosts $url  ## get ip address from name service switch library database ahost
 git -C $path $command  ## run $command as if git was started in $path
+git -C $HOME/.config/hosts switch blocklist_on  ## activate network blocklist
+git clone https://codeberg.org/oxo/hajime $XDG_DATA_HOME/c/git/code/hajime  ## git clone to specific directory
 git config --show-scope --show-origin --list  ## origin and scope of git configuration
 git fetch $repo  ## download changes from remote repo without merging locally
 git merge $repo/$branch  ## incorporate fetched changes into local branch
