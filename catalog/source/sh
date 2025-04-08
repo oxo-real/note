@@ -1,4 +1,4 @@
-#! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
+#! /usr/bin/env sh  ## shebang (crunchbang) interpreter directive; search $PATH for sh
 ~+  ## alias $PWD
 ~-  ## alias $OLDPWD
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
@@ -121,7 +121,7 @@ diff <(echo $(uname -r | grep --only-matching '[[:digit:]]' | tr -d '[:blank:]\t
 dig -x 89.39.107.195  ## reverse lookup own public ip
 dircolors --print-ls-colors  ## evaluate $LS_COLORS colors
 dirname $filepath  ## print $filepath without last component
-echo ${filepath%/*}  ## emulate dirname
+echo ${filepath%/*}  ## emulate dirname with parameter expansion
 dotfbu restore $XDG_DATA_HOME/c/git/dotf $XDG_CONFIG_HOME  ## restore oxo system configuration
 dotool --list-keys  ## list keys
 dotool --list-x-keys  ## list x11 xkb keys
@@ -137,7 +137,14 @@ e2label /dev/X $label  ## write device label
 echo "obase=02; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to binary conversion
 echo "obase=10; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to decimal conversion
 echo "obase=16; ibase=10; $dec" | bc  ## bc dec (10) to hex (16) conversion
-echo $(( 1 ^ 2 ))  ## decimal value of xor 1 and 2 (xor 01 and 10 = 11)
+echo "obase=02; ibase=10; $dec" | bc  ## bc dec (10) to bin (02) conversion
+echo $(( 2#10 ))  ## decimal vailue of binary 10
+echo $(( ~ 10 ))  ## bitwise NOT (all bits inverted)
+echo $(( 10 & 2 ))  ## bitwise AND (output 1 if both input bits are 1 else 0)
+echo $(( 10 | 2 ))  ## bitwise OR (output 1 if at least one of the input bits is 1 else 0)
+echo $(( 10 ^ 2 ))  ## bitwise XOR (output 1 if only one of the input bits is 1 else 0)
+echo $(( 10 << 2 ))  ## bitwise LEFT shift (adding zeros at least significant bitside; multiplication)
+echo $(( 10 >> 2 ))  ## bitwise RIGHT shift (removing bits from least significant bitside; division)
 echo -n $string | base64  ## base64 encoding
 echo $?  ## print exit code of the last executed command
 echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
@@ -509,6 +516,7 @@ sed '/$find/{n;s/.*/$replace/}' $file  ## find $find and replace next line with 
 sed -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
 sed '/comm/s/./#&/' $file  ## comment lines containing 'comm' (add #; add '## ': /## &/)
 sed '/no_comm/s/^[ \t]*#\+ *//' $file  ## uncomment lines containing 'no_comm' (remove #)
+sed -n '1,10p' $file  ## sed emulate head
 printf $s2ls | sed 's/./\0\n/g'  ## print each character of a string on a separate line (string to lines)
 set -euo pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail
 set -o errexit -o nounset -o pipefail  ## exit on: -e command error, -u unset variable expansion error, -o pipefail

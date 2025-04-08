@@ -367,7 +367,6 @@ sh   cat -n $file  ## line number cat
 sh   cat /proc/cmdline  ## view current kernel parameters
 sh   cat -vE $file  ## prevent cat shell injection
 sh   cd $(fd --type d --hidden . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)  ## fzf cd from $HOME, spacebar for info box
-sh   cd $HOME/.config/hosts; git switch blocklist_on; cd -  ## activate network blocklist
 sh   cd ${PWD/share\/b/share\/c}  ## from backup to current tree
 sh   cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
 sh   cd /usr/lib/modules/$(uname -r)  ## active os kernel modules
@@ -445,14 +444,20 @@ sh   du --bytes --si --human-readable --separate-dirs --total --all $directory |
 sh   du -sbh $directory  ## directory usage; total size of all content in directory
 sh   e2label /dev/X $label  ## write device label
 sh   e2label /dev/X  ## read device label
-sh   echo $(( 1 ^ 2 ))  ## decimal value of xor 1 and 2 (xor 01 and 10 = 11)
+sh   echo $(( 10 & 2 ))  ## bitwise AND (output 1 if both input bits are 1 else 0)
+sh   echo $(( 10 << 2 ))  ## bitwise LEFT shift (adding zeros at least significant bitside; multiplication)
+sh   echo $(( 10 | 2 ))  ## bitwise OR (output 1 if at least one of the input bits is 1 else 0)
+sh   echo $(( 10 >> 2 ))  ## bitwise RIGHT shift (removing bits from least significant bitside; division)
+sh   echo $(( 10 ^ 2 ))  ## bitwise XOR (output 1 if only one of the input bits is 1 else 0)
+sh   echo $(( ~ 10 ))  ## bitwise NOT (all bits inverted)
+sh   echo $(( 2#10 ))  ## decimal vailue of binary 10
 sh   echo ${a/b/c}  ## in parameter a, replace first b (//b all) by c (a=abc echos acc)
 sh   echo ${a:=b}  ## parameter expansion; if [ -z $a ]; then assign 'b'
 sh   echo ${a:-b}  ## parameter expansion; if [ -z $a ]; then return 'b'
 sh   echo ${a% *}  ## key when a='key value'
 sh   echo ${a##* }  ## value when a='key value'
 sh   echo ${filepath##*/}  ## emulate basename with parameter expansion
-sh   echo ${filepath%/*}  ## emulate dirname
+sh   echo ${filepath%/*}  ## emulate dirname with parameter expansion
 sh   echo $filepath | sed 's#.*/##'  ## emulate basename using sed (remove all until last /)
 sh   echo ${HOME##*/}  ## parameter expansion; remove */ long head; delete until last match (*/) from head (##); remove */ until last instance ('oxo')
 sh   echo ${HOME%%/*}  ## parameter expansion; remove /* long tail; delete from last match (/*) from tail (%%); remove /* from first instance ('')
@@ -480,6 +485,7 @@ sh   echo hello > >(sha512sum > file_with_hello_sha512.hash)  ## process substit
 sh   echo hello &| tee -a $logfile  ## stderr append to stdout; append both to $logfile (shorthand notation)
 sh   echo -n $string | base64  ## base64 encoding
 sh   echo -n '☯' | od --address-radix n --format x1 | sed 's/ /\\x/g'  ## 3 byte hex code from utf8 character
+sh   echo "obase=02; ibase=10; $dec" | bc  ## bc dec (10) to bin (02) conversion
 sh   echo "obase=02; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to binary conversion
 sh   echo "obase=10; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to decimal conversion
 sh   echo "obase=16; ibase=10; $dec" | bc  ## bc dec (10) to hex (16) conversion
@@ -551,7 +557,9 @@ sh   free -m  ## free and used memory in system
 sh   fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 sh   fuser -vmM $file_system  ## display PIDs using file / file(system) (filesystem in mount)
 sh   getent ahosts $url  ## get ip address from name service switch library database ahost
+sh   git -C $HOME/.config/hosts switch blocklist_on  ## activate network blocklist
 sh   git -C $path $command  ## run $command as if git was started in $path
+sh   git clone https://codeberg.org/oxo/hajime $XDG_DATA_HOME/c/git/code/hajime  ## git clone to specific directory
 sh   git config --show-scope --show-origin --list  ## origin and scope of git configuration
 sh   git fetch $repo  ## download changes from remote repo without merging locally
 sh   git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  ## git hist
@@ -845,6 +853,7 @@ sh   sed '2,$d' $file  ## delete all lines from line 2 from $file
 sh   sed '2,3 d' $file  ## delete line 2 and 3 from $file
 sh   sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sh   sed '/comm/s/./#&/' $file  ## comment lines containing 'comm' (add #; add '## ': /## &/)
+sh   sed -n '1,10p' $file  ## sed emulate head
 sh   sed -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
 sh   sed 'ni insert this at line n of file' $file  ## insert string at line n
 sh   sed '/no_comm/s/^[ \t]*#\+ *//' $file  ## uncomment lines containing 'no_comm' (remove #)
@@ -959,7 +968,7 @@ sh   uptime  ## uptime since boot
 sh   user='a'; admin='user'; echo ${!admin}  ## bash indirect parameter expansion (variable is not an array)
 sh   user='a'; admin='user'; echo ${(P)admin}  ## zsh indirect parameter expansion, with P flag
 sh   usermod -a -G $group $user  ## add user to group
-sh   #! /usr/bin/env sh  ## shebang interpreter directive; search $PATH for sh
+sh   #! /usr/bin/env sh  ## shebang (crunchbang) interpreter directive; search $PATH for sh
 sh   var1=a; var2=b; var3=c; counter=2; naka="var$counter"; echo "${!naka}"  ## bash indirect referencing; treat a value (naka) as variable name
 sh   var1=a; var2=b; var3=c; counter=2; naka="var$counter"; echo "${(P)naka}"  ## zsh indirect referencing; treat a value (naka) as variable name
 sh   vim "+call cursor(line('$') - 1, 1)" $HISTFILE; wl-copy --clear  ## open history in vim on previous command [dd ZZ]
