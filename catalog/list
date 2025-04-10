@@ -600,6 +600,7 @@ sh   grep bindkey $XDG_CONFIG_HOME/zsh/.zshrc  ## zsh keybinding related lines
 sh   grep bindsym $XDG_CONFIG_HOME/sway/config  ## sway keybinding related lines
 sh   grep '^[[:blank:]]*[^[:blank:]#;]' $file  ## only lines not (2nd ^) starting (1st ^) with # or ; uncommented lines from file
 sh   grep '^[[:blank:]]*[^[:blank:]#;]' $XDG_CONFIG_HOME/alacritty/alacritty.yml | grep 'key:'  ## alacritty active (no outcommented) keybindings
+sh   grep '^c ' $XDG_CONFIG_HOME/.fpcl | sed 's/^c //' | xargs -I {} cp -r {} $dst/  ## #TODO not tested copy c marked directories in fpcl file to $dst
 sh   grep --invert-match '^#' "$BKMS" | fzf | awk -F '[()]' '{print $2}' | wl-copy  ## copy bookmark url
 sh   grep --invert-match '^#' "$BKMS" | fzf | awk -F '[()]' '{print $2}' | xargs echo type | dotool  ## insert bookmark url
 sh   grep -riIl 'text' $directory  ## find files (no binary) containing text recursively in $directory
@@ -853,6 +854,7 @@ sh   sed '2,$d' $file  ## delete all lines from line 2 from $file
 sh   sed '2,3 d' $file  ## delete line 2 and 3 from $file
 sh   sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sh   sed '/comm/s/./#&/' $file  ## comment lines containing 'comm' (add #; add '## ': /## &/)
+sh   sed -i.bak "/^${user}:/ s/^${user}:!/\1:/" /etc/shadow  ##
 sh   sed -n '1,10p' $file  ## sed emulate head
 sh   sed -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
 sh   sed 'ni insert this at line n of file' $file  ## insert string at line n
@@ -904,6 +906,7 @@ sh   sudo -k; free -h; echo; for i in {1..3}; do; sudo sysctl -w vm.drop_caches=
 sh   sudo -k  ## (--reset timestamp) invalidate user cached credentials
 sh   sudo -l  ## (--list) list user privileges
 sh   sudo -n echo >/dev/null 2>&1; echo $?  ## print credential cache status (1 no 0 cache)
+sh   sudo passwd -u $user  ## enable password for user
 sh   sudo rfkill unblock bluetooth && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off  ## bluetooth radio on
 sh   sudo -v  ## (--validate) validate user cached credentials
 sh   swaymsg -t get_outputs  ## list current sway outputs
