@@ -925,6 +925,7 @@ sh   systemctl list-unit-files  ## list available unit files
 sh   systemctl list-units  ## list all units in memory
 sh   systemctl start sshd.service  ## start sshd service (restart, stop)
 sh   systemctl status $pttrn_pid  ## runtime status for unit with $pttrn or $pid
+sh   systemctl --user --now start pipewire pipewire-pulse wireplumber  ## start pipewire audio server and wireplumber session manager
 sh   systemctl --user start emacs.service  ## start service in user space
 sh   systemd-analyze  ## analyze and debug system boot-up performance
 sh   systemd-analyze blame  ## how long it took to start each unit (process)
