@@ -232,6 +232,7 @@ git -C $path $command  ## run $command as if git was started in $path
 git -C $HOME/.config/hosts switch blocklist_on  ## activate network blocklist
 git clone https://codeberg.org/oxo/hajime $XDG_DATA_HOME/c/git/code/hajime  ## git clone to specific directory
 git config --show-scope --show-origin --list  ## origin and scope of git configuration
+git diff -C $directory HEAD -- $file  ## changes in directory/file since last commit
 git fetch $repo  ## download changes from remote repo without merging locally
 git merge $repo/$branch  ## incorporate fetched changes into local branch
 git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  ## git hist
@@ -241,10 +242,10 @@ git pull $repo  ## fetching and merging remote repository
 git push [-u] $repo $branch  ## -u sets the upstream tracking branch directly
 git reset --hard 2db93df  ## back to a previous commit
 gnutls-cli -d 1 grc.com -p 443  ## get certificate info
-gpg --armor --export ID > ID.puk.gpg  ## export public key ascii armored id
+gpg --armor --export $kid > $kid.puk.gpg  ## export public key ascii armored id
 gpg --detach-sign --local-user 0x12345678 $file  ## sign $file with specific secret key
-gpg --edit-key ID >  ## edit public key
-gpg --export ID > ID.puk.gpg  ## export public key binary
+gpg --edit-key $kid >  ## edit public key
+gpg --export $kid > $kid.puk.gpg  ## export public key binary
 gpg --export --export-options backup --output public_keys.gpg  ## step 1 backup gpg identity (public keys)
 gpg --export-secret-keys --export-options backup --output private_keys.gpg  ## step 2 backup gpg identity (private keys)
 gpg --export-ownertrust > trust_db.gpg  ## step 3 backup gpg identity (trust database)
@@ -253,7 +254,7 @@ gpg --import private_keys.gpg  ## step 2 restore gpg identity (private keys)
 gpg --import-ownertrust trust_db.gpg  ## step 3 restore gpg identity (trust database)
 gpg --fingerprint | grep -i -B 1 $uid_email | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
 gpg --expert --full-generate-key  ## generate new keypair
-gpg --import ID >  ## import public key
+gpg --import $kid  ## import public key by key id
 gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 2 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list (grep -B 1 if keygrip is not shown)
 gpg --output ID.puk.asc --armor --export ID >  ## export public key ascii armored
 gpg --output file --decrypt file.gpg >  ## decrypt file.gpg asymmetric using private key

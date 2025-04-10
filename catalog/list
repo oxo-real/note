@@ -561,6 +561,7 @@ sh   git -C $HOME/.config/hosts switch blocklist_on  ## activate network blockli
 sh   git -C $path $command  ## run $command as if git was started in $path
 sh   git clone https://codeberg.org/oxo/hajime $XDG_DATA_HOME/c/git/code/hajime  ## git clone to specific directory
 sh   git config --show-scope --show-origin --list  ## origin and scope of git configuration
+sh   git diff -C $directory HEAD -- $file  ## changes in directory/file since last commit
 sh   git fetch $repo  ## download changes from remote repo without merging locally
 sh   git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  ## git hist
 sh   git log --oneline  ## list of commits
@@ -570,19 +571,19 @@ sh   git pull $repo  ## fetching and merging remote repository
 sh   git push [-u] $repo $branch  ## -u sets the upstream tracking branch directly
 sh   git reset --hard 2db93df  ## back to a previous commit
 sh   gnutls-cli -d 1 grc.com -p 443  ## get certificate info
-sh   gpg --armor --export ID > ID.puk.gpg  ## export public key ascii armored id
+sh   gpg --armor --export $kid > $kid.puk.gpg  ## export public key ascii armored id
 sh   gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk 'BEGIN{CACHED=0} /^S/ {if($7==1){CACHED=1}} END{if($0!=""){print CACHED} else {print "0"}}'  ## gpg cache status (1=cached)
 sh   gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
 sh   gpg --detach-sign --local-user 0x12345678 $file  ## sign $file with specific secret key
 sh   gpg -e -a -r $id file  ## encrypt file armored for recipient $id (like pass)
-sh   gpg --edit-key ID >  ## edit public key
+sh   gpg --edit-key $kid >  ## edit public key
 sh   gpg --expert --full-generate-key  ## generate new keypair
+sh   gpg --export $kid > $kid.puk.gpg  ## export public key binary
 sh   gpg --export --export-options backup --output public_keys.gpg  ## step 1 backup gpg identity (public keys)
-sh   gpg --export ID > ID.puk.gpg  ## export public key binary
 sh   gpg --export-ownertrust > trust_db.gpg  ## step 3 backup gpg identity (trust database)
 sh   gpg --export-secret-keys --export-options backup --output private_keys.gpg  ## step 2 backup gpg identity (private keys)
 sh   gpg --fingerprint | grep -i -B 1 $uid_email | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
-sh   gpg --import ID >  ## import public key
+sh   gpg --import $kid  ## import public key by key id
 sh   gpg --import-ownertrust trust_db.gpg  ## step 3 restore gpg identity (trust database)
 sh   gpg --import private_keys.gpg  ## step 2 restore gpg identity (private keys)
 sh   gpg --import public_keys.gpg  ## step 1 restore gpg identity (public keys)
