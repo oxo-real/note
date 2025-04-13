@@ -862,6 +862,7 @@
 │   │       ├── 40-usb_modeswitch.rules
 │   │       └── README.md
 │   ├── nmcli
+│   │   ├── etc-nm-system-connections
 │   │   └── nmcli-101
 │   ├── tor
 │   │   └── qb_tor
@@ -1000,5 +1001,5 @@
 └── zzz_deprecated
     └── xab
 
-212 directories, 788 files
+212 directories, 789 files
 ```

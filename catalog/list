@@ -563,13 +563,15 @@ sh   git clone https://codeberg.org/oxo/hajime $XDG_DATA_HOME/c/git/code/hajime 
 sh   git config --show-scope --show-origin --list  ## origin and scope of git configuration
 sh   git diff -C $directory HEAD -- $file  ## changes in directory/file since last commit
 sh   git fetch $repo  ## download changes from remote repo without merging locally
+sh   git log -1  ## show commit log of last 1 commit (HEAD)
 sh   git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  ## git hist
 sh   git log --oneline  ## list of commits
 sh   git log --patch  ## generate patch
 sh   git merge $repo/$branch  ## incorporate fetched changes into local branch
 sh   git pull $repo  ## fetching and merging remote repository
 sh   git push [-u] $repo $branch  ## -u sets the upstream tracking branch directly
-sh   git reset --hard 2db93df  ## back to a previous commit
+sh   git reset --hard 2db93df  ## back to a previous commit id
+sh   git rev-parse HEAD | cut --characters 1-10  ## HEAD commit id (online repo syntax)
 sh   gnutls-cli -d 1 grc.com -p 443  ## get certificate info
 sh   gpg --armor --export $kid > $kid.puk.gpg  ## export public key ascii armored id
 sh   gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk 'BEGIN{CACHED=0} /^S/ {if($7==1){CACHED=1}} END{if($0!=""){print CACHED} else {print "0"}}'  ## gpg cache status (1=cached)

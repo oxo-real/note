@@ -238,9 +238,11 @@ git merge $repo/$branch  ## incorporate fetched changes into local branch
 git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  ## git hist
 git log --oneline  ## list of commits
 git log --patch  ## generate patch
+git log -1  ## show commit log of last 1 commit (HEAD)
 git pull $repo  ## fetching and merging remote repository
 git push [-u] $repo $branch  ## -u sets the upstream tracking branch directly
-git reset --hard 2db93df  ## back to a previous commit
+git reset --hard 2db93df  ## back to a previous commit id
+git rev-parse HEAD | cut --characters 1-10  ## HEAD commit id (online repo syntax)
 gnutls-cli -d 1 grc.com -p 443  ## get certificate info
 gpg --armor --export $kid > $kid.puk.gpg  ## export public key ascii armored id
 gpg --detach-sign --local-user 0x12345678 $file  ## sign $file with specific secret key

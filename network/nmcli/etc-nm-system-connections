@@ -1,0 +1,6 @@
+
+remove $conn from NetworkManager:
+% sudo su
+# rm /etc/NetworkManager/system-connections/${conn}.nmconnection
+# exit
+% sudo nmcli connection reload
