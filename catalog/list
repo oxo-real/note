@@ -457,7 +457,7 @@ sh   echo ${a:-b}  ## parameter expansion; if [ -z $a ]; then return 'b'
 sh   echo ${a% *}  ## key when a='key value'
 sh   echo ${a##* }  ## value when a='key value'
 sh   echo ${filepath##*/}  ## emulate basename with parameter expansion
-sh   echo ${filepath%/*}  ## emulate dirname with parameter expansion
+sh   echo ${filepath%/*}  ## emulate dirname with parameter expansion (parent dir for $dirpath)
 sh   echo $filepath | sed 's#.*/##'  ## emulate basename using sed (remove all until last /)
 sh   echo ${HOME##*/}  ## parameter expansion; remove */ long head; delete until last match (*/) from head (##); remove */ until last instance ('oxo')
 sh   echo ${HOME%%/*}  ## parameter expansion; remove /* long tail; delete from last match (/*) from tail (%%); remove /* from first instance ('')
