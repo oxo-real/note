@@ -761,6 +761,8 @@ sh   pactree $package  ## show $package dependency tree
 sh   pactree -r $package  ## show $package dependant tree, reverse depedencies, packages that depend on $package
 sh   patch -p0 < $patch_file  ## apply $patch_file (see diff)
 sh   pea () { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}"; done }  ## print entire array: pea array
+sh   perl-rename 's|part|name|g' filepart  ## replace (s) all (g) 'part' with 'name' in filepart (filepart -> filename)
+sh   perl-rename 's/[^\w]+/_/g' *  ## replace (s) all (g) non- (^) alnum (\w) characters (+) in all (*) filenames with underscores
 sh   pim2fa=$(printf $output | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
 sh   ping -D -i 1 -c 3 9.9.9.9  ## send icmp echo_request to quad9, print timestamp, interval 1s, 3 attempts
 sh   pkill -SIGRTMIN+4 i3blocks  ## send signal=4 to i3blocks
@@ -824,7 +826,7 @@ sh   read -r input  ## zz1; variable is assigned
 sh   realpath $dir_in_home | sed "s#$HOME##"  ## remove "$HOME" from $dir_in_home
 sh   realpath $file  ## return canonical file name (absolute path); $(dirname $file)/$(basename $file)
 sh   reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 --latest 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
-sh   rename --all ' ' _ *  ## replace all spaces with underscores in filename
+sh   rename --all ' ' _ *  ## replace all spaces in filenames with underscores
 sh   rename 'part' 'name' filepart  ## replace 'part' with 'name' in filepart (filepart -> filename)
 sh   renice -19 $(pgrep $process_name)  ## give $process_name highest (-19) priority
 sh   reset  ## clear + reset internal terminal state + 1sec delay

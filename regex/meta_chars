@@ -1,5 +1,4 @@
-# regex meta characters are:
+({[]})\^$|?.*+
 
-. [ { ( ) \ ^ $ | ? * +
-
+# regex meta characters
 ## literal use needs escapement
