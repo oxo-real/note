@@ -455,8 +455,10 @@ function chpwd ()
 
     else
 
-	# no write permission directory color #ffbf00
-	local left_bar="%F{#ffffff}%B %~ %b%f"
+	# no write permission directory color
+	# spaces are intended
+	local left_bar="%F{#000000}%K{#ffbf00}%B %~ %b%k%f"
+	# local left_bar="%F{#ffffff}%B %~ %b%f"
 
     fi
 
@@ -486,9 +488,11 @@ function chpwd ()
 
     ## right bar
     ### sigma
-    rb1=$(printf "\e[1;90m∑\e[0m")
+    rb1=$(printf "${fg_teal}${st_bold}%s${st_def}" '∑')
+    # rb1=$(printf "\e[1;90m∑\e[0m")
     ### total count
-    rb2=$(printf "\e[1;90m $ti_cnt \e[0m")
+    rb2=$(printf "${fg_teal}${st_bold} %s ${st_def}" "$ti_cnt")
+    # rb2=$(printf "\e[1;90m $ti_cnt \e[0m")
     ### directories
     rb3=$(printf "\e[1;94;100m $dv_cnt.$dh_cnt \e[0m")
     ### files
@@ -511,9 +515,9 @@ function chpwd ()
     #print $COLUMNS $lb_length $bar_filler_spaces $rb_length
     ### end testing alignment
 
+    print -Pr "$left_bar"
     ## right bar without right edge algnment
     print -Pr "$right_bar"
-    #print -Pr "$left_bar"
     #print -Pr "$left_bar  $right_bar"
 
     # NOTICE presume ls alias with eza_wrapper.sh
