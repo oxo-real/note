@@ -43,7 +43,7 @@ echo $filepath | sed 's#.*/##'  ## emulate basename using sed (remove all until 
 bash -c 'echo $SRANDOM'  ## 32bit pseudo random number
 bind '"\e[0n": "$string"'; printf '\e[5n'  ## inject $string to bash stdin
 bindkey  ## zsh bound keys
-blkid /dev/sda128 | awk '{print $3}' | cut -d '"' -f 2  ## get uuid from /dev/sd
+blkid --match-tag UUID --output value /dev/sda1  ## /dev/sda1 uuid
 bluetoothctl connect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth connect
 bluetoothctl disconnect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth disconnect
 bluetoothctl discoverable off	## bluetooth not broadcast radio device
