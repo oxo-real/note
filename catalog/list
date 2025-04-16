@@ -980,7 +980,8 @@ sh   usermod -a -G $group $user  ## add user to group
 sh   #! /usr/bin/env sh  ## shebang (crunchbang) interpreter directive; search $PATH for sh
 sh   var1=a; var2=b; var3=c; counter=2; naka="var$counter"; echo "${!naka}"  ## bash indirect referencing; treat a value (naka) as variable name
 sh   var1=a; var2=b; var3=c; counter=2; naka="var$counter"; echo "${(P)naka}"  ## zsh indirect referencing; treat a value (naka) as variable name
-sh   vim "+call cursor(line('$') - 1, 1)" $HISTFILE; wl-copy --clear  ## open history in vim on previous command [dd ZZ]
+sh   vim "+call cursor(line('$') - 1, 1)" "$HISTFILE"  ## open history in vim on previous command
+sh   vim "+call cursor(line('$') - 1, 1)" "$HISTFILE"; sed -i "/$(wl-paste)/d" "$HISTFILE"; wl-copy --clear  ## remove lines with selected pattern [dd ZZ] from history
 sh   vlock --all  ## console lock all sessions
 sh   watch --differences --no-title --interval 1 $command  ## default watch command
 sh   wc -l < $file  ## print number of lines in $file (< no filename)
@@ -1080,7 +1081,6 @@ sway bindsym $mod+8		    workspace $ws8
 sway bindsym $mod+9		    workspace $ws9
 sway #bindsym $mod+a			focus parent  ## default
 sway #bindsym $mod+Alt_R+4		$con_hexa 4  ## container toggle float/tile width 4 hexaparts
-sway bindsym $mod+backslash		layout toggle split; exec $csc/layout-ntfy-send
 sway bindsym $mod+b			bar mode toggle
 sway # # bindsym $mod+b		exec killall -SIGUSR1 waybar
 sway #bindsym $mod+bracketleft	workspace prev
@@ -1103,6 +1103,7 @@ sway bindsym $mod+Control+$ua	resize shrink height $resize_major_step px or $res
 sway bindsym $mod+Control+$ui	resize shrink height $resize_minor_step px or $resize_minor_step ppt
 sway bindsym $mod+Control+$up	resize shrink height $resize_regular_step px or $resize_regular_step ppt
 sway bindsym $mod+Control+0		    exec swaymsg opacity 0.0
+sway bindsym $mod+Control+backslash	layout toggle splith splitv stacking tabbed; exec $csc/layout-ntfy-send
 sway bindsym $mod+Control+b 		exec $i3b_cycle
 sway bindsym $mod+Control+Equal	    exec swaymsg opacity 1.0
 sway bindsym $mod+Control+Minus   	    exec swaymsg opacity minus 0.1
@@ -1133,6 +1134,7 @@ sway bindsym $mod+Mod1+7		$con_vfill  ## container toggle float/tile snap fill r
 sway bindsym $mod+Mod1+8		$con_hfill  ## container toggle float/tile snap fill bottom edge
 sway bindsym $mod+Mod1+9		$con_max  ## container maximize
 sway #bindsym $mod+Mod1+9		exec notify-send 'DEV660 sway config'
+sway bindsym $mod+Mod1+backslash	layout toggle split; exec $csc/layout-ntfy-send
 sway bindsym $mod+Mod1+c		exec grim -g "$(slurp -p)" -t ppm - | \
 sway bindsym $mod+Mod1+Comma		$smt S
 sway bindsym $mod+Mod1+i          	$smt N
@@ -1179,7 +1181,7 @@ sway bindsym $mod+Shift+6	    move container to workspace $ws6
 sway bindsym $mod+Shift+7	    move container to workspace $ws7
 sway bindsym $mod+Shift+8	    move container to workspace $ws8
 sway bindsym $mod+Shift+9	    move container to workspace $ws9
-sway bindsym $mod+Shift+backslash	layout toggle splith splitv stacking tabbed; exec $csc/layout-ntfy-send
+sway bindsym $mod+Shift+backslash	layout toggle split; exec $csc/layout-ntfy-send
 sway #bindsym $mod+Shift+b	border toggle
 sway bindsym $mod+Shift+b	    exec swaymsg input $trackpoint \
 sway bindsym $mod+Shift+bracketleft	border toggle

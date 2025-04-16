@@ -634,7 +634,8 @@ uptime  ## uptime since boot
 usermod -a -G $group $user  ## add user to group
 printf "${var1:-$default}"  ## print default variable value if var1 is unset or null
 printf "${var1:=$default}"  ## printf and set default variable value if var1 is unset or null
-vim "+call cursor(line('$') - 1, 1)" $HISTFILE; wl-copy --clear  ## open history in vim on previous command [dd ZZ]
+vim "+call cursor(line('$') - 1, 1)" "$HISTFILE"  ## open history in vim on previous command
+vim "+call cursor(line('$') - 1, 1)" "$HISTFILE"; sed -i "/$(wl-paste)/d" "$HISTFILE"; wl-copy --clear  ## remove lines with selected pattern [dd ZZ] from history
 vlock --all  ## console lock all sessions
 env TERM=xterm watch --differences --no-title --interval 1 lsblk --ascii --tree -o name,uuid,fstype,path,size,fsuse%,fsused,label,mountpoint  ## watch lsblk w/ inverted text
 watch --differences --no-title --interval 1 $command  ## default watch command
