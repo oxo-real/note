@@ -345,7 +345,7 @@ sh   basename $filepath  ## print filename without any leading directory compone
 sh   bash -c 'echo $SRANDOM'  ## 32bit pseudo random number
 sh   bind '"\e[0n": "$string"'; printf '\e[5n'  ## inject $string to bash stdin
 sh   bindkey  ## zsh bound keys
-sh   blkid /dev/sda128 | awk '{print $3}' | cut -d '"' -f 2  ## get uuid from /dev/sd
+sh   blkid --match-tag UUID --output value /dev/sda1  ## /dev/sda1 uuid
 sh   bluetoothctl connect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth connect
 sh   bluetoothctl disconnect $(bluetoothctl devices | fzf | awk '{print $2}') && bluetoothctl info  ## bluetooth disconnect
 sh   bluetoothctl discoverable off	## bluetooth not broadcast radio device
