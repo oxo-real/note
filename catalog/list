@@ -332,6 +332,7 @@ sh   amixer set Master playback volume 30 unmute  ## alsamixer unmute playback v
 sh   apropos . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage (man -k)
 sh   apropos keyword  ## search man page names and descriptions
 sh   arecord --vumeter stereo audio.wav  ## record wave audio
+sh   args="$@"; getargs () { while :; do case "$1" in a ) a=1; shift;; * ) return;; esac; done }; getargs $args  ## process command arguments
 sh   ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters (0x20-0x7e 0d32-0d126)
 sh   awk '!($1="")' $file  ## remove column 1
 sh   awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'  ## reverse lines (emulate tac)

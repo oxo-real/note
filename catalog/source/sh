@@ -723,6 +723,7 @@ chmod 0777  ## -rwxrwxrwx 	ugo	rwx	read	write	execute
 chmod 0700  ## -rwx------ 	u	rwx	g	-	o	-
 chmod 0740  ## -rwxr----- 	u	rwx	g	r	o	-
 chmod 0770  ## -rwxrwx--- 	u	rwx	g	rwx	o	-
+args="$@"; getargs () { while :; do case "$1" in a ) a=1; shift;; * ) return;; esac; done }; getargs $args  ## process command arguments
 case $expr in pattern1) echo 1 ;; ptrn2) echo 2 ;; *) echo 3 ;; esac  ## case statement basic structure
 if [[ $i -eq 0 ]]; then; echo 0; elif [[ $i -lt 0 ]]; then; echo neg; else; echo pos; fi  ## if elif else statement basic structure
 for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded list values
