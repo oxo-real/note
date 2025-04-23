@@ -310,6 +310,7 @@ qb   config.bind('-', 'zoom-out')
 qb   config.bind('ZQ', 'quit')
 qb   config.bind('ZZ', 'quit --save')
 sh   < ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
+sh   $_  ## arguments of last command; i.e. after mkdir, do: cd $_
 sh   $(command)  ## command substitution; gets the result of command
 sh   $command <<- EOF >> $file\n multi\nline\ntext\nmlt\nEOF\n  ## input read until EOF (<< heredoc) to command, strip leading tabs from mlt (-), EOF can be any unique limit string
 sh   $(( expression ))  ## arithmetic expansion; gets the result of $expression
@@ -331,6 +332,7 @@ sh   amixer set Internal Mic Capture volume 0 nocap  ## alsamixer mute mic
 sh   amixer set Master playback volume 30 unmute  ## alsamixer unmute playback volume 30
 sh   apropos . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage (man -k)
 sh   apropos keyword  ## search man page names and descriptions
+sh   arecord -D default -f cd -r 44100 -t wav --vumeter stereo test.wav  ## record wav 44100 Hz
 sh   arecord --vumeter stereo audio.wav  ## record wave audio
 sh   args="$@"; getargs () { while :; do case "$1" in a ) a=1; shift;; * ) return;; esac; done }; getargs $args  ## process command arguments
 sh   ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters (0x20-0x7e 0d32-0d126)
@@ -538,6 +540,7 @@ sh   find . -maxdepth 1 -type l -exec cp -d {} $HOME/.dot \;  ## find symlinks a
 sh   find . -maxdepth 1 -xtype l -print  ## find broken symlinks in current directory (faster than fd alternative)
 sh   find . | sed -e 's;[^/]*/;|____;g;s;____|; |;g'  ## similar to: find . | tree
 sh   find . -type f -exec mv {} $dest \;  ## find all files and move them to $dest directory
+sh   find . -type f -mmin -230 -print0 | rsync -aAXv --info=progress2,stats --progress --from0 --files-from - . dst  ## find to stdout, stdin to rsync (hpr)
 sh   find . -type f ! -newermt "2018-12-31" -delet3  ## find and delete all files older (not newer) than date
 sh   find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print  ## find broken symbolic links
 sh   find /var/cache/pacman/pkg -type f -name "*.gz" -o -name "*.xz" -o -name "*.zst" | sed 's#.*/##' | awk -F '-[0-9]+' '{print $1}' | sort | uniq  ## package names from package cache *.{gz,xz,zst} files (package.list)
@@ -842,7 +845,7 @@ sh   rmmod $module  ## remove $module from linux kernel
 sh   rm -rf -- '-r'  ## remove entire directory starting with a '-'
 sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') $source/ $destination  ## basic oxo rsync with logging
 sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
-sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w files from patterns
+sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w include patterns
 sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --rsh=ssh $source $user@$host:/directory  ## basic oxo rsync w remote ssh shell
 sh   rsync -aAXv --delete --info=progress2,stats --progresss --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --dry-run $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## dry run backup_c2b
 sh   rsync -aAXv --hard-links --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/var/lib/dhcpcd/*","/lost+found","$dst/*"} / $dst  ## full system backup

@@ -4,6 +4,7 @@
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 < $file  ## less $file (via READNULLCMD)
 < ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
+$_  ## arguments of last command; i.e. after mkdir, do: cd $_
 apropos . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage (man -k)
 echo hello 1> $file  ## stdout redirect to $file
 echo hello 2>> $file   ## stderr redirect append to $file
@@ -21,6 +22,7 @@ amixer set Capture toggle && amixer get Capture | grep '\[off\]' && notify-send 
 amixer set Master playback volume 30 unmute  ## alsamixer unmute playback volume 30
 apropos keyword  ## search man page names and descriptions
 arecord --vumeter stereo audio.wav  ## record wave audio
+arecord -D default -f cd -r 44100 -t wav --vumeter stereo test.wav  ## record wav 44100 Hz
 ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters (0x20-0x7e 0d32-0d126)
 number=$(printf '%s' "$ASCII" | cut --characters 17-26)  ## 10 number characters from $ASCII
 upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## 26 uppercase letter characters from $ASCII
@@ -497,10 +499,11 @@ rm -rf -- '-r'  ## remove entire directory starting with a '-'
 rmmod $module  ## remove $module from linux kernel
 rsync --recursive $src $dst  ## create intervening directory $dst/$src; with all content of $src
 rsync --recursive $src/ $dst  ## copy $src content 'flat' into $dst (like cp $src/.) NOTICE rsync trailing slash caveat
+find . -type f -mmin -230 -print0 | rsync -aAXv --info=progress2,stats --progress --from0 --files-from - . dst  ## find to stdout, stdin to rsync (hpr)
 rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') $source/ $destination  ## basic oxo rsync with logging
 rsync -aAXv --delete --info=progress2,stats --progresss --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --dry-run $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## dry run backup_c2b
 rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
-rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w files from patterns
+rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w include patterns
 rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --rsh=ssh $source $user@$host:/directory  ## basic oxo rsync w remote ssh shell
 rsync -aAXv --hard-links --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/var/lib/dhcpcd/*","/lost+found","$dst/*"} / $dst  ## full system backup
 script; $command; exit  ## $command execution typescript user log
