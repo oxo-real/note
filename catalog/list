@@ -310,7 +310,7 @@ qb   config.bind('-', 'zoom-out')
 qb   config.bind('ZQ', 'quit')
 qb   config.bind('ZZ', 'quit --save')
 sh   < ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
-sh   $_  ## arguments of last command; i.e. after mkdir, do: cd $_
+sh   $_  ## arguments of last command; i.e. mkdir x; cd $_
 sh   $(command)  ## command substitution; gets the result of command
 sh   $command <<- EOF >> $file\n multi\nline\ntext\nmlt\nEOF\n  ## input read until EOF (<< heredoc) to command, strip leading tabs from mlt (-), EOF can be any unique limit string
 sh   $(( expression ))  ## arithmetic expansion; gets the result of $expression
@@ -332,7 +332,7 @@ sh   amixer set Internal Mic Capture volume 0 nocap  ## alsamixer mute mic
 sh   amixer set Master playback volume 30 unmute  ## alsamixer unmute playback volume 30
 sh   apropos . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage (man -k)
 sh   apropos keyword  ## search man page names and descriptions
-sh   arecord -D default -f cd -r 44100 -t wav --vumeter stereo test.wav  ## record wav 44100 Hz
+sh   arecord --device default --format cd --rate 44100 --file-type wav --vumeter stereo test.wav  ## record wav 44100 Hz
 sh   arecord --vumeter stereo audio.wav  ## record wave audio
 sh   args="$@"; getargs () { while :; do case "$1" in a ) a=1; shift;; * ) return;; esac; done }; getargs $args  ## process command arguments
 sh   ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters (0x20-0x7e 0d32-0d126)

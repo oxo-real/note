@@ -862,6 +862,8 @@
 │   │       ├── 12d1:1506.conf
 │   │       ├── 40-usb_modeswitch.rules
 │   │       └── README.md
+│   ├── nm
+│   │   └── config
 │   ├── nmcli
 │   │   ├── etc-nm-system-connections
 │   │   └── nmcli-101
@@ -903,6 +905,8 @@
 │   │   └── wireguard
 │   │       ├── protonvpn_wireguard
 │   │       └── wireguard101
+│   ├── wireguard
+│   │   └── nm_config -> ../nm/config
 │   └── wireless
 │       └── wpa_passphrase
 ├── opsys
@@ -1002,5 +1006,5 @@
 └── zzz_deprecated
     └── xab
 
-212 directories, 790 files
+214 directories, 792 files
 ```

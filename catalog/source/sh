@@ -4,7 +4,7 @@
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 < $file  ## less $file (via READNULLCMD)
 < ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
-$_  ## arguments of last command; i.e. after mkdir, do: cd $_
+$_  ## arguments of last command; i.e. mkdir x; cd $_
 apropos . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage (man -k)
 echo hello 1> $file  ## stdout redirect to $file
 echo hello 2>> $file   ## stderr redirect append to $file
@@ -22,7 +22,7 @@ amixer set Capture toggle && amixer get Capture | grep '\[off\]' && notify-send 
 amixer set Master playback volume 30 unmute  ## alsamixer unmute playback volume 30
 apropos keyword  ## search man page names and descriptions
 arecord --vumeter stereo audio.wav  ## record wave audio
-arecord -D default -f cd -r 44100 -t wav --vumeter stereo test.wav  ## record wav 44100 Hz
+arecord --device default --format cd --rate 44100 --file-type wav --vumeter stereo test.wav  ## record wav 44100 Hz
 ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters (0x20-0x7e 0d32-0d126)
 number=$(printf '%s' "$ASCII" | cut --characters 17-26)  ## 10 number characters from $ASCII
 upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## 26 uppercase letter characters from $ASCII

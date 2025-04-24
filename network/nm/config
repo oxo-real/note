@@ -1,0 +1,19 @@
+[WireGuard - ArchWiki](https://wiki.archlinux.org/title/WireGuard#Routes_are_periodically_reset)
+
+6.1 Routes are periodically reset
+Users of NetworkManager should make sure that it is not managing the WireGuard interface(s). 
+For example, create the following configuration file:
+
+/etc/NetworkManager/conf.d/unmanaged.conf
+[keyfile]
+unmanaged-devices=type:wireguard
+
+6.2 Broken DNS resolution
+When tunneling all traffic through a WireGuard interface, the connection can become seemingly lost after a while or upon new connection. This could be caused by a network manager or DHCP client overwriting /etc/resolv.conf.
+
+By default wg-quick uses resolvconf to register new DNS entries (from the DNS keyword in the configuration file). This will cause issues with network managers and DHCP clients that do not use resolvconf, as they will overwrite /etc/resolv.conf thus removing the DNS servers added by wg-quick.
+
+The solution is to use networking software that supports resolvconf.
+
+Note: Users of systemd-resolved should make sure that systemd-resolvconf is installed.
+Users of NetworkManager should know that it does not use resolvconf by default. It is recommended to use systemd-resolved. If this is undesirable, install openresolv and configure NetworkManager to use it: NetworkManager#Use openresolv.
