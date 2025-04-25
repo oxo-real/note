@@ -310,11 +310,13 @@ qb   config.bind('-', 'zoom-out')
 qb   config.bind('ZQ', 'quit')
 qb   config.bind('ZZ', 'quit --save')
 sh   < ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
-sh   $_  ## arguments of last command; i.e. mkdir x; cd $_
+sh   $0  ## command of last command
+sh   $_  ## arguments of last command
 sh   $(command)  ## command substitution; gets the result of command
 sh   $command <<- EOF >> $file\n multi\nline\ntext\nmlt\nEOF\n  ## input read until EOF (<< heredoc) to command, strip leading tabs from mlt (-), EOF can be any unique limit string
 sh   $(( expression ))  ## arithmetic expansion; gets the result of $expression
 sh   < $file  ## less $file (via READNULLCMD)
+sh   !$  ## last argument of previous command; i.e. mkdir x; cd !$
 sh   [ "$var" ]  ## alias for: 'test "$var"'
 sh   [[ "$var" =~ extended-regexp ]]  ## test with extended regular expression operator
 sh   [[ $var ]]  ## extended version of [ operator; with additional string, assignment and arithmetic operations and improved functionality, readability and performance
