@@ -4,10 +4,16 @@
 : '\nmulti\nline\ncode\nblock\n# '  ## switchable multiline codeblock (prepend with #) / comment
 < $file  ## less $file (via READNULLCMD)
 < ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
-$0  ## command of last command
-$_  ## arguments of last command
-!$  ## last argument of previous command; i.e. mkdir x; cd !$
 apropos . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage (man -k)
+echo $0  ## script name or command
+echo $1  ## first argument
+echo $#  ## number of arguments
+echo $*  ## all arguments in a string
+echo $_  ## arguments of last command
+echo $@  ## all arguments in an array
+echo $?  ## exit status
+echo $$  ## shell process id
+echo !$  ## last argument of previous command; i.e. mkdir x; cd !$
 echo hello 1> $file  ## stdout redirect to $file
 echo hello 2>> $file   ## stderr redirect append to $file
 echo hello > /dev/null 2>&1  ## stdout redirect devnull; stderr append to stdout; silent execution
@@ -632,8 +638,8 @@ c /etc/os-release  ## systemd operating system identification data and informati
 hostnamectl status  ## hostname operating system and related settings (i.e. firmware)
 uniq --repeated  ## only print duplicate lines
 unlink $link_name  ## remove $link_name (i.e. symlink)
-unset varfun  ## unset value and attribute of variable or function varfun
-unsetvar=  ## set variable unsetvar to '' (empty)
+unset -f fun  ## unset function fun
+unset [-v] var  ## unset value and attribute of variable $var
 uptime  ## uptime since boot
 < /proc/uptime | awk '{print $1}'  ## uptime in seconds
 usermod -a -G $group $user  ## add user to group

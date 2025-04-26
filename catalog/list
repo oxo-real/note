@@ -310,13 +310,10 @@ qb   config.bind('-', 'zoom-out')
 qb   config.bind('ZQ', 'quit')
 qb   config.bind('ZZ', 'quit --save')
 sh   < ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
-sh   $0  ## command of last command
-sh   $_  ## arguments of last command
 sh   $(command)  ## command substitution; gets the result of command
 sh   $command <<- EOF >> $file\n multi\nline\ntext\nmlt\nEOF\n  ## input read until EOF (<< heredoc) to command, strip leading tabs from mlt (-), EOF can be any unique limit string
 sh   $(( expression ))  ## arithmetic expansion; gets the result of $expression
 sh   < $file  ## less $file (via READNULLCMD)
-sh   !$  ## last argument of previous command; i.e. mkdir x; cd !$
 sh   [ "$var" ]  ## alias for: 'test "$var"'
 sh   [[ "$var" =~ extended-regexp ]]  ## test with extended regular expression operator
 sh   [[ $var ]]  ## extended version of [ operator; with additional string, assignment and arithmetic operations and improved functionality, readability and performance
@@ -449,18 +446,25 @@ sh   du --bytes --si --human-readable --separate-dirs --total --all $directory |
 sh   du -sbh $directory  ## directory usage; total size of all content in directory
 sh   e2label /dev/X $label  ## write device label
 sh   e2label /dev/X  ## read device label
+sh   echo $$  ## shell process id
+sh   echo $0  ## script name or command
 sh   echo $(( 10 & 2 ))  ## bitwise AND (output 1 if both input bits are 1 else 0)
 sh   echo $(( 10 << 2 ))  ## bitwise LEFT shift (adding zeros at least significant bitside; multiplication)
 sh   echo $(( 10 | 2 ))  ## bitwise OR (output 1 if at least one of the input bits is 1 else 0)
 sh   echo $(( 10 >> 2 ))  ## bitwise RIGHT shift (removing bits from least significant bitside; division)
 sh   echo $(( 10 ^ 2 ))  ## bitwise XOR (output 1 if only one of the input bits is 1 else 0)
 sh   echo $(( ~ 10 ))  ## bitwise NOT (all bits inverted)
+sh   echo $1  ## first argument
 sh   echo $(( 2#10 ))  ## decimal vailue of binary 10
 sh   echo ${a/b/c}  ## in parameter a, replace first b (//b all) by c (a=abc echos acc)
 sh   echo ${a:=b}  ## parameter expansion; if [ -z $a ]; then assign 'b'
 sh   echo ${a:-b}  ## parameter expansion; if [ -z $a ]; then return 'b'
 sh   echo ${a% *}  ## key when a='key value'
+sh   echo $@  ## all arguments in an array
+sh   echo $*  ## all arguments in a string
+sh   echo $_  ## arguments of last command
 sh   echo ${a##* }  ## value when a='key value'
+sh   echo $?  ## exit status
 sh   echo ${filepath##*/}  ## emulate basename with parameter expansion
 sh   echo ${filepath%/*}  ## emulate dirname with parameter expansion (parent dir for $dirpath)
 sh   echo $filepath | sed 's#.*/##'  ## emulate basename using sed (remove all until last /)
@@ -469,6 +473,8 @@ sh   echo ${HOME%%/*}  ## parameter expansion; remove /* long tail; delete from 
 sh   echo ${HOME#*/}  ## parameter expansion; remove */ short head; delete until first match (*/) from head (#); remove */ until first instance ('home/oxo')
 sh   echo ${HOME%/*}  ## parameter expansion; remove /* short tail; delete from first match (/*) from tail (%); remove /* from last instance ('/home')
 sh   echo '$idVendor:$idProduct:u' | sudo dd of=/sys/module/usb_storage/parameters/quirks  ## ignore uas, use usb-storage for storage device
+sh   echo !$  ## last argument of previous command; i.e. mkdir x; cd !$
+sh   echo $#  ## number of arguments
 sh   echo $?  ## print exit code of the last executed command
 sh   echo $(( RANDOM%95 + 32 ))  ## generate pseudorandom integer between 32 and 127 (included)
 sh   echo $RANDOM  ## pseudorandom integer (0-32767)
@@ -973,9 +979,9 @@ sh   umount --lazy $mountpoint  ## umount busy targets (mountpoints)
 sh   uname --all  ## print system information
 sh   uniq --repeated  ## only print duplicate lines
 sh   unlink $link_name  ## remove $link_name (i.e. symlink)
+sh   unset -f fun  ## unset function fun
 sh   unsetopt $option  ## unset (disable) zshell option
-sh   unset varfun  ## unset value and attribute of variable or function varfun
-sh   unsetvar=  ## set variable unsetvar to '' (empty)
+sh   unset [-v] var  ## unset value and attribute of variable $var
 sh   until [[ $i -gt 3 ]]; do echo $i; ((i+=1)); done  ## until loop basic structure upcount, increase $i by one
 sh   until [[ $i -lt -3 ]]; do echo $i; ((i--)); done  ## until loop basic structure downcount, decrease $i by one
 sh   upper=$(printf '%s' "$ASCII" | cut --characters 34-59)  ## 26 uppercase letter characters from $ASCII
