@@ -199,6 +199,7 @@ fd --format {/.} . $XDG_CONFIG_HOME/network/vpn/wg/proton/interface | fzf | xarg
 fd --max-depth 1 --type symlink --hidden --exec bash -c '[[ ! -e {} ]] && echo "{}"' .  ## find broken symlinks, slower alternative using fd
 fd --max-depth 1 --type file --hidden . .  ## list all files in current directory
 fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search clpb-string and copy (quick file search)
+fd --type symlink --exec ln --symbolic --force --relative {} .  ## in cwd convert absolute symbolic links to relative (to symlink target location) links
 cat-audio() {ffmpeg -i "concat:${(j:|:)@[2,-1]}" -acodec copy $1}  ## concatenate mp3 audio files usage: cat-audio output.mp3 *.mp3
 ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
 fg  ## recall last suspended command to foreground

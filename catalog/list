@@ -528,6 +528,7 @@ sh   fd $options $pattern $path  ## fd general synopsis, pattern default regex (
 sh   fd --format {/.} . $XDG_CONFIG_HOME/network/vpn/wg/proton/interface | fzf | xargs --no-run-if-empty -I {} wg-quick up {}  ## vpn wireguard proton interface up
 sh   fd --max-depth 1 --type file --hidden . .  ## list all files in current directory
 sh   fd --max-depth 1 --type symlink --hidden --exec bash -c '[[ ! -e {} ]] && echo "{}"' .  ## find broken symlinks, slower alternative using fd
+sh   fd --type symlink --exec ln --symbolic --force --relative {} .  ## in cwd convert absolute symbolic links to relative (to symlink target location) links
 sh   fd --unrestricted . | fzf --query $(wl-paste) | wl-copy  ## fzf search clpb-string and copy (quick file search)
 sh   ffprobe -i $media_file -show_entries format=duration -v quiet -of csv="p=0" -sexagesimal  ## get $media_file duration (seconds or sexagesimal)
 sh   fg %n  ## jobs item n to foreground
