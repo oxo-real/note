@@ -272,7 +272,9 @@ qb   config.bind(';v3', 'hint links spawn mpv --start=+00:00 --ytdl-raw-options=
 qb   config.bind(';v4', 'hint links spawn mpv --start=+00:00 --ytdl-raw-options=format-sort=res:480 --profile=cache_xs --demuxer-cache-wait=no --msg-level=all=v --user-agent=$USER_AGENT --force-window --no-terminal --keep-open=yes --ytdl {hint-url}')
 qb   config.bind(';v6', 'hint links spawn mpv --ytdl-format="best[filesize<600M]" --force-window --no-terminal --keep-open=yes --ytdl {hint-url}')
 qb   config.bind(';v9', 'hint links spawn mpv --ytdl-format="best[filesize<900M]" --force-window --no-terminal --keep-open=yes --ytdl {hint-url}')
+qb   config.bind(';va', 'hint links spawn mpv --start=+00:00 --ytdl-raw-options=format-sort=res:240 --profile=cache_xs --demuxer-cache-wait=no --msg-level=all=v --user-agent=$USER_AGENT --force-window --no-terminal --keep-open=yes --video=no --ytdl {hint-url}')
 qb   config.bind('V', 'hint links spawn mpv --force-window --no-terminal --keep-open=yes --ytdl --start=+00:00 --ytdl-raw-options=format-sort=res:240 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT {hint-url}')
+qb   config.bind(';v=', 'hint links spawn mpv --start=+00:00 --profile=cache_xs --demuxer-cache-wait=no --msg-level=all=v --user-agent=$USER_AGENT --force-window --no-terminal --keep-open=yes --ytdl {hint-url}')
 qb   config.bind('v', 'mode-enter caret')
 qb   config.bind('v', 'selection-toggle', mode='caret')
 qb   config.bind('wB', 'cmd-set-text -s :bookmark-load -w')
@@ -338,6 +340,7 @@ sh   ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done
 sh   awk '!($1="")' $file  ## remove column 1
 sh   awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'  ## reverse lines (emulate tac)
 sh   awk '{for(i=1; i<=NF; i++) if($i=="version") print $(i), $(i+1)}' <<< $(echo 'a b c version 2 d e f')  ## extract string and following
+sh   awk '{if ($0 ~ /match/) print "\033[31m" $0 "\033[0m"; else print $0}' $file  ## highlights lines in $file containing match
 sh   awk 'NF{NF-=1};1'  ## remove last column
 sh   awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header line
 sh   awk 'NR==1{prev=$1;print $2} NR>1 && prev!=$1{prev=$1;print $2} END{if(NR>1)print $2}'  ## print col2 every time col1 value changes
@@ -586,29 +589,35 @@ sh   git push [-u] $repo $branch  ## -u sets the upstream tracking branch direct
 sh   git reset --hard 2db93df  ## back to a previous commit id
 sh   git rev-parse HEAD | cut --characters 1-10  ## HEAD commit id (online repo syntax)
 sh   gnutls-cli -d 1 grc.com -p 443  ## get certificate info
-sh   gpg --armor --export $kid > $kid.puk.gpg  ## export public key ascii armored id
+sh   gpg --armor --export $keyid > $keyid.pbl.gpg  ## export public key ascii armored id
 sh   gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk 'BEGIN{CACHED=0} /^S/ {if($7==1){CACHED=1}} END{if($0!=""){print CACHED} else {print "0"}}'  ## gpg cache status (1=cached)
 sh   gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
+sh   gpg --decrypt plain.txt.asc  ## decrypt plain.txt.asc to plain.txt (like pass)
 sh   gpg --detach-sign --local-user 0x12345678 $file  ## sign $file with specific secret key
 sh   gpg -e -a -r $id file  ## encrypt file armored for recipient $id (like pass)
-sh   gpg --edit-key $kid >  ## edit public key
+sh   gpg --edit-key $keyid >  ## edit public key
+sh   gpg --encrypt --armor --recipient $keyid plain.txt  ## encrypt plain.txt to plain.txt.asc for recipient with $keyid (like pass)
 sh   gpg --expert --full-generate-key  ## generate new keypair
-sh   gpg --export $kid > $kid.puk.gpg  ## export public key binary
+sh   gpg --export $keyid > $keyid.pbl.gpg  ## export public key binary
 sh   gpg --export --export-options backup --output public_keys.gpg  ## step 1 backup gpg identity (public keys)
 sh   gpg --export-ownertrust > trust_db.gpg  ## step 3 backup gpg identity (trust database)
 sh   gpg --export-secret-keys --export-options backup --output private_keys.gpg  ## step 2 backup gpg identity (private keys)
 sh   gpg --fingerprint | grep -i -B 1 $uid_email | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
-sh   gpg --import $kid  ## import public key by key id
+sh   gpg --import $keyid  ## import key by key id
 sh   gpg --import-ownertrust trust_db.gpg  ## step 3 restore gpg identity (trust database)
 sh   gpg --import private_keys.gpg  ## step 2 restore gpg identity (private keys)
 sh   gpg --import public_keys.gpg  ## step 1 restore gpg identity (public keys)
 sh   gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 2 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list (grep -B 1 if keygrip is not shown)
-sh   gpg --output $file.sig --sign $file  ## create a separate sig file
+sh   gpg --list-keys --with-fingerprint --with-subkey-fingerprint --with-keygrip [$keyid]  ##  keyring info [for specified keys]
+sh   gpg --list-packets $keyid  ## list only the sequence of packets
+sh   gpg --output $file.sig --sign $file  ## create a separate signature file
 sh   gpg --output file --decrypt file.gpg >  ## decrypt file.gpg asymmetric using private key
 sh   gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetric using public key ID
 sh   gpg --output file.gpg --symmetric file >  ## encrypt file symmetric
-sh   gpg --output ID.puk.asc --armor --export ID >  ## export public key ascii armored
+sh   gpg --output ID.pbl.asc --armor --export ID >  ## export public key ascii armored
 sh   gpg --output revoke.asc --gen-revoke ID  ## generate revocation certificate
+sh   gpg-pass-vfy () { read -r pass && echo $pass | gpg --yes --batch --passphrase-fd 0 --pinentry-mode loopback --armor --sign --local-user "$1"; unset pass }  ## verify gpg passphrase
+sh   gpg --show-keys --with-fingerprint --with-subkey-fingerprint --with-keygrip $key_file  ##  key info for $key_file (.asc)
 sh   gpg --verify $file.sig [other_dir/$file]  ## verify a signature
 sh   gpg -vv $pub_key.asc  ## verbose info on $pub_key.asc
 sh   gpsbabel -i garmin_fit -f $in_fit -o gpx -F $out_gpx  ## fit2gpx conversion
@@ -728,6 +737,7 @@ sh   mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
 sh   mpv --audio-display=no $file.mp3  ## play mp3 without albumart
 sh   mpv /dev/video4  ## livestream local webcam
 sh   mpv --start=+00:00 --ytdl-raw-options=format-sort=res:240 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT $(wl-paste)  ## stream verbose with user-agent, best res under 480p and mpv.conf cache_xs profile
+sh   mpv --video=no $(wl-paste)  ## stream video link play audio only
 sh   mv -t $target_dir $source_dirs  ## move source_dirs to target_dir
 sh   neofetch --ascii_distro arch_small --gtk3 off --gtk2 off --colors 3 3 3 7 3 4 --separator '     \t'  ## neat system info
 sh   nerd-dictation begin --config $config_file --simulate-input-tool STDOUT --numbers-min-value 10 --numbers-as-digits --numbers-no-suffix --vosk-model-dir $model_dir  ## speech-to-text
@@ -1022,6 +1032,7 @@ sh   wl-paste -n | tr -d '[:blank:]\t\r\n' | wl-copy -o -n  ## remove all whites
 sh   wl-paste | od --address-radix n --format x1 | sed 's/ /\\x/g'  ## 3 byte hex code from copied utf8 character
 sh   wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
 sh   wl-paste | sed 's/youtube.com/yewtu.be/' | wl-copy  ## change to invidious url
+sh   wl-paste | tr -d ' ' | tr '[:upper:]' '[:lower:]'  ## remove spaces and make letters lowercase
 sh   wpa_passphrase $ssid $passphrase > ssid.wifi  ## create network section of wpa_supplicant configuration
 sh   wpa_supplicant -B -i $wlp -c ~/keys/wl/ssid.wifi  ## wireless connect via interface $wlp to ssid.wifi
 sh   xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
@@ -1064,6 +1075,7 @@ sh   yay -Sau ## update only AUR packages
 sh   yay -Sc $package  ## remove all cached packages that are currently not installed (more agressive than paccache)
 sh   yay -Scc $package  ## remove all cached packages (far more agressive than paccache, will prevent downgrading or reinstalling without downloading)
 sh   yay -S --dbpath $alt_repo_db --cachedir $alt_repo_cache $package  ## synchronize package; download and install, using alternative repo (database file and cache dir)
+sh   yay -Sgq $group  ## show packages in package group
 sh   yay --show -w -w  ## aurch linux (last year?) news archives [Arch Linux - News](https://archlinux.org/news/)
 sh   yay -Sii $package  ## extended package info; reverse dependencies; package required by
 sh   yay -S --print $package  ## print native package location URI (file:// if locally available)

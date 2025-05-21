@@ -189,3 +189,14 @@ gpg --auto-key-locate keyserver --locate-keys a@b.com
 % gpg --keyserver hkp://keys.openpgp.org --search-key 0x1063A72A10A3F036
 gpg: data source: http://keys.openpgp.org:11371
 (1)	  256 bit EDDSA key 0x1063A72A10A3F036, created: 2022-03-20
+
+
+# verify passphrase
+
+## select keyid
+gpg -k
+
+## modify master_key and / or use pwgn
+wl-paste | tr -d ' ' | tr '[:upper:]' '[:lower:]' | pwgn
+
+gpg-pass-vfy

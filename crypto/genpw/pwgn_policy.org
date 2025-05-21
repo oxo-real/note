@@ -76,17 +76,17 @@ default 128 bits; else 64, 32, 16, 8 or 4 bits
 |--------+-------------------------------|
 
 * password syntax
-|---------------+-------------------|
-| yks1          | EOL               |
-|               |                   |
-| yks2          | no EOL            |
-|               |                   |
-| pwgn(r5r6)    | no EOL, no spaces |
-|               |                   |
-| passbase64    | no EOL, no spaces |
-|               |                   |
-| center_blocks | no EOL, no spaces |
-|---------------+-------------------|
+|---------------+----------------|
+| yks1          | EOL            |
+|               |                |
+| yks2          | no EOL         |
+|               |                |
+| pwgn(r5r6)    | no EOL, no SPC |
+|               |                |
+| passbase64    | no EOL, no SPC |
+|               |                |
+| center_blocks | no EOL, no SPC |
+|---------------+----------------|
 
 * password input levels
 passphrase  = master_key = read(input)
@@ -153,7 +153,8 @@ cipher_cascade03: chacha20  aes-256-ctr	aes-256-cbc
 # $x-str (e)
 
 * password examples
-vault passwd
-passr pass
+de    _d
 boot  _pss
-login _d
+vault passwd
+gpg   passwd (master_key: tr '[:upper:]' '[:lower:]'' no SPC)
+passr pass

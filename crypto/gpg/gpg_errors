@@ -67,3 +67,16 @@ gpg: bad passphrase hangs terminal
 ## solution
 pkill gpg-agent
 
+
+# error
+Passphrase:
+gpg: Key generation failed: Timeout
+
+gpg> !!gpg prints passphrase here!!
+No user ID with index 8
+
+## cause
+gpg-agent no active
+
+## solution
+systemctl --user start gpg-agent.service

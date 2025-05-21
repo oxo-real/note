@@ -47,6 +47,7 @@ awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## sort stdin, omit first header l
 awk 'NR==1{prev=$1;print $2} NR>1 && prev!=$1{prev=$1;print $2} END{if(NR>1)print $2}'  ## print col2 every time col1 value changes
 awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'  ## reverse lines (emulate tac)
 awk '{for(i=1; i<=NF; i++) if($i=="version") print $(i), $(i+1)}' <<< $(echo 'a b c version 2 d e f')  ## extract string and following
+awk '{if ($0 ~ /match/) print "\033[31m" $0 "\033[0m"; else print $0}' $file  ## highlights lines in $file containing match
 basename $filepath  ## print filename without any leading directory components
 echo ${filepath##*/}  ## emulate basename with parameter expansion
 echo $filepath | sed 's#.*/##'  ## emulate basename using sed (remove all until last /)
@@ -255,10 +256,10 @@ git push [-u] $repo $branch  ## -u sets the upstream tracking branch directly
 git reset --hard 2db93df  ## back to a previous commit id
 git rev-parse HEAD | cut --characters 1-10  ## HEAD commit id (online repo syntax)
 gnutls-cli -d 1 grc.com -p 443  ## get certificate info
-gpg --armor --export $kid > $kid.puk.gpg  ## export public key ascii armored id
+gpg --armor --export $keyid > $keyid.pbl.gpg  ## export public key ascii armored id
 gpg --detach-sign --local-user 0x12345678 $file  ## sign $file with specific secret key
-gpg --edit-key $kid >  ## edit public key
-gpg --export $kid > $kid.puk.gpg  ## export public key binary
+gpg --edit-key $keyid >  ## edit public key
+gpg --export $keyid > $keyid.pbl.gpg  ## export public key binary
 gpg --export --export-options backup --output public_keys.gpg  ## step 1 backup gpg identity (public keys)
 gpg --export-secret-keys --export-options backup --output private_keys.gpg  ## step 2 backup gpg identity (private keys)
 gpg --export-ownertrust > trust_db.gpg  ## step 3 backup gpg identity (trust database)
@@ -267,19 +268,25 @@ gpg --import private_keys.gpg  ## step 2 restore gpg identity (private keys)
 gpg --import-ownertrust trust_db.gpg  ## step 3 restore gpg identity (trust database)
 gpg --fingerprint | grep -i -B 1 $uid_email | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
 gpg --expert --full-generate-key  ## generate new keypair
-gpg --import $kid  ## import public key by key id
+gpg --import $keyid  ## import key by key id
 gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 2 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list (grep -B 1 if keygrip is not shown)
-gpg --output ID.puk.asc --armor --export ID >  ## export public key ascii armored
+gpg --list-keys --with-fingerprint --with-subkey-fingerprint --with-keygrip [$keyid]  ##  keyring info [for specified keys]
+gpg --show-keys --with-fingerprint --with-subkey-fingerprint --with-keygrip $key_file  ##  key info for $key_file (.asc)
+gpg --list-packets $keyid  ## list only the sequence of packets
+gpg --output ID.pbl.asc --armor --export ID >  ## export public key ascii armored
 gpg --output file --decrypt file.gpg >  ## decrypt file.gpg asymmetric using private key
 gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetric using public key ID
 gpg --output file.gpg --symmetric file >  ## encrypt file symmetric
+gpg --encrypt --armor --recipient $keyid plain.txt  ## encrypt plain.txt to plain.txt.asc for recipient with $keyid (like pass)
+gpg --decrypt plain.txt.asc  ## decrypt plain.txt.asc to plain.txt (like pass)
 gpg -e -a -r $id file  ## encrypt file armored for recipient $id (like pass)
 gpg --output revoke.asc --gen-revoke ID  ## generate revocation certificate
-gpg --output $file.sig --sign $file  ## create a separate sig file
+gpg --output $file.sig --sign $file  ## create a separate signature file
 gpg --verify $file.sig [other_dir/$file]  ## verify a signature
 gpg -vv $pub_key.asc  ## verbose info on $pub_key.asc
 gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
 gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk 'BEGIN{CACHED=0} /^S/ {if($7==1){CACHED=1}} END{if($0!=""){print CACHED} else {print "0"}}'  ## gpg cache status (1=cached)
+gpg-pass-vfy () { read -r pass && echo $pass | gpg --yes --batch --passphrase-fd 0 --pinentry-mode loopback --armor --sign --local-user "$1"; unset pass }  ## verify gpg passphrase
 gpsbabel -i garmin_fit -f $in_fit -o gpx -F $out_gpx  ## fit2gpx conversion
 printf $s2l | grep -o .  ## print each character of a string on a separate line (string to lines)
 for i in $(seq 1 95 | grep -vFx 6); do echo "line $i"; done  ## loop through numbers 1 to 95, excluding 6 (exclude one line in loop)
@@ -397,6 +404,7 @@ mount | sort -k 1 | column -t  ## sort mount by device name
 mount | sort -k 3 | column -t  ## sort mount by mountpoint
 export PWGN_OFF=1; mountr  ## disable oxo pwgn; i.e. while executing mountr
 mpv --start=+00:00 --ytdl-raw-options=format-sort=res:240 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT $(wl-paste)  ## stream verbose with user-agent, best res under 480p and mpv.conf cache_xs profile
+mpv --video=no $(wl-paste)  ## stream video link play audio only
 wl-paste | sed 's/youtube.com/yewtu.be/' | wl-copy  ## change to invidious url
 mpv --audio-display=no $file.mp3  ## play mp3 without albumart
 mpv /dev/video4  ## livestream local webcam
@@ -625,6 +633,7 @@ tput reset  ## reinitialize terminal state
 erase_line() {printf "\r"; tput el}  ## remove / delete line
 printf '%s' "$l2s" | tr -d '\n'  ## remove newlines (lines to string)
 wl-paste -n | tr -d '[:blank:]\t\r\n' | wl-copy -o -n  ## remove all whitespace from clipboard content and re-copy
+wl-paste | tr -d ' ' | tr '[:upper:]' '[:lower:]'  ## remove spaces and make letters lowercase
 tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## remove double spaces
 tr --delete --complement "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
 tr --delete --complement "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## generate, fzf select and copy one of 16 typable passstrings
@@ -715,6 +724,7 @@ yay -Sau ## update only AUR packages
 yay -Sc $package  ## remove all cached packages that are currently not installed (more agressive than paccache)
 yay -Scc $package  ## remove all cached packages (far more agressive than paccache, will prevent downgrading or reinstalling without downloading)
 yay -Sii $package  ## extended package info; reverse dependencies; package required by
+yay -Sgq $group  ## show packages in package group
 yay -Sw $package  ## synchronize package only download, not install
 yay -Syu --devel --timeupdate  ## update, also check AUR developement packages (git), timeupdate (instead of version number)
 yay -Tv  ## check dependencies; show file paths

@@ -1,0 +1,22 @@
+# font selection
+
+[Nerd Fonts - Iconic font aggregator, glyphs/icons collection, & fonts patcher](https://www.nerdfonts.com/font-downloads)
+[Programming Fonts - Test Drive](https://www.programmingfonts.org/#jetbrainsmono)
+
+
+# font installation
+
+## install font package
+% yay -Sy $font_package
+
+## update font database
+% fc-cache --force --verbose
+
+## verify available fonts
+% fc-list | grep $font
+
+## change font in application configs, e.g.:
+alacritty
+emacs
+sway
+tofi
