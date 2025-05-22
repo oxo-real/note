@@ -1,6 +1,11 @@
-# generate key
+# generate keys
+
+## for upload to remote (see below)
 ssh-keygen -t ed25519 -C 0x3 -f keys/ssh/0x3
-ssh-keygen -t ed25519-sk -C 0x3 -f keys/ssh/0x3
+
+## for a yubikey 
+# WARNING! not to remote
+ssh-keygen -t ed25519-sk -C 0x3 -f keys/ssh/0x3-sk
 
 
 # set key file permissions
@@ -36,14 +41,16 @@ chmod 700 keys/ssh
 # add keyfile to agent
 ssh-add keys/ssh/0x3
 
-# test codeberg git ssh connection
-ssh -i keys/ssh/0x3 -T git@codeberg.org
-
 # upload ssh key
+# WARNING! not the private key!
 \cat keys/ssh/0x3.pub | wl-copy -n
 
 # verify ssh key
+# sign with private key
 echo -n "$token_to_verify" | ssh-keygen -Y sign -n gitea -f keys/ssh/0x3
+
+# test codeberg git ssh connection
+ssh -i keys/ssh/0x3 -T git@codeberg.org
 
 # ~/.ssh/config example
 Host $short_reference_name
