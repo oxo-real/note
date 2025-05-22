@@ -1,0 +1,47 @@
+To change the default location of the .ssh folder, you can follow these steps:
+
+Create a New SSH Directory:
+First, create a new directory where you want to store your SSH keys.
+For example, you can create a directory called my_ssh in your home directory:
+
+mkdir ~/my_ssh
+
+Set the SSH Environment Variable:
+You need to set the SSH_AUTH_SOCK environment variable to point to your new SSH directory.
+You can do this by adding the following line to your shell configuration file
+(e.g., .bashrc, .bash_profile, or .zshrc):
+
+NOTICE oxo does not have this env var
+
+export SSH_AUTH_SOCK=~/my_ssh/ssh_auth.sock
+
+Update SSH Configuration:
+You can also create or edit the SSH configuration file (config) in your new SSH directory
+to specify the location of your keys.
+Create a file named config in your new directory:
+
+touch ~/my_ssh/config
+
+Then, add the following lines to the config file:
+
+Host *
+    IdentityFile ~/my_ssh/id_rsa
+
+Replace id_rsa with the name of your private key file.
+Move Existing Keys:
+If you have existing SSH keys in the default .ssh directory, you can move them to your new directory:
+
+mv ~/.ssh/* ~/my_ssh/
+
+Set Permissions:
+Ensure that the permissions for your new SSH directory and keys are set correctly:
+
+chmod 700 ~/my_ssh
+chmod 600 ~/my_ssh/id_rsa
+
+Reload Your Shell Configuration:
+After making these changes, reload your shell configuration file to apply the changes:
+
+source ~/.bashrc  # or ~/.bash_profile or ~/.zshrc
+
+Now, your SSH client should use the new location for your SSH keys.

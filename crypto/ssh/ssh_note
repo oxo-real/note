@@ -1,3 +1,5 @@
+#[Verifying you're connected to Codeberg using SSH fingerprints | Codeberg Documentation](https://docs.codeberg.org/security/ssh-fingerprint/)
+#
 # generate keys
 
 ## for upload to remote (see below)

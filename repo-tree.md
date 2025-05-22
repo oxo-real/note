@@ -217,6 +217,7 @@
 │   │   ├── pwgn_policy.org
 │   │   └── pwgn.process
 │   ├── gpg
+│   │   ├── drduh
 │   │   ├── gnupg_set_permissions
 │   │   ├── gnu_privacy_handbook
 │   │   ├── gpg
@@ -240,6 +241,7 @@
 │   │   └── ct_01.txt
 │   ├── password_entry
 │   ├── ssh
+│   │   ├── ssh_config
 │   │   ├── ssh_note
 │   │   └── ssh_set_permissions
 │   ├── ssss
@@ -315,6 +317,8 @@
 ├── linux
 │   ├── arch
 │   │   ├── boot_corrupt
+│   │   ├── fonts
+│   │   │   └── installation
 │   │   ├── genfstab_8
 │   │   ├── icons
 │   │   │   ├── cursor_how_to
@@ -1006,5 +1010,5 @@
 └── zzz_deprecated
     └── xab
 
-214 directories, 792 files
+215 directories, 795 files
 ```
