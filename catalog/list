@@ -626,7 +626,7 @@ sh   grep bindsym $XDG_CONFIG_HOME/sway/config  ## sway keybinding related lines
 sh   grep '^[[:blank:]]*[^[:blank:]#;]' $file  ## only lines not (2nd ^) starting (1st ^) with # or ; uncommented lines from file
 sh   grep '^[[:blank:]]*[^[:blank:]#;]' $XDG_CONFIG_HOME/alacritty/alacritty.yml | grep 'key:'  ## alacritty active (no outcommented) keybindings
 sh   grep '^c ' $XDG_CONFIG_HOME/.fpcl | sed 's/^c //' | xargs -I {} cp -r {} $dst/  ## #TODO not tested copy c marked directories in fpcl file to $dst
-sh   grep --invert-match '^#' "$BKMS" | fzf | awk -F '[()]' '{print $2}' | wl-copy  ## copy bookmark url
+sh   grep --invert-match '^#' "$BKMS" | fzf | awk -F '[()]' '{print $2}' | wl-copy -n  ## copy bookmark url
 sh   grep --invert-match '^#' "$BKMS" | fzf | awk -F '[()]' '{print $2}' | xargs echo type | dotool  ## insert bookmark url
 sh   grep -riIl 'text' $directory  ## find files (no binary) containing text recursively in $directory
 sh   grep -riIn 'text' $directory  ## find files (no binary) containing text recursively in $directory with linenumbers
@@ -915,6 +915,8 @@ sh   sort < $file | uniq --unique > $file_uniq  ## unique lines
 sh   sort $HISTFILE | uniq --count | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
 sh   sort -k 2,2nr  ## numeric reversed sort only on column 2, not to eol
 sh   source $function_text_appearance; printf "$(FHX ffbf00)$(BHX 0040ff)%s${NOC}\n" "$text"  ## hexadecimal 24 bit color codes in printf (fore- & background)
+sh   spin_cc () { while :; do for t in - / \| \\; do echo -en "\r$t"; sleep .2; done; done }  ## counter clockwise rotating thingy
+sh   spin_cw () { while :; do for t in - \\ \| /; do echo -en "\r$t"; sleep .2; done; done }  ## clockwise rotating thingy
 sh   split $file -b N  ## split $file into files with N bytes
 sh   split $file -l N  ## split $file into files with N lines
 sh   split $file -n N  ## split $file into N files
@@ -1025,7 +1027,7 @@ sh   while read line; do; echo $line; done <<< "$variable"  ## while loop throug
 sh   while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line by line into l (with stdin redirection)
 sh   while true do; echo; done  ## infinite loop
 sh   whois -B 46.166.142.215  ## whois own public ip
-sh   wl-paste >> $XDG_DATA_HOME/c/web/bookmark_urls  ## add to bookmark_urls (qb y m)
+sh   wl-paste >> "$BKMS"  ## add bookmark url (qb y m)
 sh   wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
 sh   wl-paste --no-newline | tr --delete '[:blank:]\t\r\n' | wl-copy --trim-newline --paste-once  ## selection without whitespace to clipboard
 sh   wl-paste -n | tr -d '[:blank:]\t\r\n' | wl-copy -o -n  ## remove all whitespace from clipboard content and re-copy

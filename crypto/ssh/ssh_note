@@ -2,38 +2,38 @@
 #
 # generate keys
 
-## for upload to remote (see below)
 ssh-keygen -t ed25519 -C 0x3 -f keys/ssh/0x3
 
-## for a yubikey 
-# WARNING! not to remote
+## OR
+
 ssh-keygen -t ed25519-sk -C 0x3 -f keys/ssh/0x3-sk
 
+## for auto authentication with ssh file present; upload 0x3
+## for additional authentication with a yubikey; upload 0x3-sk
 
-# set key file permissions
 
-## private key
-### literal form
+# correct key file (dir) permissions
+
+## private key file
+### symbolic form
 chmod a=-,u+rw keys/ssh/0x3
 ### OR equivalent octal form
 chmod 600 keys/ssh/0x3
 
-## public key
+## public key file
+### symbolic form
 chmod a=r,u+w keys/ssh/0x3.pub
 ## OR equivalent octal form
 chmod 644 keys/ssh/0x3.pub
 
-
-# set key directory permissions
-
-## octal form
+## set key directory permissions
+### symbolic form
 chmod a=-,u+rwx keys/ssh
-## OR
+## OR equivalent octal form
 chmod 700 keys/ssh
 
-## OR equivalent literal form
 
-
+#==========================================
 
 
 # start ssh-agent persistent in the background

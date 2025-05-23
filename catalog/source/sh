@@ -297,7 +297,7 @@ grep '^[[:blank:]]*[^[:blank:]#;]' $file  ## only lines not (2nd ^) starting (1s
 grep '^[[:blank:]]*[^[:blank:]#;]' $XDG_CONFIG_HOME/alacritty/alacritty.yml | grep 'key:'  ## alacritty active (no outcommented) keybindings
 grep bindsym $XDG_CONFIG_HOME/sway/config  ## sway keybinding related lines
 grep bindkey $XDG_CONFIG_HOME/zsh/.zshrc  ## zsh keybinding related lines
-grep --invert-match '^#' "$BKMS" | fzf | awk -F '[()]' '{print $2}' | wl-copy  ## copy bookmark url
+grep --invert-match '^#' "$BKMS" | fzf | awk -F '[()]' '{print $2}' | wl-copy -n  ## copy bookmark url
 grep '^c ' $XDG_CONFIG_HOME/.fpcl | sed 's/^c //' | xargs -I {} cp -r {} $dst/  ## #TODO not tested copy c marked directories in fpcl file to $dst
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
@@ -571,6 +571,8 @@ sort < $file | sort -nr > $file_sort_freq  ## reverse numerical sort
 sort < $file | uniq --unique > $file_uniq  ## unique lines
 sort $file | uniq --count | sort -k 1,1nr -k 2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
 source $function_text_appearance; printf "$(FHX ffbf00)$(BHX 0040ff)%s${NOC}\n" "$text"  ## hexadecimal 24 bit color codes in printf (fore- & background)
+spin_cw () { while :; do for t in - \\ \| /; do echo -en "\r$t"; sleep .2; done; done }  ## clockwise rotating thingy
+spin_cc () { while :; do for t in - / \| \\; do echo -en "\r$t"; sleep .2; done; done }  ## counter clockwise rotating thingy
 split $file -b N  ## split $file into files with N bytes
 split $file -l N  ## split $file into files with N lines
 split $file -n N  ## split $file into N files
@@ -671,7 +673,7 @@ while IFS= read -r pkg; do ls /var/cache/pacman/pkg | grep ^"$pkg"; done <<< "$(
 while read -r -u $fd l; do $commands; done {fd}< $file  ## read file line by line into l (with stdin redirection)
 while read l; do $commands; done < $file  ## read file line by line into l
 whois -B 46.166.142.215  ## whois own public ip
-wl-paste >> $XDG_DATA_HOME/c/web/bookmark_urls  ## add to bookmark_urls (qb y m)
+wl-paste >> "$BKMS"  ## add bookmark url (qb y m)
 wl-paste | grep -Eo '[0-9]' | tail -n 4 | tr -d '[:blank:]\t\r\n'  ## last four digits from multiline string
 wl-paste --no-newline | tr --delete '[:blank:]\t\r\n' | wl-copy --trim-newline --paste-once  ## selection without whitespace to clipboard
 wl-paste | sed -n '1p' | sed 's/[^0-9]//g' | cut -c 1-4  ## first four digits from multiline string
