@@ -1,0 +1,46 @@
+#! /usr//bin/env sh
+
+## variables
+ch="$XDG_CONFIG_HOME"/hosts  ## dir
+eh=/etc/hosts                ## file
+sb=https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts
+
+
+# create blocklist
+
+## create config dir
+[ -d "$ch" ] || mkdir "$ch"
+git -C "$ch" init
+
+## copy original /etc/hosts to [main]
+git -C "$ch" branch blocklist_off
+git -C "$ch" switch blocklist_off
+
+[ -f "$eh".org ] || sudo cp "$eh" "$eh".org
+cp "$eh" "$ch"
+
+git -C "$ch" add "$ch"/hosts
+git -C "$ch" commit -a -m 'branch main created with script'
+
+## create blocklist hosts file in [blocklist]
+git -C "$ch" branch blocklist_on
+git -C "$ch" switch blocklist_on
+
+curl "$sb" > "$ch"/hosts
+
+git -C "$sb" add "$ch"/hosts
+git -C "$ch" commit -a -m 'branch blocklist created with script'
+
+## point /etc/hosts to ~/.config/hosts/hosts via symlink
+sudo ln -sf "$ch"/hosts "$eh"
+
+printf 'hosts blocklist created succesfully\n'
+
+## now you can alter hosts versions with git switch
+## to original /etc/hosts with:
+
+## % git switch main
+
+## to blocklist hosts with:
+
+## % git checkout blocklist

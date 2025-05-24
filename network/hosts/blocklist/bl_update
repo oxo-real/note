@@ -1,0 +1,21 @@
+#! /usr//bin/sh
+
+## variables
+ch="$XDG_CONFIG_HOME"/hosts  ## dir
+eh=/etc/hosts                ## file
+sb=https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts
+
+
+# update blocklist
+
+# cd ~/.config/hosts
+git -C "$ch" switch blocklist
+
+curl "$sb" > "$ch"/hosts
+
+git -C "$sb" add "$ch"/hosts
+git -C "$sb" commit -a -m 'updated with script'
+
+sudo ln -sf "$ch"/hosts "$eh"
+
+printf 'hosts blocklist updated succesfully\n'

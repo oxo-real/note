@@ -79,7 +79,7 @@ cd /usr/lib/modules/$(uname -r)  ## active os kernel modules
 cd /var/lib/pacman/local  ## pacman install directory
 cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
 chattr -R +i $directory  ## add 'i' attribute: files in $directory cannot be modified
-chmod --reference=ref_file target  ## make target file mode bits same as ref_file
+chmod --reference $ref $target  ## make target mode bits same as ref
 chown -R $USER:$GROUP $target  ## recursive set target ownership to current user & group
 chown :group file  ## set group ownership
 chown user: file  ## set user ownership
@@ -242,6 +242,7 @@ fusermount -u $HOME/dock/mobile  ## umount simple-mtpfs mtp device
 getent ahosts $url  ## get ip address from name service switch library database ahost
 git -C $path $command  ## run $command as if git was started in $path
 git -C $HOME/.config/hosts switch blocklist_on  ## activate network blocklist
+git checkout $_new_branch  ## create git branch && switch to it
 git clone https://codeberg.org/oxo/hajime $XDG_DATA_HOME/c/git/code/hajime  ## git clone to specific directory
 git config --show-scope --show-origin --list  ## origin and scope of git configuration
 git diff -C $directory HEAD -- $file  ## changes in directory/file since last commit
@@ -560,8 +561,9 @@ showkey --ascii --scancodes --keycodes  ## examine codes sent by the keyboard
 shred --iterations=3 --zero --remove=wipesync --verbose $file  ## overwrite 3 times with random data, zero content, deallocate and remove $file
 shuf --input-range 0-100 --head-count 1  ## shuffle integers between 0 and 100 and show first (pseudorandom number generator)
 min=0; max=9999; columns=8; digits=4; i=1; shuf -i $min-$max | while read number; do [[ $(( i % $columns )) -eq 0 ]] && printf "%0${digits}d\n" $number || printf "%0${digits}d  " $number; i=$(( $i + 1 )); done  ## otp random secret key from $digit
-for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 1-95 -n 1)" --zero-terminated; done; echo  ## generate passstring from $ASCII
-for i in {1..32}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; done; echo  ## generate passstring
+for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf --input-range 1-95 --head-count 1)" --zero-terminated; done; echo  ## generate passstring from $ASCII
+for i in {1..32}; do; printf '%s' "$ASCII" | fold --width 1 | shuf | tr -d '\n'; done; echo  ## generate passstring
+tr --delete --complement 'A-Z0-9' < /dev/urandom | tr --delete 'IOS' | fold --width ${p_group:-4} | paste --serial --delimiters ${p_delim:-_} | head --bytes ${p_length:-29}  ## pronounceable custom group delimited passstring
 simple-mtpfs --list-devices  ## list mountable mtp devices
 simple-mtpfs -o allow_other --device 1 $HOME/dock/mobile  ## mount mtp device 1
 echo 'string2sort' | grep -o . | sort | tr -d "\n"  ## sort chars in string

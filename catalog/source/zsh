@@ -942,9 +942,7 @@ function git-add-commit ()
 {
     #nowdate="$(date +'%Y%m%d_%H%M%S')"
     #BUFFER="git add . && git commit --gpg-sign=7f462acc -a -m $nowdate (local_update)"
-    BUFFER="git add . && git commit --gpg-sign=75AD7085 -a -m '`date +%Y%m%d_%H%M%S` (local_update)'"
-    # BUFFER="git add . && git commit --gpg-sign=7f462acc -a -m '`date +%Y%m%d_%H%M%S` (local_update)'"
-
+    BUFFER="git add . && git commit --gpg-sign=7f462acc -a -m '`date +%Y%m%d_%H%M%S` (local_update)'"
 }
 
 zle -N git-add-commit

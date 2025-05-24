@@ -272,9 +272,7 @@ qb   config.bind(';v3', 'hint links spawn mpv --start=+00:00 --ytdl-raw-options=
 qb   config.bind(';v4', 'hint links spawn mpv --start=+00:00 --ytdl-raw-options=format-sort=res:480 --profile=cache_xs --demuxer-cache-wait=no --msg-level=all=v --user-agent=$USER_AGENT --force-window --no-terminal --keep-open=yes --ytdl {hint-url}')
 qb   config.bind(';v6', 'hint links spawn mpv --ytdl-format="best[filesize<600M]" --force-window --no-terminal --keep-open=yes --ytdl {hint-url}')
 qb   config.bind(';v9', 'hint links spawn mpv --ytdl-format="best[filesize<900M]" --force-window --no-terminal --keep-open=yes --ytdl {hint-url}')
-qb   config.bind(';va', 'hint links spawn mpv --start=+00:00 --ytdl-raw-options=format-sort=res:240 --profile=cache_xs --demuxer-cache-wait=no --msg-level=all=v --user-agent=$USER_AGENT --force-window --no-terminal --keep-open=yes --video=no --ytdl {hint-url}')
 qb   config.bind('V', 'hint links spawn mpv --force-window --no-terminal --keep-open=yes --ytdl --start=+00:00 --ytdl-raw-options=format-sort=res:240 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT {hint-url}')
-qb   config.bind(';v=', 'hint links spawn mpv --start=+00:00 --profile=cache_xs --demuxer-cache-wait=no --msg-level=all=v --user-agent=$USER_AGENT --force-window --no-terminal --keep-open=yes --ytdl {hint-url}')
 qb   config.bind('v', 'mode-enter caret')
 qb   config.bind('v', 'selection-toggle', mode='caret')
 qb   config.bind('wB', 'cmd-set-text -s :bookmark-load -w')
@@ -389,7 +387,7 @@ sh   chmod 0700  ## -rwx------ 	u	rwx	g	-	o	-
 sh   chmod 0740  ## -rwxr----- 	u	rwx	g	r	o	-
 sh   chmod 0770  ## -rwxrwx--- 	u	rwx	g	rwx	o	-
 sh   chmod 0777  ## -rwxrwxrwx 	ugo	rwx	read	write	execute
-sh   chmod --reference=ref_file target  ## make target file mode bits same as ref_file
+sh   chmod --reference $ref $target  ## make target mode bits same as ref
 sh   chown :group file  ## set group ownership
 sh   chown -R $USER:$GROUP $target  ## recursive set target ownership to current user & group
 sh   chown user: file  ## set user ownership
@@ -565,8 +563,8 @@ sh   for i in $space_sep_string; do; echo $i; done  ## for loop through space se
 sh   for i in {0..255}; do; printf "\x1b[38;5;${i}mcolor${i}\x1b[0m "; done; echo  ## print 256 colors
 sh   for i in {0..7}; do; printf "\033[0;3${i}mcolor$i\n"; done  ## print 8 colors
 sh   for i in 1 2 3; do; echo $i; done  ## for loop basic structure; hardcoded list values
-sh   for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf -i 1-95 -n 1)" --zero-terminated; done; echo  ## generate passstring from $ASCII
-sh   for i in {1..32}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; done; echo  ## generate passstring
+sh   for i in {1..32}; do; printf '%s' "$ASCII" | cut --characters "$(shuf --input-range 1-95 --head-count 1)" --zero-terminated; done; echo  ## generate passstring from $ASCII
+sh   for i in {1..32}; do; printf '%s' "$ASCII" | fold --width 1 | shuf | tr -d '\n'; done; echo  ## generate passstring
 sh   for i in {1..65535}; do (echo < /dev/tcp/127.0.0.1/$i) &>/dev/null && printf "\n[+] open port\n: \t%d\n" "$i" || printf "$i\r"; done  ## portscan
 sh   for i in {1..95}; do; printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'; echo; done; echo  ## otp random secret key from $ASCII
 sh   free -m  ## free and used memory in system
@@ -575,6 +573,7 @@ sh   fuser -vmM $file_system  ## display PIDs using file / file(system) (filesys
 sh   getent ahosts $url  ## get ip address from name service switch library database ahost
 sh   git -C $HOME/.config/hosts switch blocklist_on  ## activate network blocklist
 sh   git -C $path $command  ## run $command as if git was started in $path
+sh   git checkout $_new_branch  ## create git branch && switch to it
 sh   git clone https://codeberg.org/oxo/hajime $XDG_DATA_HOME/c/git/code/hajime  ## git clone to specific directory
 sh   git config --show-scope --show-origin --list  ## origin and scope of git configuration
 sh   git diff -C $directory HEAD -- $file  ## changes in directory/file since last commit
@@ -980,6 +979,7 @@ sh   tput reset  ## same as reset but without 1sec delay
 sh   trap "tput cnorm; return 1" SIGINT; while true; do tput civis; echo; figlet -f banner3 $(date +'%H%M%S'); sleep 1; for i in {1..8}; do tput el; tput cuu1; done; done  ## figlet clock (screencast)
 sh   tr --delete --complement "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## generate, fzf select and copy one of 16 typable passstrings
 sh   tr --delete --complement "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
+sh   tr --delete --complement 'A-Z0-9' < /dev/urandom | tr --delete 'IOS' | fold --width ${p_group:-4} | paste --serial --delimiters ${p_delim:-_} | head --bytes ${p_length:-29}  ## pronounceable custom group delimited passstring
 sh   tree -n --charset=unicode  ## depth indented file listing
 sh   tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## remove double spaces
 sh   truncate -s 5M file  ## create file 5M size

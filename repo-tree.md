@@ -853,8 +853,10 @@
 │   │   ├── systemd-resolved
 │   │   └── todo
 │   ├── hosts
-│   │   ├── adblocking_etc_hosts
-│   │   └── adblocking_etc_hosts~
+│   │   ├── blocklist
+│   │   │   ├── bl_create
+│   │   │   └── bl_update
+│   │   └── blocklist_create
 │   ├── internet
 │   │   ├── ipv6
 │   │   ├── network_init.sh
@@ -1010,5 +1012,5 @@
 └── zzz_deprecated
     └── xab
 
-215 directories, 795 files
+216 directories, 796 files
 ```
