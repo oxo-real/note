@@ -466,6 +466,9 @@ sh   echo $*  ## all arguments in a string
 sh   echo $_  ## arguments of last command
 sh   echo ${a##* }  ## value when a='key value'
 sh   echo $?  ## exit status
+sh   echo ${filepath:A}  ## canonical (absolute path) $filepath (emulate realpath with filename expansion modifiers)
+sh   echo ${filepath:a:h1}  ## dirname (head) of $filepath (emulate dirname with filename expansion modifiers)
+sh   echo ${filepath:a:t1}  ## basename (tail) of $filepath (emulate basename with filename expansion modifiers)
 sh   echo ${filepath##*/}  ## emulate basename with parameter expansion
 sh   echo ${filepath%/*}  ## emulate dirname with parameter expansion (parent dir for $dirpath)
 sh   echo $filepath | sed 's#.*/##'  ## emulate basename using sed (remove all until last /)
@@ -477,6 +480,8 @@ sh   echo '$idVendor:$idProduct:u' | sudo dd of=/sys/module/usb_storage/paramete
 sh   echo !$  ## last argument of previous command; i.e. mkdir x; cd !$
 sh   echo $#  ## number of arguments
 sh   echo $?  ## print exit code of the last executed command
+sh   echo ${(q)filepath}  ## filepath with escapes added
+sh   echo ${(Q)filepath}  ## filepath with escapes removed
 sh   echo $(( RANDOM%95 + 32 ))  ## generate pseudorandom integer between 32 and 127 (included)
 sh   echo $RANDOM  ## pseudorandom integer (0-32767)
 sh   echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
@@ -847,6 +852,7 @@ sh   readlink -f $symlink  ## print symbolic links' canonical (absolute path) fi
 sh   read -r input  ## zz1; variable is assigned
 sh   realpath $dir_in_home | sed "s#$HOME##"  ## remove "$HOME" from $dir_in_home
 sh   realpath $file  ## return canonical file name (absolute path); $(dirname $file)/$(basename $file)
+sh   realpath --relative-to "$(pwd)" $file  ## return file name relative to $CWD (relative path)
 sh   reflector --verbose --protocol https --country Iceland,Sweden,Germany,Denmark,Netherlands,United States --age 12 --latest 5 --sort rate --save /etc/pacman.d/mirrorlist  ## generate pacman mirrorlist
 sh   rename --all ' ' _ *  ## replace all spaces in filenames with underscores
 sh   rename 'part' 'name' filepart  ## replace 'part' with 'name' in filepart (filepart -> filename)
@@ -1335,4 +1341,5 @@ zsh  # bindkey  now to clipboard             ## C-`
 zsh  bindkey '^o' clear-screen               ## C-o
 zsh  bindkey -v
 zsh  bindkey -v '^?' backward-delete-char
+zsh  bindkey '^y' abs-rel-path-tgl           ## C-y
 zsh  bindkey '^Z' foreground                 ## C-z

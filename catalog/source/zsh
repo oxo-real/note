@@ -121,6 +121,52 @@ setopt SHARE_HISTORY
 #! /usr/bin/env sh
 
 # --------------------------------------------------------------------
+# abs-rel-path-tgl.sh
+
+
+function abs-rel-path-tgl ()
+{
+    ## select & kill word on cursor (sets CUTBUFFER)
+    zle select-in-blank-word
+    zle kill-region
+
+    cursor_path="$CUTBUFFER"
+
+    if [[ -e "$cursor_path" ]]; then
+	## existing file, directory or symlink
+
+	if [[ "$cursor_path" =~ ^/ ]]; then
+	    ## have absolute path
+	    ## set relative path
+
+	    tgl_path=$(realpath --relative-to "$PWD" "$cursor_path")
+
+	else
+	    ## have relative path
+	    ## set absolute path
+
+	    tgl_path="${cursor_path:A}"
+	    #tgl_path=$(realpath "$cursor_path")
+
+	fi
+
+	CUTBUFFER="$tgl_path"
+
+	zle vi-put-before
+
+    else
+
+	## no valid path; do nothing
+	CUTBUFFER="$cursor_path"
+	zle vi-put-before
+
+    fi
+}
+
+zle -N abs-rel-path-tgl
+#! /usr/bin/env sh
+
+# --------------------------------------------------------------------
 # cd-funcs.sh
 
 
@@ -448,6 +494,9 @@ zle -N cd-lf
 # pwd, statistics and ls when cwd changes
 function chpwd ()
 {
+    ## update $CWD
+    export CWD="$(pwd)"
+
     ## prompt path color
     if [[ -w $PWD ]]; then
 
@@ -942,7 +991,7 @@ function git-add-commit ()
 {
     #nowdate="$(date +'%Y%m%d_%H%M%S')"
     #BUFFER="git add . && git commit --gpg-sign=7f462acc -a -m $nowdate (local_update)"
-    BUFFER="git add . && git commit --gpg-sign=7f462acc -a -m '`date +%Y%m%d_%H%M%S` (local_update)'"
+    BUFFER="git add . && git commit --gpg-sign=75AD7085 -a -m '`date +%Y%m%d_%H%M%S` (local_update)'"
 }
 
 zle -N git-add-commit
@@ -1211,6 +1260,7 @@ bindkey '^h' cd-nav-dirs                ## C-h
 bindkey '^j' cd-child                   ## C-j
 bindkey '^k' cd-up                      ## C-k
 bindkey '^l' cd-yazi                    ## C-l
+bindkey '^y' abs-rel-path-tgl           ## C-y
 bindkey '^f' insert-item-inline         ## C-f
 bindkey '^Z' foreground                 ## C-z
 

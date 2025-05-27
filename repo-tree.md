@@ -823,6 +823,11 @@
 │   ├── bluetooth
 │   │   ├── bluetoothctl
 │   │   └── var_lib_bluetooth
+│   ├── DELhosts
+│   │   ├── blocklist
+│   │   │   ├── bl_create
+│   │   │   └── bl_update
+│   │   └── blocklist_create
 │   ├── dns
 │   │   ├── dig
 │   │   ├── records
@@ -852,11 +857,6 @@
 │   │   ├── eno1.network
 │   │   ├── systemd-resolved
 │   │   └── todo
-│   ├── hosts
-│   │   ├── blocklist
-│   │   │   ├── bl_create
-│   │   │   └── bl_update
-│   │   └── blocklist_create
 │   ├── internet
 │   │   ├── ipv6
 │   │   ├── network_init.sh
