@@ -153,8 +153,8 @@ cipher_cascade03: chacha20  aes-256-ctr	aes-256-cbc
 # $x-str (e)
 
 * password examples
-de    _d
+root  _d
 boot  _pss
 vault passwd
-gpg   passwd (master_key: tr '[:upper:]' '[:lower:]'' no SPC)
+gpg   passwd (master_key: [C]kg)
 passr pass

@@ -542,7 +542,7 @@ sh   fg  ## recall last suspended command to foreground
 sh   figlet -d $XDG_CONFIG_HOME/figlet  ## change default font directory
 sh   figlet -f 'mini' oxo  ## figchars
 sh   file $file  ## determine file type
-sh   find $directory -name '$search_string' 2>/dev/null  ## find quiet
+sh   find $directory -name '$search_string' 2> /dev/null  ## find quietly
 sh   find $directory -type f -exec shred -v -z -n 3 -u {} \;  ## shred found files
 sh   find . -exec $command {} \;  ## find exec structure
 sh   find . -iname $file  ## case_insensitive find

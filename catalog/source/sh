@@ -226,7 +226,7 @@ find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print  ## find bro
 find . -maxdepth 1 -xtype l -print  ## find broken symlinks in current directory (faster than fd alternative)
 find . | sed -e 's;[^/]*/;|____;g;s;____|; |;g'  ## similar to: find . | tree
 find . -iname $file  ## case_insensitive find
-find $directory -name '$search_string' 2>/dev/null  ## find quiet
+find $directory -name '$search_string' 2> /dev/null  ## find quietly
 find $directory -type f -exec shred -v -z -n 3 -u {} \;  ## shred found files
 find /var/cache/pacman/pkg -type f -name "*.gz" -o -name "*.xz" -o -name "*.zst" | sed 's#.*/##' | awk -F '-[0-9]+' '{print $1}' | sort | uniq  ## package names from package cache *.{gz,xz,zst} files (package.list)
 setopt +o nomatch; printf '%s\n' /var/cache/pacman/pkg/*.{gz,xz,zst} | sed '/\*/d' | sed 's#.*/##' | awk -F '-[0-9]+' '{print $1}' | sort | uniq  ## package names from package cache *.{gz,xz,zst} files (package.list)
