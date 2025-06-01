@@ -5,6 +5,7 @@
 < $file  ## less $file (via READNULLCMD)
 < ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
 apropos . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage (man -k)
+argon2 withsalt -i -t 3 -m 22 -p 4 -l 64 <<< pw  ## argon2i hash of pw (withsalt, 3 iterations, 2^22 KiB memory, 4 parallel threads, 64 bytes output length)
 echo $0  ## script name or command
 echo $1  ## first argument
 echo $#  ## number of arguments
@@ -498,7 +499,7 @@ read -er input  ## zz1; variable is not assigned
 read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o  ## input base64 translation without EOL
 read -er input | base64 | wl-copy -n -o  ## input base64 translation
 read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'  ## secure sha3-512 hash from stdin (verify pwgn)
-read -er input | base64 | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf && gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
+read -er input | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf && gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
 IFS=', ' read -r -a array <<< "$string"  ## comma or space separated string to array
 readlink $symlink  ## print resolved symbolic link (relative path)
 readlink -f $symlink  ## print symbolic links' canonical (absolute path) file name
