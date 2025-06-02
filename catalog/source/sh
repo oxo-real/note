@@ -6,7 +6,6 @@
 < ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
 apropos . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage (man -k)
 argon2 withsalt -id -t 12 -m 20 -p 4 -l 64 <<< pw  ## argon2i hash of pw (withsalt, 3 iterations, 2^22 KiB memory, 4 parallel threads, 64 bytes output length)
-read -s in; salt=$(keccak-512sum <<< "$in" | cut -d ' ' -f 1); argon2 "$salt" -id -t 12 -m 20 -p 4 -l 64 <<< "$in"  ## in based keccak salt
 echo $0  ## script name or command
 echo $1  ## first argument
 echo $#  ## number of arguments
@@ -501,6 +500,8 @@ read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o  ## input base
 read -er input | base64 | wl-copy -n -o  ## input base64 translation
 read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'  ## secure sha3-512 hash from stdin (verify pwgn)
 read -er input | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf && gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
+read -s in; salt=$(keccak-512sum <<< "$in" | cut -d ' ' -f 1); argon2 "$salt" -id -t 12 -m 20 -p 4 -l 64 <<< "$in"  ## argon2 with in based keccak salt
+read -s in; salt=$(openssl dgst -keccak-512 <<< "$in" | cut -d ' ' -f 2); argon2 "$salt" -id -t 12 -m 20 -p 4 -l 64 <<< "$in"  ## argon2 with in based openssl keccak salt
 IFS=', ' read -r -a array <<< "$string"  ## comma or space separated string to array
 readlink $symlink  ## print resolved symbolic link (relative path)
 readlink -f $symlink  ## print symbolic links' canonical (absolute path) file name
