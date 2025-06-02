@@ -500,8 +500,8 @@ read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o  ## input base
 read -er input | base64 | wl-copy -n -o  ## input base64 translation
 read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'  ## secure sha3-512 hash from stdin (verify pwgn)
 read -er input | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf && gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
-read -s in; salt=$(printf '%s' "$in" | keccak-512sum | cut -d ' ' -f 1); printf '%s'"$in" | argon2 "$salt" -id -t 12 -m 10 -p 4 -l 64  ## argon2 with dynamic keccak salt
-read -s in; salt=$(printf '%s' "$in" | openssl dgst -keccak-512 | cut -d ' ' -f 2); printf '%s'"$in" | argon2 "$salt" -id -t 12 -m 10 -p 4 -l 64  ## argon2 with dynamic openssl keccak salt
+read -s in; salt=$(printf '%s' "$in" | keccak-512sum | cut -d ' ' -f 1); printf '%s'"$in" | argon2 "$salt" -id -t 32 -m 20 -p 4 -l 64  ## argon2 with dynamic keccak salt
+read -s in; salt=$(printf '%s' "$in" | openssl dgst -keccak-512 | cut -d ' ' -f 2); printf '%s'"$in" | argon2 "$salt" -id -t 32 -m 20 -p 4 -l 64  ## argon2 with dynamic openssl keccak salt
 IFS=', ' read -r -a array <<< "$string"  ## comma or space separated string to array
 readlink $symlink  ## print resolved symbolic link (relative path)
 readlink -f $symlink  ## print symbolic links' canonical (absolute path) file name
