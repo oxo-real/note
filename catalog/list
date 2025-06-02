@@ -851,7 +851,8 @@ sh   readlink $symlink  ## print resolved symbolic link (relative path)
 sh   readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonical (absolute path) symbolic link to current users $HOME (NOTICE realpath is preferred)
 sh   readlink -f $symlink  ## print symbolic links' canonical (absolute path) file name
 sh   read -r input  ## zz1; variable is assigned
-sh   read -s in; salt=$(keccak-512sum <<< "$in" | cut -d ' ' -f 1); argon2 "$salt" -id -t 12 -m 20 -p 4 -l 64 <<< "$in"  ## in based keccak salt
+sh   read -s in; salt=$(printf '%s' "$in" | keccak-512sum | cut -d ' ' -f 1); printf '%s'"$in" | argon2 "$salt" -id -t 12 -m 10 -p 4 -l 64  ## argon2 with dynamic keccak salt
+sh   read -s in; salt=$(printf '%s' "$in" | openssl dgst -keccak-512 | cut -d ' ' -f 2); printf '%s'"$in" | argon2 "$salt" -id -t 12 -m 10 -p 4 -l 64  ## argon2 with dynamic openssl keccak salt
 sh   realpath $dir_in_home | sed "s#$HOME##"  ## remove "$HOME" from $dir_in_home
 sh   realpath $file  ## return canonical file name (absolute path); $(dirname $file)/$(basename $file)
 sh   realpath --relative-to "$(pwd)" $file  ## return file name relative to $CWD (relative path)
@@ -860,7 +861,7 @@ sh   rename --all ' ' _ *  ## replace all spaces in filenames with underscores
 sh   rename 'part' 'name' filepart  ## replace 'part' with 'name' in filepart (filepart -> filename)
 sh   renice -19 $(pgrep $process_name)  ## give $process_name highest (-19) priority
 sh   reset  ## clear + reset internal terminal state + 1sec delay
-sh   reset && zsh  ## reinitialize terminal state and z-shel
+sh   reset && zsh  ## reinitialize terminal state and z-shell
 sh   return  ## return to the invoking script
 sh   rev $file  ## reverse line characters (for unknown field lengths)
 sh   rfkill list  ## check hard and soft block status wireless radios
