@@ -5,7 +5,8 @@
 < $file  ## less $file (via READNULLCMD)
 < ${$(get-newest-file $XDG_LOGS_HOME/upgrader/$HOST/package_lists/)%?}Q  ## make last character of newest file a Q and print that file (latest upgrade)
 apropos . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos and open manpage (man -k)
-argon2 withsalt -i -t 3 -m 22 -p 4 -l 64 <<< pw  ## argon2i hash of pw (withsalt, 3 iterations, 2^22 KiB memory, 4 parallel threads, 64 bytes output length)
+argon2 withsalt -id -t 12 -m 20 -p 4 -l 64 <<< pw  ## argon2i hash of pw (withsalt, 3 iterations, 2^22 KiB memory, 4 parallel threads, 64 bytes output length)
+read -s in; salt=$(keccak-512sum <<< "$in" | cut -d ' ' -f 1); argon2 "$salt" -id -t 12 -m 20 -p 4 -l 64 <<< "$in"  ## in based keccak salt
 echo $0  ## script name or command
 echo $1  ## first argument
 echo $#  ## number of arguments

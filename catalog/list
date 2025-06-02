@@ -333,6 +333,7 @@ sh   apropos . | fzf | awk '{print $1}' | xargs -r man  ## fzf search apropos an
 sh   apropos keyword  ## search man page names and descriptions
 sh   arecord --device default --format cd --rate 44100 --file-type wav --vumeter stereo test.wav  ## record wav 44100 Hz
 sh   arecord --vumeter stereo audio.wav  ## record wave audio
+sh   argon2 withsalt -id -t 12 -m 20 -p 4 -l 64 <<< pw  ## argon2i hash of pw (withsalt, 3 iterations, 2^22 KiB memory, 4 parallel threads, 64 bytes output length)
 sh   args="$@"; getargs () { while :; do case "$1" in a ) a=1; shift;; * ) return;; esac; done }; getargs $args  ## process command arguments
 sh   ascii=$(for (( i=32; i<127; i++ )) do; printf "\\$(printf %03o "$i")"; done)  ## 95 printable ascii characters (0x20-0x7e 0d32-0d126)
 sh   awk '!($1="")' $file  ## remove column 1
@@ -840,16 +841,17 @@ sh   qbns -s content.canvas_reading true -s content.webgl true -s colors.webpage
 sh   qrencode -t utf8  ## create qr from stdin
 sh   qutebrowser -s content.canvas_reading true  ## qb for windy
 sh   rankmirrors -n 10 /etc/pacman.d/mirrorlist | grep -w 'Server =' >> mirrorlist.ranked  ## update mirrorlist
-sh   read -er input | base64 | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf && gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
 sh   read -er input | base64 | wl-copy -n -o  ## input base64 translation
 sh   read -er input | tr -d '\n' | base64 | tr -d '\n' | openssl dgst -sha3-512 | sed 's/^.*= //'  ## secure sha3-512 hash from stdin (verify pwgn)
 sh   read -er input | tr -d '\n' | base64 | tr -d '\n' | wl-copy -n -o  ## input base64 translation without EOL
+sh   read -er input | wl-copy -n -o; dotfbu backup $XDG_CONFIG_HOME $XDG_DATA_HOME/c/git/dotf && gacp_all  ## backup oxo configuration & git add, commit and push to all remotes
 sh   read -er input  ## zz1; variable is not assigned
 sh   read -er -p 'SSID?' ssid | wpa_passphrase "$ssid" > "$SSID".wifi  ## generate wl access file
 sh   readlink $symlink  ## print resolved symbolic link (relative path)
 sh   readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonical (absolute path) symbolic link to current users $HOME (NOTICE realpath is preferred)
 sh   readlink -f $symlink  ## print symbolic links' canonical (absolute path) file name
 sh   read -r input  ## zz1; variable is assigned
+sh   read -s in; salt=$(keccak-512sum <<< "$in" | cut -d ' ' -f 1); argon2 "$salt" -id -t 12 -m 20 -p 4 -l 64 <<< "$in"  ## in based keccak salt
 sh   realpath $dir_in_home | sed "s#$HOME##"  ## remove "$HOME" from $dir_in_home
 sh   realpath $file  ## return canonical file name (absolute path); $(dirname $file)/$(basename $file)
 sh   realpath --relative-to "$(pwd)" $file  ## return file name relative to $CWD (relative path)
