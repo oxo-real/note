@@ -218,6 +218,7 @@
 │   │   └── pwgn.process
 │   ├── gpg
 │   │   ├── drduh
+│   │   ├── f3ce3600-pub.asc
 │   │   ├── gnupg_set_permissions
 │   │   ├── gnu_privacy_handbook
 │   │   ├── gpg
@@ -1013,5 +1014,5 @@
 └── zzz_deprecated
     └── xab
 
-216 directories, 797 files
+216 directories, 798 files
 ```
