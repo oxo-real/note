@@ -989,7 +989,7 @@ function git-dirty ()
 
 function git-add-commit ()
 {
-    BUFFER="git add . && git commit --gpg-sign="$GPG_SIGN" -a -m $(printf '%s_%X (local_update)\n' "$(date +%Y%m%d_%H%M%S)" "$(date +%s)")"
+    BUFFER="git add . && git commit --gpg-sign="$GPG_SIGN" -a -m '$(printf '%s_%X (local_update)\n' "$(date +%Y%m%d_%H%M%S)" "$(date +%s)")'"
     zle end-of-line
 }
 

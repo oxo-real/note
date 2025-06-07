@@ -1,20 +1,25 @@
-* pwgn
+* pwg*
 sh $XDG_DATA_HOME/git/code/tool/pwgn
+sh $XDG_DATA_HOME/git/code/tool/pwg2
 
 ** input
 master_key
 
 ** output
-pwgn(master_key)
+pwg*(master_key)
 
 ** master_key entry
 manual (keyboard input)
 optical (pwgn --optical)
 
-** pwgn synopsis
+** pwg* synopsis
 pwgn(master_key)
 sha3-512		text_block_01 &	qr_code_block
 dynamic truncate	text_block_02
+
+pwg2(master_key)
+keccak-512		text_block_01
+argon2id            text_block_02
 
 *** output example
 9ece  086e  9bac  491f  ac5c  1d10  46ca  11d7
@@ -49,39 +54,47 @@ bb7b  3b12  ecf7  d70b  ff4c  f681  d38f  d95b
 c5e9  41f3  5e12  678f  9bfd  45be  74e5  3aad
 091b  9aa3  fcab  9c4a  8c15  d9f0  33b0  75dd
 
-default 128 bits; else 64, 32, 16, 8 or 4 bits
+## 1 byte ^= 8 bits ^= 2 chars hex
 
-** general output interpretation legend
+## 1 line ^= 1 * 4 * 8 = 32 chars hex
+## 32 chars hex ^= 32 / 2 = 16 bytes
+## 16 bytes ^= 16 * 8 = 128 bits
+
+## 2 lines ^= 2 * 128 = 256 bits (32 bytes)
+## 4 lines ^= 4 * 128 = 512 bits (64 bytes)
+## 8 lines ^= 8 * 128 = 1024 bits (128 bytes)
+
+** personal iterations multiplier
 |-----|---|
 | pim |   |
 |-----|---|
 |     | < |
 |-----|---|
 
-** specific output interpretation legend
-|--------+-------------------------------|
-| pim r1 | first four digits             |
-|        |                               |
-| d<l r8 | last digit                    |
-|        |                               |
-| blocks | (r,c)	      (r,c)          |
-| ------ | -------------- -------------- |
-| center | pwgn(3,4 ..##) pwgn(3,5 ##..) |
-|        | pwgn(4,4 ..##) pwgn(4,5 ##..) |
-|        | pwgn(5,4 ..##) pwgn(5,5 ##..) |
-|        | pwgn(6,4 ..##) pwgn(6,5 ##..) |
-|        |                               |
-| a→A    | pwgn(7,1 ..##) pwgn(7,2 ##..) |
-| 2→@    | pwgn(8,1 ..##) pwgn(8,2 ##..) |
-|--------+-------------------------------|
+** output interpretation legend
+|--------+-------------------------------+------------+--------------|
+| pim r1 | tr -dc '0-9'                  | head -c 4  |              |
+|        |                               |            |              |
+| <  r8  | tr -dc '0-9'                  | tail -c 1  |              |
+|        |                               |            |              |
+| cblk   | trtr                          | sed '3q;d' | cut -c 15-18 |
+|        | trtr                          | sed '4q;d' | cut -c 15-18 |
+|        | trtr                          | sed '5q;d' | cut -c 15-18 |
+|        | trtr                          | sed '6q;d' | cut -c 15-18 |
+|        |                               |            |              |
+| a→A    | sed '7q;d'                    | cut -c 4-8 |              |
+| 2→@    | sed '8q;d'                    | cut -c 4-8 |              |
+| a→A    | pwg2(7,1 ..##) pwg2(7,2 ##..) |            |              |
+| 2→@    | pwg2(8,1 ..##) pwg2(8,2 ##..) |            |              |
+|--------+-------------------------------+------------+--------------|
 
 * password syntax
 |---------------+----------------|
-| yks1          | EOL            |
+| yk1           | EOL            |
 |               |                |
-| yks2          | no EOL         |
+| yk2           | no EOL         |
 |               |                |
-| pwgn(r5r6)    | no EOL, no SPC |
+| pwg2(r5r6)    | no EOL, no SPC |
 |               |                |
 | passbase64    | no EOL, no SPC |
 |               |                |
@@ -90,41 +103,44 @@ default 128 bits; else 64, 32, 16, 8 or 4 bits
 
 * password input levels
 passphrase  = master_key = read(input)
-passbase64  =	base64(passphrase)
+passbase64  =	printf '%s' "$passphrase"
 
 * synthesize password levels
-** elements
-|----------+--------+------------+---+------+--------+----+----+------|
-|          | _      | P          | A | SS   | W      | O  | R  | D    |
-|----------+--------+------------+---+------+--------+----+----+------|
-| password |        | pwgn(r5r6) | < | yks2 | center | aA | 2@ | yks1 |
-|          |        |            |   |      |        |    |    |      |
-| passwd   |        | pwgn(r5r6) | < | yks2 | center |    |    | yks1 |
-|          |        |            |   |      |        |    |    |      |
-| pword    |        | pwgn(r5r6) |   |      | center | aA | 2@ | yks1 |
-|          |        |            |   |      |        |    |    |      |
-| pass     |        | pwgn(r5r6) | < | yks2 |        |    |    |      |
-|          |        |            |   |      |        |    |    |      |
-| pwd      |        | pwgn(r5r6) |   |      | center |    |    | yks1 |
-|          |        |            |   |      |        |    |    |      |
-| ssd      |        |            |   | yks2 |        |    |    | yks1 |
-|          |        |            |   |      |        |    |    |      |
-| pss      |        | pwgn(r5r6) |   | yks2 |        |    |    |      |
-|          |        |            |   |      |        |    |    |      |
-| pd       |        | pwgn(r5r6) |   |      |        |    |    | yks1 |
-|          |        |            |   |      |        |    |    |      |
-| _pss     | $hw_id |            |   | yks2 |        |    |    |      |
-|          |        |            |   |      |        |    |    |      |
-| _d       | s      |            |   |      |        |    |    | yks1 |
-|----------+--------+------------+---+------+--------+----+----+------|
+** legacy
+|----------+--------+------------+---+-----+------+----+----+-----|
+|          | _      | P          | A | SS  | W    | O  | R  | D   |
+|----------+--------+------------+---+-----+------+----+----+-----|
+| password |        | pwg2(r5r6) | < | yk2 | cblk | aA | 2@ | yk1 |
+|          |        |            |   |     |      |    |    |     |
+| passwd   |        | pwg2(r5r6) | < | yk2 | cblk |    |    | yk1 |
+|          |        |            |   |     |      |    |    |     |
+| pword    |        | pwg2(r5r6) |   |     | cblk |    | 2@ | yk1 |
+|          |        |            |   |     |      |    |    |     |
+| pass     |        | pwg2(r5r6) | < | yk2 |      |    |    |     |
+|          |        |            |   |     |      |    |    |     |
+| pwd      |        | pwg2(r5r6) |   |     | cblk |    |    | yk1 |
+|          |        |            |   |     |      |    |    |     |
+| ssd      |        |            |   | yk2 |      |    |    | yk1 |
+|          |        |            |   |     |      |    |    |     |
+| pss      |        | pwg2(r5r6) |   | yk2 |      |    |    |     |
+|          |        |            |   |     |      |    |    |     |
+| pd       |        | pwg2(r5r6) |   |     |      |    |    | yk1 |
+|          |        |            |   |     |      |    |    |     |
+| _pss     | $hw_id |            |   | yk2 |      |    |    |     |
+|          |        |            |   |     |      |    |    |     |
+| _d       | s      |            |   |     |      |    |    | yk1 |
+|----------+--------+------------+---+-----+------+----+----+-----|
 ** $x-str (salt)
 S-x S-\ \ x
-
 ** $y-str (pepper)
 S-y S-\ \ y
 
+* passstring
+** 0001
+pwg2(r5r6)
+
 * cryptr
-pwgn(passbase64)
+pwg2(passbase64)
 password
 ** encrypt
 cryptr [-e] file.txt [dest]
@@ -138,14 +154,14 @@ cipher_cascade02: aes256	  twofish	cast5
 cipher_cascade03: chacha20  aes-256-ctr	aes-256-cbc
 
 * generate yk string
-** yks1
+** yk1
 % pwgn $(passr pi100 userid)
 # paste (C-S-v) when prompted for: '🔐  (press TAB for no echo)'
 % wl-paste | head -c 12
 # add salt
 # $x-str (p)
 
-** yks2
+** yk2
 % pwgn $(passr e100 userid)
 # paste (C-S-v) when prompted for: '🔐  (press TAB for no echo)'
 % wl-paste | head -c 12
@@ -156,5 +172,6 @@ cipher_cascade03: chacha20  aes-256-ctr	aes-256-cbc
 root  _d
 boot  _pss
 vault passwd
-gpg   passwd (master_key: [C]kg)
+gpg   passwd (fpr)
 passr pass
+tarx  0001

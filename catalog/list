@@ -272,6 +272,7 @@ qb   config.bind(';v3', 'hint links spawn mpv --start=+00:00 --ytdl-raw-options=
 qb   config.bind(';v4', 'hint links spawn mpv --start=+00:00 --ytdl-raw-options=format-sort=res:480 --profile=cache_xs --demuxer-cache-wait=no --msg-level=all=v --user-agent=$USER_AGENT --force-window --no-terminal --keep-open=yes --ytdl {hint-url}')
 qb   config.bind(';v6', 'hint links spawn mpv --ytdl-format="best[filesize<600M]" --force-window --no-terminal --keep-open=yes --ytdl {hint-url}')
 qb   config.bind(';v9', 'hint links spawn mpv --ytdl-format="best[filesize<900M]" --force-window --no-terminal --keep-open=yes --ytdl {hint-url}')
+qb   config.bind(';va', 'hint links spawn mpv --video=no --start=+00:00 --profile=cache_xs --demuxer-cache-wait=no --msg-level=all=v --user-agent=$USER_AGENT --force-window --no-terminal --keep-open=yes --ytdl {hint-url}')
 qb   config.bind('V', 'hint links spawn mpv --force-window --no-terminal --keep-open=yes --ytdl --start=+00:00 --ytdl-raw-options=format-sort=res:240 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT {hint-url}')
 qb   config.bind('v', 'mode-enter caret')
 qb   config.bind('v', 'selection-toggle', mode='caret')
@@ -851,8 +852,8 @@ sh   readlink $symlink  ## print resolved symbolic link (relative path)
 sh   readlink -f $symlink | cut -d / -f 4- | awk -v home="$HOME/" '{print home $0}'  ## change canonical (absolute path) symbolic link to current users $HOME (NOTICE realpath is preferred)
 sh   readlink -f $symlink  ## print symbolic links' canonical (absolute path) file name
 sh   read -r input  ## zz1; variable is assigned
-sh   read -s in; salt=$(printf '%s' "$in" | keccak-512sum | cut -d ' ' -f 1); printf '%s'"$in" | argon2 "$salt" -id -t 12 -m 10 -p 4 -l 64  ## argon2 with dynamic keccak salt
-sh   read -s in; salt=$(printf '%s' "$in" | openssl dgst -keccak-512 | cut -d ' ' -f 2); printf '%s'"$in" | argon2 "$salt" -id -t 12 -m 10 -p 4 -l 64  ## argon2 with dynamic openssl keccak salt
+sh   read -s in; salt=$(printf '%s' "$in" | keccak-512sum | cut -d ' ' -f 1); printf '%s'"$in" | argon2 "$salt" -id -t 32 -m 20 -p 4 -l 64  ## argon2 with dynamic keccak salt
+sh   read -s in; salt=$(printf '%s' "$in" | openssl dgst -keccak-512 | cut -d ' ' -f 2); printf '%s'"$in" | argon2 "$salt" -id -t 32 -m 20 -p 4 -l 64  ## argon2 with dynamic openssl keccak salt
 sh   realpath $dir_in_home | sed "s#$HOME##"  ## remove "$HOME" from $dir_in_home
 sh   realpath $file  ## return canonical file name (absolute path); $(dirname $file)/$(basename $file)
 sh   realpath --relative-to "$(pwd)" $file  ## return file name relative to $CWD (relative path)

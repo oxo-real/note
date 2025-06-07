@@ -322,6 +322,7 @@
 │   │   ├── genfstab_8
 │   │   ├── icons
 │   │   │   ├── cursor_how_to
+│   │   │   ├── cursor-shapes.sh
 │   │   │   └── readme
 │   │   ├── kernel
 │   │   │   └── cl-params
@@ -1012,5 +1013,5 @@
 └── zzz_deprecated
     └── xab
 
-216 directories, 796 files
+216 directories, 797 files
 ```
