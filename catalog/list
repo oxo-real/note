@@ -595,27 +595,27 @@ sh   git push [-u] $repo $branch  ## -u sets the upstream tracking branch direct
 sh   git reset --hard 2db93df  ## back to a previous commit id
 sh   git rev-parse HEAD | cut --characters 1-10  ## HEAD commit id (online repo syntax)
 sh   gnutls-cli -d 1 grc.com -p 443  ## get certificate info
-sh   gpg --armor --export $keyid > $keyid.pbl.gpg  ## export public key ascii armored id
-sh   gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk 'BEGIN{CACHED=0} /^S/ {if($7==1){CACHED=1}} END{if($0!=""){print CACHED} else {print "0"}}'  ## gpg cache status (1=cached)
-sh   gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
-sh   gpg --decrypt plain.txt.asc  ## decrypt plain.txt.asc to plain.txt (like pass)
-sh   gpg --detach-sign --local-user 0x12345678 $file  ## sign $file with specific secret key
-sh   gpg -e -a -r $id file  ## encrypt file armored for recipient $id (like pass)
-sh   gpg --edit-key $keyid >  ## edit public key
-sh   gpg --encrypt --armor --recipient $keyid plain.txt  ## encrypt plain.txt to plain.txt.asc for recipient with $keyid (like pass)
+sh   gpg --armor --export $keyid > $keyid.pbl.gpg  ## export ascii armored public key
+sh   gpg-connect-agent reloadagent /bye  ## clear gpg agent cache
+sh   gpg --decrypt plain.txt.asc  ## decrypt plain.txt.asc to plain.txt with default key (like pass)
+sh   gpg --decrypt signed.file  ## decrypt signed file
+sh   gpg --detach-sign --local-user $uid $file  ## create $file separate signature by $uid
+sh   gpg --edit-key $keyid  ## edit key
+sh   gpg --encrypt --armor --recipient $id plain.txt  ## encrypt plain.txt to aemored plain.txt.asc for recipient with $id (like pass)
 sh   gpg --expert --full-generate-key  ## generate new keypair
 sh   gpg --export $keyid > $keyid.pbl.gpg  ## export public key binary
 sh   gpg --export --export-options backup --output public_keys.gpg  ## step 1 backup gpg identity (public keys)
 sh   gpg --export-ownertrust > trust_db.gpg  ## step 3 backup gpg identity (trust database)
 sh   gpg --export-secret-keys --export-options backup --output private_keys.gpg  ## step 2 backup gpg identity (private keys)
 sh   gpg --fingerprint | grep -i -B 1 $uid_email | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
-sh   gpg --import $keyid  ## import key by key id
+sh   gpg --import $keyid  ## import $keyid
 sh   gpg --import-ownertrust trust_db.gpg  ## step 3 restore gpg identity (trust database)
 sh   gpg --import private_keys.gpg  ## step 2 restore gpg identity (private keys)
 sh   gpg --import public_keys.gpg  ## step 1 restore gpg identity (public keys)
 sh   gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 2 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list (grep -B 1 if keygrip is not shown)
-sh   gpg --list-keys --with-fingerprint --with-subkey-fingerprint --with-keygrip [$keyid]  ##  keyring info [for specified keys]
+sh   gpg --list-keys --with-colons --with-fingerprint --with-subkey-fingerprint --with-keygrip --with-sig-check [$keyid]  ##  keyring info [specified key(s)]
 sh   gpg --list-packets $keyid  ## list only the sequence of packets
+sh   gpg --list-secret-keys --with-colons 2</dev/null | awk -F: '/^fpr/ {fpr=$10} /^grp/ {print $10, fpr}' | grep $(gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk '/^S/ {if ($7 == 1) {print $3; exit 0}}') 2>/dev/null | awk '{if ($2 == "") exit 1; print $2}'  ## gpg agent print cached fpr
 sh   gpg --output $file.sig --sign $file  ## create a separate signature file
 sh   gpg --output file --decrypt file.gpg >  ## decrypt file.gpg asymmetric using private key
 sh   gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetric using public key ID
@@ -623,7 +623,7 @@ sh   gpg --output file.gpg --symmetric file >  ## encrypt file symmetric
 sh   gpg --output ID.pbl.asc --armor --export ID >  ## export public key ascii armored
 sh   gpg --output revoke.asc --gen-revoke ID  ## generate revocation certificate
 sh   gpg-pass-vfy () { read -r pass && echo $pass | gpg --yes --batch --passphrase-fd 0 --pinentry-mode loopback --armor --sign --local-user "$1"; unset pass }  ## verify gpg passphrase
-sh   gpg --show-keys --with-fingerprint --with-subkey-fingerprint --with-keygrip $key_file  ##  key info for $key_file (.asc)
+sh   gpg --show-keys --with-colons --with-fingerprint --with-subkey-fingerprint --with-keygrip --with-sig-check $key_file  ##  key info for $key_file (.asc)
 sh   gpg --verify $file.sig [other_dir/$file]  ## verify a signature
 sh   gpg -vv $pub_key.asc  ## verbose info on $pub_key.asc
 sh   gpsbabel -i garmin_fit -f $in_fit -o gpx -F $out_gpx  ## fit2gpx conversion
@@ -741,6 +741,7 @@ sh   mount | sort -k 1 | column -t  ## sort mount by device name
 sh   mount | sort -k 3 | column -t  ## sort mount by mountpoint
 sh   mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
 sh   mpv --audio-display=no $file.mp3  ## play mp3 without albumart
+sh   mpv av://v4l2:/dev/video4 --profile=low-latency --untimed  ## mpv v4l2 low latency
 sh   mpv /dev/video4  ## livestream local webcam
 sh   mpv --start=+00:00 --ytdl-raw-options=format-sort=res:240 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT $(wl-paste)  ## stream verbose with user-agent, best res under 480p and mpv.conf cache_xs profile
 sh   mpv --video=no $(wl-paste)  ## stream video link play audio only
@@ -868,6 +869,7 @@ sh   rev $file  ## reverse line characters (for unknown field lengths)
 sh   rfkill list  ## check hard and soft block status wireless radios
 sh   rfkill [un]block all  ## soft [un]block all radios
 sh   rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
+sh   rg --passthrough --ignore-case --no-line-number pttrn .  ## highlight matching pttrn '^|pttrn'
 sh   rg --sort path --ignore-case --line-number pttrn .  ## ripgrep synopsis; $options $pattern $path
 sh   rmmod $module  ## remove $module from linux kernel
 sh   rm -rf -- '-r'  ## remove entire directory starting with a '-'
@@ -924,8 +926,8 @@ sh   sort < $file | uniq --unique > $file_uniq  ## unique lines
 sh   sort $HISTFILE | uniq --count | sort -k1,1nr -k2 >> history_freq  ## create history frequency list
 sh   sort -k 2,2nr  ## numeric reversed sort only on column 2, not to eol
 sh   source $function_text_appearance; printf "$(FHX ffbf00)$(BHX 0040ff)%s${NOC}\n" "$text"  ## hexadecimal 24 bit color codes in printf (fore- & background)
-sh   spin_cc () { while :; do for t in - / \| \\; do echo -en "\r$t"; sleep .2; done; done }  ## counter clockwise rotating thingy
-sh   spin_cw () { while :; do for t in - \\ \| /; do echo -en "\r$t"; sleep .2; done; done }  ## clockwise rotating thingy
+sh   spin_cc () { while :; do for t in - / \| \\; do echo -en "\r$t"; sleep .2; done; done }  ## counter clockwise rotating line
+sh   spin_cw () { while :; do for t in - \\ \| /; do echo -en "\r$t"; sleep .2; done; done }  ## clockwise rotating line
 sh   split $file -b N  ## split $file into files with N bytes
 sh   split $file -l N  ## split $file into files with N lines
 sh   split $file -n N  ## split $file into N files
@@ -944,7 +946,7 @@ sh   stty sane  ## don't clear screen but reset some terminal options
 sh   sudo -k; free -h; echo; for i in {1..3}; do; sudo sysctl -w vm.drop_caches="$i"; sudo sync; echo "$i" | sudo tee /proc/sys/vm/drop_caches; done; free -h  ## free mwmory (pagecache, dentries and inodes)
 sh   sudo -k  ## (--reset timestamp) invalidate user cached credentials
 sh   sudo -l  ## (--list) list user privileges
-sh   sudo -n echo >/dev/null 2>&1; echo $?  ## print credential cache status (1 no 0 cache)
+sh   sudo --non-interactive --list  ## elevated privieges w/o password prompt
 sh   sudo passwd -u $user  ## enable password for user
 sh   sudo rfkill unblock bluetooth && sudo systemctl start bluetooth.service && bluetoothctl power on && bluetoothctl discoverable off  ## bluetooth radio on
 sh   sudo -v  ## (--validate) validate user cached credentials
@@ -979,6 +981,7 @@ sh   tar -xv[j/z/J]f $archive.tar $path/single.file  ## extract single.file from
 sh   tar -xv[j/z/J]f $archive.tar  ## extract tar archive [bzip2/gzip/xz compression (optional)]
 sh   tar -xv[j/z/J]f $archive.tar -O $file-in-tar  ## extract $file-in-tar to stdout
 sh   tee --append $file1 $file2  ## append stdout to multiple files
+sh   test "${EUID:-$(id -u)}" -eq 0  ## check if current user is root
 sh   test "$var"  ## check if $var is defined / non-null
 sh   tmp=$(mktemp); printf "$tmp\n"; head -c 1b </dev/urandom >"$tmp"  ## create a temporary file with 1b random data
 sh   tmux attach-session -t 0  ## TODO decription

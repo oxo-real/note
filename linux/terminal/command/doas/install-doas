@@ -1,0 +1,13 @@
+#! /usr/bin/env sh
+
+## install doas
+yay -Sy opendoas
+
+## make config file
+sh make-doas-conf.sh
+
+## remove sudo
+yay -Rdd sudo
+
+## symlink
+ln -s $(which doas) /usr/bin/sudo

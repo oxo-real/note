@@ -222,6 +222,7 @@
 │   │   ├── gnupg_set_permissions
 │   │   ├── gnu_privacy_handbook
 │   │   ├── gpg
+│   │   ├── gpg-101
 │   │   ├── gpg-agent
 │   │   ├── gpg_errors
 │   │   ├── yk_readme
@@ -241,6 +242,14 @@
 │   │   ├── ascii95_ps.key
 │   │   └── ct_01.txt
 │   ├── password_entry
+│   ├── pgp
+│   │   ├── alice-pub.asc
+│   │   ├── alice-rev.crt
+│   │   ├── alice-sec.key
+│   │   ├── bob-pub.asc
+│   │   ├── bob-rev.crt
+│   │   ├── bob-sec.key
+│   │   └── url
 │   ├── ssh
 │   │   ├── ssh_config
 │   │   ├── ssh_note
@@ -631,7 +640,8 @@
 │   │   │   ├── dd
 │   │   │   │   └── dd_bs_test.sh
 │   │   │   ├── doas
-│   │   │   │   ├── make_doas_conf.sh
+│   │   │   │   ├── install-doas
+│   │   │   │   ├── make-doas-conf.sh
 │   │   │   │   └── nopass_example
 │   │   │   ├── du
 │   │   │   ├── feh
@@ -1014,5 +1024,5 @@
 └── zzz_deprecated
     └── xab
 
-216 directories, 798 files
+217 directories, 807 files
 ```

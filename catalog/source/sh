@@ -263,9 +263,9 @@ git push [-u] $repo $branch  ## -u sets the upstream tracking branch directly
 git reset --hard 2db93df  ## back to a previous commit id
 git rev-parse HEAD | cut --characters 1-10  ## HEAD commit id (online repo syntax)
 gnutls-cli -d 1 grc.com -p 443  ## get certificate info
-gpg --armor --export $keyid > $keyid.pbl.gpg  ## export public key ascii armored id
-gpg --detach-sign --local-user 0x12345678 $file  ## sign $file with specific secret key
-gpg --edit-key $keyid >  ## edit public key
+gpg --armor --export $keyid > $keyid.pbl.gpg  ## export ascii armored public key
+gpg --detach-sign --local-user $uid $file  ## create $file separate signature by $uid
+gpg --edit-key $keyid  ## edit key
 gpg --export $keyid > $keyid.pbl.gpg  ## export public key binary
 gpg --export --export-options backup --output public_keys.gpg  ## step 1 backup gpg identity (public keys)
 gpg --export-secret-keys --export-options backup --output private_keys.gpg  ## step 2 backup gpg identity (private keys)
@@ -275,25 +275,25 @@ gpg --import private_keys.gpg  ## step 2 restore gpg identity (private keys)
 gpg --import-ownertrust trust_db.gpg  ## step 3 restore gpg identity (trust database)
 gpg --fingerprint | grep -i -B 1 $uid_email | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get gpg fingerprint w/o spaces from uid (email)
 gpg --expert --full-generate-key  ## generate new keypair
-gpg --import $keyid  ## import key by key id
-gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 2 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list (grep -B 1 if keygrip is not shown)
-gpg --list-keys --with-fingerprint --with-subkey-fingerprint --with-keygrip [$keyid]  ##  keyring info [for specified keys]
-gpg --show-keys --with-fingerprint --with-subkey-fingerprint --with-keygrip $key_file  ##  key info for $key_file (.asc)
+gpg --import $keyid  ## import $keyid
+gpg --list-keys --with-colons --with-fingerprint --with-subkey-fingerprint --with-keygrip --with-sig-check [$keyid]  ##  keyring info [specified key(s)]
+gpg --show-keys --with-colons --with-fingerprint --with-subkey-fingerprint --with-keygrip --with-sig-check $key_file  ##  key info for $key_file (.asc)
 gpg --list-packets $keyid  ## list only the sequence of packets
 gpg --output ID.pbl.asc --armor --export ID >  ## export public key ascii armored
 gpg --output file --decrypt file.gpg >  ## decrypt file.gpg asymmetric using private key
 gpg --output file.gpg --encrypt --recipient ID file >  ## encrypt file asymmetric using public key ID
 gpg --output file.gpg --symmetric file >  ## encrypt file symmetric
-gpg --encrypt --armor --recipient $keyid plain.txt  ## encrypt plain.txt to plain.txt.asc for recipient with $keyid (like pass)
-gpg --decrypt plain.txt.asc  ## decrypt plain.txt.asc to plain.txt (like pass)
-gpg -e -a -r $id file  ## encrypt file armored for recipient $id (like pass)
+gpg --encrypt --armor --recipient $id plain.txt  ## encrypt plain.txt to aemored plain.txt.asc for recipient with $id (like pass)
+gpg --decrypt plain.txt.asc  ## decrypt plain.txt.asc to plain.txt with default key (like pass)
+gpg --decrypt signed.file  ## decrypt signed file
 gpg --output revoke.asc --gen-revoke ID  ## generate revocation certificate
 gpg --output $file.sig --sign $file  ## create a separate signature file
 gpg --verify $file.sig [other_dir/$file]  ## verify a signature
 gpg -vv $pub_key.asc  ## verbose info on $pub_key.asc
-gpg-connect-agent reloadagent /bye  ## clear passphrases gpg cache
-gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk 'BEGIN{CACHED=0} /^S/ {if($7==1){CACHED=1}} END{if($0!=""){print CACHED} else {print "0"}}'  ## gpg cache status (1=cached)
+gpg-connect-agent reloadagent /bye  ## clear gpg agent cache
+gpg --list-secret-keys --with-colons 2</dev/null | awk -F: '/^fpr/ {fpr=$10} /^grp/ {print $10, fpr}' | grep $(gpg-connect-agent 'keyinfo --list' /bye 2>/dev/null | awk '/^S/ {if ($7 == 1) {print $3; exit 0}}') 2>/dev/null | awk '{if ($2 == "") exit 1; print $2}'  ## gpg agent print cached fpr
 gpg-pass-vfy () { read -r pass && echo $pass | gpg --yes --batch --passphrase-fd 0 --pinentry-mode loopback --armor --sign --local-user "$1"; unset pass }  ## verify gpg passphrase
+gpg --list-keys | grep ^uid | sed s'/  //g' | fzf | awk '{print $NF}' | sed 's/<//' | sed 's/>//' | xargs -I {} sh -c "gpg --list-keys | grep -B 2 {}" | head -n 1 | awk -F = '{print $2}' | sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## get fingerprint from fzf uid list (grep -B 1 if keygrip is not shown)
 gpsbabel -i garmin_fit -f $in_fit -o gpx -F $out_gpx  ## fit2gpx conversion
 printf $s2l | grep -o .  ## print each character of a string on a separate line (string to lines)
 for i in $(seq 1 95 | grep -vFx 6); do echo "line $i"; done  ## loop through numbers 1 to 95, excluding 6 (exclude one line in loop)
@@ -415,6 +415,7 @@ mpv --video=no $(wl-paste)  ## stream video link play audio only
 wl-paste | sed 's/youtube.com/yewtu.be/' | wl-copy  ## change to invidious url
 mpv --audio-display=no $file.mp3  ## play mp3 without albumart
 mpv /dev/video4  ## livestream local webcam
+mpv av://v4l2:/dev/video4 --profile=low-latency --untimed  ## mpv v4l2 low latency
 mv -t $target_dir $source_dirs  ## move source_dirs to target_dir
 nerd-dictation begin --config $config_file --simulate-input-tool STDOUT --numbers-min-value 10 --numbers-as-digits --numbers-no-suffix --vosk-model-dir $model_dir  ## speech-to-text
 neofetch --ascii_distro arch_small --gtk3 off --gtk2 off --colors 3 3 3 7 3 4 --separator '     \t'  ## neat system info
@@ -522,6 +523,7 @@ rfkill list  ## check hard and soft block status wireless radios
 rfkill [un]block bluetooth  ## soft [un]block bluetooth radio
 rfkill [un]block all  ## soft [un]block all radios
 rg --sort path --ignore-case --line-number pttrn .  ## ripgrep synopsis; $options $pattern $path
+rg --passthrough --ignore-case --no-line-number pttrn .  ## highlight matching pttrn '^|pttrn'
 rm -rf -- '-r'  ## remove entire directory starting with a '-'
 rmmod $module  ## remove $module from linux kernel
 rsync --recursive $src $dst  ## create intervening directory $dst/$src; with all content of $src
@@ -582,8 +584,8 @@ sort < $file | sort -nr > $file_sort_freq  ## reverse numerical sort
 sort < $file | uniq --unique > $file_uniq  ## unique lines
 sort $file | uniq --count | sort -k 1,1nr -k 2 | sed 's/^ *[0-9]* //' > file_freq_sort  ## sort columns: k1 numeric reverse then k2
 source $function_text_appearance; printf "$(FHX ffbf00)$(BHX 0040ff)%s${NOC}\n" "$text"  ## hexadecimal 24 bit color codes in printf (fore- & background)
-spin_cw () { while :; do for t in - \\ \| /; do echo -en "\r$t"; sleep .2; done; done }  ## clockwise rotating thingy
-spin_cc () { while :; do for t in - / \| \\; do echo -en "\r$t"; sleep .2; done; done }  ## counter clockwise rotating thingy
+spin_cw () { while :; do for t in - \\ \| /; do echo -en "\r$t"; sleep .2; done; done }  ## clockwise rotating line
+spin_cc () { while :; do for t in - / \| \\; do echo -en "\r$t"; sleep .2; done; done }  ## counter clockwise rotating line
 split $file -b N  ## split $file into files with N bytes
 split $file -l N  ## split $file into files with N lines
 split $file -n N  ## split $file into N files
@@ -602,7 +604,8 @@ ts="$(now)"; stty_bu="$XDG_CONFIG_HOME/tty/"$ts"_sttyrc"; stty --save > $stty_bu
 sudo -k  ## (--reset timestamp) invalidate user cached credentials
 sudo -l  ## (--list) list user privileges
 sudo -v  ## (--validate) validate user cached credentials
-sudo -n echo >/dev/null 2>&1; echo $?  ## print credential cache status (1 no 0 cache)
+sudo --non-interactive --list  ## elevated privieges w/o password prompt
+test "${EUID:-$(id -u)}" -eq 0  ## check if current user is root
 swaymsg -t get_outputs  ## list current sway outputs
 swaymsg -t get_tree | jq '.. | select(.type?) | select(.focused==true) | .pid'  ## currently active terminal pid
 swaymsg -t get_tree | jq -r '.nodes[].nodes[] | select(.type=="workspace").name'  ## list sway workspaces

@@ -35,3 +35,24 @@ match everything else (.*) to the end of the line ($)
 / - end the substitute find section
 \1 - replace with the name block between the \( and the \) above
 / - end the replace
+
+
+[quoting - How to ensure that string interpolated into `sed` substitution escapes all metachars - Unix & Linux Stack Exchange]
+(https://unix.stackexchange.com/questions/129059/how-to-ensure-that-string-interpolated-into-sed-substitution-escapes-all-metac)
+
+escaped_lhs=$(printf '%s\n' "$lhs" | sed 's:[][\\/.^$*]:\\&:g')
+escaped_rhs=$(printf '%s\n' "$rhs" | sed 's:[\\/&]:\\&:g; $!s/$/\\/')
+sed "s/$escaped_lhs/$escaped_rhs/"
+
+
+ERE:
+escaped_lhs=$(printf '%s\n' "$lhs" | sed 's:[][\\/.^$*+?(){}|]:\\&:g')
+escaped_rhs=$(printf '%s\n' "$rhs" | sed 's:[\\/&]:\\&:g; $!s/$/\\/')
+sed -E "s/$escaped_lhs/$escaped_rhs/"
+
+
+zsh (BRE escaping):
+
+set -o extendedglob
+escaped_lhs=${lhs//(#m)[][\\.^$\/&]/\\$MATCH}
+escaped_rhs=${rhs//(#m)[\\&\/$'\n']/\\$MATCH}
