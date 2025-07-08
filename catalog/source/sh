@@ -477,6 +477,7 @@ printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-T
 printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -  ## space every 4th character (with fold)
 printf "space_every_4th_char" | sed 's/.\{4\}/& /g'  ## space every 4th character (with sed)
 printf $(( [#n] x ))  ## print base 10 value of x in base n, with 2<=n<=36
+printf '%s\n' rm -rf *  ## dry run command (rm -rf *)
 cat /proc/cmdline  ## view current kernel parameters
 ps -ajf  ## print a process tree; all processes with tty, jobs format, full format
 ps -eFly  ## list every process on the system
@@ -539,6 +540,7 @@ script; $command; exit  ## $command execution typescript user log
 script; sh -x $command; exit  ## $sommand execution typescript developer debug log
 script --command 'sh -x $command' --log-io "$(now).log" --log-timing "$(now).log"  ## $sommand execution typescript developer debug log_2
 sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
+sed -e 's/[[:space:]]\+/ /g'  ## remove excess whitespace
 sed '/^\s*$/d'  ## delete empty lines
 sed "${line_num}q;d" $file  ## print only line "$line_num" from $file
 sed '/.*string.*/a inserted_line_after' $file  ## insert line after line containing 'string'

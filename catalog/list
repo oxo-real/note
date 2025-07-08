@@ -816,6 +816,7 @@ sh   printf '☯' | hexdump  ## utf8 character encoding; NOTICE better use od or
 sh   printf "Mime-Version: 1.0; Content-Type: text/plain; charset=us-ascii; Content-Transfer-Encoding: 7bit; Subject: <subject>\n; <body>" | msmtp -v -C <msmtp_config> -a <profile_name> -- destination@mail.com  ## send email
 sh   printf '%s' "$ASCII" | fold -w 1 | shuf | tr -d '\n'  ## randomize characters of the $ASCII string
 sh   printf '%s' "$l2s" | tr -d '\n'  ## remove newlines (lines to string)
+sh   printf '%s\n' rm -rf *  ## dry run command (rm -rf *)
 sh   printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -  ## space every 4th character (with fold)
 sh   printf "space_every_4th_char" | sed 's/.\{4\}/& /g'  ## space every 4th character (with sed)
 sh   printf '%s_%X\n' "$(date $DT)" "$(date +'%s')"  ## dtx i.e.: 20250126_081507_6795E0FB
@@ -893,6 +894,7 @@ sh   sed '2,$d' $file  ## delete all lines from line 2 from $file
 sh   sed '2,3 d' $file  ## delete line 2 and 3 from $file
 sh   sed ':a;N;$!ba;s/\n//g' | sed 's/ //g' | sed 's/\r$//g'  ## remove all spaces from string
 sh   sed '/comm/s/./#&/' $file  ## comment lines containing 'comm' (add #; add '## ': /## &/)
+sh   sed -e 's/[[:space:]]\+/ /g'  ## remove excess whitespace
 sh   sed -i.bak "/^${user}:/ s/^${user}:!/\1:/" /etc/shadow  ##
 sh   sed -n '1,10p' $file  ## sed emulate head
 sh   sed -n -e :a -e '1,2!{P;N;D;};N;ba' $file  ## remove last 2 lines from $file
