@@ -633,13 +633,11 @@ tail -f /var/log/{messages,kernel,dmesg,syslog}  ## TODO decription
 tail -n 2 $file  ## print $file last 2 lines
 tail -n +2 $file  ## print $file from line 2 (skip first line)
 tac $file  ## concatenate and print file lines in reverse
-tar -cv[j/z]f $archive.tar -C $subdir $files  ## create tar archive [bzip2/gzip compression (optional)] files in archive relative to $subdir
-tar -tvf $archive.tar  ## print contents of tar archive
-tar -cv[j/z/J]f $archive.tar $files  ## create tar archive [bzip2/gzip/xz compression (optional)]
-tar -xv[j/z/J]f $archive.tar  ## extract tar archive [bzip2/gzip/xz compression (optional)]
-tar -xv[j/z/J]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip/xz compression (optional)]
-tar -xv[j/z/J]f $archive.tar -O $file-in-tar  ## extract $file-in-tar to stdout
-tar -rvf $archive.tar $file-to-append  ## append file to existing archive
+tar --file $archive --append $source  ## append to archive
+tar --file $archive --create [--bzip2/--gzip/--xz] [--directory $src_dir] $source  ## create compressed archive
+tar --file $archive --delete $file-to-delete  ## delete from uncompressed archive
+tar --file $archive --extract [[--directory $target] | [--to-stdout]] [single.file]  ## extract [single file] from archive [to subdir] [to stdout]
+tar --file $archive --list  ## list archive
 tee --append $file1 $file2  ## append stdout to multiple files
 test "$var"  ## check if $var is defined / non-null
 [ "$var" ]  ## alias for: 'test "$var"'
@@ -703,9 +701,9 @@ xxd -groupsize 1 <<< $ASCII  ## hexdump space separated bytes of $ASCII
 xxd -bits <<< $ASCII  ## bitdump of $ASCII
 xxd -plain $infile $outfile  ## write plain hexdump of $infile to $outfile
 xxd -plain -revert $infile $outfile  ## reverse plain hexdump
-xz -d  ## decompress .xz file
-xz -l  ## list .xz file
-xz -z  ## compress .xz file
+xz --decompress $file.xz  ## unxz to file
+xz --list   ## list .xz file content
+xz --compress $file  ## xz to file.xz
 yay --gendb  ## generate developement package database
 yay -Qqm | yay -Gd -   ## download package builds from installed aur packages
 yay -P  ## show (is a yay specific [no pacman] option)

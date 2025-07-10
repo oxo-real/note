@@ -975,13 +975,11 @@ sh   tac $file  ## concatenate and print file lines in reverse
 sh   tail -f /var/log/{messages,kernel,dmesg,syslog}  ## TODO decription
 sh   tail -n +2 $file  ## print $file from line 2 (skip first line)
 sh   tail -n 2 $file  ## print $file last 2 lines
-sh   tar -cv[j/z]f $archive.tar -C $subdir $files  ## create tar archive [bzip2/gzip compression (optional)] files in archive relative to $subdir
-sh   tar -cv[j/z/J]f $archive.tar $files  ## create tar archive [bzip2/gzip/xz compression (optional)]
-sh   tar -rvf $archive.tar $file-to-append  ## append file to existing archive
-sh   tar -tvf $archive.tar  ## print contents of tar archive
-sh   tar -xv[j/z/J]f $archive.tar $path/single.file  ## extract single.file from tar archive [bzip2/gzip/xz compression (optional)]
-sh   tar -xv[j/z/J]f $archive.tar  ## extract tar archive [bzip2/gzip/xz compression (optional)]
-sh   tar -xv[j/z/J]f $archive.tar -O $file-in-tar  ## extract $file-in-tar to stdout
+sh   tar --file $archive --append $source  ## append to archive
+sh   tar --file $archive --create [--bzip2/--gzip/--xz] [--directory $src_dir] $source  ## create compressed archive
+sh   tar --file $archive --delete $file-to-delete  ## delete from uncompressed archive
+sh   tar --file $archive --extract [[--directory $target] | [--to-stdout]] [single.file]  ## extract [single file] from archive [to subdir] [to stdout]
+sh   tar --file $archive --list  ## list archive
 sh   tee --append $file1 $file2  ## append stdout to multiple files
 sh   test "${EUID:-$(id -u)}" -eq 0  ## check if current user is root
 sh   test "$var"  ## check if $var is defined / non-null
@@ -1057,9 +1055,9 @@ sh   xxd -bits <<< $ASCII  ## bitdump of $ASCII
 sh   xxd -groupsize 1 <<< $ASCII  ## hexdump space separated bytes of $ASCII
 sh   xxd -plain $infile $outfile  ## write plain hexdump of $infile to $outfile
 sh   xxd -plain -revert $infile $outfile  ## reverse plain hexdump
-sh   xz -d  ## decompress .xz file
-sh   xz -l  ## list .xz file
-sh   xz -z  ## compress .xz file
+sh   xz --compress $file  ## xz to file.xz
+sh   xz --decompress $file.xz  ## unxz to file
+sh   xz --list   ## list .xz file content
 sh   yay --gendb  ## generate developement package database
 sh   yay -P --news  ## show news newer than the build date of all native packages
 sh   yay -P  ## show (is a yay specific [no pacman] option)
