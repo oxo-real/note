@@ -996,6 +996,7 @@
 │       └── testbeeld.jpg
 ├── README.md
 ├── regex
+│   ├── bre_ere
 │   ├── grep
 │   ├── meta_chars
 │   ├── quick_cheat_sheet
@@ -1024,5 +1025,5 @@
 └── zzz_deprecated
     └── xab
 
-217 directories, 807 files
+217 directories, 808 files
 ```

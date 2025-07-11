@@ -1,0 +1,76 @@
+[BRE vs ERE (sed, a stream editor)](https://www.gnu.org/software/sed/manual/html_node/BRE-vs-ERE.html)
+
+5.2 Basic (BRE) and extended (ERE) regular expression
+Basic and extended regular expressions are two variations on the syntax of the specified pattern. Basic Regular Expression (BRE) syntax is the default in sed (and similarly in grep). Use the POSIX-specified -E option (-r, --regexp-extended) to enable Extended Regular Expression (ERE) syntax.
+
+In GNU sed, the only difference between basic and extended regular expressions is in the behavior of a few special characters: ‘?’, ‘+’, parentheses, braces (‘{}’), and ‘|’.
+
+With basic (BRE) syntax, these characters do not have special meaning unless prefixed with a backslash (‘\’); While with extended (ERE) syntax it is reversed: these characters are special unless they are prefixed with backslash (‘\’).
+
+Desired pattern	Basic (BRE) Syntax	Extended (ERE) Syntax
+literal ‘+’ (plus sign)	
+$ echo 'a+b=c' > foo
+$ sed -n '/a+b/p' foo
+a+b=c
+$ echo 'a+b=c' > foo
+$ sed -E -n '/a\+b/p' foo
+a+b=c
+One or more ‘a’ characters followed by ‘b’ (plus sign as special meta-character)	
+$ echo aab > foo
+$ sed -n '/a\+b/p' foo
+aab
+$ echo aab > foo
+$ sed -E -n '/a+b/p' foo
+aab
+
+
+[quoting - How to ensure that string interpolated into `sed` substitution escapes all metachars - Unix & Linux Stack Exchange](https://unix.stackexchange.com/questions/129059/how-to-ensure-that-string-interpolated-into-sed-substitution-escapes-all-metac)
+lhs is search part of sed expression
+rhs is replace part of sed expression
+
+
+# BRE
+
+esc_lhs_bre=$(printf '%s\n' "$lhs" | sed 's:[][\\/.^$*]:\\&:g')
+esc_rhs_bre=$(printf '%s\n' "$rhs" | sed 's:[\\/&]:\\&:g; $!s/$/\\/')
+
+sed "s/$esc_lhs_bre/$esc_rhs_bre/"
+
+
+# ERE
+
+esc_lhs_ere=$(printf '%s\n' "$lhs" | sed 's:[][\\/.^$*+?(){}|]:\\&:g')
+esc_rhs_ere=$(printf '%s\n' "$rhs" | sed 's:[\\/&]:\\&:g; $!s/$/\\/')
+
+sed -E "s/$esc_lhs_ere/$esc_rhs_ere/"
+
+
+# bash >5.2.15 [NOT TESTED]
+
+esc_lhs="${lhs//[][\\\/.^\$*]/\\&}" 
+esc_rhs="${rhs//[\\\/&$'\n']/\\&}"
+esc_lhs="${lhs#/[][\\\/.^\$*]#\\&}" 
+esc_rhs="${rhs#/[\\\/&$'\n']#\\&}"
+
+
+# WORKS
+
+line_esc_lhs_ere="${line//[][\\\/.^\$\*\+\?\(\)\{\}\|]/\\&}"
+line: This is a variable that contains a string.
+//: This indicates that the substitution should be applied globally (to all occurrences).
+[][\\\/.^\$\*\+\?$$\{\}\|]: This is a character class that includes all the characters that need to be escaped. 
+The characters are:
+[ and ]: Square brackets
+\: Backslash
+/: Forward slash
+.: Dot
+^: Caret
+$: Dollar sign
+*: Asterisk
++: Plus sign
+?: Question mark
+( and ): Parentheses
+{ and }: Curly braces
+|: Pipe
+\\&: This is the replacement string. 
+The & represents the entire matched string, and the \\ escapes it, so the special characters are prefixed with a backslash.
