@@ -1,0 +1,24 @@
+Rijndael 1998 Joan Daemen, Vincent Rijmen
+
+block cipher with 128 bits / 16 bytes per block
+
+sp network substitution and permutation
+
+01. plaintext
+02. key
+03. key expansion (for aes256)
+split the 256 bit key into 8 (32 bit) words (W[0] - W[7])
+for word in W[8]-W[59]
+if W[n] mod 8 = 0; then
+core function:
+rotword: rotate left by one byte (first byte to end) {? echo $(( 10 << 2 ))}
+subword:
+
+03. xor plaintext block with key
+HOW does this work with AES 256? Here the key is 256 bytes but the block still 128
+
+xor  b
+     0 1
+     ---
+a  0|0 1
+   1|1 0

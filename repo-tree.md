@@ -211,6 +211,7 @@
 │   │   └── genotp
 │   │       ├── create_totp_secret_file
 │   │       └── genotp.sh
+│   ├── bit-hex-ascii
 │   ├── entropy
 │   ├── genpw
 │   │   ├── prng
@@ -259,6 +260,8 @@
 │   │   ├── online
 │   │   └── shamir
 │   └── symmetric
+│       ├── aes
+│       │   └── aes_101
 │       ├── caesar_cipher
 │       ├── openssl_aes_256_cbc
 │       └── symmetric
@@ -332,8 +335,8 @@
 │   │   ├── genfstab_8
 │   │   ├── icons
 │   │   │   ├── cursor_how_to
-│   │   │   ├── cursor-shapes.sh
-│   │   │   └── readme
+│   │   │   ├── readme
+│   │   │   └── set-oxo-cursors.sh
 │   │   ├── kernel
 │   │   │   └── cl-params
 │   │   ├── pacman
@@ -1025,5 +1028,5 @@
 └── zzz_deprecated
     └── xab
 
-217 directories, 808 files
+218 directories, 810 files
 ```

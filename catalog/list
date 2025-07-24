@@ -458,7 +458,7 @@ sh   echo $(( 10 >> 2 ))  ## bitwise RIGHT shift (removing bits from least signi
 sh   echo $(( 10 ^ 2 ))  ## bitwise XOR (output 1 if only one of the input bits is 1 else 0)
 sh   echo $(( ~ 10 ))  ## bitwise NOT (all bits inverted)
 sh   echo $1  ## first argument
-sh   echo $(( 2#10 ))  ## decimal vailue of binary 10
+sh   echo $(( 2#10 ))  ## echo bin (10) to dec (2) conversion
 sh   echo ${a/b/c}  ## in parameter a, replace first b (//b all) by c (a=abc echos acc)
 sh   echo ${a:=b}  ## parameter expansion; if [ -z $a ]; then assign 'b'
 sh   echo ${a:-b}  ## parameter expansion; if [ -z $a ]; then return 'b'
@@ -522,6 +522,7 @@ sh   eval $(ssh-agent) && ssh-add $XDG_DATA_HOME/c/keys/ssh/$ssh_key  ## concate
 sh   export $VAR  ## make local variable $VAR available as an environmental variable
 sh   export IFS=', '  ## permanently assign comma and space as internal field separators (IFS as an environment variable)
 sh   export PWGN_OFF=1; mountr  ## disable oxo pwgn; i.e. while executing mountr
+sh   factor $num  ## print prime factors of $num
 sh   faillock --user $USER --reset  ## remove sudo lockout for current user
 sh   fallocate -l 5M file  ## create file 5M size
 sh   fc -AI  ## append history to file; include internal (new) events only (update history file)
@@ -694,7 +695,7 @@ sh   journalctl _<TAB>  ## search matches starting with '_'
 sh   journalctl --unit $unit_pttrn  ## messages for unit [-pattern]
 sh   journalctl --vacuum-files=2  ## leave 2 journal files (--vacuum-size, --vacuum-time)
 sh   jq '.data[0] | .ua' api.json  ## get ua in the first [0] data item of api.json
-sh   key=$ASCII; l=$(wc -c <<< "$key"); for (( r=0; r<$l-1; r++ )); do echo ${key:$r:$l}${key::$r}; done  ## otp conversion table from $ASCII
+sh   key=$ASCII; l=$(wc -c <<< "$key"); for (( r=0; r<$l-1; r++ )); do echo ${key:$r:$l}${key::$r}; done  ## otp conversion table from $ASCII (viginère grid)
 sh   key=$(printf $input | openssl dgst -sha512 -hmac $input | sed 's/^.*= //')  ## zz2
 sh   kill -CONT $PID  ## continue (resume) process [$PID or jobs item number n]
 sh   kill -KILL $(pidof $process_name)  ## forcefully terminate pid of process (can not be trapped or otherwise ignored)
@@ -740,10 +741,10 @@ sh   mount -o uid=$(id -u $USER),gid=$(id -g $USER) /dev/sdX dock/1  ## mount as
 sh   mount | sort -k 1 | column -t  ## sort mount by device name
 sh   mount | sort -k 3 | column -t  ## sort mount by mountpoint
 sh   mount -t tmpfs tmpfs /mnt/ramdisk -o size=4096  ## create ramdisk
-sh   mpv --audio-display=no $file.mp3  ## play mp3 without albumart
+sh   mpv --audio-display=no --save-position-on-quit $file.mp3  ## play mp3 without albumart, remember stop point
 sh   mpv av://v4l2:/dev/video4 --profile=low-latency --untimed  ## mpv v4l2 low latency
 sh   mpv /dev/video4  ## livestream local webcam
-sh   mpv --start=+00:00 --ytdl-raw-options=format-sort=res:240 --profile=cache_xs --demuxer-cache-wait --msg-level=all=v --user-agent=$USER_AGENT $(wl-paste)  ## stream verbose with user-agent, best res under 480p and mpv.conf cache_xs profile
+sh   mpv --start=+00:00 --ytdl-raw-options=format-sort=res:240 --profile=cache_xs --demuxer-cache-wait=no --msg-level=all=v --user-agent=$USER_AGENT $(wl-paste)  ## stream verbose with user-agent, best res under 480p and mpv.conf cache_xs profile
 sh   mpv --video=no $(wl-paste)  ## stream video link play audio only
 sh   mv -t $target_dir $source_dirs  ## move source_dirs to target_dir
 sh   neofetch --ascii_distro arch_small --gtk3 off --gtk2 off --colors 3 3 3 7 3 4 --separator '     \t'  ## neat system info
@@ -761,6 +762,7 @@ sh   notmuch address --output=count --deduplicate=address date:year '*' | sort -
 sh   notmuch address --output=recipients --deduplicate=address date:year | fzf | wl-copy  ## last years recipients
 sh   notmuch search $(wl-paste) date:year | fzf | awk '{print $1}' | wl-copy  ## 2. last years threads from recipient
 sh   notmuch show $(wl-paste)  ## 3. show specific thread content
+sh   nproc  ## print the number of processing units available
 sh   nslookup server.com  ## get server ip address
 sh   number=$(printf '%s' "$ASCII" | cut --characters 17-26)  ## 10 number characters from $ASCII
 sh   od --output-duplicates --address-radix n --read-bytes 32 --format a < /dev/random | tr -d '[:blank:]\t\r\n'; echo  ## 32 random bytes interprept as ascii
@@ -1000,6 +1002,7 @@ sh   ts=$(date +'%s.%N'); printf '%X%x\n' ${ts%%.*} ${ts#*.} | cut -c -16 | sed 
 sh   ts=$(dtx); syncr $HOME/dock/transfer/x1c/home/oxo --delete --links --log-file=$XDG_LOGS_HOME/syncr/$ts | tee -a $XDG_LOGS_HOME/syncr/$ts  ## syncr backup with logging
 sh   ts=$EPOCHREALTIME; printf '%X.%x\n' ${ts%%.*} ${ts#*.}  ## current linux epoch hex (requires zmodload zsh/datetime)
 sh   ts="$(now)"; stty_bu="$XDG_CONFIG_HOME/tty/"$ts"_sttyrc"; stty --save > $stty_bu && stty -all >> $stty_bu  ## backup terminal characteristics
+sh   tty  ## filename of stdin terminal
 sh   type -a $command  ## command interpretation (build-in or external); -a also prints all occurences in path
 sh   umount --lazy $mountpoint  ## umount busy targets (mountpoints)
 sh   uname --all  ## print system information
@@ -1345,7 +1348,8 @@ zsh  bindkey -M vicmd 'q' toggle-sh-x        ## [vicmd] q
 zsh  bindkey -M vicmd 's' toggle-sudo        ## [vicmd] s
 zsh  bindkey -M viins '^[[3~' delete-char
 zsh  # bindkey  now to clipboard             ## C-`
-zsh  bindkey '^o' clear-screen               ## C-o
+zsh  # bindkey '^o' clear-screen               ## C-o
+zsh  bindkey '^o' reset-zsh                   ## C-o
 zsh  bindkey -v
 zsh  bindkey -v '^?' backward-delete-char
 zsh  bindkey '^y' abs-rel-path-tgl           ## C-y

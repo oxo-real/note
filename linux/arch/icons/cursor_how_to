@@ -4,20 +4,30 @@
 yay -S xorg-xcursorgen
 
 # cursor image
-create new mouse x by x pixels cursor image: pilot.png
+## NOTICE odd amount of x generates one center pixel
+# create new mouse x by x pixels cursor image: pilot.png
+inkscape pilot.svg
+
+# export png via gimp (for max image quality)
+gimp pilot.svg
 
 # get image dimensions
 file pilot.png
 
 # cursor configuration
+# cursor height = witdh
+# $x is cursor width 
+# i.e. echo '79 38 38 pilot.png' > pilot.cursor 
 echo "$x $hotx $hoty pilot.png" > pilot.cursor
 
 # create an X11 cursor file
 xcursorgen pilot.cursor pilot
 
 # to see what the cursor images look like:
-https://github.com/GNOME/adwaita-icon-theme/tree/master/src/cursors/pngs/96x96
-x11 cursor files can be opened by gimp
+# https://github.com/GNOME/adwaita-icon-theme/tree/master/src/cursors/pngs/96x96
+# x11 cursor files can be opened by gimp
+
+# ===========================================
 
 # place the X11 cursor file pilot in the right directory
 check default theme in: /usr/share/icons/default/index.theme

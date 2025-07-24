@@ -1235,7 +1235,8 @@ zle -N down-line-or-beginning-search
 bindkey '^[[B' down-line-or-beginning-search
 
 ## fOrm-feed (default C-l)
-bindkey '^o' clear-screen               ## C-o
+# bindkey '^o' clear-screen               ## C-o
+bindkey '^o' reset-zsh                   ## C-o
 
 
 # for info on zsh keybindings:
@@ -1483,6 +1484,17 @@ setopt PROMPT_SUBST
 # debug prompt (PS4)
 
 ## set in zshenv
+#! /usr/bin/env sh
+
+# --------------------------------------------------------------------
+# reset-zsh.sh
+
+
+# instead of clear-screen (see man zshall)
+function reset-zsh ()
+{
+    reset && zsh
+}
 #! /usr/bin/env sh
 
 # --------------------------------------------------------------------
