@@ -486,6 +486,7 @@ sh   echo ${(q)filepath}  ## filepath with escapes added
 sh   echo ${(Q)filepath}  ## filepath with escapes removed
 sh   echo $(( RANDOM%95 + 32 ))  ## generate pseudorandom integer between 32 and 127 (included)
 sh   echo $RANDOM  ## pseudorandom integer (0-32767)
+sh   echo $'\U0000e62b'  ## print utf-8 unicode code point U+e62b character
 sh   echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
 sh   echo ${variable%%pattern}  ##remove longest match from end of variable
 sh   echo ${variable##pattern}  ##remove longest match from start of variable
@@ -640,6 +641,7 @@ sh   grep -riIn 'text' $directory  ## find files (no binary) containing text rec
 sh   grep "\sro[\s,]" /proc/mounts  ## show read only mountpoints
 sh   gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf -dFirstPage=a -dLastPage=b $infile.pdf  ## extract pages a through b from $infile.pdf
 sh   gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile=out.pdf in1.pdf in2.pdf in3.pdf  ## concatenate pdf files
+sh   head -c 16 /dev/urandom | xxd --bits | awk '!($1="")' | tr --complement --delete '01'  ## print a random 128 bit binary number
 sh   head -n -2 $file  ## print $file but last 2 lines (skip last 2 lines)
 sh   head -n 2 $file  ## print $file first 2 lines
 sh   history  ## alias to fc -l
@@ -1055,7 +1057,7 @@ sh   wpa_passphrase $ssid $passphrase > ssid.wifi  ## create network section of 
 sh   wpa_supplicant -B -i $wlp -c ~/keys/wl/ssid.wifi  ## wireless connect via interface $wlp to ssid.wifi
 sh   xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
 sh   xxd -bits <<< $ASCII  ## bitdump of $ASCII
-sh   xxd -groupsize 1 <<< $ASCII  ## hexdump space separated bytes of $ASCII
+sh   xxd -groupsize 1 <<< $ASCII  ## hexdump (--bits) space separated bytes of $ASCII (table)
 sh   xxd -plain $infile $outfile  ## write plain hexdump of $infile to $outfile
 sh   xxd -plain -revert $infile $outfile  ## reverse plain hexdump
 sh   xz --compress $file  ## xz to file.xz
