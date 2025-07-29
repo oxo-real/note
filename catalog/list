@@ -503,6 +503,7 @@ sh   echo hello > /dev/null 2>&1  ## stdout redirect devnull; stderr append to s
 sh   echo hello &> /dev/null  ## stdout redirect devnull; stderr append to stdout; silent execution (shorthand notation)
 sh   echo hello > >(sha512sum > file_with_hello_sha512.hash)  ## process substitution (instead of filename) writing to list >()
 sh   echo hello &| tee -a $logfile  ## stderr append to stdout; append both to $logfile (shorthand notation)
+sh   echo -n $ASCII | xxd --bits --groupsize 1 --cols 8  ## $ASCII table (ascii = byte / hex = nibble)
 sh   echo -n $string | base64  ## base64 encoding
 sh   echo -n '☯' | od --address-radix n --format x1 | sed 's/ /\\x/g'  ## 3 byte hex code from utf8 character
 sh   echo "obase=02; ibase=10; $dec" | bc  ## bc dec (10) to bin (02) conversion
@@ -1056,10 +1057,8 @@ sh   wl-paste | tr -d ' ' | tr '[:upper:]' '[:lower:]'  ## remove spaces and mak
 sh   wpa_passphrase $ssid $passphrase > ssid.wifi  ## create network section of wpa_supplicant configuration
 sh   wpa_supplicant -B -i $wlp -c ~/keys/wl/ssid.wifi  ## wireless connect via interface $wlp to ssid.wifi
 sh   xargs --no-run-if-empty --verbose command  ## run command with stdin as argument, no-run if empty
-sh   xxd -bits <<< $ASCII  ## bitdump of $ASCII
-sh   xxd -groupsize 1 <<< $ASCII  ## hexdump (--bits) space separated bytes of $ASCII (table)
-sh   xxd -plain $infile $outfile  ## write plain hexdump of $infile to $outfile
-sh   xxd -plain -revert $infile $outfile  ## reverse plain hexdump
+sh   xxd --plain $infile $outfile  ## write plain hexdump of $infile to $outfile
+sh   xxd --plain --revert $infile $outfile  ## reverse plain hexdump
 sh   xz --compress $file  ## xz to file.xz
 sh   xz --decompress $file.xz  ## unxz to file
 sh   xz --list   ## list .xz file content
