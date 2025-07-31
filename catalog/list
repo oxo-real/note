@@ -370,7 +370,7 @@ sh   cat-audio() {ffmpeg -i "concat:${(j:|:)@[2,-1]}" -acodec copy $1}  ## conca
 sh   cat <(ls)  ## process substitution reading from list <() (?without subshell?); same as ls | cat  (piping ?with subshell?) #DEV
 sh   cat -n $file  ## line number cat
 sh   cat /proc/cmdline  ## view current kernel parameters
-sh   cat -vE $file  ## prevent cat shell injection
+sh   cat -vET $file  ## show non-printing, ends and tabs (prevent cat shell injection)
 sh   cd $(fd --type d --hidden . $HOME | fzf --preview="tree -L 1 {}" --bind="space:toggle-preview" --preview-window=:hidden)  ## fzf cd from $HOME, spacebar for info box
 sh   cd ${PWD/share\/b/share\/c}  ## from backup to current tree
 sh   cd $XDG_CONFIG_HOME/shln; sh chln; cd .; cd -  ## change symlinks to current $USER for $PATH
