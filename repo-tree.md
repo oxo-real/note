@@ -16,6 +16,8 @@
 │   │   ├── base16_switcher.sh
 │   │   └── vimrc_background
 │   ├── browser
+│   │   ├── brave
+│   │   │   └── wayland
 │   │   ├── firefox
 │   │   │   ├── custom_css
 │   │   │   └── custom_css~
@@ -1028,5 +1030,5 @@
 └── zzz_deprecated
     └── xab
 
-218 directories, 810 files
+219 directories, 811 files
 ```
