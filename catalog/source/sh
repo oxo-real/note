@@ -127,6 +127,7 @@ dd if=$src of=$dst bs=256k iflag=fullblock oflag=sync,noerror,notrunc status=pro
 dd if=/dev/zero of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 zero bytes to $dst
 dd if=/dev/urandom of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 random bytes to $dst
 echo '$idVendor:$idProduct:u' | sudo dd of=/sys/module/usb_storage/parameters/quirks  ## ignore uas, use usb-storage for storage device
+declare -A $array  ## [typeset or array=()] create array [always in global scope (main body)]
 df -h  ## human-readable file system space usage
 df --si --exclude-type devtmpfs --exclude-type tmpfs --exclude-type efivarfs | awk 'NR == 1; NR > 1 {print $0 | "sort -n"}'  ## file system disk free space
 df --portability $directory  ## get mountpoint (information) for given directory
