@@ -659,6 +659,7 @@ wl-paste | tr -d ' ' | tr '[:upper:]' '[:lower:]'  ## remove spaces and make let
 tr --squeeze-repeats ' ' < $double_spaced_file > $single_spaced_file  ## remove double spaces
 tr --delete --complement "[:alnum:]" < /dev/random | head -c 32  ## translate random stream in 32 alnum (alphanumeric) character class characters (generate passstring)
 tr --delete --complement "[:alnum:]"'~!@#$%^&*()-=[];\,./_+{}:|<>?' < /dev/urandom | fold -w 32 | head -n 16 | fzf --height=17 --prompt=' select passstring: ' | awk '{print $2}' | wl-copy -o -n  ## generate, fzf select and copy one of 16 typable passstrings
+trap $code_to_run $signal_to_trap  ## trap synopsis
 trap "tput cnorm; return 1" SIGINT; while true; do tput civis; echo; figlet -f banner3 $(date +'%H%M%S'); sleep 1; for i in {1..8}; do tput el; tput cuu1; done; done  ## figlet clock (screencast)
 fallocate -l 5M file  ## create file 5M size
 truncate -s 5M file  ## create file 5M size
