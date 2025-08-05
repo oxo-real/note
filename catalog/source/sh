@@ -161,8 +161,8 @@ echo $(( ~ 10 ))  ## bitwise NOT (all bits inverted)
 echo $(( 10 & 2 ))  ## bitwise AND (output 1 if both input bits are 1 else 0)
 echo $(( 10 | 2 ))  ## bitwise OR (output 1 if at least one of the input bits is 1 else 0)
 echo $(( 10 ^ 2 ))  ## bitwise XOR (output 1 if only one of the input bits is 1 else 0)
-echo $(( 10 << 2 ))  ## bitwise LEFT shift (adding zeros at least significant bitside; multiplication)
 echo $(( 10 >> 2 ))  ## bitwise RIGHT shift (removing bits from least significant bitside; division)
+echo $(( 10 << 2 ))  ## bitwise LEFT shift (adding zeros at least significant bitside; multiplication)
 echo -n $string | base64  ## base64 encoding
 echo $?  ## print exit code of the last executed command
 echo ${USER%??}$string  ## replace last two (%??) characters of $USER by $string
