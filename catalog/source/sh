@@ -157,6 +157,7 @@ echo "obase=10; ibase=16; $(echo $hex | tr a-z A-Z)" | bc  ## bc hexadecimal to 
 echo "obase=16; ibase=10; $dec" | bc  ## bc dec (10) to hex (16) conversion
 echo "obase=02; ibase=10; $dec" | bc  ## bc dec (10) to bin (02) conversion
 echo $(( 2#10 ))  ## echo bin (10) to dec (2) conversion
+printf "%02x" "$((2#$bin))")  ## binary to hexadecimal conversion
 echo $(( ~ 10 ))  ## bitwise NOT (all bits inverted)
 echo $(( 10 & 2 ))  ## bitwise AND (output 1 if both input bits are 1 else 0)
 echo $(( 10 | 2 ))  ## bitwise OR (output 1 if at least one of the input bits is 1 else 0)

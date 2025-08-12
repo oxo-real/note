@@ -813,6 +813,7 @@ sh   printf $text | openssl dgst -sha512 -hmac $key | sed 's/^.*= //'  ## sha512
 sh   printf "$tring" | awk '{print $1+0}'  ## awk retrieves the second field as a number (+0) from $tring, anything after the number will be ignored
 sh   printf "${var1:-$default}"  ## print default variable value if var1 is unset or null
 sh   printf "${var1:=$default}"  ## printf and set default variable value if var1 is unset or null
+sh   printf "%02x" "$((2#$bin))")  ## binary to hexadecimal conversion
 sh   printf "\033c"  ## same as tput reset but hardcoded escape seq
 sh   printf "%03d%s" '2'  ## print leading zeros before a number (padding)
 sh   printf "%3d%s" '2'  ## print leading spaces before a number (padding)
@@ -1231,6 +1232,7 @@ sway bindsym $mod+Shift+backslash	layout toggle split; exec $csc/layout-ntfy-sen
 sway #bindsym $mod+Shift+b	border toggle
 sway bindsym $mod+Shift+b	    exec swaymsg input $trackpoint \
 sway bindsym $mod+Shift+bracketleft	border toggle
+sway bindsym $mod+Shift+bracketright	exec sh $csc/flash_border
 sway bindsym $mod+Shift+c		reload
 sway bindsym $mod+Shift+Equal    move container to workspace $ws=
 sway bindsym $mod+Shift+Minus    move container to workspace $ws-
