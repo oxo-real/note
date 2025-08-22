@@ -71,7 +71,7 @@ level max red
 status level application for i.e. download speed or audio volume
 
 
-ECAM (EFIS) colour symbology
+ECAM (EFIS) color symbology
 -
 Warnings :
 RED
@@ -94,3 +94,8 @@ for actions to be carried out
 MAGENTA
 for particular messages, e.g.
 inhibitions
+
+# buttons and switches
+guarded > must have permission to execute action
+red (guarded) irreversible action
+black (guarded) reversible action

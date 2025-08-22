@@ -642,7 +642,8 @@ tac $file  ## concatenate and print file lines in reverse
 tar --file $archive --append $source  ## append to archive
 tar --file $archive --create [--bzip2/--gzip/--xz] [--directory $src_dir] $source  ## create compressed archive
 tar --file $archive --delete $file-to-delete  ## delete from uncompressed archive
-tar --file $archive --extract [[--directory $target] | [--to-stdout]] [single.file]  ## extract [single file] from archive [to subdir] [to stdout]
+tar --file $archive --extract --to-stdout [single.file]  ## extract [single file] from archive [to subdir] [to stdout]
+tar -xf $archive [[-c $target] | [-O]] [single.file]  ## extract [single file] from archive [to subdir] [to stdou
 tar --file $archive --list  ## list archive
 tee --append $file1 $file2  ## append stdout to multiple files
 test "$var"  ## check if $var is defined / non-null

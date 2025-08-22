@@ -985,8 +985,9 @@ sh   tail -n 2 $file  ## print $file last 2 lines
 sh   tar --file $archive --append $source  ## append to archive
 sh   tar --file $archive --create [--bzip2/--gzip/--xz] [--directory $src_dir] $source  ## create compressed archive
 sh   tar --file $archive --delete $file-to-delete  ## delete from uncompressed archive
-sh   tar --file $archive --extract [[--directory $target] | [--to-stdout]] [single.file]  ## extract [single file] from archive [to subdir] [to stdout]
+sh   tar --file $archive --extract --to-stdout [single.file]  ## extract [single file] from archive [to subdir] [to stdout]
 sh   tar --file $archive --list  ## list archive
+sh   tar -xf $archive [[-c $target] | [-O]] [single.file]  ## extract [single file] from archive [to subdir] [to stdou
 sh   tee --append $file1 $file2  ## append stdout to multiple files
 sh   test "${EUID:-$(id -u)}" -eq 0  ## check if current user is root
 sh   test "$var"  ## check if $var is defined / non-null
