@@ -797,6 +797,7 @@ sh   pactree $package  ## show $package dependency tree
 sh   pactree -r $package  ## show $package dependant tree, reverse depedencies, packages that depend on $package
 sh   patch -p0 < $patch_file  ## apply $patch_file (see diff)
 sh   pea () { declare -n __p="$1"; for k in "${!__p[@]}"; do printf "%s=%s\n" "$k" "${__p[$k]}"; done }  ## print entire array: pea array
+sh   perl-rename "s/[',(\[\])&]//g" *; rename --all ' ' _ *; perl-rename 's/__/_/' *  ## filename laundering CAUTION all files
 sh   perl-rename 's|part|name|g' filepart  ## replace (s) all (g) 'part' with 'name' in filepart (filepart -> filename)
 sh   perl-rename 's/[^\w]+/_/g' *  ## replace (s) all (g) non- (^) alnum (\w) characters (+) in all (*) filenames with underscores
 sh   pim2fa=$(printf $output | openssl dgst -sha512 -hmac pim2fa | sed 's/^.*= //')  ## zz4
@@ -881,11 +882,11 @@ sh   rg --passthrough --ignore-case --no-line-number pttrn .  ## highlight match
 sh   rg --sort path --ignore-case --line-number pttrn .  ## ripgrep synopsis; $options $pattern $path
 sh   rmmod $module  ## remove $module from linux kernel
 sh   rm -rf -- '-r'  ## remove entire directory starting with a '-'
-sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') $source/ $destination  ## basic oxo rsync with logging
-sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
-sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w include patterns
-sh   rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --rsh=ssh $source $user@$host:/directory  ## basic oxo rsync w remote ssh shell
-sh   rsync -aAXv --delete --info=progress2,stats --progresss --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --dry-run $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## dry run backup_c2b
+sh   rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') $source/ $destination  ## basic oxo rsync with logging
+sh   rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --dry-run $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## dry run backup_c2b
+sh   rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
+sh   rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w include patterns
+sh   rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --rsh=ssh $source $user@$host:/directory  ## basic oxo rsync w remote ssh shell
 sh   rsync -aAXv --hard-links --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/var/lib/dhcpcd/*","/lost+found","$dst/*"} / $dst  ## full system backup
 sh   rsync --recursive $src/ $dst  ## copy $src content 'flat' into $dst (like cp $src/.) NOTICE rsync trailing slash caveat
 sh   rsync --recursive $src $dst  ## create intervening directory $dst/$src; with all content of $src
@@ -983,11 +984,13 @@ sh   tail -f /var/log/{messages,kernel,dmesg,syslog}  ## TODO decription
 sh   tail -n +2 $file  ## print $file from line 2 (skip first line)
 sh   tail -n 2 $file  ## print $file last 2 lines
 sh   tar --file $archive --append $source  ## append to archive
-sh   tar --file $archive --create [--bzip2/--gzip/--xz] [--directory $src_dir] $source  ## create compressed archive
-sh   tar --file $archive --delete $file-to-delete  ## delete from uncompressed archive
-sh   tar --file $archive --extract --to-stdout [single.file]  ## extract [single file] from archive [to subdir] [to stdout]
-sh   tar --file $archive --list  ## list archive
-sh   tar -xf $archive [[-c $target] | [-O]] [single.file]  ## extract [single file] from archive [to subdir] [to stdou
+sh   tar --file $archive --create [--bzip2/--gzip/--xz] [--directory $target] $source  ## create archive [compress] [to target directory]
+sh   tar --file $archive --delete $file_in_tar  ## delete file_in_tar from archive (uncompressed)
+sh   tar --file $archive --diff [--directory $target]  ## compare archive members [to target directory]
+sh   tar --file $archive --extract [[--directory $target] | [--to-stdout]] [$file_in_tar]  ## extract [file_in_tar] archive [[to target_dir] OR [to stdout]]
+sh   tar --file $archive --list  ## list archive content
+sh   tar --file $archive --update [--directory $target]  ## update archive members [to target directory]
+sh   tar -xf $archive [[-C $target] | [-O]] [$file_in_tar]  ## extract [file_in_tar] archive [[to target_dir] OR [to stdout]] (unix-style)
 sh   tee --append $file1 $file2  ## append stdout to multiple files
 sh   test "${EUID:-$(id -u)}" -eq 0  ## check if current user is root
 sh   test "$var"  ## check if $var is defined / non-null

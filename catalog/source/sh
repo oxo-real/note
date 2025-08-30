@@ -522,6 +522,7 @@ rename 'part' 'name' filepart  ## replace 'part' with 'name' in filepart (filepa
 rename --all ' ' _ *  ## replace all spaces in filenames with underscores
 perl-rename 's|part|name|g' filepart  ## replace (s) all (g) 'part' with 'name' in filepart (filepart -> filename)
 perl-rename 's/[^\w]+/_/g' *  ## replace (s) all (g) non- (^) alnum (\w) characters (+) in all (*) filenames with underscores
+perl-rename "s/[',(\[\])&]//g" *; rename --all ' ' _ *; perl-rename 's/__/_/' *  ## filename laundering CAUTION all files
 renice -19 $(pgrep $process_name)  ## give $process_name highest (-19) priority
 reset && zsh  ## reinitialize terminal state and z-shell
 return  ## return to the invoking script
@@ -536,11 +537,11 @@ rmmod $module  ## remove $module from linux kernel
 rsync --recursive $src $dst  ## create intervening directory $dst/$src; with all content of $src
 rsync --recursive $src/ $dst  ## copy $src content 'flat' into $dst (like cp $src/.) NOTICE rsync trailing slash caveat
 find . -type f -mmin -230 -print0 | rsync -aAXv --info=progress2,stats --progress --from0 --files-from - . dst  ## find to stdout, stdin to rsync (hpr)
-rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') $source/ $destination  ## basic oxo rsync with logging
-rsync -aAXv --delete --info=progress2,stats --progresss --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --dry-run $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## dry run backup_c2b
-rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
-rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w include patterns
-rsync -aAXv --delete --info=progress2,stats --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --rsh=ssh $source $user@$host:/directory  ## basic oxo rsync w remote ssh shell
+rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') $source/ $destination  ## basic oxo rsync with logging
+rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --dry-run $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## dry run backup_c2b
+rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
+rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w include patterns
+rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --rsh=ssh $source $user@$host:/directory  ## basic oxo rsync w remote ssh shell
 rsync -aAXv --hard-links --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/var/lib/dhcpcd/*","/lost+found","$dst/*"} / $dst  ## full system backup
 script; $command; exit  ## $command execution typescript user log
 script; sh -x $command; exit  ## $sommand execution typescript developer debug log
@@ -640,11 +641,13 @@ tail -n 2 $file  ## print $file last 2 lines
 tail -n +2 $file  ## print $file from line 2 (skip first line)
 tac $file  ## concatenate and print file lines in reverse
 tar --file $archive --append $source  ## append to archive
-tar --file $archive --create [--bzip2/--gzip/--xz] [--directory $src_dir] $source  ## create compressed archive
-tar --file $archive --delete $file-to-delete  ## delete from uncompressed archive
-tar --file $archive --extract --to-stdout [single.file]  ## extract [single file] from archive [to subdir] [to stdout]
-tar -xf $archive [[-c $target] | [-O]] [single.file]  ## extract [single file] from archive [to subdir] [to stdou
-tar --file $archive --list  ## list archive
+tar --file $archive --create [--bzip2/--gzip/--xz] [--directory $target] $source  ## create archive [compress] [to target directory]
+tar --file $archive --delete $file_in_tar  ## delete file_in_tar from archive (uncompressed)
+tar --file $archive --diff [--directory $target]  ## compare archive members [to target directory]
+tar --file $archive --extract [[--directory $target] | [--to-stdout]] [$file_in_tar]  ## extract [file_in_tar] archive [[to target_dir] OR [to stdout]]
+tar --file $archive --list  ## list archive content
+tar --file $archive --update [--directory $target]  ## update archive members [to target directory]
+tar -xf $archive [[-C $target] | [-O]] [$file_in_tar]  ## extract [file_in_tar] archive [[to target_dir] OR [to stdout]] (unix-style)
 tee --append $file1 $file2  ## append stdout to multiple files
 test "$var"  ## check if $var is defined / non-null
 [ "$var" ]  ## alias for: 'test "$var"'
