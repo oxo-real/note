@@ -91,8 +91,8 @@ chown :group file  ## set group ownership
 chown user: file  ## set user ownership
 clear  ## shift current line to top of screen
 cmp $lf $rf  ## byte compare files, boolean output
-command $command  ## run native $command, no alias or function, \command
-command -v $command  ## check if $command exists
+command $command  ## invoke $command, no alias or function, \command
+command -v $command  ## check if $command exists, not invoking
 cp -prv --attributes-only  ## copy no content, but only mode, ownership and timestamps, verbose
 cp -pv  ## copy and preserve mode, ownership and timestamps, verbose
 cryptsetup --cipher=aes-xts-plain64 -hash=sha512 --key-size=512 --offset=0 --verify-passphrase open --type=plain /dev/sdX lvm
@@ -119,10 +119,10 @@ ts=$(date +'%s.%N'); printf '%X%x\n' ${ts%%.*} ${ts#*.} | cut -c -16 | sed 's/.\
 date '+%-:::z %Z'  ## current time zone numeric and name/abbreviation
 date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day at pi time) to linux epoch
 date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
-date -d '@1234567890' +'%Y%m%dT%H%M%S%z_%Z_%V_%s'  ## convert specific linux epoch to oxo extensive time format
-date -d "$(wl-paste)" +'%Y%m%dT%H%M%S%z_%Z_%V_%s'  ## convert copied specific linux epoch to oxo extensive time format
-date $DTE  ## date with zshenv strftime format preset
-printf '%s_%X\n' "$(date $DT)" "$(date +'%s')"  ## dtx i.e.: 20250126_081507_6795E0FB
+date -d '@1234567890' +'%Y%m%d_%H%M%S%z_%V%u'  ## convert specific linux epoch to oxo extensive time format
+date -d @"$(wl-paste)" +'%Y%m%d_%H%M%S%z_%V%u'  ## convert copied specific linux epoch to oxo extensive time format
+date $TWDAY  ## date with an oxo zshenv strftime format preset
+printf '%X.%x\n' $(date $TEPOCH) $(date $TNANO)  ## hexepoch i.e.: 68B6E1FF.d3853ea
 dd if=$src of=$dst bs=256k iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## physical copy $src to $dst
 dd if=/dev/zero of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 zero bytes to $dst
 dd if=/dev/urandom of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 random bytes to $dst

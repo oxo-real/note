@@ -488,17 +488,22 @@ zle -N cd-lf
 #! /usr/bin/env sh
 
 # --------------------------------------------------------------------
-# chpwd.sh
+# chwd.sh
 
 
-# pwd, statistics and ls when cwd changes
+# chwd, statistics and ls when $CWD changes
 function chpwd ()
 {
-    ## update $CWD
-    export CWD="$(pwd)"
+    ## chpwd is a zsh hook function, but name is misleading:
+    ## CWD is the variable: current working directory
+    ## chwd is the command: change working directory
+    ## pwd is the command:  print working directory
+
+    ## current working directory (should not be $PWD !!)
+    export CWD="$PWD"
 
     ## prompt path color
-    if [[ -w $PWD ]]; then
+    if [[ -w $CWD ]]; then
 
 	local left_bar="%F{blue}%B%~%f%b"
 

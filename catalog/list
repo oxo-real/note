@@ -395,8 +395,8 @@ sh   chown -R $USER:$GROUP $target  ## recursive set target ownership to current
 sh   chown user: file  ## set user ownership
 sh   clear  ## shift current line to top of screen
 sh   cmp $lf $rf  ## byte compare files, boolean output
-sh   command $command  ## run native $command, no alias or function, \command
-sh   command -v $command  ## check if $command exists
+sh   command $command  ## invoke $command, no alias or function, \command
+sh   command -v $command  ## check if $command exists, not invoking
 sh   continue  ## resume next iteration of enclosing loop
 sh   cp -prv --attributes-only  ## copy no content, but only mode, ownership and timestamps, verbose
 sh   cp -pv  ## copy and preserve mode, ownership and timestamps, verbose
@@ -417,10 +417,10 @@ sh   curl -O https://file.location -C - -o file.location.txt_part  ## start or r
 sh   curl -O https://mirror.i3d.net/pub/archlinux/iso/2018.04.01/archlinux-2018.04.01-x86_64.iso | sudo dd of=/dev/sdX  ## download arch linux iso and write to device
 sh   curl -s 'https://archlinux.org/mirrorlist/?protocol=https&use_mirror_status=on' | sed -e 's/^#Server/Server/' -e '/^#/d'  ## arch linux active https server mirrorlist
 sh   cut -d , -f 5 --complement file.csv  ## remove column 5 from file.csv
-sh   date $DTE  ## date with zshenv strftime format preset
+sh   date $TWDAY  ## date with an oxo zshenv strftime format preset
 sh   date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
-sh   date -d "$(wl-paste)" +'%Y%m%dT%H%M%S%z_%Z_%V_%s'  ## convert copied specific linux epoch to oxo extensive time format
-sh   date -d '@1234567890' +'%Y%m%dT%H%M%S%z_%Z_%V_%s'  ## convert specific linux epoch to oxo extensive time format
+sh   date -d @"$(wl-paste)" +'%Y%m%d_%H%M%S%z_%V%u'  ## convert copied specific linux epoch to oxo extensive time format
+sh   date -d '@1234567890' +'%Y%m%d_%H%M%S%z_%V%u'  ## convert specific linux epoch to oxo extensive time format
 sh   date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day at pi time) to linux epoch
 sh   date +'%s'  ## current linux epoch (oxo now)
 sh   date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
@@ -827,10 +827,10 @@ sh   printf '%s' "$l2s" | tr -d '\n'  ## remove newlines (lines to string)
 sh   printf '%s\n' rm -rf *  ## dry run command (rm -rf *)
 sh   printf "space_every_4th_char" | fold -w 4 | paste -sd ' ' -  ## space every 4th character (with fold)
 sh   printf "space_every_4th_char" | sed 's/.\{4\}/& /g'  ## space every 4th character (with sed)
-sh   printf '%s_%X\n' "$(date $DT)" "$(date +'%s')"  ## dtx i.e.: 20250126_081507_6795E0FB
 sh   printf "\x$(printf %d 41)"  ## ascii decimal value (65) to character (A)
 sh   printf "\x$(printf %x 65)"  ## ascii hex value (65) to character (A)
 sh   printf "%x\n" \'A  ## ascii character (A) to hex value (41)
+sh   printf '%X.%x\n' $(date $TEPOCH) $(date $TNANO)  ## hexepoch i.e.: 68B6E1FF.d3853ea
 sh   print -z $string  ## inject $string to zsh stdin
 sh   < /proc/uptime | awk '{print $1}'  ## uptime in seconds
 sh   PS4=':${BASH_SOURCE[0]:-$0} $(printf %4d%s "${LINENO}") ${FUNCNAME[0]:+${FUNCNAME[0]}(): }' sh -xv script.sh  ## extra verbose debug output stream
