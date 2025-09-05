@@ -422,7 +422,7 @@ sh   date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time 
 sh   date -d @"$(wl-paste)" +'%Y%m%d_%H%M%S%z_%V%u'  ## convert copied specific linux epoch to oxo extensive time format
 sh   date -d '@1234567890' +'%Y%m%d_%H%M%S%z_%V%u'  ## convert specific linux epoch to oxo extensive time format
 sh   date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day at pi time) to linux epoch
-sh   date +'%s'  ## current linux epoch (oxo now)
+sh   date +'%s'  ## current epoch (oxo now)
 sh   date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
 sh   date '+%-:::z %Z'  ## current time zone numeric and name/abbreviation
 sh   dd if=$src of=$dst bs=256k iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## physical copy $src to $dst

@@ -113,16 +113,16 @@ curl -O $(wl-paste) -C -  ## start or resume downloading copied location
 curl -s 'https://archlinux.org/mirrorlist/?protocol=https&use_mirror_status=on' | sed -e 's/^#Server/Server/' -e '/^#/d'  ## arch linux active https server mirrorlist
 cut -d , -f 5 --complement file.csv  ## remove column 5 from file.csv
 date && sudo hwclock --show --verbose  ## read hardware clock time and its drift
-date +'%s'  ## current linux epoch (oxo now)
-ts=$EPOCHREALTIME; printf '%X.%x\n' ${ts%%.*} ${ts#*.}  ## current linux epoch hex (requires zmodload zsh/datetime)
-ts=$(date +'%s.%N'); printf '%X%x\n' ${ts%%.*} ${ts#*.} | cut -c -16 | sed 's/.\{4\}/& /g'  ## epochrealtime (10^-8) hex prettified
+date +'%s'  ## current epoch (oxo now)
+date $TWDAY  ## date with an oxo zshenv strftime format preset
 date '+%-:::z %Z'  ## current time zone numeric and name/abbreviation
 date -d 'June 28 03:14' +'%s'  ## convert specific date (tau day at pi time) to linux epoch
 date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
 date -d '@1234567890' +'%Y%m%d_%H%M%S%z_%V%u'  ## convert specific linux epoch to oxo extensive time format
 date -d @"$(wl-paste)" +'%Y%m%d_%H%M%S%z_%V%u'  ## convert copied specific linux epoch to oxo extensive time format
-date $TWDAY  ## date with an oxo zshenv strftime format preset
 printf '%X.%x\n' $(date $TEPOCH) $(date $TNANO)  ## hexepoch i.e.: 68B6E1FF.d3853ea
+ts=$EPOCHREALTIME; printf '%X.%x\n' ${ts%%.*} ${ts#*.}  ## current linux epoch hex (requires zmodload zsh/datetime)
+ts=$(date +'%s.%N'); printf '%X%x\n' ${ts%%.*} ${ts#*.} | cut -c -16 | sed 's/.\{4\}/& /g'  ## epochrealtime (10^-8) hex prettified
 dd if=$src of=$dst bs=256k iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## physical copy $src to $dst
 dd if=/dev/zero of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 zero bytes to $dst
 dd if=/dev/urandom of=$dst bs=256k count=1 iflag=fullblock oflag=sync,noerror,notrunc status=progress  ## write 1 * 256*2^10 random bytes to $dst
