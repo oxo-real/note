@@ -686,6 +686,186 @@ function zle-line-finish ()
 #! /usr/bin/env sh
 
 # --------------------------------------------------------------------
+# date-time.sh
+
+
+# date time epoch functions
+
+## for say
+alias sdate="echo date: $(date +'%A %d %B %Y')"
+alias sweek="echo week: $(date +%V)"
+alias stime="echo time: $(date +%R)"
+
+
+# now functions (linux epoch)
+
+## epoch decimal
+alias now="date +$TEPOCH"
+
+
+function nown ()
+{
+    ## epoch nano decimal
+    ## 1756211992.012016380
+
+    ## timestamp
+    local tsen=$(date +${TEPOCH}.${TNANO})
+
+    ## presentation
+    ## #+ remove until first plus sign
+    ## %0.9f 9 decimal floating point
+    printf '%0.9f\n' "${tsen}"
+}
+
+
+function nowx ()
+{
+    ## epoch hexadecimal
+    ## 68BEEF86
+
+    ## timestamp
+    local tse=$(date +${TEPOCH})
+
+    ## presentation
+    printf '%X\n' "${tse}"
+}
+
+
+function nownx ()
+{
+    ## epoch nano hexadecimal
+    ## 68AC16C1.2ba33425
+
+    ## timestamp
+    local tsen=$(date +${TEPOCH}.${TNANO})
+
+    ## presentation
+    ## #+ remove until first plus sign
+    printf '%X.%x\n' "${tsen%.*}" "${tsen#*.}"
+}
+
+
+# date time functions
+
+function dt ()
+{
+    ## date time decimal
+    ## 20250825_100736
+
+    ## timestamp
+    local tse=$(date +$TEPOCH)
+
+    ## presentation
+    date --date @${tse} +"$TDATE"_"$TTIME"
+    # date --date @${tse} +'%Y%m%d_%H%M%S'
+}
+
+
+function dtw ()
+{
+    ## date time week weekdayname decimal
+    ## 20250825_100736_W12_u
+
+    ## timestamp
+    local tse=$(date +$TEPOCH)
+
+    ## conversion
+    local tsd=$(date --date @${tse} +$TDATE)
+    local tst=$(date --date @${tse} +$TTIME)
+    local tsw=$(date --date @${tse} +$TWEEK)
+    local ts_weekday_number=$(date --date @${tse} +$TWDAY)
+    local ts_weekday_abbr=$(cut -d ' ' -f "$ts_weekday_number" <<< $TWDN1)
+
+    if [[ "$1" -eq 2 ]]; then
+
+	## dtw 2
+	local ts_weekday_abbr=$(cut -d ' ' -f "$ts_weekday_number" <<< $TWDN2)
+
+    fi
+
+    ## presentation
+    ## %06d keep any leading 0
+    printf '%d_%06d_W%d_%s\n' "${tsd}" "${tst}" "${tsw}" "$ts_weekday_abbr"
+}
+
+
+function dte ()
+{
+    ## date time epoch decimal
+    ## 20250825_100736_1756211992
+
+    ## timestamp
+    local tse=$(date +$TEPOCH)
+
+    ## conversion
+    local tsd=$(date --date @${tse} +$TDATE)
+    local tst=$(date --date @${tse} +$TTIME)
+
+    ## presentation
+    ## %06d keep any leading 0
+    printf '%d_%06d_%d\n' "${tsd}" "${tst}" "${tse}"
+}
+
+
+function dtex ()
+{
+    ## date time epoch all hexadecimal
+    ## 126B033C8C87_68AC1907
+
+    ## timestamp
+    local tse=$(date +$TEPOCH)
+
+    ## conversion
+    local tsd=$(date --date @${tse} +$TDATE)
+    local tst=$(date --date @${tse} +$TTIME)
+
+    ## presentation
+    ## %06d keep any leading 0
+    printf '%d_%06d_%x\n' "${tsd}" "${tst}" "${tse}"
+}
+
+
+function dten ()
+{
+    ## date time epoch decimal
+    ## 20250826_171150_1756221110.129674445
+
+    ## timestamp
+    local tsen=$(date +${TEPOCH}.${TNANO})
+
+    ## conversion
+    local tse=$(date --date @${tsen} +$TEPOCH)
+    local tsd=$(date --date @${tsen} +$TDATE)
+    local tst=$(date --date @${tsen} +$TTIME)
+    local tsn=$(date --date @${tsen} +$TNANO)
+
+    ## presentation
+    ## %06d keep any leading 0
+    printf '%d_%06d_%d.%d\n' "${tsd}" "${tst}" "${tse}" "${tsn}"
+}
+
+
+function dtenx ()
+{
+    ## date time epoch hexadecimal
+    ## 126B033C8C87_68AC1907.2ba33425
+
+    ## timestamp
+    local tsen=$(date +${TEPOCH}.${TNANO})
+
+    ## conversion
+    local tse=$(date --date @${tsen} +$TEPOCH)
+    local tsd=$(date --date @${tsen} +$TDATE)
+    local tst=$(date --date @${tsen} +$TTIME)
+    local tsn=$(date --date @${tsen} +$TNANO)
+
+    ## presentation
+    ## %06d keep any leading 0
+    printf '%X_%X_%X.%x\n' "${tsd}" "${tst}" "${tse}" "${tsn}"
+}
+#! /usr/bin/env sh
+
+# --------------------------------------------------------------------
 # decorations.sh
 
 
