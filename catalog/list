@@ -417,7 +417,7 @@ sh   curl -O https://file.location -C - -o file.location.txt_part  ## start or r
 sh   curl -O https://mirror.i3d.net/pub/archlinux/iso/2018.04.01/archlinux-2018.04.01-x86_64.iso | sudo dd of=/dev/sdX  ## download arch linux iso and write to device
 sh   curl -s 'https://archlinux.org/mirrorlist/?protocol=https&use_mirror_status=on' | sed -e 's/^#Server/Server/' -e '/^#/d'  ## arch linux active https server mirrorlist
 sh   cut -d , -f 5 --complement file.csv  ## remove column 5 from file.csv
-sh   date $TWDAY  ## date with an oxo zshenv strftime format preset
+sh   date +"$TWDAY"  ## diary date with an oxo zshenv strftime format preset
 sh   date -d "$(date -u)" +'%Y-%m-%dT%H:%M:%S%:z'  ## convert current zulu time to ISO8601
 sh   date -d @"$(wl-paste)" +'%Y%m%d_%H%M%S%z_%V%u'  ## convert copied specific linux epoch to oxo extensive time format
 sh   date -d '@1234567890' +'%Y%m%d_%H%M%S%z_%V%u'  ## convert specific linux epoch to oxo extensive time format
@@ -882,11 +882,11 @@ sh   rg --passthrough --ignore-case --no-line-number pttrn .  ## highlight match
 sh   rg --sort path --ignore-case --line-number pttrn .  ## ripgrep synopsis; $options $pattern $path
 sh   rmmod $module  ## remove $module from linux kernel
 sh   rm -rf -- '-r'  ## remove entire directory starting with a '-'
-sh   rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') $source/ $destination  ## basic oxo rsync with logging
-sh   rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --dry-run $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## dry run backup_c2b
-sh   rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
-sh   rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w include patterns
-sh   rsync -aAXv --delete --info=progress2,stats2 --progress --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --rsh=ssh $source $user@$host:/directory  ## basic oxo rsync w remote ssh shell
+sh   rsync -aAXv --delete --progress --info=progress2,stats2 --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --dry-run $XDG_DATA_HOME/c/ $XDG_DATA_HOME/b  ## dry run backup_c2b
+sh   rsync -aAXv --delete --progress --info=progress2,stats2 --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --exclude-from=$exclude_patterns $source/ $destination  ## basic oxo rsync w exclude patterns
+sh   rsync -aAXv --delete --progress --info=progress2,stats2 --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --files-from=$list_relative_to_source $source/ $destination  ## basic oxo rsync w include patterns
+sh   rsync -aAXv --delete --progress --info=progress2,stats2 --log-file $XDG_LOGS_HOME/rsync/$(date +'%Y%m%d_%H%M%S_%s') --rsh=ssh $source $user@$host:/directory  ## basic oxo rsync w remote ssh shell
+sh   rsync -aAXv --delete --progress --info=progress2,stats2 --log-file $XDG_LOGS_HOME/rsync/$(dtex) $source/ $destination  ## basic oxo rsync with logging
 sh   rsync -aAXv --hard-links --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/var/lib/dhcpcd/*","/lost+found","$dst/*"} / $dst  ## full system backup
 sh   rsync --recursive $src/ $dst  ## copy $src content 'flat' into $dst (like cp $src/.) NOTICE rsync trailing slash caveat
 sh   rsync --recursive $src $dst  ## create intervening directory $dst/$src; with all content of $src
